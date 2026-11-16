@@ -1,0 +1,13 @@
+{
+  "pid": 3648154,
+  "created_utc": "2026-11-14T02:51:46.576448+00:00",
+  "status": "finished",
+  "directory": "/mnt/workspace/groupmatmulgelu/opt/trial_best20_I2_N3_030_20261114T025127576195Z",
+  "log": "/mnt/workspace/groupmatmulgelu/test_harness/results/best20-I2-N3-030-20261114T025127576195Z/build.log",
+  "returncode": 0,
+  "elapsed_seconds": 75.54815364594106,
+  "cpu_user_seconds": 74.885856,
+  "cpu_system_seconds": 0.61205,
+  "peak_child_rss_kib": 351440,
+  "finished_utc": "2026-11-14T02:53:02.124777+00:00"
+}

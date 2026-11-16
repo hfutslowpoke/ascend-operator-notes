@@ -1,0 +1,80 @@
+{
+  "status": "FROZEN_LOCAL_CANDIDATE_REGISTER_ONLY_DEVELOPMENT_PAUSED",
+  "component": "/mnt/workspace/groupmatmulgelu-regular-r23-sol2-20261114/opt/r3_weighted_wide_overlap_v4/component.asc",
+  "component_sha256": "2a71a6591051678a615b2e9dad71f4e810daaf4ee29a6e75d70484b3657490c1",
+  "sdk_source_sha256": "eb40d89af8c1ad7abb624cf3d29ce89ad25bee8b8148aa2d6bcf7b3fd722e5c0",
+  "binary": "/mnt/workspace/groupmatmulgelu-regular-r23-sol2-20261114/sdk/r3_weighted_wide_overlap_v4/build-npu/verify_batch",
+  "binary_sha256": "b3c7777af737e04f51e9b9150802514eff21a7274bcc0a41e15d3d75d0cec543",
+  "numeric": "/mnt/workspace/groupmatmulgelu-regular-r23-sol2-20261114/delivery/r3_weighted_wide_overlap_v4/PRODUCTION-SMOKE.json",
+  "source_proof": "/mnt/workspace/groupmatmulgelu-regular-r23-sol2-20261114/opt/r3_weighted_wide_overlap_v4/SOURCE-PROOF.json",
+  "parent_diff": "/mnt/workspace/groupmatmulgelu-regular-r23-sol2-20261114/opt/r3_weighted_wide_overlap_v4/PARENT.diff",
+  "integration": "/mnt/workspace/groupmatmulgelu-regular-r23-sol2-20261114/opt/r3_weighted_wide_overlap_v4/INTEGRATION.json",
+  "lifetimes": "/mnt/workspace/groupmatmulgelu-regular-r23-sol2-20261114/opt/r3_weighted_wide_overlap_v4/LIFETIMES.json",
+  "results": {
+    "records": [
+      {
+        "case": "uniform",
+        "control": "frozen weighted resident v1",
+        "candidate": "wide overlap v4",
+        "window_median_us": {
+          "A": [
+            25.52,
+            25.549999999999997
+          ],
+          "B": [
+            24.89,
+            25.229999999999997
+          ]
+        },
+        "mean_window_median_us": {
+          "A": 25.534999999999997,
+          "B": 25.06
+        },
+        "time_reduction_pct": 1.8601918934795347,
+        "complete_tasks": 196,
+        "all_samples": "/mnt/workspace/groupmatmulgelu-regular-r23-sol2-20261114/delivery/r3_weighted_wide_overlap_v4/OFF-uniform-ABBA/COMPLETE.json",
+        "lock_elapsed_s": 25.146595421014354
+      },
+      {
+        "case": "random1709",
+        "control": "frozen weighted resident v1",
+        "candidate": "wide overlap v4",
+        "window_median_us": {
+          "A": [
+            30.229999999999997,
+            30.36
+          ],
+          "B": [
+            29.64,
+            29.38
+          ]
+        },
+        "mean_window_median_us": {
+          "A": 30.294999999999998,
+          "B": 29.509999999999998
+        },
+        "time_reduction_pct": 2.591186664466083,
+        "complete_tasks": 196,
+        "all_samples": "/mnt/workspace/groupmatmulgelu-regular-r23-sol2-20261114/delivery/r3_weighted_wide_overlap_v4/OFF-random1709-ABBA/COMPLETE.json",
+        "lock_elapsed_s": 25.14529232599307
+      }
+    ],
+    "scope": "One short local ABBA cohort per distribution, complete single MIX Task time. 32warm+16target per fresh process. No platform evidence and no stable >=10% claim.",
+    "decision": "Register as local candidate only; user pause prohibits any new full/POST/canonical work.",
+    "new_PMU": 0,
+    "new_full_builds": 0,
+    "POSTs": 0
+  },
+  "candidate_numeric_calls": 12,
+  "all_first_sync_bitexact_guards_input_RO": true,
+  "Host_workspace_unchanged": true,
+  "all_previous_v1_v2_v3_sources_unchanged": true,
+  "new_defines": 0,
+  "new_full_builds": 0,
+  "POSTs": 0,
+  "canonical_edits": 0,
+  "owned_background_processes": 0,
+  "owned_NPU_locks": 0,
+  "process_evidence": "Both 4window collectors returned exit0; all 8 BATCH_EXEC_END records and profiling-finished logs present. Every numeric driver exited0. All known owned exec sessions completed; flock contexts closed on collector return.",
+  "pause": "User explicitly requested pause after this round. No further development, compile, experiment, collection, full or POST will be started."
+}

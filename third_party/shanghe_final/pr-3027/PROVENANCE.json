@@ -1,0 +1,95 @@
+{
+  "number": 3027,
+  "title": "[2026 CANN 挑战赛区域决赛 上合赛区] Lizzop - groupmatmulgelu",
+  "state_at_download": "open",
+  "pr_url": "https://gitcode.com/cann/cann-ops-competitions/pull/3027",
+  "head_commit": "78eefea177f9ba5a394089c880cc84066544211a",
+  "source_repository": "qq_64168331/cann-ops-competitions",
+  "branch": "submit/hfut_Lizzop/groupmatmulgelu",
+  "created_at": "2026-11-14T11:50:00+08:00",
+  "downloaded_utc": "2026-11-16T06:21:37.714729+00:00",
+  "files": [
+    {
+      "original_path": "03_university/CANN-ops-challenge-2026-shanghe/final/submissions/hfut_Lizzop/README.md",
+      "local_path": "third_party/shanghe_final/pr-3027/hfut_Lizzop/README.md",
+      "url": "https://raw.gitcode.com/qq_64168331/cann-ops-competitions/raw/78eefea177f9ba5a394089c880cc84066544211a/03_university/CANN-ops-challenge-2026-shanghe/final/submissions/hfut_Lizzop/README.md",
+      "bytes": 228,
+      "sha256": "6c5ae237e68b8c7f10befa751a40fb2b7c94f3c30214329ec0a7007f201c8150",
+      "git_blob_sha1": "d3ea494c4493f40845cb1853f100a28e40bf2eca",
+      "api_blob_identity_verified": true
+    },
+    {
+      "original_path": "03_university/CANN-ops-challenge-2026-shanghe/final/submissions/hfut_Lizzop/code/groupmatmulgelu/CMakeLists.txt",
+      "local_path": "third_party/shanghe_final/pr-3027/hfut_Lizzop/code/groupmatmulgelu/CMakeLists.txt",
+      "url": "https://raw.gitcode.com/qq_64168331/cann-ops-competitions/raw/78eefea177f9ba5a394089c880cc84066544211a/03_university/CANN-ops-challenge-2026-shanghe/final/submissions/hfut_Lizzop/code/groupmatmulgelu/CMakeLists.txt",
+      "bytes": 496,
+      "sha256": "82fc9f2009a8478a4a3fca5f44b566dfb1208af543dbf073b280cdb8b7b47cce",
+      "git_blob_sha1": "c2f35b80373bc3df4dfeb46e8d69dcf00dfe430f",
+      "api_blob_identity_verified": true
+    },
+    {
+      "original_path": "03_university/CANN-ops-challenge-2026-shanghe/final/submissions/hfut_Lizzop/code/groupmatmulgelu/README.md",
+      "local_path": "third_party/shanghe_final/pr-3027/hfut_Lizzop/code/groupmatmulgelu/README.md",
+      "url": "https://raw.gitcode.com/qq_64168331/cann-ops-competitions/raw/78eefea177f9ba5a394089c880cc84066544211a/03_university/CANN-ops-challenge-2026-shanghe/final/submissions/hfut_Lizzop/code/groupmatmulgelu/README.md",
+      "bytes": 944,
+      "sha256": "47ee56929b93709b6f50c1d22f336c7aaa1ac9b085f713f779af266d87af4294",
+      "git_blob_sha1": "3cd27932b5df8bdd8f536ba0925ffe97a7307d7f",
+      "api_blob_identity_verified": true
+    },
+    {
+      "original_path": "03_university/CANN-ops-challenge-2026-shanghe/final/submissions/hfut_Lizzop/code/groupmatmulgelu/kernel.asc",
+      "local_path": "third_party/shanghe_final/pr-3027/hfut_Lizzop/code/groupmatmulgelu/kernel.asc",
+      "url": "https://raw.gitcode.com/qq_64168331/cann-ops-competitions/raw/78eefea177f9ba5a394089c880cc84066544211a/03_university/CANN-ops-challenge-2026-shanghe/final/submissions/hfut_Lizzop/code/groupmatmulgelu/kernel.asc",
+      "bytes": 477569,
+      "sha256": "84648b82e7b8d337f6d2d3a9409269c9ebd3f352dd83a89eb5a456e1a6554ed1",
+      "git_blob_sha1": "8ba50613324659159e9cd9c1b41b42f5f32ae8af",
+      "api_blob_identity_verified": true
+    },
+    {
+      "original_path": "03_university/CANN-ops-challenge-2026-shanghe/final/submissions/hfut_Lizzop/code/groupmatmulgelu/main.asc",
+      "local_path": "third_party/shanghe_final/pr-3027/hfut_Lizzop/code/groupmatmulgelu/main.asc",
+      "url": "https://raw.gitcode.com/qq_64168331/cann-ops-competitions/raw/78eefea177f9ba5a394089c880cc84066544211a/03_university/CANN-ops-challenge-2026-shanghe/final/submissions/hfut_Lizzop/code/groupmatmulgelu/main.asc",
+      "bytes": 6136,
+      "sha256": "beb34db7d7610c3e84c8e1a18cf00b0ca2447596eaa76175a3baf03347e6778a",
+      "git_blob_sha1": "14f8835141f8ab50bd9a6c1cc26a884d3122ae70",
+      "api_blob_identity_verified": true
+    },
+    {
+      "original_path": "03_university/CANN-ops-challenge-2026-shanghe/final/submissions/hfut_Lizzop/code/groupmatmulgelu/reference.py",
+      "local_path": "third_party/shanghe_final/pr-3027/hfut_Lizzop/code/groupmatmulgelu/reference.py",
+      "url": "https://raw.gitcode.com/qq_64168331/cann-ops-competitions/raw/78eefea177f9ba5a394089c880cc84066544211a/03_university/CANN-ops-challenge-2026-shanghe/final/submissions/hfut_Lizzop/code/groupmatmulgelu/reference.py",
+      "bytes": 12395,
+      "sha256": "9b98c2474103c2f57d0efd6caf8a68f793c76c07e851676cd266da6e2c1f8979",
+      "git_blob_sha1": "4a21e6c5bfd380d3d01c923b2d2a78ac1256f08c",
+      "api_blob_identity_verified": true
+    },
+    {
+      "original_path": "03_university/CANN-ops-challenge-2026-shanghe/final/submissions/hfut_Lizzop/code/groupmatmulgelu/requirements.txt",
+      "local_path": "third_party/shanghe_final/pr-3027/hfut_Lizzop/code/groupmatmulgelu/requirements.txt",
+      "url": "https://raw.gitcode.com/qq_64168331/cann-ops-competitions/raw/78eefea177f9ba5a394089c880cc84066544211a/03_university/CANN-ops-challenge-2026-shanghe/final/submissions/hfut_Lizzop/code/groupmatmulgelu/requirements.txt",
+      "bytes": 12,
+      "sha256": "a83a2a4ed7ab2e022b9b8a83cfa2b8cf52cc243006c597e8b96f90a8365590ac",
+      "git_blob_sha1": "9f161acad9345ad485c69c3900c8cbe263a3a9bd",
+      "api_blob_identity_verified": true
+    },
+    {
+      "original_path": "03_university/CANN-ops-challenge-2026-shanghe/final/submissions/hfut_Lizzop/code/groupmatmulgelu/run.sh",
+      "local_path": "third_party/shanghe_final/pr-3027/hfut_Lizzop/code/groupmatmulgelu/run.sh",
+      "url": "https://raw.gitcode.com/qq_64168331/cann-ops-competitions/raw/78eefea177f9ba5a394089c880cc84066544211a/03_university/CANN-ops-challenge-2026-shanghe/final/submissions/hfut_Lizzop/code/groupmatmulgelu/run.sh",
+      "bytes": 893,
+      "sha256": "be67ddb78378de65045ae893030b628fade3d6d467582f3f1396c09283c5c289",
+      "git_blob_sha1": "0a2a895b6842d81551fed0bfe3fb983699c16f90",
+      "api_blob_identity_verified": true
+    },
+    {
+      "original_path": "03_university/CANN-ops-challenge-2026-shanghe/final/submissions/hfut_Lizzop/code/groupmatmulgelu/sample.py",
+      "local_path": "third_party/shanghe_final/pr-3027/hfut_Lizzop/code/groupmatmulgelu/sample.py",
+      "url": "https://raw.gitcode.com/qq_64168331/cann-ops-competitions/raw/78eefea177f9ba5a394089c880cc84066544211a/03_university/CANN-ops-challenge-2026-shanghe/final/submissions/hfut_Lizzop/code/groupmatmulgelu/sample.py",
+      "bytes": 3814,
+      "sha256": "62f3df28f511a9ba54de491b7a1ed49592db42523b4920970d15d227ade64e37",
+      "git_blob_sha1": "0bf89c731b41cbf06ed2ff5916de6e2ce58db153",
+      "api_blob_identity_verified": true
+    }
+  ],
+  "skipped_paths": []
+}

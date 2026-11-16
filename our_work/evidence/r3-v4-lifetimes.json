@@ -1,0 +1,17 @@
+{
+  "metadata": "Original realGL AIV DMA -> weighted desc GM. AIC cacheinvalid retained. AIC signals retired8, AIV waits8 then publishes metadata and signals ready9, AIC waits9. No AIC UB access.",
+  "A1": "Original M64 K512 double32KiB; first StageStreamA and MTE2_MTE1 ready4 now precede broad B0/B1 commands. Later prefetched A and MTE1_MTE2(4/5) credits unchanged.",
+  "A2": "Original single M64K51232KiB; ready2 and final M_MTE1(2) across every N consumer unchanged.",
+  "B1": "Original broad K256 blocks with actual owned N span. P3 full-span each192KiB, fixed disjoint extents. ready MTE2_MTE1(6/7) once first M64; last actual MTE1 read retires MTE1_MTE2(6/7), next expert prefetch overwrites only retired extent. Same address and bytes as v1.",
+  "B2": "Original two K128N25632KiB banks. After q0/q1 MMAD both issue and each emits M_MTE1(6/7), LoadExpertB for the next pair consumes their independent retire. Future K256-ready wait now follows both current MMAD submissions. One load and one MMAD per op, original final2 retire waits unchanged.",
+  "CO1": "Original dual INT32 C64, M_FIX/FIX_M4/5, pending previous C retired only after current complete trueK MMAD submitted.",
+  "GM_C": "Original double INT32 C64 ring. ready5 PIPE_FIX; owner halves actual C read release PIPE_MTE2 credit3. Consumer GELU/MTE3 outside credit unchanged.",
+  "AIV": "Whole original v1 AIV body byteidentical including queues, FP32 math and final half ND output.",
+  "workspace": "Original Host/resource allocation, metadata offset and entry unchanged.",
+  "new_macros": 0,
+  "limits": [
+    "CPU event model validates finite one/two/three N-panel B2 token generations, not full hardware proof.",
+    "12 strict hardware first-sync/bitexact/guards/inputRO calls cover frozen six fixtures.",
+    "Only short local uniform/random ABBA, no v4 PMU/full/platform test."
+  ]
+}

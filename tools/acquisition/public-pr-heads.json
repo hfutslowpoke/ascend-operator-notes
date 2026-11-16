@@ -1,0 +1,340 @@
+[
+  {
+    "number": 3007,
+    "title": "[2026 CANN 挑战赛区域决赛 上合赛区] Faust 的队伍 - groupmatmulgelu",
+    "state": "open",
+    "created_at": "2026-11-14T11:36:15+08:00",
+    "head": {
+      "sha": "e2a5d765f2ac9b23ac7a8a5612709dfff054d156",
+      "ref": "submit/USTC_123122/groupmatmulgelu",
+      "repo": {
+        "full_name": "X6022824/cann-ops-competitions"
+      }
+    }
+  },
+  {
+    "number": 3008,
+    "title": "[2026 CANN 挑战赛区域决赛 上合赛区] 2401_86959083 的队伍 - groupmatmulgelu",
+    "state": "open",
+    "created_at": "2026-11-14T11:36:19+08:00",
+    "head": {
+      "sha": "08d09958cce1b345f38c8d30e9b4f8b2c837e368",
+      "ref": "submit/shu_op-woyidingyaoyingya/groupmatmulgelu",
+      "repo": {
+        "full_name": "2401_86959083/cann-ops-competitions"
+      }
+    }
+  },
+  {
+    "number": 3009,
+    "title": "[2026 CANN 挑战赛区域决赛 上合赛区] NebulaAGI - groupmatmulgelu",
+    "state": "open",
+    "created_at": "2026-11-14T11:37:52+08:00",
+    "head": {
+      "sha": "35a531cdd44468495220a4a815d91ed1634d0b97",
+      "ref": "submit/SDU_NebulaAGI/groupmatmulgelu",
+      "repo": {
+        "full_name": "m0_66826439/cann-ops-competitions"
+      }
+    }
+  },
+  {
+    "number": 3010,
+    "title": "[2026 CANN 挑战赛区域决赛 上合赛区] apx_6 的队伍 - groupmatmulgelu",
+    "state": "open",
+    "created_at": "2026-11-14T11:38:37+08:00",
+    "head": {
+      "sha": "f7203dea47090dc1a9e5c5352b3f8ddc374c630e",
+      "ref": "submit/sjtu_apx/groupmatmulgelu",
+      "repo": {
+        "full_name": "apx_6/cann-ops-competitions"
+      }
+    }
+  },
+  {
+    "number": 3011,
+    "title": "[2026 CANN 挑战赛区域决赛 上合赛区] Damian 的队伍 - groupmatmulgelu",
+    "state": "open",
+    "created_at": "2026-11-14T11:40:25+08:00",
+    "head": {
+      "sha": "824871ef13cae7fcd673a14f203b54d2558638e1",
+      "ref": "submit/fdu_damian/groupmatmulgelu",
+      "repo": {
+        "full_name": "Damian0305/cann-ops-competitions"
+      }
+    }
+  },
+  {
+    "number": 3012,
+    "title": "[2026 CANN 挑战赛区域决赛 上合赛区] seeleawa 的队伍 - groupmatmulgelu",
+    "state": "open",
+    "created_at": "2026-11-14T11:41:15+08:00",
+    "head": {
+      "sha": "a9306c0e6784fca39037a2b86f587ca276892326",
+      "ref": "submit/shu_seeleawa/groupmatmulgelu",
+      "repo": {
+        "full_name": "seeleawa/cann-ops-competitions"
+      }
+    }
+  },
+  {
+    "number": 3013,
+    "title": "[2026 CANN 挑战赛区域决赛 上合赛区] 实测队名只能有十个字 - groupmatmulgelu",
+    "state": "open",
+    "created_at": "2026-11-14T11:41:41+08:00",
+    "head": {
+      "sha": "c4ee5474100fcc76aeeb7fbb8bd8d878d61d77ef",
+      "ref": "submit/SSPU_thetTeamNameCanOnlyConsistofTenChar/groupmatmulgelu",
+      "repo": {
+        "full_name": "gcw_E6y3NKaG/cann-ops-competitions"
+      }
+    }
+  },
+  {
+    "number": 3014,
+    "title": "[2026 CANN 挑战赛区域决赛 上合赛区] 万兽之王的队伍 - groupmatmulgelu",
+    "state": "open",
+    "created_at": "2026-11-14T11:42:07+08:00",
+    "head": {
+      "sha": "1534b3ebacb17b9fbc1a0c28ec8d8546add9fa15",
+      "ref": "submit/hfut_King-of-the-beast/groupmatmulgelu",
+      "repo": {
+        "full_name": "qq_14970375/cann-ops-competitions"
+      }
+    }
+  },
+  {
+    "number": 3015,
+    "title": "[2026 CANN 挑战赛区域决赛 上合赛区] bububu 的队伍 - groupmatmulgelu",
+    "state": "open",
+    "created_at": "2026-11-14T11:42:38+08:00",
+    "head": {
+      "sha": "5cb6ba99a9ee320bfcc3329a919f548cfb0f1f57",
+      "ref": "submit/fdu_bububu/groupmatmulgelu",
+      "repo": {
+        "full_name": "LiJianhao2/cann-ops-competitions"
+      }
+    }
+  },
+  {
+    "number": 3016,
+    "title": "[2026 CANN 挑战赛区域决赛 上合赛区] 新月终临 - groupmatmulgelu",
+    "state": "open",
+    "created_at": "2026-11-14T11:42:50+08:00",
+    "head": {
+      "sha": "78579f2faf04c4e65ec39eaac9959329962592f6",
+      "ref": "submit/sjtu_columbina/groupmatmulgelu",
+      "repo": {
+        "full_name": "misein/cann-ops-competitions"
+      }
+    }
+  },
+  {
+    "number": 3017,
+    "title": "[2026 CANN 挑战赛区域决赛 上合赛区] 摘星星的队伍 - groupmatmulgelu",
+    "state": "open",
+    "created_at": "2026-11-14T11:44:50+08:00",
+    "head": {
+      "sha": "12c76877662da624d773f7c3f758bac3dbaae346",
+      "ref": "submit/ecnu_groupmatmulgelu_submission_1327178/groupmatmulgelu",
+      "repo": {
+        "full_name": "m0_74752588/cann-ops-competitions"
+      }
+    }
+  },
+  {
+    "number": 3019,
+    "title": "[2026 CANN 挑战赛区域决赛 上合赛区] 老板来份忘情牛肉题 - groupmatmulgelu",
+    "state": "open",
+    "created_at": "2026-11-14T11:45:54+08:00",
+    "head": {
+      "sha": "3c4841406848c00b05e395dbc7de9afe4ba7bbc5",
+      "ref": "submit/tju_GroupedMatmulGelu/groupmatmulgelu",
+      "repo": {
+        "full_name": "error22333/cann-ops-competitions"
+      }
+    }
+  },
+  {
+    "number": 3020,
+    "title": "[2026 CANN 挑战赛区域决赛 上合赛区] CCC认证 - groupmatmulgelu",
+    "state": "open",
+    "created_at": "2026-11-14T11:46:48+08:00",
+    "head": {
+      "sha": "aef2d879e9b1ed5f01873ee4836ffad0af265af3",
+      "ref": "submit/USTC_CCC/groupmatmulgelu",
+      "repo": {
+        "full_name": "gcw_fiAo4tDr/cann-ops-competitions"
+      }
+    }
+  },
+  {
+    "number": 3021,
+    "title": "[2026 CANN 挑战赛区域决赛 上合赛区] 听说sii要打卡？队 - groupmatmulgelu",
+    "state": "open",
+    "created_at": "2026-11-14T11:46:53+08:00",
+    "head": {
+      "sha": "1b150f194ccee07c44848ec6169db8c4c2db9f31",
+      "ref": "submit/fdu_sii-ops/groupmatmulgelu",
+      "repo": {
+        "full_name": "LLyyyyl_/cann-ops-competitions"
+      }
+    }
+  },
+  {
+    "number": 3022,
+    "title": "[2026 CANN 挑战赛区域决赛 上合赛区] 487才是世一勘 - groupmatmulgelu",
+    "state": "open",
+    "created_at": "2026-11-14T11:47:11+08:00",
+    "head": {
+      "sha": "e4f78a0a829f08f6659779eee784e38ee8e7043e",
+      "ref": "submit/ecust_qsy_xwyqsl/groupmatmulgelu",
+      "repo": {
+        "full_name": "weixin_75182303/cann-ops-competitions"
+      }
+    }
+  },
+  {
+    "number": 3023,
+    "title": "[2026 CANN 挑战赛区域决赛 上合赛区] m0_74091106 的队伍 - groupmatmulgelu",
+    "state": "open",
+    "created_at": "2026-11-14T11:47:24+08:00",
+    "head": {
+      "sha": "d2599371c0a0b24594c5d7e2924d53777a8c6004",
+      "ref": "submit/sjtu_op-mearod/groupmatmulgelu",
+      "repo": {
+        "full_name": "m0_74091106/cann-ops-competitions"
+      }
+    }
+  },
+  {
+    "number": 3025,
+    "title": "[2026 CANN 挑战赛区域决赛 上合赛区] ACCept - groupmatmulgelu",
+    "state": "open",
+    "created_at": "2026-11-14T11:49:17+08:00",
+    "head": {
+      "sha": "d322d2ce97cc599585a8f9e1f350e66134703e1e",
+      "ref": "submit/USTC_op-accept/groupmatmulgelu",
+      "repo": {
+        "full_name": "Ack_508/cann-ops-competitions"
+      }
+    }
+  },
+  {
+    "number": 3027,
+    "title": "[2026 CANN 挑战赛区域决赛 上合赛区] Lizzop - groupmatmulgelu",
+    "state": "open",
+    "created_at": "2026-11-14T11:50:00+08:00",
+    "head": {
+      "sha": "78eefea177f9ba5a394089c880cc84066544211a",
+      "ref": "submit/hfut_Lizzop/groupmatmulgelu",
+      "repo": {
+        "full_name": "qq_64168331/cann-ops-competitions"
+      }
+    }
+  },
+  {
+    "number": 3028,
+    "title": "[2026 CANN 挑战赛区域决赛 上合赛区] Fusion - groupmatmulgelu",
+    "state": "open",
+    "created_at": "2026-11-14T11:50:49+08:00",
+    "head": {
+      "sha": "277a8a3e9b8879395e3262b92f68842cadf80d38",
+      "ref": "submit/sjtu_fusion/groupmatmulgelu",
+      "repo": {
+        "full_name": "shaoven/cann-ops-competitions"
+      }
+    }
+  },
+  {
+    "number": 3029,
+    "title": "[2026 CANN 挑战赛区域决赛 上合赛区] 三只猫娘 - groupmatmulgelu",
+    "state": "open",
+    "created_at": "2026-11-14T11:51:13+08:00",
+    "head": {
+      "sha": "b7905a9a86cd598d7c39cf42aee7e3bca10af86b",
+      "ref": "submit/tongji_lianghua_add/groupmatmulgelu",
+      "repo": {
+        "full_name": "Cintycat/cann-ops-competitions"
+      }
+    }
+  },
+  {
+    "number": 3030,
+    "title": "[2026 CANN 挑战赛区域决赛 上合赛区] shizuku的队伍 - groupmatmulgelu",
+    "state": "open",
+    "created_at": "2026-11-14T11:52:15+08:00",
+    "head": {
+      "sha": "4ac35dc6f0e2ef9d262a2d5b2ac2eb22ed1953fb",
+      "ref": "submit/fdu_groupedmatmulgelu_shizuku/groupmatmulgelu",
+      "repo": {
+        "full_name": "shizuku04/cann-ops-competitions"
+      }
+    }
+  },
+  {
+    "number": 3053,
+    "title": "[2026 CANN 挑战赛区域决赛 上合赛区] AAA广告位招租 - groupmatmulgelu",
+    "state": "open",
+    "created_at": "2026-11-14T12:57:24+08:00",
+    "head": {
+      "sha": "8c4742c96fa28769419a182f3413bf096fb1f2c7",
+      "ref": "submit/fdu_wannafly2026_/groupmatmulgelu",
+      "repo": {
+        "full_name": "Wannafly_2026/cann-ops-competitions"
+      }
+    }
+  },
+  {
+    "number": 3060,
+    "title": "[2026 CANN 挑战赛区域决赛 上合赛区] a120240127 的队伍 - groupmatmulgelu",
+    "state": "open",
+    "created_at": "2026-11-14T13:46:41+08:00",
+    "head": {
+      "sha": "f6712f04df6bf949a03fb3a5628a90dc9865a23a",
+      "ref": "submit/SJTU_a120240127_op/groupmatmulgelu",
+      "repo": {
+        "full_name": "a120240127/cann-ops-competitions"
+      }
+    }
+  },
+  {
+    "number": 3061,
+    "title": "[2026 CANN 挑战赛区域决赛 上合赛区] zrcx_zz 的队伍 - groupmatmulgelu",
+    "state": "open",
+    "created_at": "2026-11-14T13:47:47+08:00",
+    "head": {
+      "sha": "6748be363a2811287fbfe70ab70c2a295f97de85",
+      "ref": "submit/TJU_zrcx/groupmatmulgelu",
+      "repo": {
+        "full_name": "zrcx_zz/cann-ops-competitions"
+      }
+    }
+  },
+  {
+    "number": 3062,
+    "title": "[2026 CANN 挑战赛区域决赛 上合赛区] TeamLiquid - groupmatmulgelu",
+    "state": "open",
+    "created_at": "2026-11-14T13:48:12+08:00",
+    "head": {
+      "sha": "292341adc94062efe197b615f4676647a23181ac",
+      "ref": "submit/sjtu_team-liquid/groupmatmulgelu",
+      "repo": {
+        "full_name": "LeonArmstrong/cann-ops-competitions"
+      }
+    }
+  },
+  {
+    "number": 3064,
+    "title": "[2026 CANN 挑战赛区域决赛 上合赛区] WHAleX - groupmatmulgelu",
+    "state": "open",
+    "created_at": "2026-11-14T14:26:57+08:00",
+    "head": {
+      "sha": "2b89263b4e1ea0ee6d94c470c5a78f1cdcec260f",
+      "ref": "submit/fdu_alex_zeyize_hhm/groupmatmulgelu",
+      "repo": {
+        "full_name": "zeyize/cann-ops-competitions"
+      }
+    }
+  }
+]

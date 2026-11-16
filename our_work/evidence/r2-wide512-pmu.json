@@ -1,0 +1,352 @@
+{
+  "updated_utc": "2026-11-14T01:23:45.517582+00:00",
+  "records": [
+    {
+      "case": "r2_sample",
+      "variant": "parent9307",
+      "Task_us": 40.799999,
+      "frequency_MHz": 1650,
+      "longest_native_AIV": {
+        "block_id": "9",
+        "sub_block_id": "vector1",
+        "aiv_time(us)": 38.028484,
+        "aiv_vec_time(us)": 7.301212,
+        "aiv_mte2_time(us)": 2.76,
+        "aiv_mte3_time(us)": 0.624848,
+        "aiv_scalar_time(us)": 5.691515,
+        "aiv_scalar_wait_id5_time(us)": 30.343031,
+        "aiv_scalar_wait_id8_time(us)": 0.0
+      },
+      "its_same_block_AIC": {
+        "block_id": "9",
+        "sub_block_id": "cube0",
+        "aic_time(us)": 35.057575,
+        "aic_cube_time(us)": 7.246666,
+        "aic_mte1_time(us)": 9.449697,
+        "aic_mte2_time(us)": 29.044243,
+        "aic_fixpipe_time(us)": 16.353333,
+        "aic_scalar_time(us)": 20.050303,
+        "aic_scalar_wait_id9_time(us)": 0.949091
+      },
+      "max_native_AIC": {
+        "block_id": "9",
+        "sub_block_id": "cube0",
+        "aic_time(us)": 35.057575,
+        "aic_cube_time(us)": 7.246666,
+        "aic_mte1_time(us)": 9.449697,
+        "aic_mte2_time(us)": 29.044243,
+        "aic_fixpipe_time(us)": 16.353333,
+        "aic_scalar_time(us)": 20.050303,
+        "aic_scalar_wait_id9_time(us)": 0.949091
+      },
+      "max_AIC_MTE2_busy_us": 29.044243,
+      "active_AIC_GM_L1_request_blocks": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19"
+      ],
+      "request_KiB": {
+        "GM_to_L1_datas(KB)": 27392.0,
+        "L0C_to_GM_datas(KB)": 6144.0,
+        "GM_to_UB_datas(KB)": 6346.0,
+        "UB_to_GM_datas(KB)": 3074.5
+      },
+      "requested_GM_L1_GBps": 687.4855070462133,
+      "logical_model": {
+        "shape": [
+          2048,
+          1024,
+          768,
+          32
+        ],
+        "integer_ops": 3221225472,
+        "unique_X_bytes": 2097152,
+        "unique_W_bytes": 25165824,
+        "final_Y_bytes": 3145728,
+        "minimum_complete_INT32_C_write_bytes": 6291456,
+        "integer_ops_per_observed_GM_request_byte": 73.230547181451
+      },
+      "raw_directory": "/mnt/workspace/groupmatmulgelu-regular-worker/delivery/round262/R2-NATIVE-WIDE-CARRIER-PMU/r2_sample-parent9307/raw/OPPROF_20261114083649_DTRZEARBYNCWKCRC"
+    },
+    {
+      "case": "r2_sample",
+      "variant": "R2wide",
+      "Task_us": 36.759998,
+      "frequency_MHz": 1650,
+      "longest_native_AIV": {
+        "block_id": "1",
+        "sub_block_id": "vector0",
+        "aiv_time(us)": 34.475151,
+        "aiv_vec_time(us)": 7.296364,
+        "aiv_mte2_time(us)": 3.089697,
+        "aiv_mte3_time(us)": 1.172727,
+        "aiv_scalar_time(us)": 7.031515,
+        "aiv_scalar_wait_id5_time(us)": 25.928484,
+        "aiv_scalar_wait_id8_time(us)": 0.0
+      },
+      "its_same_block_AIC": {
+        "block_id": "1",
+        "sub_block_id": "cube0",
+        "aic_time(us)": 31.124849,
+        "aic_cube_time(us)": 6.892727,
+        "aic_mte1_time(us)": 9.120606,
+        "aic_mte2_time(us)": 23.827879,
+        "aic_fixpipe_time(us)": 2.566667,
+        "aic_scalar_time(us)": 12.041819,
+        "aic_scalar_wait_id3_time(us)": 0.0,
+        "aic_scalar_wait_id9_time(us)": 3.233939
+      },
+      "max_native_AIC": {
+        "block_id": "1",
+        "sub_block_id": "cube0",
+        "aic_time(us)": 31.124849,
+        "aic_cube_time(us)": 6.892727,
+        "aic_mte1_time(us)": 9.120606,
+        "aic_mte2_time(us)": 23.827879,
+        "aic_fixpipe_time(us)": 2.566667,
+        "aic_scalar_time(us)": 12.041819,
+        "aic_scalar_wait_id3_time(us)": 0.0,
+        "aic_scalar_wait_id9_time(us)": 3.233939
+      },
+      "max_AIC_MTE2_busy_us": 23.975151,
+      "active_AIC_GM_L1_request_blocks": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19"
+      ],
+      "request_KiB": {
+        "GM_to_L1_datas(KB)": 27392.0,
+        "L0C_to_GM_datas(KB)": 6144.0,
+        "GM_to_UB_datas(KB)": 6346.0,
+        "UB_to_GM_datas(KB)": 3074.5
+      },
+      "requested_GM_L1_GBps": 763.0416084353432,
+      "logical_model": {
+        "shape": [
+          2048,
+          1024,
+          768,
+          32
+        ],
+        "integer_ops": 3221225472,
+        "unique_X_bytes": 2097152,
+        "unique_W_bytes": 25165824,
+        "final_Y_bytes": 3145728,
+        "minimum_complete_INT32_C_write_bytes": 6291456,
+        "integer_ops_per_observed_GM_request_byte": 73.230547181451
+      },
+      "raw_directory": "/mnt/workspace/groupmatmulgelu-regular-worker/delivery/round262/R2-NATIVE-WIDE-CARRIER-PMU/r2_sample-R2wide/raw/OPPROF_20261114083655_QIWTKUYEAUCXJZSY"
+    },
+    {
+      "case": "rg_sh_r2_dirichlet",
+      "variant": "parent9307",
+      "Task_us": 44.18,
+      "frequency_MHz": 1650,
+      "longest_native_AIV": {
+        "block_id": "16",
+        "sub_block_id": "vector1",
+        "aiv_time(us)": 41.151516,
+        "aiv_vec_time(us)": 5.183636,
+        "aiv_mte2_time(us)": 1.969697,
+        "aiv_mte3_time(us)": 0.521212,
+        "aiv_scalar_time(us)": 5.972121,
+        "aiv_scalar_wait_id5_time(us)": 35.243637,
+        "aiv_scalar_wait_id8_time(us)": 0.0
+      },
+      "its_same_block_AIC": {
+        "block_id": "16",
+        "sub_block_id": "cube0",
+        "aic_time(us)": 38.598789,
+        "aic_cube_time(us)": 7.257576,
+        "aic_mte1_time(us)": 12.857575,
+        "aic_mte2_time(us)": 31.190304,
+        "aic_fixpipe_time(us)": 18.832727,
+        "aic_scalar_time(us)": 23.836363,
+        "aic_scalar_wait_id9_time(us)": 2.404849
+      },
+      "max_native_AIC": {
+        "block_id": "18",
+        "sub_block_id": "cube0",
+        "aic_time(us)": 38.860607,
+        "aic_cube_time(us)": 5.18303,
+        "aic_mte1_time(us)": 12.456969,
+        "aic_mte2_time(us)": 31.555758,
+        "aic_fixpipe_time(us)": 19.423635,
+        "aic_scalar_time(us)": 24.838787,
+        "aic_scalar_wait_id9_time(us)": 2.478182
+      },
+      "max_AIC_MTE2_busy_us": 31.555758,
+      "active_AIC_GM_L1_request_blocks": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19"
+      ],
+      "request_KiB": {
+        "GM_to_L1_datas(KB)": 38016.0,
+        "L0C_to_GM_datas(KB)": 6264.0,
+        "GM_to_UB_datas(KB)": 6424.0,
+        "UB_to_GM_datas(KB)": 3074.5
+      },
+      "requested_GM_L1_GBps": 881.1313716613853,
+      "logical_model": {
+        "shape": [
+          2048,
+          1024,
+          768,
+          32
+        ],
+        "integer_ops": 3221225472,
+        "unique_X_bytes": 2097152,
+        "unique_W_bytes": 25165824,
+        "final_Y_bytes": 3145728,
+        "minimum_complete_INT32_C_write_bytes": 6291456,
+        "integer_ops_per_observed_GM_request_byte": 58.494156586740054
+      },
+      "raw_directory": "/mnt/workspace/groupmatmulgelu-regular-worker/delivery/round262/R2-NATIVE-WIDE-CARRIER-PMU/rg_sh_r2_dirichlet-parent9307/raw/OPPROF_20261114083701_NAKDBOWVDXVYZPTB"
+    },
+    {
+      "case": "rg_sh_r2_dirichlet",
+      "variant": "R2wide",
+      "Task_us": 42.400002,
+      "frequency_MHz": 1650,
+      "longest_native_AIV": {
+        "block_id": "16",
+        "sub_block_id": "vector0",
+        "aiv_time(us)": 39.376362,
+        "aiv_vec_time(us)": 5.937576,
+        "aiv_mte2_time(us)": 3.240606,
+        "aiv_mte3_time(us)": 1.113333,
+        "aiv_scalar_time(us)": 6.612121,
+        "aiv_scalar_wait_id5_time(us)": 30.600607,
+        "aiv_scalar_wait_id8_time(us)": 0.0
+      },
+      "its_same_block_AIC": {
+        "block_id": "16",
+        "sub_block_id": "cube0",
+        "aic_time(us)": 36.56485,
+        "aic_cube_time(us)": 7.129091,
+        "aic_mte1_time(us)": 12.669697,
+        "aic_mte2_time(us)": 28.615152,
+        "aic_fixpipe_time(us)": 2.269091,
+        "aic_scalar_time(us)": 16.870302,
+        "aic_scalar_wait_id3_time(us)": 0.229091,
+        "aic_scalar_wait_id9_time(us)": 2.669091
+      },
+      "max_native_AIC": {
+        "block_id": "16",
+        "sub_block_id": "cube0",
+        "aic_time(us)": 36.56485,
+        "aic_cube_time(us)": 7.129091,
+        "aic_mte1_time(us)": 12.669697,
+        "aic_mte2_time(us)": 28.615152,
+        "aic_fixpipe_time(us)": 2.269091,
+        "aic_scalar_time(us)": 16.870302,
+        "aic_scalar_wait_id3_time(us)": 0.229091,
+        "aic_scalar_wait_id9_time(us)": 2.669091
+      },
+      "max_AIC_MTE2_busy_us": 28.615152,
+      "active_AIC_GM_L1_request_blocks": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19"
+      ],
+      "request_KiB": {
+        "GM_to_L1_datas(KB)": 38016.0,
+        "L0C_to_GM_datas(KB)": 6264.0,
+        "GM_to_UB_datas(KB)": 6424.0,
+        "UB_to_GM_datas(KB)": 3074.5
+      },
+      "requested_GM_L1_GBps": 918.1222208432915,
+      "logical_model": {
+        "shape": [
+          2048,
+          1024,
+          768,
+          32
+        ],
+        "integer_ops": 3221225472,
+        "unique_X_bytes": 2097152,
+        "unique_W_bytes": 25165824,
+        "final_Y_bytes": 3145728,
+        "minimum_complete_INT32_C_write_bytes": 6291456,
+        "integer_ops_per_observed_GM_request_byte": 58.494156586740054
+      },
+      "raw_directory": "/mnt/workspace/groupmatmulgelu-regular-worker/delivery/round262/R2-NATIVE-WIDE-CARRIER-PMU/rg_sh_r2_dirichlet-R2wide/raw/OPPROF_20261114083707_QLHZEXTZVWOGTCFW"
+    }
+  ],
+  "limitations": [
+    "Native per-core durations do not include a common start timestamp; longest native duration is not proof of the absolute last core finish.",
+    "Busy and wait counters overlap. Their sum, and Task minus a maximum busy counter, are not removable critical-path budgets.",
+    "GM request bytes count logical requests at several interfaces, not measured external HBM traffic. Cache reuse and ND2NZ service shape remain distinct.",
+    "Each variant is one separate PMU replay. These are not repeated OFF or platform latency samples; do not normalize platform time by these values.",
+    "Active block count means blocks with GM-to-L1 traffic; it is not a MAC utilization percentage or proof that repartitioning reduces maximum work."
+  ]
+}

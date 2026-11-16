@@ -1,0 +1,95 @@
+{
+  "number": 3022,
+  "title": "[2026 CANN 挑战赛区域决赛 上合赛区] 487才是世一勘 - groupmatmulgelu",
+  "state_at_download": "open",
+  "pr_url": "https://gitcode.com/cann/cann-ops-competitions/pull/3022",
+  "head_commit": "e4f78a0a829f08f6659779eee784e38ee8e7043e",
+  "source_repository": "weixin_75182303/cann-ops-competitions",
+  "branch": "submit/ecust_qsy_xwyqsl/groupmatmulgelu",
+  "created_at": "2026-11-14T11:47:11+08:00",
+  "downloaded_utc": "2026-11-16T06:21:39.266810+00:00",
+  "files": [
+    {
+      "original_path": "03_university/CANN-ops-challenge-2026-shanghe/final/submissions/ecust_qsy_xwyqsl/README.md",
+      "local_path": "third_party/shanghe_final/pr-3022/ecust_qsy_xwyqsl/README.md",
+      "url": "https://raw.gitcode.com/weixin_75182303/cann-ops-competitions/raw/e4f78a0a829f08f6659779eee784e38ee8e7043e/03_university/CANN-ops-challenge-2026-shanghe/final/submissions/ecust_qsy_xwyqsl/README.md",
+      "bytes": 161,
+      "sha256": "b9368121cf8e9b9ade8f87ab48ac7468b6029e78364bf4e623d5b6885746f079",
+      "git_blob_sha1": "9ef6944df2510a6d283672c3923a2a6ee3f3dd3f",
+      "api_blob_identity_verified": true
+    },
+    {
+      "original_path": "03_university/CANN-ops-challenge-2026-shanghe/final/submissions/ecust_qsy_xwyqsl/code/groupmatmulgelu/CMakeLists.txt",
+      "local_path": "third_party/shanghe_final/pr-3022/ecust_qsy_xwyqsl/code/groupmatmulgelu/CMakeLists.txt",
+      "url": "https://raw.gitcode.com/weixin_75182303/cann-ops-competitions/raw/e4f78a0a829f08f6659779eee784e38ee8e7043e/03_university/CANN-ops-challenge-2026-shanghe/final/submissions/ecust_qsy_xwyqsl/code/groupmatmulgelu/CMakeLists.txt",
+      "bytes": 496,
+      "sha256": "82fc9f2009a8478a4a3fca5f44b566dfb1208af543dbf073b280cdb8b7b47cce",
+      "git_blob_sha1": "c2f35b80373bc3df4dfeb46e8d69dcf00dfe430f",
+      "api_blob_identity_verified": true
+    },
+    {
+      "original_path": "03_university/CANN-ops-challenge-2026-shanghe/final/submissions/ecust_qsy_xwyqsl/code/groupmatmulgelu/README.md",
+      "local_path": "third_party/shanghe_final/pr-3022/ecust_qsy_xwyqsl/code/groupmatmulgelu/README.md",
+      "url": "https://raw.gitcode.com/weixin_75182303/cann-ops-competitions/raw/e4f78a0a829f08f6659779eee784e38ee8e7043e/03_university/CANN-ops-challenge-2026-shanghe/final/submissions/ecust_qsy_xwyqsl/code/groupmatmulgelu/README.md",
+      "bytes": 74,
+      "sha256": "9aeaa23b2c101ad0f6af0302021772dc50f7e2fd65d40427477fc3c07ae11117",
+      "git_blob_sha1": "21b9c18f89dff36acb99e679db9bbe7bdb408bc0",
+      "api_blob_identity_verified": true
+    },
+    {
+      "original_path": "03_university/CANN-ops-challenge-2026-shanghe/final/submissions/ecust_qsy_xwyqsl/code/groupmatmulgelu/kernel.asc",
+      "local_path": "third_party/shanghe_final/pr-3022/ecust_qsy_xwyqsl/code/groupmatmulgelu/kernel.asc",
+      "url": "https://raw.gitcode.com/weixin_75182303/cann-ops-competitions/raw/e4f78a0a829f08f6659779eee784e38ee8e7043e/03_university/CANN-ops-challenge-2026-shanghe/final/submissions/ecust_qsy_xwyqsl/code/groupmatmulgelu/kernel.asc",
+      "bytes": 480938,
+      "sha256": "83cb171477cf359e9d081de8c6fdefa2c5e1686110c35ff3ad452be3ba3e2150",
+      "git_blob_sha1": "79f0ba19290aa1aae03aaab16cd1e41d8d1c07b1",
+      "api_blob_identity_verified": true
+    },
+    {
+      "original_path": "03_university/CANN-ops-challenge-2026-shanghe/final/submissions/ecust_qsy_xwyqsl/code/groupmatmulgelu/main.asc",
+      "local_path": "third_party/shanghe_final/pr-3022/ecust_qsy_xwyqsl/code/groupmatmulgelu/main.asc",
+      "url": "https://raw.gitcode.com/weixin_75182303/cann-ops-competitions/raw/e4f78a0a829f08f6659779eee784e38ee8e7043e/03_university/CANN-ops-challenge-2026-shanghe/final/submissions/ecust_qsy_xwyqsl/code/groupmatmulgelu/main.asc",
+      "bytes": 6136,
+      "sha256": "beb34db7d7610c3e84c8e1a18cf00b0ca2447596eaa76175a3baf03347e6778a",
+      "git_blob_sha1": "14f8835141f8ab50bd9a6c1cc26a884d3122ae70",
+      "api_blob_identity_verified": true
+    },
+    {
+      "original_path": "03_university/CANN-ops-challenge-2026-shanghe/final/submissions/ecust_qsy_xwyqsl/code/groupmatmulgelu/reference.py",
+      "local_path": "third_party/shanghe_final/pr-3022/ecust_qsy_xwyqsl/code/groupmatmulgelu/reference.py",
+      "url": "https://raw.gitcode.com/weixin_75182303/cann-ops-competitions/raw/e4f78a0a829f08f6659779eee784e38ee8e7043e/03_university/CANN-ops-challenge-2026-shanghe/final/submissions/ecust_qsy_xwyqsl/code/groupmatmulgelu/reference.py",
+      "bytes": 12395,
+      "sha256": "9b98c2474103c2f57d0efd6caf8a68f793c76c07e851676cd266da6e2c1f8979",
+      "git_blob_sha1": "4a21e6c5bfd380d3d01c923b2d2a78ac1256f08c",
+      "api_blob_identity_verified": true
+    },
+    {
+      "original_path": "03_university/CANN-ops-challenge-2026-shanghe/final/submissions/ecust_qsy_xwyqsl/code/groupmatmulgelu/requirements.txt",
+      "local_path": "third_party/shanghe_final/pr-3022/ecust_qsy_xwyqsl/code/groupmatmulgelu/requirements.txt",
+      "url": "https://raw.gitcode.com/weixin_75182303/cann-ops-competitions/raw/e4f78a0a829f08f6659779eee784e38ee8e7043e/03_university/CANN-ops-challenge-2026-shanghe/final/submissions/ecust_qsy_xwyqsl/code/groupmatmulgelu/requirements.txt",
+      "bytes": 12,
+      "sha256": "a83a2a4ed7ab2e022b9b8a83cfa2b8cf52cc243006c597e8b96f90a8365590ac",
+      "git_blob_sha1": "9f161acad9345ad485c69c3900c8cbe263a3a9bd",
+      "api_blob_identity_verified": true
+    },
+    {
+      "original_path": "03_university/CANN-ops-challenge-2026-shanghe/final/submissions/ecust_qsy_xwyqsl/code/groupmatmulgelu/run.sh",
+      "local_path": "third_party/shanghe_final/pr-3022/ecust_qsy_xwyqsl/code/groupmatmulgelu/run.sh",
+      "url": "https://raw.gitcode.com/weixin_75182303/cann-ops-competitions/raw/e4f78a0a829f08f6659779eee784e38ee8e7043e/03_university/CANN-ops-challenge-2026-shanghe/final/submissions/ecust_qsy_xwyqsl/code/groupmatmulgelu/run.sh",
+      "bytes": 893,
+      "sha256": "be67ddb78378de65045ae893030b628fade3d6d467582f3f1396c09283c5c289",
+      "git_blob_sha1": "0a2a895b6842d81551fed0bfe3fb983699c16f90",
+      "api_blob_identity_verified": true
+    },
+    {
+      "original_path": "03_university/CANN-ops-challenge-2026-shanghe/final/submissions/ecust_qsy_xwyqsl/code/groupmatmulgelu/sample.py",
+      "local_path": "third_party/shanghe_final/pr-3022/ecust_qsy_xwyqsl/code/groupmatmulgelu/sample.py",
+      "url": "https://raw.gitcode.com/weixin_75182303/cann-ops-competitions/raw/e4f78a0a829f08f6659779eee784e38ee8e7043e/03_university/CANN-ops-challenge-2026-shanghe/final/submissions/ecust_qsy_xwyqsl/code/groupmatmulgelu/sample.py",
+      "bytes": 3814,
+      "sha256": "62f3df28f511a9ba54de491b7a1ed49592db42523b4920970d15d227ade64e37",
+      "git_blob_sha1": "0bf89c731b41cbf06ed2ff5916de6e2ce58db153",
+      "api_blob_identity_verified": true
+    }
+  ],
+  "skipped_paths": []
+}

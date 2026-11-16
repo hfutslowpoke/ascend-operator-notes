@@ -1,0 +1,12 @@
+{
+  "status": "finished",
+  "created_utc": "2026-11-14T03:02:53.377204+00:00",
+  "source": "/mnt/workspace/groupmatmulgelu-regular-worker/opt/candidate_C1v2_R3v4_on_best20_161ac_orderfix_v2/kernel.asc",
+  "source_sha256": "ffd5609c3371f4fe16d90805bf741f9895812a0aa398ed6bcdcfd4425a464a12",
+  "log": "/mnt/workspace/groupmatmulgelu-regular-worker/delivery/round282/C1V2-R3V4-ON-BEST20-ONCE/orderfix-build.log",
+  "returncode": 0,
+  "elapsed_seconds": 75.49124922708143,
+  "finished_utc": "2026-11-14T03:04:08.868454+00:00",
+  "binary": "/mnt/workspace/groupmatmulgelu-regular-worker/opt/trial_C1v2_R3v4_best20_orderfix_v2/build-npu/verify_batch",
+  "binary_sha256": "f60f2725679cdefc7f570a89bd22a9ad4b706528f702f8ee88dbe72d0ba699f7"
+}

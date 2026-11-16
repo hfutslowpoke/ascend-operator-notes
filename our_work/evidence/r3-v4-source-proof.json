@@ -1,0 +1,38 @@
+{
+  "parent_component_sha256": "16d948e0affcdd40a7d6b36d1136cd9165bf0577eac5a502656f462d2009cd3f",
+  "component_sha256": "2a71a6591051678a615b2e9dad71f4e810daaf4ee29a6e75d70484b3657490c1",
+  "sdk_source_sha256": "eb40d89af8c1ad7abb624cf3d29ce89ad25bee8b8148aa2d6bcf7b3fd722e5c0",
+  "changes": [
+    "Stage first actual M64 A before broad B0/B1 if it was not already prefetched",
+    "Issue current q0/q1 MMADs before LoadExpertB for the next pair"
+  ],
+  "unchanged": [
+    "all helpers including LoadExpertB",
+    "actual GL weighted expert descriptors/ownership",
+    "AIV consumer complete body",
+    "L1 and GM addresses",
+    "B0/B1 192KiB wide DMA for P3 full span",
+    "workspace allocation and metadata",
+    "CO1 slots2 / GM C slots2",
+    "P4 fallback"
+  ],
+  "new_macros": 0,
+  "POSTs": 0,
+  "byteidentical_helpers": [
+    "__aicore__ inline void StageRegular",
+    "__aicore__ inline void FinalCastND",
+    "__aicore__ inline void StageStreamA",
+    "__aicore__ inline void LoadStreamA",
+    "template <int P>\n__aicore__ inline void StageExpertB",
+    "template <int P>\n__aicore__ inline void LoadExpertB",
+    "__aicore__ inline void RetireStreamC",
+    "template <int P>\n__aicore__ inline void ComputeFallback",
+    "template <int P>\n__aicore__ inline void Compute("
+  ],
+  "whole_AIV_body_byteidentical": true,
+  "reverse_producer_replacement_restores_v1_sha256": "16d948e0affcdd40a7d6b36d1136cd9165bf0577eac5a502656f462d2009cd3f",
+  "weighted_metadata_all_byteidentical": true,
+  "binary_sha256": "b3c7777af737e04f51e9b9150802514eff21a7274bcc0a41e15d3d75d0cec543",
+  "Host_workspace_entry_unchanged": true,
+  "scope": "No source outside the two recorded producer hunks differs from v1, except SDK kernel entry name."
+}

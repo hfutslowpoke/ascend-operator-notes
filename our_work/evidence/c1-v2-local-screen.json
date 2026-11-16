@@ -1,0 +1,331 @@
+{
+  "status": "LOCAL_SCREEN_CLOSED_RECOMMEND_REGISTERED_V2_FOR_FUTURE_EVALUATION_NO_SUBMISSION",
+  "same_ELF": "/mnt/workspace/groupmatmulgelu-regular-c1-sol2-20261114/opt/c1_expert_work_pipeline_v2/build-npu/verify_batch",
+  "same_ELF_sha256": "a823ff98bee0492549b0272a0acd01e76c9807c317cf0a3cf8041aca706d47cb",
+  "modes": {
+    "v1": 10,
+    "v2": 11
+  },
+  "protocol": "Per case a short AB then BA in one profiler application. Each fresh child process uses1first+8warmup+8target complete original MIX calls; summary is mean of two window target medians, never event-envelope latency. Total8windows/136Tasks. First is kept but is not forced-cold/cache-controlled.",
+  "OFF_summary": [
+    {
+      "case": "official2",
+      "mode10_window_medians_us": [
+        14.83,
+        15.08
+      ],
+      "mode11_window_medians_us": [
+        14.84,
+        15.17
+      ],
+      "v1_mean_window_median_Task_us": 14.955,
+      "v2_mean_window_median_Task_us": 15.004999999999999,
+      "Task_reduction_pct": -0.33433634236039733,
+      "pairs": [
+        {
+          "order": "AB",
+          "v1_Task_us": 14.83,
+          "v2_Task_us": 14.84,
+          "Task_reduction_pct": -0.06743088334457692
+        },
+        {
+          "order": "BA",
+          "v1_Task_us": 15.08,
+          "v2_Task_us": 15.17,
+          "Task_reduction_pct": -0.5968169761273234
+        }
+      ]
+    },
+    {
+      "case": "random_seed9181",
+      "mode10_window_medians_us": [
+        29.5,
+        29.6
+      ],
+      "mode11_window_medians_us": [
+        19.65,
+        19.53
+      ],
+      "v1_mean_window_median_Task_us": 29.55,
+      "v2_mean_window_median_Task_us": 19.59,
+      "Task_reduction_pct": 33.70558375634518,
+      "pairs": [
+        {
+          "order": "AB",
+          "v1_Task_us": 29.5,
+          "v2_Task_us": 19.65,
+          "Task_reduction_pct": 33.38983050847458
+        },
+        {
+          "order": "BA",
+          "v1_Task_us": 29.6,
+          "v2_Task_us": 19.53,
+          "Task_reduction_pct": 34.02027027027027
+        }
+      ]
+    }
+  ],
+  "OFF_complete": "/mnt/workspace/groupmatmulgelu-regular-c1-sol2-20261114/results/expert-work-v2-short-AB-BA/COMPLETE.json",
+  "OFF_NPU_lock_s": 46.12516841897741,
+  "PMU_profiles": [
+    {
+      "case": "random_seed9181",
+      "mode": 10,
+      "basic": [
+        {
+          "Op Name": "C1WideProbe",
+          "Op Type": "mix",
+          "Task Duration(us)": "43.099998",
+          "Block Dim": "20",
+          "Mix Block Dim": "40",
+          "Device Id": "0",
+          "Pid": "3582920",
+          "Current Freq": "1650",
+          "Rated Freq": "1650",
+          "": ""
+        }
+      ],
+      "longest_AIC": {
+        "block_id": "1",
+        "sub_block_id": "cube0",
+        "aic_time(us)": "36.846668",
+        "aic_mte2_time(us)": "32.416969",
+        "aic_mte1_time(us)": "19.458788",
+        "aic_cube_time(us)": "8.724849",
+        "aic_fixpipe_time(us)": "13.793333",
+        "aic_scalar_wait_id3_time(us)": "2.127273"
+      },
+      "longest_AIV": {
+        "block_id": "1",
+        "sub_block_id": "vector0",
+        "aiv_time(us)": "40.350910",
+        "aiv_vec_time(us)": "7.083030",
+        "aiv_mte2_time(us)": "3.583030",
+        "aiv_mte3_time(us)": "1.858182",
+        "aiv_scalar_wait_id5_time(us)": "33.612728"
+      },
+      "longest_AIV_matching_AIC": {
+        "block_id": "1",
+        "sub_block_id": "cube0",
+        "aic_time(us)": "36.846668",
+        "aic_mte2_time(us)": "32.416969",
+        "aic_mte1_time(us)": "19.458788",
+        "aic_cube_time(us)": "8.724849",
+        "aic_fixpipe_time(us)": "13.793333",
+        "aic_scalar_wait_id3_time(us)": "2.127273"
+      },
+      "same_core_rows": [
+        {
+          "block_id": "1",
+          "sub_block_id": "cube0",
+          "aic_time(us)": "36.846668",
+          "aic_mte2_time(us)": "32.416969",
+          "aic_mte1_time(us)": "19.458788",
+          "aic_cube_time(us)": "8.724849",
+          "aic_fixpipe_time(us)": "13.793333",
+          "aic_scalar_wait_id3_time(us)": "2.127273"
+        },
+        {
+          "block_id": "1",
+          "sub_block_id": "vector0",
+          "aiv_time(us)": "40.350910",
+          "aiv_vec_time(us)": "7.083030",
+          "aiv_mte2_time(us)": "3.583030",
+          "aiv_mte3_time(us)": "1.858182",
+          "aiv_scalar_wait_id5_time(us)": "33.612728"
+        },
+        {
+          "block_id": "1",
+          "sub_block_id": "vector1",
+          "aiv_time(us)": "40.208485",
+          "aiv_vec_time(us)": "6.681212",
+          "aiv_mte2_time(us)": "3.493939",
+          "aiv_mte3_time(us)": "1.479394",
+          "aiv_scalar_wait_id5_time(us)": "33.349697"
+        },
+        {
+          "block_id": "5",
+          "sub_block_id": "cube0",
+          "aic_time(us)": "18.070910",
+          "aic_mte2_time(us)": "13.375152",
+          "aic_mte1_time(us)": "8.161212",
+          "aic_cube_time(us)": "6.203030",
+          "aic_fixpipe_time(us)": "5.820000",
+          "aic_scalar_wait_id3_time(us)": "1.390303"
+        },
+        {
+          "block_id": "5",
+          "sub_block_id": "vector0",
+          "aiv_time(us)": "21.112122",
+          "aiv_vec_time(us)": "6.212727",
+          "aiv_mte2_time(us)": "2.566061",
+          "aiv_mte3_time(us)": "1.013939",
+          "aiv_scalar_wait_id5_time(us)": "16.746666"
+        },
+        {
+          "block_id": "5",
+          "sub_block_id": "vector1",
+          "aiv_time(us)": "20.976364",
+          "aiv_vec_time(us)": "6.061212",
+          "aiv_mte2_time(us)": "2.389697",
+          "aiv_mte3_time(us)": "1.009697",
+          "aiv_scalar_wait_id5_time(us)": "16.493938"
+        }
+      ],
+      "lock_elapsed_s": 5.0706607879837975,
+      "raw": "/mnt/workspace/groupmatmulgelu-regular-c1-sol2-20261114/results/expert-work-v2-paired-random-PMU/random_seed9181-m10/raw/OPPROF_20261114103232_CWUBVVCVHXGMICYW"
+    },
+    {
+      "case": "random_seed9181",
+      "mode": 11,
+      "basic": [
+        {
+          "Op Name": "C1WideProbe",
+          "Op Type": "mix",
+          "Task Duration(us)": "28.160000",
+          "Block Dim": "20",
+          "Mix Block Dim": "40",
+          "Device Id": "0",
+          "Pid": "3584071",
+          "Current Freq": "1650",
+          "Rated Freq": "1650",
+          "": ""
+        }
+      ],
+      "longest_AIC": {
+        "block_id": "5",
+        "sub_block_id": "cube0",
+        "aic_time(us)": "21.362425",
+        "aic_mte2_time(us)": "16.115757",
+        "aic_mte1_time(us)": "8.181212",
+        "aic_cube_time(us)": "6.422424",
+        "aic_fixpipe_time(us)": "7.271515",
+        "aic_scalar_wait_id3_time(us)": "1.129697"
+      },
+      "longest_AIV": {
+        "block_id": "5",
+        "sub_block_id": "vector0",
+        "aiv_time(us)": "25.392120",
+        "aiv_vec_time(us)": "6.173939",
+        "aiv_mte2_time(us)": "1.992121",
+        "aiv_mte3_time(us)": "0.910303",
+        "aiv_scalar_wait_id5_time(us)": "18.514545"
+      },
+      "longest_AIV_matching_AIC": {
+        "block_id": "5",
+        "sub_block_id": "cube0",
+        "aic_time(us)": "21.362425",
+        "aic_mte2_time(us)": "16.115757",
+        "aic_mte1_time(us)": "8.181212",
+        "aic_cube_time(us)": "6.422424",
+        "aic_fixpipe_time(us)": "7.271515",
+        "aic_scalar_wait_id3_time(us)": "1.129697"
+      },
+      "same_core_rows": [
+        {
+          "block_id": "1",
+          "sub_block_id": "cube0",
+          "aic_time(us)": "17.454546",
+          "aic_mte2_time(us)": "13.567273",
+          "aic_mte1_time(us)": "8.166060",
+          "aic_cube_time(us)": "6.231515",
+          "aic_fixpipe_time(us)": "6.272727",
+          "aic_scalar_wait_id3_time(us)": "1.344849"
+        },
+        {
+          "block_id": "1",
+          "sub_block_id": "vector0",
+          "aiv_time(us)": "21.664848",
+          "aiv_vec_time(us)": "6.380000",
+          "aiv_mte2_time(us)": "1.889697",
+          "aiv_mte3_time(us)": "0.921818",
+          "aiv_scalar_wait_id5_time(us)": "13.100000"
+        },
+        {
+          "block_id": "1",
+          "sub_block_id": "vector1",
+          "aiv_time(us)": "21.558788",
+          "aiv_vec_time(us)": "6.380000",
+          "aiv_mte2_time(us)": "2.274545",
+          "aiv_mte3_time(us)": "0.944848",
+          "aiv_scalar_wait_id5_time(us)": "14.018182"
+        },
+        {
+          "block_id": "5",
+          "sub_block_id": "cube0",
+          "aic_time(us)": "21.362425",
+          "aic_mte2_time(us)": "16.115757",
+          "aic_mte1_time(us)": "8.181212",
+          "aic_cube_time(us)": "6.422424",
+          "aic_fixpipe_time(us)": "7.271515",
+          "aic_scalar_wait_id3_time(us)": "1.129697"
+        },
+        {
+          "block_id": "5",
+          "sub_block_id": "vector0",
+          "aiv_time(us)": "25.392120",
+          "aiv_vec_time(us)": "6.173939",
+          "aiv_mte2_time(us)": "1.992121",
+          "aiv_mte3_time(us)": "0.910303",
+          "aiv_scalar_wait_id5_time(us)": "18.514545"
+        },
+        {
+          "block_id": "5",
+          "sub_block_id": "vector1",
+          "aiv_time(us)": "25.369698",
+          "aiv_vec_time(us)": "5.847273",
+          "aiv_mte2_time(us)": "2.383636",
+          "aiv_mte3_time(us)": "0.586667",
+          "aiv_scalar_wait_id5_time(us)": "18.753939"
+        }
+      ],
+      "lock_elapsed_s": 5.070524853072129,
+      "raw": "/mnt/workspace/groupmatmulgelu-regular-c1-sol2-20261114/results/expert-work-v2-paired-random-PMU/random_seed9181-m11/raw/OPPROF_20261114103245_HSXGDWCCQZGMWNCB"
+    }
+  ],
+  "PMU_complete": "/mnt/workspace/groupmatmulgelu-regular-c1-sol2-20261114/delivery/C1-EXPERT-WORK-V2-PAIRED-RANDOM-PMU.json",
+  "PMU_scope": "One random9181 paired msprof op capture mode10/11 at1650MHz. Each longest core and same-core union1/5 retained. PMU task timings are diagnostic, not pooled with OFF timings; selected wait/busy counters overlap.",
+  "device_ELF_identity": "/mnt/workspace/groupmatmulgelu-regular-c1-sol2-20261114/delivery/C1-EXPERT-WORK-V2-DEVICE-ELFS.json",
+  "mode10_native_identity": "AIC6180B SHA452822a9...2264 and AIV6060B SHAa18bf8b1...611 identical to frozen v1; mode11 resides in same ELF.",
+  "numeric_evidence": "/mnt/workspace/groupmatmulgelu-regular-c1-sol2-20261114/delivery/C1-EXPERT-WORK-V2-LIGHT-NUMERIC.json",
+  "prior_numeric_candidate_calls": 18,
+  "structural_work_account": "/mnt/workspace/groupmatmulgelu-regular-c1-sol2-20261114/delivery/expert-work-v2-handoff/WORK-SUPPLY.json",
+  "interpretation": [
+    "Uniform is effectively tied in this short screen; no demonstrated uniform win.",
+    "Random9181 gains in both AB and BA. PMU agrees that the old5round B-supply owners no longer form the long critical chain; the critical AIC/AIV migrates from block1 toblock5. Global B work remains28Work here; supply was redistributed, not removed or moved outside timing.",
+    "The v1 source and v2 source/component/binary all match frozen hashes before/after. No new kernel or third version was built.",
+    "This is finite SDK local evidence, not a production-carrier or platform speedup. Existing9red+2high static candidates and manual lifetime account remain retained.",
+    "Recommend keeping v2 ahead of v1 for a future authorized evaluation with skewed GL; keep v1 as the platform-backed baseline until then. All submissions remain paused."
+  ],
+  "carrier_source": "/mnt/workspace/groupmatmulgelu-regular-integration-sol2-20261114/opt/candidate_C1_expert_work_v2_on_c3ef_v1/kernel.asc",
+  "carrier_sha256": "19d0ba44813453353cfdd239c90c133152486a0cb10938443fb936702424d87c",
+  "carrier_source_bytes": 512837,
+  "unchanged_frozen_files": [
+    {
+      "path": "/mnt/workspace/groupmatmulgelu-regular-c1-sol2-20261114/opt/c1_joint_vector_consumer_v1/kernel.asc",
+      "sha256": "bef58bdd37ebef9a09b34b01c85bba9e419b6283cdae7f4f022a92beb72e930f"
+    },
+    {
+      "path": "/mnt/workspace/groupmatmulgelu-regular-c1-sol2-20261114/delivery/c1-joint-vector-consumer-v1.asc",
+      "sha256": "feb727f292679a08b3a7f3b5f0f3c3ae0c61dbc2082b48e70b87773efed36b31"
+    },
+    {
+      "path": "/mnt/workspace/groupmatmulgelu-regular-c1-sol2-20261114/delivery/c1-expert-work-pipeline-v2.asc",
+      "sha256": "88452616a279c1d62b5c2052335a152b45f443a43d32535044498ce2f3b3b9e2"
+    },
+    {
+      "path": "/mnt/workspace/groupmatmulgelu-regular-c1-sol2-20261114/opt/c1_expert_work_pipeline_v2/kernel.asc",
+      "sha256": "54afdd3fdbff7018f318943f899a11431af8d7f3ceb5a229fabc45058b55ec1f"
+    },
+    {
+      "path": "/mnt/workspace/groupmatmulgelu-regular-c1-sol2-20261114/opt/c1_expert_work_pipeline_v2/build-npu/verify_batch",
+      "sha256": "a823ff98bee0492549b0272a0acd01e76c9807c317cf0a3cf8041aca706d47cb"
+    }
+  ],
+  "new_full_build": false,
+  "new_platform_evaluation": false,
+  "POSTs": 0,
+  "canonical_calls": 0,
+  "public_index_writes": 0,
+  "more_device_experiments_planned": false
+}

@@ -1,0 +1,9 @@
+[
+  {
+    "label": "A",
+    "uid": "<numeric-or-object-id-from-cookie>",
+    "cookie": "<cannjudge_auth value; do not commit>",
+    "expires_epoch": 0,
+    "usable_for_submit": true
+  }
+]

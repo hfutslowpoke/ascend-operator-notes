@@ -1,0 +1,95 @@
+{
+  "number": 3011,
+  "title": "[2026 CANN 挑战赛区域决赛 上合赛区] Damian 的队伍 - groupmatmulgelu",
+  "state_at_download": "open",
+  "pr_url": "https://gitcode.com/cann/cann-ops-competitions/pull/3011",
+  "head_commit": "824871ef13cae7fcd673a14f203b54d2558638e1",
+  "source_repository": "Damian0305/cann-ops-competitions",
+  "branch": "submit/fdu_damian/groupmatmulgelu",
+  "created_at": "2026-11-14T11:40:25+08:00",
+  "downloaded_utc": "2026-11-16T06:21:42.636514+00:00",
+  "files": [
+    {
+      "original_path": "03_university/CANN-ops-challenge-2026-shanghe/final/submissions/fdu_damian/README.md",
+      "local_path": "third_party/shanghe_final/pr-3011/fdu_damian/README.md",
+      "url": "https://raw.gitcode.com/Damian0305/cann-ops-competitions/raw/824871ef13cae7fcd673a14f203b54d2558638e1/03_university/CANN-ops-challenge-2026-shanghe/final/submissions/fdu_damian/README.md",
+      "bytes": 148,
+      "sha256": "f9de4ad05d87fc336dcf8440022421f95a73fe4aee4d0fbb84742ce1ee2888c2",
+      "git_blob_sha1": "f81d8a55d82eb4a9b2602e0b27327abc2e691377",
+      "api_blob_identity_verified": true
+    },
+    {
+      "original_path": "03_university/CANN-ops-challenge-2026-shanghe/final/submissions/fdu_damian/code/groupmatmulgelu/CMakeLists.txt",
+      "local_path": "third_party/shanghe_final/pr-3011/fdu_damian/code/groupmatmulgelu/CMakeLists.txt",
+      "url": "https://raw.gitcode.com/Damian0305/cann-ops-competitions/raw/824871ef13cae7fcd673a14f203b54d2558638e1/03_university/CANN-ops-challenge-2026-shanghe/final/submissions/fdu_damian/code/groupmatmulgelu/CMakeLists.txt",
+      "bytes": 496,
+      "sha256": "82fc9f2009a8478a4a3fca5f44b566dfb1208af543dbf073b280cdb8b7b47cce",
+      "git_blob_sha1": "c2f35b80373bc3df4dfeb46e8d69dcf00dfe430f",
+      "api_blob_identity_verified": true
+    },
+    {
+      "original_path": "03_university/CANN-ops-challenge-2026-shanghe/final/submissions/fdu_damian/code/groupmatmulgelu/README.md",
+      "local_path": "third_party/shanghe_final/pr-3011/fdu_damian/code/groupmatmulgelu/README.md",
+      "url": "https://raw.gitcode.com/Damian0305/cann-ops-competitions/raw/824871ef13cae7fcd673a14f203b54d2558638e1/03_university/CANN-ops-challenge-2026-shanghe/final/submissions/fdu_damian/code/groupmatmulgelu/README.md",
+      "bytes": 283,
+      "sha256": "7a9da8252f8ec4c0271679e673c68bf15629ea1ca58a7cfa5a067a651c91ef71",
+      "git_blob_sha1": "6cf25aab1a608a3fa49342b2b582ca88965e0eea",
+      "api_blob_identity_verified": true
+    },
+    {
+      "original_path": "03_university/CANN-ops-challenge-2026-shanghe/final/submissions/fdu_damian/code/groupmatmulgelu/kernel.asc",
+      "local_path": "third_party/shanghe_final/pr-3011/fdu_damian/code/groupmatmulgelu/kernel.asc",
+      "url": "https://raw.gitcode.com/Damian0305/cann-ops-competitions/raw/824871ef13cae7fcd673a14f203b54d2558638e1/03_university/CANN-ops-challenge-2026-shanghe/final/submissions/fdu_damian/code/groupmatmulgelu/kernel.asc",
+      "bytes": 521415,
+      "sha256": "2ee67fa5e592bbff7ca7a97c1430eb44673835dbea2ca4b55796713f17c49ece",
+      "git_blob_sha1": "ea56da1ff45a52a623b3a89e886a73be6c615716",
+      "api_blob_identity_verified": true
+    },
+    {
+      "original_path": "03_university/CANN-ops-challenge-2026-shanghe/final/submissions/fdu_damian/code/groupmatmulgelu/main.asc",
+      "local_path": "third_party/shanghe_final/pr-3011/fdu_damian/code/groupmatmulgelu/main.asc",
+      "url": "https://raw.gitcode.com/Damian0305/cann-ops-competitions/raw/824871ef13cae7fcd673a14f203b54d2558638e1/03_university/CANN-ops-challenge-2026-shanghe/final/submissions/fdu_damian/code/groupmatmulgelu/main.asc",
+      "bytes": 6136,
+      "sha256": "beb34db7d7610c3e84c8e1a18cf00b0ca2447596eaa76175a3baf03347e6778a",
+      "git_blob_sha1": "14f8835141f8ab50bd9a6c1cc26a884d3122ae70",
+      "api_blob_identity_verified": true
+    },
+    {
+      "original_path": "03_university/CANN-ops-challenge-2026-shanghe/final/submissions/fdu_damian/code/groupmatmulgelu/reference.py",
+      "local_path": "third_party/shanghe_final/pr-3011/fdu_damian/code/groupmatmulgelu/reference.py",
+      "url": "https://raw.gitcode.com/Damian0305/cann-ops-competitions/raw/824871ef13cae7fcd673a14f203b54d2558638e1/03_university/CANN-ops-challenge-2026-shanghe/final/submissions/fdu_damian/code/groupmatmulgelu/reference.py",
+      "bytes": 12395,
+      "sha256": "9b98c2474103c2f57d0efd6caf8a68f793c76c07e851676cd266da6e2c1f8979",
+      "git_blob_sha1": "4a21e6c5bfd380d3d01c923b2d2a78ac1256f08c",
+      "api_blob_identity_verified": true
+    },
+    {
+      "original_path": "03_university/CANN-ops-challenge-2026-shanghe/final/submissions/fdu_damian/code/groupmatmulgelu/requirements.txt",
+      "local_path": "third_party/shanghe_final/pr-3011/fdu_damian/code/groupmatmulgelu/requirements.txt",
+      "url": "https://raw.gitcode.com/Damian0305/cann-ops-competitions/raw/824871ef13cae7fcd673a14f203b54d2558638e1/03_university/CANN-ops-challenge-2026-shanghe/final/submissions/fdu_damian/code/groupmatmulgelu/requirements.txt",
+      "bytes": 12,
+      "sha256": "a83a2a4ed7ab2e022b9b8a83cfa2b8cf52cc243006c597e8b96f90a8365590ac",
+      "git_blob_sha1": "9f161acad9345ad485c69c3900c8cbe263a3a9bd",
+      "api_blob_identity_verified": true
+    },
+    {
+      "original_path": "03_university/CANN-ops-challenge-2026-shanghe/final/submissions/fdu_damian/code/groupmatmulgelu/run.sh",
+      "local_path": "third_party/shanghe_final/pr-3011/fdu_damian/code/groupmatmulgelu/run.sh",
+      "url": "https://raw.gitcode.com/Damian0305/cann-ops-competitions/raw/824871ef13cae7fcd673a14f203b54d2558638e1/03_university/CANN-ops-challenge-2026-shanghe/final/submissions/fdu_damian/code/groupmatmulgelu/run.sh",
+      "bytes": 893,
+      "sha256": "be67ddb78378de65045ae893030b628fade3d6d467582f3f1396c09283c5c289",
+      "git_blob_sha1": "0a2a895b6842d81551fed0bfe3fb983699c16f90",
+      "api_blob_identity_verified": true
+    },
+    {
+      "original_path": "03_university/CANN-ops-challenge-2026-shanghe/final/submissions/fdu_damian/code/groupmatmulgelu/sample.py",
+      "local_path": "third_party/shanghe_final/pr-3011/fdu_damian/code/groupmatmulgelu/sample.py",
+      "url": "https://raw.gitcode.com/Damian0305/cann-ops-competitions/raw/824871ef13cae7fcd673a14f203b54d2558638e1/03_university/CANN-ops-challenge-2026-shanghe/final/submissions/fdu_damian/code/groupmatmulgelu/sample.py",
+      "bytes": 3814,
+      "sha256": "62f3df28f511a9ba54de491b7a1ed49592db42523b4920970d15d227ade64e37",
+      "git_blob_sha1": "0bf89c731b41cbf06ed2ff5916de6e2ce58db153",
+      "api_blob_identity_verified": true
+    }
+  ],
+  "skipped_paths": []
+}

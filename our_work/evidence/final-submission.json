@@ -1,0 +1,168 @@
+{
+  "source": "/mnt/workspace/groupmatmulgelu/opt/submit_best20_I2_N3_030_20261114T025127576195Z/kernel.asc",
+  "source_sha256": "161ac0ff2ab1920ca3de3e4f5d8b1b4d19a9a720c2781dcbc5c065f989b0b887",
+  "submission_id": "6af7d84c6bd0f9be3716f4c6",
+  "accepted_utc": "2026-11-14T03:41:00.856983+00:00",
+  "server_submission_time": "2026-11-14T03:41:00.774Z",
+  "status": "finished",
+  "last_result": {
+    "queried_utc": "2026-11-14T03:42:41.521067+00:00",
+    "submission_id": "6af7d84c6bd0f9be3716f4c6",
+    "status": "Pass",
+    "valid": true,
+    "public": [
+      {
+        "testcase_id": "6ae3fad11dac5d235b148625",
+        "testcase_status": "Pass",
+        "time": 41.383833333333335,
+        "precision_ratio": 1,
+        "best_time": null
+      },
+      {
+        "testcase_id": "6ae3fad11dac5d235b148629",
+        "testcase_status": "Pass",
+        "time": 23.0205,
+        "precision_ratio": 1,
+        "best_time": null
+      },
+      {
+        "testcase_id": "6ae3fad11dac5d235b14862d",
+        "testcase_status": "Pass",
+        "time": 1.45,
+        "precision_ratio": 1,
+        "best_time": null
+      },
+      {
+        "testcase_id": "6ae3fad11dac5d235b148631",
+        "testcase_status": "Pass",
+        "time": 27.113833333333332,
+        "precision_ratio": 1,
+        "best_time": null
+      },
+      {
+        "testcase_id": "6ae3fad11dac5d235b148635",
+        "testcase_status": "Pass",
+        "time": 45.797666666666665,
+        "precision_ratio": 1,
+        "best_time": null
+      },
+      {
+        "testcase_id": "6ae3fad11dac5d235b148639",
+        "testcase_status": "Hidden",
+        "time": null,
+        "precision_ratio": null,
+        "best_time": null
+      },
+      {
+        "testcase_id": "6ae3fad11dac5d235b14863d",
+        "testcase_status": "Hidden",
+        "time": null,
+        "precision_ratio": null,
+        "best_time": null
+      },
+      {
+        "testcase_id": "6ae3fad11dac5d235b148641",
+        "testcase_status": "Hidden",
+        "time": null,
+        "precision_ratio": null,
+        "best_time": null
+      },
+      {
+        "testcase_id": "6ae3fad11dac5d235b148645",
+        "testcase_status": "Hidden",
+        "time": null,
+        "precision_ratio": null,
+        "best_time": null
+      },
+      {
+        "testcase_id": "6ae3fad11dac5d235b14864c",
+        "testcase_status": "Hidden",
+        "time": null,
+        "precision_ratio": null,
+        "best_time": null
+      },
+      {
+        "testcase_id": "6ae3fad11dac5d235b148653",
+        "testcase_status": "Hidden",
+        "time": null,
+        "precision_ratio": null,
+        "best_time": null
+      },
+      {
+        "testcase_id": "6ae3fad11dac5d235b14865a",
+        "testcase_status": "Hidden",
+        "time": null,
+        "precision_ratio": null,
+        "best_time": null
+      },
+      {
+        "testcase_id": "6ae3fad11dac5d235b148661",
+        "testcase_status": "Hidden",
+        "time": null,
+        "precision_ratio": null,
+        "best_time": null
+      },
+      {
+        "testcase_id": "6ae3fad11dac5d235b148669",
+        "testcase_status": "Hidden",
+        "time": null,
+        "precision_ratio": null,
+        "best_time": null
+      },
+      {
+        "testcase_id": "6ae3fad11dac5d235b14866d",
+        "testcase_status": "Hidden",
+        "time": null,
+        "precision_ratio": null,
+        "best_time": null
+      },
+      {
+        "testcase_id": "6af6ca436bd0f9be37b65f5a",
+        "testcase_status": "Hidden",
+        "time": null,
+        "precision_ratio": null,
+        "best_time": null
+      },
+      {
+        "testcase_id": "6af6ca436bd0f9be37b65f5d",
+        "testcase_status": "Hidden",
+        "time": null,
+        "precision_ratio": null,
+        "best_time": null
+      },
+      {
+        "testcase_id": "6af6ca436bd0f9be37b65f60",
+        "testcase_status": "Hidden",
+        "time": null,
+        "precision_ratio": null,
+        "best_time": null
+      },
+      {
+        "testcase_id": "6af6ca436bd0f9be37b65f63",
+        "testcase_status": "Hidden",
+        "time": null,
+        "precision_ratio": null,
+        "best_time": null
+      },
+      {
+        "testcase_id": "6af6ca436bd0f9be37b65f68",
+        "testcase_status": "Hidden",
+        "time": null,
+        "precision_ratio": null,
+        "best_time": null
+      }
+    ]
+  },
+  "ranking_score": {
+    "available": false,
+    "identity_verified": false,
+    "submission_id": "6af7d84c6bd0f9be3716f4c6",
+    "expected_submission_time": "2026-11-14T03:41:00.774Z",
+    "submission_time_key": "b24d9f2b09d8f329e3ffe67be7b0b0db20f6fab2df9db6d2f780e7ebfa4d0e81",
+    "reason": "Independent ranking monitor has no record for this submission time",
+    "archive_match_timed_out": true,
+    "ranking_wait_seconds": 60
+  },
+  "ranking_measurement_valid": false,
+  "ranking_invalid_reason": "Independent ranking monitor has no record for this submission time"
+}
