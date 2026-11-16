@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "created_utc": "2026-11-16T14:31:32Z",
-  "scope": "本机 Ascend 910B3 对两批外部实现的独立复测；运行纯 Triton 任务，并编译运行 Be4ver 的两个 Ascend C 算子；不提交比赛平台。",
+  "scope": "本机 Ascend 910B3 对 GitHub 与 GitCode 外部实现的独立复测；运行纯 Triton 任务、Be4ver 两个 Ascend C 算子、GitCode Lstsq 小尺寸；编译 GitCode recompute_wu；离线测试 GitCode Concat；不提交比赛平台。",
   "device": {
     "name": "Ascend910B3",
     "npu_index": 2,
@@ -297,6 +297,63 @@
       "notes": "作者 README 记录 1000x800 seed=42 在 910B3/CANN 8.2.RC1 上逐次不同、误差 1.5e-5~3.1e-4；本机 CANN 9.1.0 三次运行的 sigma.bin 完全一致且通过校验。不能据此否定作者缺陷，只能说明该输入在当前环境/调度下未触发。",
       "log": "our_work/evidence/local-910b-20261116/qdwh_1000x800_run1.log",
       "log_sha256": "5dab553b4c18f71f4c7062632742c5e49d3e6581e8c16761408ce41b471adcf7"
+    },
+    {
+      "id": "GITCODE-LSTSQ-16x16-K1-B1",
+      "status": "pass",
+      "shape": "M=16,N=16,K=1,batch=1 FP32; A[i,i]=2, A[i,j]=0.05/(1+|i-j|); B=A*1; expected X=1",
+      "protocol": {
+        "timing": "ACLNN launch + aclrtSynchronizeStream, 5 reps, best",
+        "includes": "operator execution + sync",
+        "stat": "best of 5"
+      },
+      "candidate_ms": 0.0265,
+      "correctness": {
+        "max_abs": 1.192093e-07,
+        "max_rel": 1.192093e-07,
+        "bad": 0
+      },
+      "log": "our_work/evidence/local-910b-20261116/gitcode_lstsq_M16_N16_K1_B1.log",
+      "log_sha256": "887022d8612c82b1c0c33588b65fc3f0e828e2f8d93426a18e6768b7bf9300fa",
+      "notes": "first run 0.6972 ms includes lazy init; best 0.0265 ms is warm run; not a median."
+    },
+    {
+      "id": "GITCODE-LSTSQ-50x50-K2-B1",
+      "status": "pass",
+      "shape": "M=50,N=50,K=2,batch=1 FP32; A[i,i]=2, A[i,j]=0.05/(1+|i-j|); B=A*1; expected X=1",
+      "protocol": {
+        "timing": "ACLNN launch + aclrtSynchronizeStream, 5 reps, best",
+        "includes": "operator execution + sync",
+        "stat": "best of 5"
+      },
+      "candidate_ms": 0.0301,
+      "correctness": {
+        "max_abs": 3.576279e-07,
+        "max_rel": 3.576279e-07,
+        "bad": 0
+      },
+      "log": "our_work/evidence/local-910b-20261116/gitcode_lstsq_M50_N50_K2_B1_r.log",
+      "log_sha256": "b4d0e3b28d6a60e2a7769ebb4af5856ef68e8a94c044deee9b60d7ecf21596a6",
+      "notes": "packed 50 path; first run 0.7534 ms includes lazy init."
+    },
+    {
+      "id": "GITCODE-LSTSQ-64x64-K2-B1",
+      "status": "pass",
+      "shape": "M=64,N=64,K=2,batch=1 FP32; A[i,i]=2, A[i,j]=0.05/(1+|i-j|); B=A*1; expected X=1",
+      "protocol": {
+        "timing": "ACLNN launch + aclrtSynchronizeStream, 5 reps, best",
+        "includes": "operator execution + sync",
+        "stat": "best of 5"
+      },
+      "candidate_ms": 0.0395,
+      "correctness": {
+        "max_abs": 3.576279e-07,
+        "max_rel": 3.576279e-07,
+        "bad": 0
+      },
+      "log": "our_work/evidence/local-910b-20261116/gitcode_lstsq_M64_N64_K2_B1_f.log",
+      "log_sha256": "48d2d387b20b064fc3747008ea115e4fe617d664dc4016fe11b5431045779c20",
+      "notes": "64x64 K=2 path; first run 0.7210 ms includes lazy init."
     }
   ],
   "failures": [
@@ -320,6 +377,54 @@
       "log": "our_work/evidence/local-910b-20261116/fused_moe_compile_fail.log",
       "log_sha256": "b29f637da0d81d34d72761e3a7a8e83aab55eb8cba11d17d815b1d3792974d7b",
       "notes": "不是正确性或性能结果；说明作者 11.446x 依赖其 TA/CANN 版本，当前 910B3 + TA 3.2.0 + CANN 9.1.0 无法直接编译。"
+    },
+    {
+      "id": "GITCODE-RECOMPUTE-WU-RUNTIME",
+      "status": "runtime-failed",
+      "shapes": [
+        "T=256,H=8,Hg=8,D=128",
+        "T=256,H=8,Hg=2,D=128",
+        "T=256,H=8,Hg=2,D=256",
+        "T=10016,H=8,Hg=8,D=128",
+        "T=10016,H=8,Hg=2,D=128"
+      ],
+      "error": "aclrtSynchronizeStream ret=507057; AI Core kernel execution failed; fault kernel RecomputeWu_..._7",
+      "attempts": [
+        "original source build + ACLNN driver",
+        "explicit KERNEL_TASK_TYPE 0..9 compatibility patch + rebuild"
+      ],
+      "author": {
+        "cannjudge": "22/22 Pass",
+        "rank": "2026-07-31 snapshot #1",
+        "environment": "910B3/CANN 8.5.0"
+      },
+      "log": "our_work/evidence/local-910b-20261116/gitcode_recompute_run3.log",
+      "log_sha256": "c7c299c97ae19e9406589c9cfa057dff6bc5bd3a570fb3c07dd56e33c4490a9d",
+      "notes": "编译成功不等于可运行；CANN 9.1.0 上 5 个 shape 全部失败，根因未定位。"
+    },
+    {
+      "id": "GITCODE-LSTSQ-LARGE-BATCH",
+      "status": "runtime-failed",
+      "shapes": [
+        "16x16,K=1,b=2 -> 507035",
+        "50x50,K=2,b=4 -> 507035",
+        "64x32,K=2,b=1 -> 507035",
+        "64x50,K=2,b=1 -> 507035",
+        "100x64,K=1,b=1 -> 507035",
+        "200x200,K=4,b=1 -> 507057",
+        "256x256,K=3,b=1 -> 507057"
+      ],
+      "error": "507035 vector core exception / invalid GM address; 507057 aicore exception / MTE invalid GM address",
+      "attempts": [
+        "null residuals",
+        "allocated residuals [BATCH,K] for M>N"
+      ],
+      "author": {
+        "performance": "no per-case timing in repo"
+      },
+      "log": "our_work/evidence/local-910b-20261116/gitcode_lstsq_M64_N32_K2_B1_r.log",
+      "log_sha256": "87cd7da34642167250904393e6c0fc4fe240ea7a4673b517f804ea0459bbb562",
+      "notes": "小尺寸单 batch 可用，但多 batch/矩形/200/256 在 CANN 9.1 上崩溃；不能外推。"
     }
   ],
   "conclusions": [
@@ -332,7 +437,12 @@
     "Be4ver 的 QDWH+SDC 融合算子在 128/512/1024 方阵上均编译运行并通过校验，kernel 分别为 4.288/20.698/48.475 ms，与作者 4.392/20.540/46.839 ms 接近；单 kernel 融合和 device 内递归可复现。",
     "Be4ver 的 64x64 tournament 4.26x 是研究补丁，不是当前仓库主路径；本机验证的是通用路径，不能把 4.26x 当作当前代码成绩。",
     "Be4ver README 明确记录了 atomic 累加导致的条件数放大问题（1000x800 seed42 误差 1.5e-5~3.1e-4 且逐次不同）；这是复用 QDWH/SDC 时必须先处理的数值风险。",
-    "Be4ver 作者记录的 1000x800 seed=42 atomic 非确定性在本机 3 次运行中未触发：sigma.bin SHA256 三次相同，QDWH/SDC/sigma 全 PASS；说明该缺陷依赖环境/调度，不能当作必然发生或必然不发生。"
+    "Be4ver 作者记录的 1000x800 seed=42 atomic 非确定性在本机 3 次运行中未触发：sigma.bin SHA256 三次相同，QDWH/SDC/sigma 全 PASS；说明该缺陷依赖环境/调度，不能当作必然发生或必然不发生。",
+    "GitCode 确有合格来源：CANN 竞赛仓与电力行业官方仓都含可定位的公开源码；上一轮“TLS 失败”是代理问题，不是内容缺失。",
+    "GitCode Lstsq 的 16/50/64 单 batch 方阵在本机 910B3/CANN 9.1.0 上 PASS（best 0.0265/0.0301/0.0395 ms，max abs 1.19e-7~3.58e-7）；说明补偿算术/迭代精化在这些 shape 上可执行。",
+    "GitCode recompute_wu 在 CANN 9.1.0 上编译成功但 5 个 shape 运行均 507057；作者 22/22/第 1 名不能作为本机证据。",
+    "GitCode Concat 的离线地址/布局/UB 测试 215242+32681+8247 项通过，但没有 NPU 精度/性能数据。",
+    "CANN 版本敏感性是真实风险：同一份源码在作者 CANN 8.5 可用，在 CANN 9.1 可能编译失败（Lstsq 两处 template）或运行失败（recompute_wu）。"
   ],
   "limitations": [
     "设备是 910B3（作者 KernelSwift 为 910B1），CANN/TA 版本也不同；不是严格同环境复现。",
@@ -342,7 +452,10 @@
     "triton-ascend 的 npu_utils.cpp 兼容性 workaround 只作用于隔离 venv，不代表可部署修复。",
     "Be4ver 的作者 benchmark 未在仓库中固定 CANN 版本；本机用 CANN 9.1.0 编译运行，不能声称与作者环境完全相同。",
     "Be4ver 的 PACO 没有同环境 PyTorch/厂商库 baseline，6.174 ms 只能与作者 7.061 ms 比较，不能换算成相对基线加速比。",
-    "Parity-LRX/ICTC-O3-HP-Ascend 未在本机构建或运行；其 3.90x/4.76x/1.90x 等数字仍是作者环境证据。"
+    "Parity-LRX/ICTC-O3-HP-Ascend 未在本机构建或运行；其 3.90x/4.76x/1.90x 等数字仍是作者环境证据。",
+    "GitCode recompute_wu 未在 CANN 8.5.0 复跑；507057 根因未定位，不能断言作者实现错误。",
+    "GitCode Lstsq 的多 batch/矩形/200/256 未通过；矩形 residuals 布局和 workspace 仍未确认，不能外推到全 shape。",
+    "GitCode Concat 未构建 NPU 包，作者 348.33 µs 只是最终榜单截图。"
   ],
   "source_builds": [
     {
@@ -370,7 +483,52 @@
       "artifact": "fused_main",
       "log": "our_work/evidence/local-910b-20261116/environment_and_build.txt",
       "log_sha256": "24a0b8db2f5d27a8a349189532cb603e16e221354a5cb83c0a52d2b4852bc84b"
+    },
+    {
+      "id": "GITCODE-RECOMPUTE-WU-BUILD",
+      "status": "build-ok-run-failed",
+      "repo": "cann/cann-ops-competitions",
+      "repo_commit": "5126fead3327c7544ed4becff93775505071334c",
+      "soc": "ascend910b3",
+      "cann": "9.1.0",
+      "cmake": "3.22.1",
+      "gcc": "11.4.0",
+      "command": "cd code && bash build.sh -j8",
+      "artifact": "custom_opp_ubuntu_aarch64.run; RecomputeWu_dc22c0ec8550d8469dfa43564b045d22.o",
+      "log": "our_work/evidence/local-910b-20261116/gitcode_recompute_build.log",
+      "log_sha256": "eefeb19d99d9cb2545945bb5e20ff285c924fcc74bba89b10cac7d8531c0e671"
+    },
+    {
+      "id": "GITCODE-LINALG-LSTSQ-BUILD",
+      "status": "build-ok-after-local-compat-patch",
+      "repo": "cann/elec-ops-inspection",
+      "repo_commit": "dfe55921db351f71cfb8c96f795fd4472bd6bd47",
+      "soc": "ascend910b3",
+      "cann": "9.1.0",
+      "cmake": "3.22.1",
+      "gcc": "11.4.0",
+      "command": "cmake -S . -B build-local -DCMAKE_BUILD_TYPE=Release -DASCEND_COMPUTE_UNIT=ascend910b && cmake --build build-local -j8",
+      "artifact": "libcust_opapi.so; LinalgLstsq_c04cee5cafcd9476761557bb8347387f.o",
+      "patch": "local copy only: op_kernel/qr/lstsq_qr_vector_common.h lines 67/72 add .template before Zq6<int32_t>",
+      "log": "our_work/evidence/local-910b-20261116/gitcode_lstsq_build2.log",
+      "log_sha256": "5fa8b55efb872f50929929622ac13cd4be14e0872542738132fd806f5d0ceb48",
+      "initial_failure_log": "our_work/evidence/local-910b-20261116/gitcode_lstsq_build_initial_fail.log",
+      "initial_failure_log_sha256": "7f9ef95e230297fbadd813ad24c678d72698541383431da137f301973f737f41"
     }
   ],
-  "updated_utc": "2026-11-16T15:10:00Z"
+  "updated_utc": "2026-11-16T15:55:00Z",
+  "offline_checks": [
+    {
+      "id": "GITCODE-CONCAT-OFFLINE",
+      "status": "pass",
+      "checks": {
+        "source_mapping": "215242",
+        "layout_alignment": "32681",
+        "random_staging": "8247 of 18000 feasible"
+      },
+      "log": "our_work/evidence/local-910b-20261116/gitcode_concat_offline_tests.log",
+      "log_sha256": "9ddd39c53e75d81ad37b1ca97c0dbf85528ec899bc99d6d3bd04d37b30e4ec19",
+      "notes": "CPU-only; no CANN/NPU build, precision or performance."
+    }
+  ]
 }

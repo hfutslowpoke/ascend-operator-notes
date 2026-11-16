@@ -83,7 +83,7 @@ SID:    6af7d84c6bd0f9be3716f4c6
 
 新环境先读 [README](https://github.com/hfutslowpoke/ascend-operator-notes/blob/main/README.md)、[公开源码分析](https://github.com/hfutslowpoke/ascend-operator-notes/blob/main/docs/OPEN_SOURCE_REVIEW.md)、[复盘](https://github.com/hfutslowpoke/ascend-operator-notes/blob/main/docs/RETROSPECTIVE.md)，再按当前算子选择相关源码与工具，无需先通读所有历史文件。
 
-2026-11-16 新增的外部调研入口：[公开算子仓库调研总览](research/OPEN_SOURCE_REPOSITORY_SURVEY_20261116.md)、[本机 910B3 复测](research/LOCAL_910B_VALIDATION_20261116.md)、[来源登记](../catalog/external-repositories.json)、[仓库深读索引](repositories/README.md)、[跨实现经验](experiences/README.md)。第二批新增 [Be4ver SVD](repositories/Be4ver__svd.md) 与 [Parity O(3)/mesh](repositories/Parity-LRX__ICTC-O3-HP-Ascend.md) 深读；Be4ver 两个 Ascend C 算子已在本机 CANN 9.1.0 构建复测。这些是外部参考，不改变本库 GroupedMatmulGelu 的历史快照、成绩或规则。
+2026-11-16 新增的外部调研入口：[公开算子仓库调研总览](research/OPEN_SOURCE_REPOSITORY_SURVEY_20261116.md)、[GitCode 补充调研](research/GITCODE_SOURCE_SURVEY_20261116.md)、[本机 910B3 复测](research/LOCAL_910B_VALIDATION_20261116.md)、[来源登记](../catalog/external-repositories.json)、[仓库深读索引](repositories/README.md)、[跨实现经验](experiences/README.md)。第二批新增 [Be4ver SVD](repositories/Be4ver__svd.md) 与 [Parity O(3)/mesh](repositories/Parity-LRX__ICTC-O3-HP-Ascend.md) 深读；Be4ver 两个 Ascend C 算子已在本机 CANN 9.1.0 构建复测。GitCode 补充新增 [CANN 竞赛仓](repositories/GitCode__cann-ops-competitions.md) 与 [电力行业仓](repositories/GitCode__elec-ops-inspection.md)；recompute_w_u 编译成功但运行失败，Concat 只做离线测试，Lstsq 小尺寸单 batch 在本机 NPU 通过。这些是外部参考，不改变本库 GroupedMatmulGelu 的历史快照、成绩或规则。
 
 ## 4. 新环境首次配置
 

@@ -1,0 +1,10 @@
+shape: M=50 N=50 K=2 batch=1
+workspace=16821312 bytes
+run 1: 0.7534 ms
+run 2: 0.0504 ms
+run 3: 0.0423 ms
+run 4: 0.0410 ms
+run 5: 0.0301 ms
+best: 0.0301 ms
+solution: max_abs=3.576279e-07 max_rel=3.576279e-07 bad=0
+RESULT: PASS

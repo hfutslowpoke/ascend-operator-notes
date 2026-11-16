@@ -1,0 +1,15 @@
+FAIL: sync ret=507057 msg=EZ9999: Inner Error!
+EZ9999[PID: 627139] 2026-11-16-15:49:05.425.306 (EZ9999):  The error from device(chipId:2, dieId:0), serial number is 4877, there is an exception of fftsplus aicore error, core id is 1, error code = 0x800000, dump info: pc start: 0x12c042441afc, current: 0x12c042441c70, vec error info: 0, mte error info: 0x6060000ee, ifu error info: 0xa833e8c3e400, ccu error info: 0xf61ba10e390e5a1c, cube error info: 0, biu error info: 0, aic error mask: 0x6500020bd00028c, para base: 0x12c100001080, aic cond: 0.
+The extend info: errcode:(0x800000, 0, 0) errorStr: MTE accesses an invalid GM address or the cross-device memory access times out. fixp_error0 info: 0x60000ee, fixp_error1 info: 0x6, fsmId:1, tslot:3, thread:0, ctxid:0, blk:0, sublk:0, subErrType:4.
+For details, see the troubleshooting document on the Ascend official website. Search for the keyword "AI Core Error".[FUNC:PrintCoreInfo][FILE:device_error_core_proc.cc][LINE:1060]
+TraceBack (most recent call last):
+       An error occurred in the kernel task, retCode=0x26, [aicore exception].[FUNC:PreCheckTaskErr][FILE:davinci_kernel_task.cc][LINE:1262]
+       AI Core kernel task execution failed, retCode=0x26.[FUNC:GetError][FILE:stream.cc][LINE:1746]
+       [AIC_INFO] after execute:args print end[FUNC:GetError][FILE:stream.cc][LINE:1746]
+       [AIC_INFO] after execute:mixCtx print end[FUNC:GetError][FILE:stream.cc][LINE:1746]
+       [DFX_INFO]AI Core kernel execution failed, device_id=0, stream_id=47, report_stream_id=47, task_id=1, flip_num=0, fault kernel_name=LinalgLstsq_c04cee5cafcd9476761557bb8347387f_3840, fault kernel info ext=none, program id=0, hash=12044994691049651641.[FUNC:GetError][FILE:stream.cc][LINE:1746]
+       rtStreamSynchronize execution failed, reason=suspect remote error[FUNC:FuncErrorReason][FILE:error_message_manage.cc][LINE:69]
+
+shape: M=256 N=256 K=3 batch=1
+workspace=18393152 bytes
+run 1: 0.9120 ms

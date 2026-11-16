@@ -19,6 +19,7 @@
 | [形状专用化与回退](shape_specialization_and_fallbacks.md) | Host 分路、编译期 key、fail-closed、路径覆盖与代码膨胀 | Hansen 三题、KernelSwift、Mamba-2、vLLM-HUST、52Xayah、Parity schedule |
 | [迭代线性代数与融合](iterative_linear_algebra_and_fusion.md) | 批量矩阵交错、轮内配对、单 kernel QDWH+SDC、UB 驱动 batch、atomic 风险 | Be4ver PACO/QDWH-SDC |
 | [等变张量积与 mesh](equivariant_and_mesh_operators.md) | 按输入角阶分组 GEMM、有界 stencil + channel tile、capacity chunk | Parity packed TP、mesh 静电、capacity message |
+| [GitCode 三类机制](gitcode_operator_mechanisms.md) | head/chunk 合并 + GQA K 复用、布局优先搬运、补偿算术 + 迭代精化 | GitCode recompute_w_u、Concat、LinalgLstsq |
 
 使用建议：
 

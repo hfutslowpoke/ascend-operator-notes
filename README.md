@@ -20,8 +20,9 @@
 
 ## 2026-11-16 新增：公开算子仓库调研
 
-- [总览：范围、方法、12 个来源、深读 15 份实现、8 项待验证机制](docs/research/OPEN_SOURCE_REPOSITORY_SURVEY_20261116.md)
-- [本机 Ascend 910B3 复测记录](docs/research/LOCAL_910B_VALIDATION_20261116.md)：GroupedTopk/Sinkhorn/Be4ver 通过，FusedMoE 编译失败，52Xayah 负例复现
+- [总览：范围、方法、14 个仓库记录、12 个独立来源、深读 18 份实现、11 项待验证机制](docs/research/OPEN_SOURCE_REPOSITORY_SURVEY_20261116.md)
+- [GitCode 补充调研：2 个官方仓、3 份新实现、代理绕过与去重](docs/research/GITCODE_SOURCE_SURVEY_20261116.md)
+- [本机 Ascend 910B3 复测记录](docs/research/LOCAL_910B_VALIDATION_20261116.md)：GroupedTopk/Sinkhorn/Be4ver/GitCode Lstsq 小尺寸通过，FusedMoE 编译失败，52Xayah 负例复现
 - [机器可读来源登记](catalog/external-repositories.json)：固定 commit、源码路径/行号、环境、证据、负例、复用判断
 - 深读报告：
   - [Hansen 2026 电力行业算子归档](docs/repositories/Hansenwuwuwu__ascend-c-competition-archive.md)
@@ -31,6 +32,8 @@
   - [52Xayah Triton 负例](docs/repositories/52Xayah__triton-ascend-kernels.md)
   - [Be4ver 批量 Jacobi SVD 与 QDWH+SDC](docs/repositories/Be4ver__svd.md)
   - [Parity O(3) TP、mesh 静电与 capacity](docs/repositories/Parity-LRX__ICTC-O3-HP-Ascend.md)
+  - [GitCode CANN 竞赛仓：GDN recompute_w_u 与 S9 Concat](docs/repositories/GitCode__cann-ops-competitions.md)
+  - [GitCode 电力行业仓：批量 LinalgLstsq](docs/repositories/GitCode__elec-ops-inspection.md)
 - 跨实现经验：
   - [工作量与固定开销](docs/experiences/work_reduction_vs_fixed_overhead.md)
   - [布局与缓冲生命周期](docs/experiences/layout_and_buffer_lifecycle.md)
@@ -38,7 +41,8 @@
   - [形状专用化与回退](docs/experiences/shape_specialization_and_fallbacks.md)
   - [迭代线性代数与融合](docs/experiences/iterative_linear_algebra_and_fusion.md)
   - [等变张量积与 mesh](docs/experiences/equivariant_and_mesh_operators.md)
-- 纯 Triton 任务和 Be4ver 的两个 Ascend C 算子已在本机 910B3 复测；Parity 未在本机构建；未提交比赛平台。作者数字与本机数字分别标注，不能横比。
+  - [GitCode 三类机制](docs/experiences/gitcode_operator_mechanisms.md)
+- 纯 Triton 任务、Be4ver 的两个 Ascend C 算子和 GitCode Lstsq 小尺寸已在本机 910B3 复测；GitCode recompute_w_u 编译成功但运行失败，Concat 只做离线测试；Parity 未在本机构建；未提交比赛平台。作者数字与本机数字分别标注，不能横比。
 
 ## 文件布局
 

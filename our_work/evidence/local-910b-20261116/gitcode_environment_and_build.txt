@@ -1,0 +1,16 @@
+date_utc=2026-11-16T15:50:00Z
+device=Ascend910B3 (physical NPU 2 in npu-smi; ACL logical device 0; /dev/davinci2)
+cann=9.1.0 (/usr/local/Ascend/cann-9.1.0)
+cmake=cmake version 3.22.1
+gcc=gcc (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0
+gitcode_access=direct; env https_proxy causes timeout, so git/curl use --noproxy or unset proxy
+ops_commit=5126fead3327c7544ed4becff93775505071334c
+elec_commit=dfe55921db351f71cfb8c96f795fd4472bd6bd47
+build_recompute=cmake -S code -B code/build ...; bash code/build.sh -j8; result=success; package=custom_opp_ubuntu_aarch64.run
+run_recompute=ACLNN driver; 5 shapes; all fail aclrtSynchronizeStream with 507057; logs=gitcode_recompute_run3.log
+concat_tests=bash tests/run.sh; result=215242+32681+8247 offline checks pass; no NPU
+build_lstsq_initial=cmake -S . -B build-local -DCMAKE_BUILD_TYPE=Release -DASCEND_COMPUTE_UNIT=ascend910b; cmake --build build-local -j8; result=fail at ReinterpretCast dependent template name
+lstsq_patch=local copy only: op_kernel/qr/lstsq_qr_vector_common.h lines 67/72 add .template before Zq6<int32_t>; third-party repo unchanged
+build_lstsq_patched=cmake --build build-local -j8; result=success; libcust_opapi.so + LinalgLstsq_...o
+run_lstsq=ACLNN driver; 16/50/64 single-batch PASS; batch>1/rectangular/200/256 fail 507035/507057; logs=gitcode_lstsq_*.log
+npu_lock=yes for all NPU runs

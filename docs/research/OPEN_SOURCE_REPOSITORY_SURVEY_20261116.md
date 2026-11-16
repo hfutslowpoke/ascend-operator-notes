@@ -1,19 +1,21 @@
-# 公开比赛与高性能算子仓库调研（2026-11-16，第一/二批）
+# 公开比赛与高性能算子仓库调研（2026-11-16，第一/二批 + GitCode 补充）
 
-状态：第一/二批来源筛选与源码深读完成；纯 Triton 任务和 Be4ver 的两个 Ascend C 算子已在本机 Ascend 910B3 复测。Parity-LRX 未在本机构建。未向比赛平台提交，未修改当前算子工程或 ACW 框架。除明确标注“本机复测”的数字外，本文中的“加速比”都是原作者/原报告在各自环境下的数字。
+状态：第一/二批 + GitCode 补充来源筛选与源码深读完成；纯 Triton 任务、Be4ver 的两个 Ascend C 算子和 GitCode Lstsq 小尺寸已在本机 Ascend 910B3 复测。Parity-LRX 未在本机构建。未向比赛平台提交，未修改当前算子工程或 ACW 框架。除明确标注“本机复测”的数字外，本文中的“加速比”都是原作者/原报告在各自环境下的数字。
 
 ## 1. 结论摘要
 
-- 本轮筛选 **12 个独立仓库/来源**，其中 **7 个**完成源码级深读（含 1 个负例），覆盖 **15 份实现**、至少 12 类算子族：检测框解码融合、图样条卷积、点到线段最近距离、MoE 路由与专家计算、分组 TopK、Sinkhorn 归一化、Mamba-2 分块扫描、线性层+SwiGLU 融合、Softmax/Matmul 负例、批量 Jacobi SVD、QDWH 极分解/SDC、O(3) 张量积、长程静电、容量调度图消息。
-- 与既有归档的 26 份 GroupedMatmulGelu 公开 PR **没有重复**。既有官方 `cann-ops-competitions` 快照仍作为基线引用，本轮不重复计数；GitCode 本轮 TLS 握手失败，未新增抓取。
-- 第一批最值得后续验证的 5 项机制见第 6 节：按权重索引先聚合、选择性高精度修复、分块扫描+消费者布局+跨核流水、去中间张量的生产者消费者融合、按规模在“稠密全专家”和“动态分发”之间选路；第二批新增矩阵内配对重排、单 kernel 多阶段融合、有界 stencil/容量调度三组候选。
+- 本轮登记 **14 个仓库记录**，其中 **12 个独立算法来源**；**9 个仓库记录**完成源码级深读（含 1 个负例；GitCode 2 个记录与既有官方基线/Hansen 上游重叠，不新增独立来源），覆盖 **18 份实现**、至少 15 类算子族：检测框解码融合、图样条卷积、点到线段最近距离、MoE 路由与专家计算、分组 TopK、Sinkhorn 归一化、Mamba-2 分块扫描、线性层+SwiGLU 融合、Softmax/Matmul 负例、批量 Jacobi SVD、QDWH 极分解/SDC、O(3) 张量积、长程静电、容量调度图消息、GDN 注意力重算、多输入 Concat、批量最小二乘。
+- 与既有归档的 26 份 GroupedMatmulGelu 公开 PR **没有重复**。既有官方 `cann-ops-competitions` 快照仍作为基线引用，本轮不重复计数；GitCode 本轮已直连成功，补充了 2 个官方仓、3 份新实现（详见 [GitCode 补充调研](GITCODE_SOURCE_SURVEY_20261116.md)）。
+- 第一批最值得后续验证的 5 项机制见第 6 节：按权重索引先聚合、选择性高精度修复、分块扫描+消费者布局+跨核流水、去中间张量的生产者消费者融合、按规模在“稠密全专家”和“动态分发”之间选路；第二批新增矩阵内配对重排、单 kernel 多阶段融合、有界 stencil/容量调度三组候选；GitCode 补充新增任务批处理/GQA K 复用、布局优先搬运、补偿算术+迭代精化三组候选。
 - 最强的新证据来自：
   - `mantuoluozk/kernelswift-2026-triton-kernels`：Ascend 910B1、CANN 9.0.0、Triton-Ascend 3.2.1，官方评测器 `warmup=200`、`repeat=500`、中位数，10/10 正确性通过；本轮深读其中 3 题。
   - `So-cean/mamba-ascendc`：Ascend 910B3，device event p50，同平台 PyTorch/Triton-Ascend/AscendC 三层对照，并有 msprof 阶段分解；本轮深读 ChunkMix。
   - `vLLM-HUST/vllm-hust-opset`：Ascend 910B2，算子级 10 warmup/50 同步样本，端到端 3 轮匹配；本轮深读 Linear+SwiGLU Graph 融合。
   - `Be4ver/svd`：Ascend 910B3，PACO 批量 Jacobi 与 QDWH+SDC 融合；作者有设备日志/精度验证，本轮在 CANN 9.1.0 上重新构建并复测。
   - `Parity-LRX/ICTC-O3-HP-Ascend`：Ascend 910B3/CANN 9.0.0，packed O(3) TP、mesh 静电、capacity chunk；MIT，性能协议完整，但仓库只有文档/图、无逐点原始日志。
-- **本机 910B3 复测**：GroupedTopk PASS 2.670×（作者 2.478×）、Sinkhorn PASS 13.226×（作者 9.203×）、52Xayah Softmax/Matmul 负例 0.288×/0.242×稳定复现；Be4ver PACO 32×32×512 为 6.174 ms（作者 7.061 ms，512/512 PASS），QDWH+SDC 128/512/1024 为 4.288/20.698/48.475 ms（作者 4.392/20.540/46.839 ms，全 PASS）；FusedMoE 在当前 TA 3.2.0/CANN 9.1.0 上 UB 溢出，作者 11.446× 未复现。详见 [本机复测记录](LOCAL_910B_VALIDATION_20261116.md)。
+  - GitCode `cann/cann-ops-competitions`：Delicate02 `recompute_w_u` CANNJudge 22/22、2026-07-31 第 1 名；BatchLions S9 `Concat` 最终第十名、五档 348.33 µs。
+  - GitCode `cann/elec-ops-inspection`：XDU_XDU-BTD `LinalgLstsq`，补偿算术+迭代精化；作者无逐 case 性能数字，本机小尺寸单 batch 通过。
+- **本机 910B3 复测**：GroupedTopk PASS 2.670×（作者 2.478×）、Sinkhorn PASS 13.226×（作者 9.203×）、52Xayah Softmax/Matmul 负例 0.288×/0.242×稳定复现；Be4ver PACO 32×32×512 为 6.174 ms（作者 7.061 ms，512/512 PASS），QDWH+SDC 128/512/1024 为 4.288/20.698/48.475 ms（作者 4.392/20.540/46.839 ms，全 PASS）；GitCode Lstsq 16/50/64 单 batch PASS（best 0.0265/0.0301/0.0395 ms），但 batch>1/矩形/200/256 失败；GitCode recompute_w_u 编译成功但运行 507057；FusedMoE 在当前 TA 3.2.0/CANN 9.1.0 上 UB 溢出，作者 11.446× 未复现。详见 [本机复测记录](LOCAL_910B_VALIDATION_20261116.md)。
 - 证据最弱的深读项是 `Hansenwuwuwu/ascend-c-competition-archive` 的三份 2026 电力行业算子：有官方公示分数和名次，但没有逐 case 时延，也没有本机编译/运行；因此只把它当作“获奖源码的结构证据”，不把分数换算成加速比。
 - `52Xayah/triton-ascend-kernels` 的 Softmax/Matmul 是明确负例：原作者批量计时约 0.140 ms vs PyTorch 0.035 ms、0.699 ms vs 0.163 ms；本机逐 sample 协议为 0.288×/0.242×。它提醒我们，手写 Triton 不会自动超过厂商库，必须先把 tile、数据布局、融合和启动开销算清楚。
 
@@ -22,7 +24,7 @@
 ### 2.1 搜索范围
 
 - 日期：2026-11-16。
-- 平台：GitHub 公开仓库为主；GitCode 官方比赛仓尝试过一次，`git clone` 返回 `gnutls_handshake() failed`，本轮未继续重试。
+- 平台：GitHub 公开仓库为主；GitCode 官方比赛仓/行业仓在补充轮已直连成功。上一轮 `git clone` 的 `gnutls_handshake() failed` 由环境代理导致，`--noproxy '*'` 或去掉 `https_proxy` 后可正常访问；详见 [GitCode 补充调研](GITCODE_SOURCE_SURVEY_20261116.md)。
 - 检索词（实际使用或组合使用）：
   - `ascend c competition`
   - `cann operator competition`
@@ -72,7 +74,7 @@
 - 不把 fork、镜像、同一源码的二次搬运算作独立来源；
 - 只在新仓库的算子族、机制或证据与既有归档不同时计入。
 
-### 3.2 12 个来源的取舍
+### 3.2 14 个来源记录（其中 12 个独立）的取舍
 
 | # | 来源 | 类型/年份 | 本轮决定 | 理由 |
 |---:|---|---|---|---|
@@ -88,8 +90,12 @@
 | 10 | `Parity-LRX/ICTC-O3-HP-Ascend` | 生产型 O(3)/MACE，Ascend C | **深读（第二批）** | 910B3 上 3.90× forward / 3.85× fwd+VJP / 4.76× training / 1.90× MD 等作者证据，MIT；深读 packed TP、mesh 静电、capacity chunk 三份实现；本机未构建 |
 | 11 | `U-Illll/ascend-eigh-operator` | 单算子 eigh，Ascend C | 候选 | 语义、tiling、双精度路径清楚，但只有单算子、没有性能数据 |
 | 12 | `asfsdsf/S6` | 单算子 Fmax，Ascend C | 淘汰 | 只有 6 个源文件和 LICENSE，无 README、无测试、无性能证据；不足以支撑“高性能”判断 |
+| 13 | GitCode `cann/cann-ops-competitions` | 2026 天梯赛/S9，Ascend C | **深读（GitCode 补充）** | 与既有官方基线同仓、不同赛事/算子；深读 recompute_w_u 与 Concat；不新增独立来源 |
+| 14 | GitCode `cann/elec-ops-inspection` | 2026 电力行业，Ascend C | **深读（GitCode 补充）** | Hansen 归档的上游官方仓；新增 LinalgLstsq 实现；不新增独立来源 |
 
-另外见过但未计入 12 个来源的：
+因此“14 个仓库记录、12 个独立算法来源、9 个深读仓库记录、18 份实现”的口径是：GitCode 两个官方/上游记录已登记并深读，但按去重规则不重复增加独立来源。
+
+另外见过但未计入 12 个独立来源的：
 
 - `WildPickledPepper/ascend-rowcol-int8-quant`：只有任务书、benchmark/golden 脚本和配置，未看到 kernel 源文件；暂不纳入。
 - `m-rui001/ascend-c-operator-dojo`：59 轮学习/对照笔记和检查表，偏训练材料，不是独立的高性能算子实现；暂不纳入。
@@ -116,6 +122,8 @@
 | Yunle-Lee | CANN 测试赛 | C++/aclnn | Add/Mul/Pow/Cumsum 测试 | `a0c1c8a8ba8ac203afe28f2f7d9c75b9c06ab595` | MIT | 测试模板；无 kernel/时延 | 淘汰 |
 | Be4ver svd | Ascend SVD | C++/Ascend C | Jacobi SVD、QDWH/SDC | `b02796511ea62861c647a56b880da15b6a07b3a0` | 未声明 | 作者设备日志 + 精度；本机 910B3/CANN 9.1.0 构建并复测 4 组 | 深读 2 题 |
 | Parity ICTC-O3 | 生产型 O(3)/MACE | Ascend C | 等变张量积、长程静电、MD | `ca9ccc4ea9e2e9d21e48daeb45925f2bc4382be8` | MIT | 910B3 多组作者数据 + 完整协议；无逐点原始日志 | 深读 3 题 |
+| GitCode CANN 竞赛仓 | 2026 天梯赛/S9 | Ascend C | GDN 重算、Concat、IndexAdd 等 | `5126fead3327c7544ed4becff93775505071334c` | MIT（根；Concat 提交 Apache-2.0） | CANNJudge/最终榜单 + 源码；本机 recompute 编译成功/运行失败，Concat 离线测试 | 深读 2 题 |
+| GitCode 电力行业仓 | 2026 电力行业 | Ascend C | 批量最小二乘、线性代数 | `dfe55921db351f71cfb8c96f795fd4472bd6bd47` | Apache-2.0 | 源码 + 作者说明；无逐 case 时延；本机小尺寸单 batch PASS | 深读 1 题 |
 | U-Illll eigh | 单算子 | Ascend C | 对称特征分解 | `fa2275fa4b2cee005e6868ce23266686eafa7a1b` | MIT | 源码/契约；无性能 | 候选 |
 | asfsdsf S6 | 单算子 | Ascend C | Fmax 广播 | `0454168359b4749058b61432bf15b3945b44efa9` | MIT | 源码极小；无文档/性能 | 淘汰 |
 
@@ -138,6 +146,9 @@
 | `PARITY-O3-PACKED-TP` | Parity | packed O(3) TP | `ictc_o3/backends/ascend/packed_tensor_product.py:60-165` | 910B3 / CANN 9.0.0 / torch 2.7.1 | 作者 3.90× forward、3.85× fwd+VJP；本机未构建 | [Parity 报告](../repositories/Parity-LRX__ICTC-O3-HP-Ascend.md) |
 | `PARITY-MESH-ELECTROSTATICS` | Parity | mesh 静电 assignment | `ictc_o3/ascendc/op_kernel/electrostatics.cpp:22-119` | 同上 | 作者 q+μ+Q +6.8%/+10.7%；particle −40.6%/−51.2%；1.90× MD | 同上 |
 | `PARITY-CAPACITY-CHUNK` | Parity | capacity chunk | `ictc_o3/backends/ascend/capacity_message.py:7-80` | 同上 | 作者 196,608 atoms 2.43×、52.68→43.55 GiB | 同上 |
+| `GITCODE-RECOMPUTE-WU` | GitCode `cann/cann-ops-competitions` / Delicate02 | GDN 注意力重算 | `.../recompute_wu.h:143-199,591-792,1025-1395` | 910B3 / CANN 8.5.0 | 作者 CANNJudge 22/22、7 月第 1 名；本机编译成功但运行 507057 | [CANN 竞赛仓报告](../repositories/GitCode__cann-ops-competitions.md) |
+| `GITCODE-CONCAT` | GitCode `cann/cann-ops-competitions` / BatchLions | S9 多输入 Concat | `.../Concat/BatchLions/op_kernel/concat.cpp:909-1445` | 910B / CANN 8.5.0 | 作者最终第十名、五档 348.33 µs；本机离线 215,242+32,681+8,247 项通过，未上 NPU | 同上 |
+| `GITCODE-LINALG-LSTSQ` | GitCode `cann/elec-ops-inspection` / XDU_XDU-BTD | 批量最小二乘 | `.../lstsq/op_host/linalg_lstsq.cpp:24-91` | 910B / CANN 未固定 | 作者无性能数字；本机 16/50/64 单 batch PASS，多 batch/矩形/200/256 失败 | [电力仓报告](../repositories/GitCode__elec-ops-inspection.md) |
 
 ### 5.1 本机 910B3 复测摘要
 
@@ -154,10 +165,16 @@
 | Be4ver QDWH 128×128 | PASS | 4.288 ms | 4.392 ms | 基本一致 |
 | Be4ver QDWH 512×512 | PASS | 20.698 ms | 20.540 ms | 基本一致 |
 | Be4ver QDWH 1024×1024 | PASS | 48.475 ms | 46.839 ms | 慢 3.5% |
+| GitCode Lstsq 16×16, K=1, b=1 | PASS | 0.0265 ms；max abs 1.19e-07 | 作者无时延 | 小尺寸单 batch 可运行 |
+| GitCode Lstsq 50×50, K=2, b=1 | PASS | 0.0301 ms；max abs 3.58e-07 | 作者无时延 | 同上 |
+| GitCode Lstsq 64×64, K=2, b=1 | PASS | 0.0395 ms；max abs 3.58e-07 | 作者无时延 | 同上 |
+| GitCode Lstsq 多 batch/矩形/200/256 | FAIL | 507035/507057 | 作者无时延 | 不能外推 |
+| GitCode recompute_w_u | 编译成功，运行失败 | 507057；5 个 shape 全失败 | 22/22、第 1 名 | 编译≠可运行 |
+| GitCode Concat | 离线 PASS | 215,242+32,681+8,247 项 | 第十名、348.33 µs | 未上 NPU |
 
-完整命令、原始输出和兼容性 workaround 见 [本机 910B3 复测记录](LOCAL_910B_VALIDATION_20261116.md)。
+完整命令、原始输出和兼容性 workaround 见 [本机 910B3 复测记录](LOCAL_910B_VALIDATION_20261116.md) 与 [GitCode 补充调研](GITCODE_SOURCE_SURVEY_20261116.md)。
 
-## 6. 最值得后续验证的 5 项机制
+## 6. 最值得后续验证的 11 项机制
 
 > 以下“预期改变”是机制层面的假设，不是加速比承诺。每项都给出可证伪的验证方法。
 
@@ -229,6 +246,32 @@
 - **代价**：多套 schedule 的维护/验证成本；atomic scatter 非确定；chunk 重算增加 FLOPs；小 N/训练/高阶要走回退。
 - **可证伪验证**：固定算子和输入，扫 `N`、`channels`、`stencil order`、`adjoint target`，分别记录每套 schedule 的时延/显存/数值；若 crossover 与作者相反，或回退路径不比单 schedule 快，说明选路规则不成立。
 
+### 6.7 GitCode 补充候选机制
+
+#### M9 head/chunk 合并 + GQA K 复用 + 多槽流水
+
+- **源码定位**：GitCode `cann/cann-ops-competitions` 的 `recompute_wu.h:591-684,686-792,1025-1395`；host 选路 `recompute_wu_tiling.cpp:204-390`。
+- **适用条件**：GQA/MQA、多个 query head 共享 K；`BT=64`、`D=128/256`；能接受复杂 workspace/flag。
+- **预期改变的关键路径**：K 只打包一次、最多 4 head×4 chunk 合并、Vector/Cube 多槽流水；减少重复 K 读、任务启动和跨核等待。
+- **代价**：10 个 tiling key、workspace 增长、CANN 版本敏感；本机 CANN 9.1 运行 507057。
+- **可证伪验证**：固定 T/H/Hg/D，扫 `headsPerTask=1/2/4`、`chunksPerTask=1/2/4`、`pipelineDepth=2/5`；记录 K 打包次数、workspace、event 时延；若 head/chunk 合并没有减少 K 读或反而更慢，机制不成立。
+
+#### M10 布局优先的 Concat：先归一 rows×n_i，再选 Gather/直写/分带
+
+- **源码定位**：GitCode `Concat/BatchLions/op_host/concat.cpp:55-263,267-330,440-532`；`op_kernel/concat.cpp:909-1071,1075-1445`；`s9_concat_layout.h:96-117,163-241,355-435,603-696`。
+- **适用条件**：动态输入列表、最多 256 路、行宽/路数变化大；能接受 UB 预算和 Host/Kernel 共享布局。
+- **预期改变的关键路径**：把每路每行的小 DMA 改成带内连续读 + Gather 拼整行 + 一次写；列带增大读 burst；窄行整块拷贝。
+- **代价**：写碎片、偏移表、UB 暂存；作者的均衡分带/裁剪/整块取头分别慢 1.35%/1–8%/8%；本机只做离线测试。
+- **可证伪验证**：固定 dtype/路数，扫 `bands=1/2/4/8`、`gBuf`、`S9_TRIM=0/1/2`、`S9_PRE=0/1`，分宽行/窄行记录读/写字节和 event 时延；若宽行或大 nOut 没有收益，选路规则不成立。
+
+#### M11 shape 专用 solver + 补偿算术 + 迭代精化
+
+- **源码定位**：GitCode `cann/elec-ops-inspection` 的 `linalg_lstsq.cpp:25-90,223-335`；`lstsq_compensated_tile_product.h:19-40`；`lstsq_shared_refinement.h:19-112`；`lstsq_shared_residual.h:17-330`。
+- **适用条件**：FP32、列满秩、`M>=N`、`K<=64`；小尺寸/方阵/批量 RHS；能接受每 key 回归。
+- **预期改变的关键路径**：tiny/packed/QR/LU 专用路径减少通用 solver 固定开销；TwoSum/TwoProduct + 残差补偿降低抵消误差；迭代精化用原方程修正。
+- **代价**：代码体量大、每 key 独立 workspace；本机多 batch/矩形/200/256 崩溃；作者无性能数字。
+- **可证伪验证**：固定 M/N/K，扫 16/50/64/200/256、single/batch、方阵/矩形；记录每 key 的编译、运行、误差、workspace；若补偿算术没有改善误差或明显变慢，机制不成立。
+
 ## 7. 证据局限与未复现项
 
 1. **本机验证覆盖两批，但不是全部**。GroupedTopk、Sinkhorn、Be4ver PACO/QDWH 通过；FusedMoE 编译失败；52Xayah 两题负例复现。Hansen Ascend C、Mamba-2 自定义 OPP、Parity 原生库、vLLM-HUST/vLLM 未在本机编译/运行，仍为 `N`。
@@ -245,6 +288,9 @@
 12. **Parity 没有逐点原始日志**。仓库有性能协议、图和说明，但没有逐点 benchmark JSON/CSV；3.90×/4.76×/1.90× 只能作为作者报告，不能当精确复现。
 13. **许可证不完整**。Hansen、mantuo、52Xayah、Be4ver 没有声明 LICENSE；本库不复制其源码，只做引用、行号定位和分析。公开可读不等于可再分发。
 14. **未验证规则合规**。即使源码来自获奖提交，也不能证明当前比赛规则允许同样的融合、近似、私有 API 或数据布局。
+15. **GitCode recompute_w_u 编译成功但运行失败**。CANN 9.1.0 上 5 个 shape 均报 507057；作者环境是 CANN 8.5.0。不能把编译成功当可运行，也不能把作者 22/22 当本机复现。
+16. **GitCode Lstsq 只验证了小尺寸单 batch**。16/50/64 方阵 PASS；多 batch、矩形、200/256 在 CANN 9.1 上崩溃（507035/507057）。不能外推到全 shape 或 910C。
+17. **GitCode Concat 只做了离线测试**。215,242+32,681+8,247 项地址/布局/UB 测试通过，但没有 NPU 构建、精度或性能数据；作者 348.33 µs 是最终榜单截图，不是本机复现。
 
 ## 8. 后续建议
 
@@ -256,15 +302,19 @@
 4. **Gxj230958/TritonAscendBench**：选 1 个 L2/L3 kernel 做“上游 Triton 语义 → Triton-Ascend”迁移对照，重点不是速度，而是正确性/边界/来源冻结方法。
 5. **U-Illll/ascend-eigh-operator**：单算子 eigh，适合与 Be4ver 的 SVD 一起看“双精度/双 limb、tridiagonal reduction、back-transform”在 910B 上的资源取舍。
 6. **mantuoluozk 其余 7 题**：优先 Task04（watchdog 拆分）、Task10（UB 超限拆分）、Task03/06（弱收益），把“融合不一定快”的边界补全。
+7. **GitCode recompute_w_u**：在 CANN 8.5.0 复跑作者 shape，确认 22/22；再定位 CANN 9.1 的 507057 是 ABI、同步、UB 还是本驱动布局问题。
+8. **GitCode Concat**：补动态张量列表 ACLNN 驱动和官方 case，先做 NPU 编译/精度，再复算 348.33 µs 或给出本机时延。
+9. **GitCode Lstsq**：确认矩形 `residuals` 布局和 workspace，再逐 key 验证多 batch/200/256；不要只用 16×16 的结果外推。
 
 ## 9. 文件入口
 
 - 来源登记：[`catalog/external-repositories.json`](../../catalog/external-repositories.json)
 - 本机复测：[`docs/research/LOCAL_910B_VALIDATION_20261116.md`](LOCAL_910B_VALIDATION_20261116.md)
+- GitCode 补充：[`docs/research/GITCODE_SOURCE_SURVEY_20261116.md`](GITCODE_SOURCE_SURVEY_20261116.md)
 - 机器摘要：[`our_work/evidence/local-910b-validation-20261116.json`](../../our_work/evidence/local-910b-validation-20261116.json)
 - 仓库报告：[`docs/repositories/README.md`](../repositories/README.md)
 - 跨实现经验：[`docs/experiences/README.md`](../experiences/README.md)
-- 三个重点仓库：
+- 重点仓库：
   - [Hansen 2026 电力行业算子归档](../repositories/Hansenwuwuwu__ascend-c-competition-archive.md)
   - [KernelSwift 2026 Ascend 910B](../repositories/mantuoluozk__kernelswift-2026-triton-kernels.md)
   - [Mamba-2 AscendC](../repositories/So-cean__mamba-ascendc.md)
@@ -272,3 +322,5 @@
   - [52Xayah 负例](../repositories/52Xayah__triton-ascend-kernels.md)
   - [Be4ver SVD](../repositories/Be4ver__svd.md)
   - [Parity ICTC-O3](../repositories/Parity-LRX__ICTC-O3-HP-Ascend.md)
+  - [GitCode CANN 竞赛仓](../repositories/GitCode__cann-ops-competitions.md)
+  - [GitCode 电力行业仓](../repositories/GitCode__elec-ops-inspection.md)

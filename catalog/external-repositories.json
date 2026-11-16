@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "generated_utc": "2026-11-16T15:10:00Z",
-  "scope": "第一/二批公开比赛与高性能算子仓库调研；固定 commit、源码路径、证据级别、适用条件、负例与复用判断；含本机 910B3 复测。",
+  "generated_utc": "2026-11-16T16:00:00Z",
+  "scope": "第一/二批 + GitCode 补充公开比赛与高性能算子仓库调研；固定 commit、源码路径、证据级别、适用条件、负例与复用判断；含本机 910B3 复测。",
   "evidence_levels": {
     "S": "静态源码观察（固定 commit 路径/行号/符号）",
     "M": "数学或布局推导",
@@ -15,7 +15,7 @@
     "date": "2026-11-16",
     "platforms": [
       "GitHub public repository search",
-      "GitCode official repo (attempted)"
+      "GitCode official competition/industry repos (direct, no proxy)"
     ],
     "queries": [
       "ascend c competition",
@@ -27,10 +27,12 @@
       "2026 电力 算子",
       "Mamba AscendC",
       "vLLM Ascend operator",
-      "SVD Ascend"
+      "SVD Ascend",
+      "site:gitcode.com 昇腾 算子 比赛 CANN 2026",
+      "gitcode recompute_w_u / Concat / IndexAdd / LinalgLstsq"
     ],
-    "gitcode_status": "TLS handshake failed; no new fetch; existing archive used as baseline only.",
-    "selection": "12 independent sources retained; 7 deep-read (including 1 negative); 15 implementations; forks/mirrors/imports not counted as independent algorithm sources. Local 910B3 validation covers 3 sources and 8 implementations/runs."
+    "gitcode_status": "Direct connection works (proxy times out). Fixed commits cann/cann-ops-competitions@5126fead and cann/elec-ops-inspection@dfe55921. Found qualifying official repos and submissions; added 2 repo records, 3 implementations.",
+    "selection": "14 repository records; 12 independent algorithm sources (2 GitCode records overlap the existing official baseline/Hansen upstream); 9 deep-read repository records (7 independent); 18 implementations; forks/mirrors/imports not counted as independent algorithm sources. Local 910B3 validation covers GitHub + GitCode sources, including 3 Lstsq passes, recompute_wu compile-ok/runtime-failed, and Concat offline tests."
   },
   "repositories": [
     {
@@ -376,6 +378,65 @@
       "status": "excluded",
       "report": null,
       "notes": "只有 Fmax 6 个源文件和 LICENSE；无 README、测试、性能证据。"
+    },
+    {
+      "id": "gitcode-cann-ops-competitions",
+      "url": "https://gitcode.com/cann/cann-ops-competitions",
+      "owner": "cann",
+      "author": "CANN 开源社区；Delicate02、BatchLions 等参赛队",
+      "year": 2026,
+      "name": "cann-ops-competitions",
+      "default_branch": "master",
+      "commit": "5126fead3327c7544ed4becff93775505071334c",
+      "commit_date": "2026-11-16T20:16:27+08:00",
+      "accessed": "2026-11-16",
+      "license": "MIT",
+      "license_note": "根 LICENSE 为 MIT（版权年份/持有人为占位符）；S9 Concat 提交目录另有 Apache-2.0 LICENSE；各提交可能不同。",
+      "primary_dsl": [
+        "Ascend C"
+      ],
+      "operator_families": [
+        "attention-recompute",
+        "concat",
+        "index-add",
+        "operator-challenge"
+      ],
+      "competition_or_context": "CANN 开源社区竞赛仓：2026 天梯赛、S8/S9 算子挑战赛等",
+      "local_cache": "repository-research-cache/gitcode-selected/ops",
+      "relationship_to_existing": "same official repo as existing 26 GroupedMatmulGelu baseline; new 2026 ladder/S9 implementations; not counted as a new independent algorithm source",
+      "status": "deep-read",
+      "report": "docs/repositories/GitCode__cann-ops-competitions.md",
+      "notes": "GitCode 直连成功（代理会超时）；固定 commit 5126fead；深读 Delicate02 recompute_w_u（CANNJudge 22/22、7 月第 1 名）与 BatchLions S9 Concat（最终第十名、五档 348.33 µs）。本机 recompute 编译成功但运行 507057；Concat 离线测试 215242+32681+8247 项通过，未上 NPU。",
+      "local_validation": "recompute_wu built on local 910B3/CANN 9.1.0 but runtime failed 507057 for 5 shapes; Concat offline tests passed 215242+32681+8247, no NPU build. See docs/research/GITCODE_SOURCE_SURVEY_20261116.md"
+    },
+    {
+      "id": "gitcode-elec-ops-inspection",
+      "url": "https://gitcode.com/cann/elec-ops-inspection",
+      "owner": "cann",
+      "author": "CANN 开源社区；XDU_XDU-BTD 等参赛队",
+      "year": 2026,
+      "name": "elec-ops-inspection",
+      "default_branch": "master",
+      "commit": "dfe55921db351f71cfb8c96f795fd4472bd6bd47",
+      "commit_date": "2026-11-16T19:09:03+08:00",
+      "accessed": "2026-11-16",
+      "license": "Apache-2.0",
+      "license_note": "根 LICENSE 为 Apache-2.0；提交文件头也标注 Apache-2.0。",
+      "primary_dsl": [
+        "Ascend C"
+      ],
+      "operator_families": [
+        "batched-least-squares",
+        "linear-algebra",
+        "electric-industry"
+      ],
+      "competition_or_context": "昇腾 AI 行业创新大赛——2026 电力行业算子专场",
+      "local_cache": "repository-research-cache/gitcode-selected/elec",
+      "relationship_to_existing": "upstream official repo of Hansen archive; not an independent algorithm source; adds LinalgLstsq implementation",
+      "status": "deep-read",
+      "report": "docs/repositories/GitCode__elec-ops-inspection.md",
+      "notes": "固定 commit dfe55921；深读 XDU_XDU-BTD LinalgLstsq。作者 README 无逐 case 时延；本机 CANN 9.1.0 加两处 template 兼容性关键字后编译成功，16/50/64 单 batch PASS，多 batch/矩形/200/256 失败。",
+      "local_validation": "LinalgLstsq built after a 2-line local template compatibility patch; 16/50/64 single-batch square cases PASS on local 910B3/CANN 9.1.0; multi-batch/rectangular/200/256 failed. See docs/research/GITCODE_SOURCE_SURVEY_20261116.md"
     }
   ],
   "implementations": [
@@ -1784,6 +1845,373 @@
         "original_location": "docs/PERFORMANCE.md:24-66; docs/USAGE.md:764-849",
         "reproduced": false
       }
+    },
+    {
+      "id": "GITCODE-RECOMPUTE-WU",
+      "repository_id": "gitcode-cann-ops-competitions",
+      "source_commit": "5126fead3327c7544ed4becff93775505071334c",
+      "operator": "recompute_w_u (GDN chunked attention)",
+      "operator_family": "attention-recompute-gemm",
+      "semantics": "u=(A*diag(beta))@v; w=(A*diag(beta)*exp(g))@k; A[B,H,T,BT], k[B,T,Hg,D], v[B,T,H,D], beta[B,H,T] BF16, g[B,H,T] FP32, chunk_offsets int32; outputs w/u [B,H,T,D] BF16.",
+      "shape_dtype": "B=1; T variable 1k..256k; H 1..128; Hg 1..32; D 32..256; BT=64; BF16 inputs (g FP32); BF16 outputs; GQA H%Hg==0.",
+      "environment": {
+        "soc": "Ascend 910B3",
+        "cann": "8.5.0 (author)",
+        "dsl": "Ascend C / MIX AIC+AIV",
+        "timing": "CANNJudge device-side Task Duration, us",
+        "local": "CANN 9.1.0, gcc 11.4.0, cmake 3.22.1"
+      },
+      "source_files": [
+        {
+          "path": "01_official/cann-ops-ladder-2026/July/recompute_w_u/submissions/Delicate02/code/op_kernel/recompute_wu.h",
+          "lines": "19-83,143-199,228-268,591-700,1025-1105,1313-1395",
+          "url": "https://gitcode.com/cann/cann-ops-competitions/blob/5126fead3327c7544ed4becff93775505071334c/01_official/cann-ops-ladder-2026/July/recompute_w_u/submissions/Delicate02/code/op_kernel/recompute_wu.h",
+          "sha256": "49954f374ae8c1bb01cfd4c0f7497bec337ef7d573b109f9a3c8a463e78eafe9",
+          "local_cache": "repository-research-cache/gitcode-selected/ops/01_official/cann-ops-ladder-2026/July/recompute_w_u/submissions/Delicate02/code/op_kernel/recompute_wu.h"
+        },
+        {
+          "path": "01_official/cann-ops-ladder-2026/July/recompute_w_u/submissions/Delicate02/code/op_host/recompute_wu_tiling.cpp",
+          "lines": "46-67,204-345,346-390,408-441",
+          "url": "https://gitcode.com/cann/cann-ops-competitions/blob/5126fead3327c7544ed4becff93775505071334c/01_official/cann-ops-ladder-2026/July/recompute_w_u/submissions/Delicate02/code/op_host/recompute_wu_tiling.cpp",
+          "sha256": "519b3b027b4eebb24b1e7515237c25f988bd25f379969ce503c94a632c5796b1",
+          "local_cache": "repository-research-cache/gitcode-selected/ops/01_official/cann-ops-ladder-2026/July/recompute_w_u/submissions/Delicate02/code/op_host/recompute_wu_tiling.cpp"
+        },
+        {
+          "path": "01_official/cann-ops-ladder-2026/July/recompute_w_u/submissions/Delicate02/README.md",
+          "lines": "60-76",
+          "url": "https://gitcode.com/cann/cann-ops-competitions/blob/5126fead3327c7544ed4becff93775505071334c/01_official/cann-ops-ladder-2026/July/recompute_w_u/submissions/Delicate02/README.md#L60-L76",
+          "sha256": "070b35f7818d2822e1f1cb89d0ca6cc368a1d168fa132e528d54979639c48204",
+          "local_cache": "repository-research-cache/gitcode-selected/ops/01_official/cann-ops-ladder-2026/July/recompute_w_u/submissions/Delicate02/README.md"
+        }
+      ],
+      "symbol": "RecomputeWuVector / RecomputeWuCubeMmad / ProcessBatchChunks / ProcessD128GroupPipeline",
+      "mechanism": "MIX kernel: AIV preprocesses A/beta/g and packs right matrices, AIC does Matmul or hand-written Mmad+Fixpipe. Group head/chunk tasks (up to 4 heads x 4 chunks), reuse GQA K in L0B, multi-slot workspace (depth 5/3), D128 four-slot path, staged output for non-16-aligned K/V, 10 tiling keys selected by shape/task waves/UB.",
+      "work_model": "Reduces repeated K packing/GM reads, task launch, Vector/Cube stalls and tail copies; GEMM MAC unchanged. Workspace grows with pipeline depth x chunks x heads.",
+      "evidence": [
+        {
+          "type": "author-platform-record",
+          "value": "CANNJudge submission 119991: 22/22 Pass; resubmit 121028: 22/22 Pass; 2026-07-31 snapshot rank #1; per-case Task Duration 18.00..2884.56 us",
+          "source": "README.md:60-76"
+        },
+        {
+          "type": "static-source",
+          "value": "head/chunk batching, GQA K reuse, Mmad+Fixpipe, 10 tiling keys locateable",
+          "source": "source_files"
+        },
+        {
+          "type": "local-build",
+          "value": "CANN 9.1.0 build succeeded; custom OPP package generated",
+          "source": "our_work/evidence/local-910b-20261116/gitcode_recompute_build.log"
+        },
+        {
+          "type": "local-npu-run",
+          "value": "5 shapes all failed 507057 (AI Core kernel execution failed) on CANN 9.1.0; explicit KERNEL_TASK_TYPE patch also failed",
+          "source": "our_work/evidence/local-910b-20261116/gitcode_recompute_run3.log"
+        }
+      ],
+      "conditions": [
+        "B=1",
+        "BT=64",
+        "K/V<=256",
+        "GQA H%Hg==0",
+        "CANN close to author 8.5.0",
+        "all tiling keys regression-tested"
+      ],
+      "negative_cases": [
+        "compile success != runnable: 507057 on CANN 9.1.0 for 5 shapes",
+        "B!=1 rejected by host",
+        "BT!=64 rejected",
+        "K/V>256 rejected",
+        "10 tiling keys, each with different workspace/flag; high regression cost",
+        "rank #1 is a 2026-07-31 snapshot, not permanent"
+      ],
+      "reuse_decision": "Prioritize head/chunk task merge + GQA K L0B reuse + multi-slot pipeline; do not use as 910C/CANN 9.1 template until runtime failure is isolated.",
+      "report": "docs/repositories/GitCode__cann-ops-competitions.md",
+      "verification": "locally compiled but runtime failed on Ascend 910B3/CANN 9.1.0; author number not reproduced",
+      "performance_evidence": {
+        "baseline": "no same-environment baseline; CANNJudge device-side Task Duration only",
+        "timing_scope": "operator kernel device time; includes launch/sync as measured by CANNJudge",
+        "unit": "us",
+        "warmup_repeat": "CANNJudge platform protocol; 22 hidden cases",
+        "input": "B=1, variable T/H/Hg/D, BT=64, BF16; chunk_offsets variable",
+        "hardware": "Ascend 910B3 / CANN 8.5.0",
+        "full_call_or_kernel": "recompute_w_u operator",
+        "original_location": "README.md:60-76",
+        "reproduced": false
+      },
+      "local_validation": {
+        "status": "compile-ok-runtime-failed",
+        "environment": "Ascend 910B3 / CANN 9.1.0 / gcc 11.4.0 / cmake 3.22.1",
+        "shapes": [
+          "T=256,H=8,Hg=8,D=128",
+          "T=256,H=8,Hg=2,D=128",
+          "T=256,H=8,Hg=2,D=256",
+          "T=10016,H=8,Hg=8,D=128",
+          "T=10016,H=8,Hg=2,D=128"
+        ],
+        "error": "aclrtSynchronizeStream 507057; AI Core kernel execution failed; fault kernel RecomputeWu_..._7",
+        "log": "our_work/evidence/local-910b-20261116/gitcode_recompute_run3.log",
+        "log_sha256": "c7c299c97ae19e9406589c9cfa057dff6bc5bd3a570fb3c07dd56e33c4490a9d",
+        "build_log": "our_work/evidence/local-910b-20261116/gitcode_recompute_build.log",
+        "build_log_sha256": "eefeb19d99d9cb2545945bb5e20ff285c924fcc74bba89b10cac7d8531c0e671",
+        "summary": "CANN 9.1.0 编译成功，但 5 个 shape 全部运行失败；显式 KERNEL_TASK_TYPE 也未修复。作者 22/22/第 1 名不是本机复现。"
+      }
+    },
+    {
+      "id": "GITCODE-CONCAT",
+      "repository_id": "gitcode-cann-ops-competitions",
+      "source_commit": "5126fead3327c7544ed4becff93775505071334c",
+      "operator": "S9 Concat (dynamic tensor list)",
+      "operator_family": "concat-layout",
+      "semantics": "Concatenate a dynamic list of tensors along dim, equivalent to torch.cat; supports negative dim, empty shards, float16/float32/int8/int32, up to 256 inputs.",
+      "shape_dtype": "dynamic inputs; rows=prod(shape[:dim]), n_i=prod(shape_i[dim:]), nOut=sum(n_i); dtype 1/2/4/8 bytes; max 256 inputs (ACLNN dynamic list limit).",
+      "environment": {
+        "soc": "Ascend 910B (author 910B4/910B1 measurements)",
+        "cann": "8.5.0",
+        "dsl": "Ascend C / AIV + optional AIC mix",
+        "timing": "final leaderboard five-case total, us; no per-case raw logs",
+        "local": "CPU-only offline tests"
+      },
+      "source_files": [
+        {
+          "path": "01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/op_host/concat.cpp",
+          "lines": "55-75,240-330,440-532,625-680",
+          "url": "https://gitcode.com/cann/cann-ops-competitions/blob/5126fead3327c7544ed4becff93775505071334c/01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/op_host/concat.cpp",
+          "sha256": "8c51610aeee84cfb1e7c4c2dac8b3f82d7e7294cd72072752a772065a0f00224",
+          "local_cache": "repository-research-cache/gitcode-selected/ops/01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/op_host/concat.cpp"
+        },
+        {
+          "path": "01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/op_kernel/concat.cpp",
+          "lines": "264-630,909-1071,1075-1445",
+          "url": "https://gitcode.com/cann/cann-ops-competitions/blob/5126fead3327c7544ed4becff93775505071334c/01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/op_kernel/concat.cpp",
+          "sha256": "58e308ccff10c36d7428841e5786ce994c69707f236c391e6038b589e15eb3bb",
+          "local_cache": "repository-research-cache/gitcode-selected/ops/01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/op_kernel/concat.cpp"
+        },
+        {
+          "path": "01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/op_host/s9_concat_layout.h",
+          "lines": "96-117,163-241,355-435,603-696",
+          "url": "https://gitcode.com/cann/cann-ops-competitions/blob/5126fead3327c7544ed4becff93775505071334c/01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/op_host/s9_concat_layout.h",
+          "sha256": "0228a138666f45586a4eb4162b8bed5950d0ec733bf2767189a2c3f067c01e65",
+          "local_cache": "repository-research-cache/gitcode-selected/ops/01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/op_host/s9_concat_layout.h"
+        },
+        {
+          "path": "01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/README.md",
+          "lines": "1-52",
+          "url": "https://gitcode.com/cann/cann-ops-competitions/blob/5126fead3327c7544ed4becff93775505071334c/01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/README.md#L1-L52",
+          "sha256": "a3e0402ab1e0ec89b5afcd3d31f1720c02277c7edff39aa345c700fb43da1c40",
+          "local_cache": "repository-research-cache/gitcode-selected/ops/01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/README.md"
+        }
+      ],
+      "symbol": "ConcatMulti / GatherAssembled / DirectBanded / MapConcatCore / PlanConcatStage / CheckConcatFinal",
+      "mechanism": "Host normalizes dynamic inputs to rows x n_i, then chooses row/column split, DMA/Gather assembly, input split or output linear split. Gather path packs contiguous rows per input, builds a byte-offset table, gathers into a full row, writes once. Column bands reduce per-core width and increase read burst; single-input narrow rows use exact contiguous copy; AIC+AIV mix for rows==1; shared C++ layout header keeps host/kernel UB accounting identical.",
+      "work_model": "Reduces many small DMAs and fragmented writes; column bands trade larger reads for fragmented writes; Gather adds UB staging/offset table. Arithmetic unchanged (copy only).",
+      "evidence": [
+        {
+          "type": "author-leaderboard",
+          "value": "S9 final rank 10; five-case total 348.33 us; 64 submissions; from final leaderboard screenshot, hidden cases not rerun",
+          "source": "README.md:3-9"
+        },
+        {
+          "type": "static-source",
+          "value": "host/kernel strategy selection, Gather assembly, band/layout accounting locateable",
+          "source": "source_files"
+        },
+        {
+          "type": "local-offline-tests",
+          "value": "215242 source-map + 32681 layout/alignment + 8247 of 18000 randomized feasible layouts passed",
+          "source": "our_work/evidence/local-910b-20261116/gitcode_concat_offline_tests.log"
+        }
+      ],
+      "conditions": [
+        "dynamic tensor list <=256",
+        "CANN 8.5.0 target",
+        "UB budget/alignment satisfied",
+        "Gather path needs 16/32-bit dtype and nOut limit"
+      ],
+      "negative_cases": [
+        "balanced column bands slower 1.35% on G16 246-input case",
+        "edge trimming slower 8.0%/7.9%/1.0% on three shapes",
+        "bulk TilingData header fetch slower 8%",
+        "strategy 5 (per-route x row segment + big DMA) 4.33x slower, code removed",
+        "contiguous copy only for rows <=128B; >=256B rows 11-19% slower",
+        "no NPU build/run locally; 348.33 us not reproduced"
+      ],
+      "reuse_decision": "Prioritize shared host/kernel layout header, rows x n_i normalization, Gather assembly with offset-table row expansion, and final config validation; do not default to trimming/balanced bands/wide-row contiguous copy.",
+      "report": "docs/repositories/GitCode__cann-ops-competitions.md",
+      "verification": "offline layout/address tests passed locally; no NPU build/run",
+      "performance_evidence": {
+        "baseline": "final S9 leaderboard; no per-case baseline/timing",
+        "timing_scope": "five-case total from final leaderboard screenshot",
+        "unit": "us",
+        "warmup_repeat": "not disclosed; hidden cases not rerun",
+        "input": "dynamic tensor list; float16/float32/int8/int32; up to 256 inputs",
+        "hardware": "Ascend 910B (author 910B4/910B1 measurements) / CANN 8.5.0",
+        "full_call_or_kernel": "Concat operator",
+        "original_location": "README.md:3-9",
+        "reproduced": false
+      },
+      "local_validation": {
+        "status": "offline-tests-pass",
+        "environment": "CPU-only; no CANN/NPU",
+        "checks": {
+          "source_mapping": 215242,
+          "layout_alignment": 32681,
+          "random_staging": "8247 of 18000 feasible"
+        },
+        "log": "our_work/evidence/local-910b-20261116/gitcode_concat_offline_tests.log",
+        "log_sha256": "9ddd39c53e75d81ad37b1ca97c0dbf85528ec899bc99d6d3bd04d37b30e4ec19",
+        "summary": "地址/布局/UB 账离线测试通过；未构建 NPU 包，未做设备精度/性能。"
+      }
+    },
+    {
+      "id": "GITCODE-LINALG-LSTSQ",
+      "repository_id": "gitcode-elec-ops-inspection",
+      "source_commit": "dfe55921db351f71cfb8c96f795fd4472bd6bd47",
+      "operator": "LinalgLstsq (batched least squares, driver=gels)",
+      "operator_family": "batched-least-squares",
+      "semantics": "Solve A X = B for full-column-rank M>=N; A[...,M,N] FP32, B[...,M,K] FP32, X[...,N,K] FP32; residuals [...,K] when M>N, empty for square.",
+      "shape_dtype": "1<=M<=1024; 1<=N<=min(M,512); 1<=K<=64; leading dims 1..32; FP32 only; driver=gels.",
+      "environment": {
+        "soc": "Ascend 910B (competition target)",
+        "cann": "not pinned in README",
+        "dsl": "Ascend C",
+        "timing": "no per-case timing in repo",
+        "local": "CANN 9.1.0, gcc 11.4.0, cmake 3.22.1"
+      },
+      "source_files": [
+        {
+          "path": "2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_host/linalg_lstsq.cpp",
+          "lines": "24-91",
+          "url": "https://gitcode.com/cann/elec-ops-inspection/blob/dfe55921db351f71cfb8c96f795fd4472bd6bd47/2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_host/linalg_lstsq.cpp#L24-L91",
+          "sha256": "149214f4f490adbc1234325dbaca00499bc0ee2b4eca59eeb0cf29f56a790ccd",
+          "local_cache": "repository-research-cache/gitcode-selected/elec/2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_host/linalg_lstsq.cpp"
+        },
+        {
+          "path": "2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_kernel/linalg_lstsq.cpp",
+          "lines": "25-90,160-335",
+          "url": "https://gitcode.com/cann/elec-ops-inspection/blob/dfe55921db351f71cfb8c96f795fd4472bd6bd47/2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_kernel/linalg_lstsq.cpp",
+          "sha256": "734a8ca03b2bfbf6fc64cf146fa39497e6d2d2f5a16384e93cd52bdfd0f105d0",
+          "local_cache": "repository-research-cache/gitcode-selected/elec/2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_kernel/linalg_lstsq.cpp"
+        },
+        {
+          "path": "2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_kernel/lstsq_compensated_tile_product.h",
+          "lines": "17-40",
+          "url": "https://gitcode.com/cann/elec-ops-inspection/blob/dfe55921db351f71cfb8c96f795fd4472bd6bd47/2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_kernel/lstsq_compensated_tile_product.h#L17-L40",
+          "sha256": "1c1005c0ac9cec44ffe0ef7659e56daa6487478406f0a09b5026a53aca2ba26b",
+          "local_cache": "repository-research-cache/gitcode-selected/elec/2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_kernel/lstsq_compensated_tile_product.h"
+        },
+        {
+          "path": "2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_kernel/lstsq_shared_refinement.h",
+          "lines": "19-112",
+          "url": "https://gitcode.com/cann/elec-ops-inspection/blob/dfe55921db351f71cfb8c96f795fd4472bd6bd47/2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_kernel/lstsq_shared_refinement.h#L19-L112",
+          "sha256": "97eb3b40a610771a4fc1e3c350239bf5f4440f7faff3964c03b89330e4d5a0f5",
+          "local_cache": "repository-research-cache/gitcode-selected/elec/2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_kernel/lstsq_shared_refinement.h"
+        },
+        {
+          "path": "2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/README.md",
+          "lines": "1-13",
+          "url": "https://gitcode.com/cann/elec-ops-inspection/blob/dfe55921db351f71cfb8c96f795fd4472bd6bd47/2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/README.md#L1-L13",
+          "sha256": "77dad527a235da16fbfdb52c6854a3bd38a26319b133c8228eb6e671a6f1c501",
+          "local_cache": "repository-research-cache/gitcode-selected/elec/2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/README.md"
+        }
+      ],
+      "symbol": "LinalgLstsq / CompensatedArithmetic / CompensatedTileProduct / RefinementOperations / ResidualOperations / Cube<...>::FactorPipelined256",
+      "mechanism": "Shape-specific tiling keys (tiny15/16, packed50/64, shared QR 200/256, generic square/rectangular). FP32 TwoSum/TwoProduct split high/low, compensated tile products and residual reductions; iterative refinement using the original equation; pivot/rank/finite guards with fallback; workspace/output layout driven by final consumer.",
+      "work_model": "Reduces generic-solver fixed overhead and FP32 cancellation; adds compensated vector instructions, workspace and per-key code. No author performance numbers.",
+      "evidence": [
+        {
+          "type": "static-source",
+          "value": "shape dispatch, compensated arithmetic, refinement, pivot guards, workspace locateable",
+          "source": "source_files"
+        },
+        {
+          "type": "author-description",
+          "value": "5 optimization points in README; no per-case latency/baseline",
+          "source": "README.md:1-13"
+        },
+        {
+          "type": "local-build",
+          "value": "initial CANN 9.1.0 build failed on two dependent template names; 2-line local patch then build succeeded",
+          "source": "our_work/evidence/local-910b-20261116/gitcode_lstsq_build2.log"
+        },
+        {
+          "type": "local-npu-run",
+          "value": "16x16 K1 b1 PASS 0.0265 ms max_abs 1.19e-07; 50x50 K2 b1 PASS 0.0301 ms; 64x64 K2 b1 PASS 0.0395 ms; batch>1/rectangular/200/256 failed 507035/507057",
+          "source": "our_work/evidence/local-910b-20261116/gitcode_lstsq_M16_N16_K1_B1.log"
+        }
+      ],
+      "conditions": [
+        "FP32",
+        "column full rank",
+        "M>=N",
+        "M<=1024",
+        "N<=min(M,512)",
+        "K<=64",
+        "driver=gels",
+        "CANN 9.1 needs two template keywords"
+      ],
+      "negative_cases": [
+        "no author per-case timing/baseline",
+        "CANN 9.1 direct build fails on two ReinterpretCast dependent template names",
+        "multi-batch (16x16 b2, 50x50 b4) fails 507035",
+        "rectangular 64x32/64x50/100x64 fails 507035",
+        "200/256 shared-QR fails 507057",
+        "small single-batch PASS cannot be extrapolated"
+      ],
+      "reuse_decision": "Prioritize compensated arithmetic, residual-based refinement and shape-specific solver layering; validate every shape key and residual layout before reuse.",
+      "report": "docs/repositories/GitCode__elec-ops-inspection.md",
+      "verification": "locally validated on small single-batch square cases; larger/batched cases failed; see local_validation",
+      "performance_evidence": {
+        "baseline": "no author baseline/timing",
+        "timing_scope": "local ACLNN launch+sync only; not author performance",
+        "unit": "ms",
+        "warmup_repeat": "local 5 reps, best; first run includes lazy init",
+        "input": "FP32; 16x16 K1 b1, 50x50 K2 b1, 64x64 K2 b1; A diagonally dominant, B=A*1",
+        "hardware": "Ascend 910B3 / CANN 9.1.0 (local); author CANN not pinned",
+        "full_call_or_kernel": "LinalgLstsq operator",
+        "original_location": "README.md:1-13 (no timing); local logs",
+        "reproduced": false
+      },
+      "local_validation": {
+        "status": "pass-partial",
+        "environment": "Ascend 910B3 / CANN 9.1.0 / gcc 11.4.0 / cmake 3.22.1",
+        "patch": "local copy only: op_kernel/qr/lstsq_qr_vector_common.h lines 67/72 add .template before Zq6<int32_t>",
+        "passes": [
+          {
+            "shape": "16x16,K=1,b=1",
+            "best_ms": 0.0265,
+            "max_abs": 1.192093e-07,
+            "log": "our_work/evidence/local-910b-20261116/gitcode_lstsq_M16_N16_K1_B1.log",
+            "log_sha256": "887022d8612c82b1c0c33588b65fc3f0e828e2f8d93426a18e6768b7bf9300fa"
+          },
+          {
+            "shape": "50x50,K=2,b=1",
+            "best_ms": 0.0301,
+            "max_abs": 3.576279e-07,
+            "log": "our_work/evidence/local-910b-20261116/gitcode_lstsq_M50_N50_K2_B1_r.log",
+            "log_sha256": "b4d0e3b28d6a60e2a7769ebb4af5856ef68e8a94c044deee9b60d7ecf21596a6"
+          },
+          {
+            "shape": "64x64,K=2,b=1",
+            "best_ms": 0.0395,
+            "max_abs": 3.576279e-07,
+            "log": "our_work/evidence/local-910b-20261116/gitcode_lstsq_M64_N64_K2_B1_f.log",
+            "log_sha256": "48d2d387b20b064fc3747008ea115e4fe617d664dc4016fe11b5431045779c20"
+          }
+        ],
+        "failures": [
+          "16x16,b=2 -> 507035",
+          "50x50,b=4 -> 507035",
+          "64x32 -> 507035",
+          "64x50 -> 507035",
+          "100x64 -> 507035",
+          "200x200 -> 507057",
+          "256x256 -> 507057"
+        ],
+        "log": "our_work/evidence/local-910b-20261116/gitcode_lstsq_M64_N32_K2_B1_r.log",
+        "log_sha256": "87cd7da34642167250904393e6c0fc4fe240ea7a4673b517f804ea0459bbb562",
+        "summary": "小尺寸单 batch 方阵 PASS；多 batch/矩形/200/256 失败；不能外推。"
+      }
     }
   ],
   "excluded_candidates": [
@@ -1809,7 +2237,7 @@
       "name": "cann/cann-ops-competitions",
       "url": "https://gitcode.com/cann/cann-ops-competitions",
       "commit": "776f2e552a125d3c210b497385f8b57292ebdc92",
-      "note": "既有 26 份 GroupedMatmulGelu 公开 PR 的官方来源；本轮不重复抓取/计数。GitCode 本轮 TLS 握手失败。",
+      "note": "既有 26 份 GroupedMatmulGelu 公开 PR 的官方来源；本轮不重复抓取/计数。2026-11-16 补充轮已直连 GitCode 固定 commit 5126fead，补读 2026 天梯赛/S9 的不同实现。",
       "local_catalog": "catalog/public-final-sources.json",
       "local_snapshot": "third_party/shanghe_final"
     },

@@ -1,6 +1,6 @@
 # 本机 Ascend 910B3 复测记录（2026-11-16）
 
-状态：本机纯 Triton 复测 + Be4ver 的两个 Ascend C 算子复测完成。Parity-LRX 未在本机构建，未运行 profiler，未提交比赛平台。结果只适用于本机环境，不是作者环境的严格复现。
+状态：本机纯 Triton 复测 + Be4ver 的两个 Ascend C 算子 + GitCode Lstsq 小尺寸复测完成。GitCode recompute_w_u 编译成功但运行失败，Concat 只做离线测试；Parity-LRX 未在本机构建，未运行 profiler，未提交比赛平台。结果只适用于本机环境，不是作者环境的严格复现。GitCode 来源筛选与去重见 [GitCode 补充调研](GITCODE_SOURCE_SURVEY_20261116.md)。
 
 ## 1. 环境
 
@@ -41,7 +41,7 @@ error: ‘RT_LIMIT_TYPE_SIMT_WARP_STACK_SIZE’ is not a member of ‘rtLimitTyp
 
 ### 1.2 Ascend C 构建环境
 
-Be4ver 的两个算子使用仓库自带 CMake，目标 SoC 固定为 `ascend910b3`；本机用 CANN 9.1.0 重新配置和构建，没有修改第三方源码：
+Be4ver 的两个算子使用仓库自带 CMake，目标 SoC 固定为 `ascend910b3`；GitCode recompute_wu 用仓库自带 `build.sh`，Lstsq 用仓库自带 CMake（本地副本加两处 `template` 兼容性关键字）。本机用 CANN 9.1.0 重新配置和构建，没有修改第三方仓库原文：
 
 ```text
 cmake 3.22.1
@@ -50,7 +50,7 @@ CANN 9.1.0 (/usr/local/Ascend/cann-9.1.0)
 SOC ascend910b3
 ```
 
-构建命令与结果见 [`environment_and_build.txt`](../../our_work/evidence/local-910b-20261116/environment_and_build.txt)。所有设备运行均经 `bin/npu-lock`。
+构建命令与结果见 [`environment_and_build.txt`](../../our_work/evidence/local-910b-20261116/environment_and_build.txt) 与 [`gitcode_environment_and_build.txt`](../../our_work/evidence/local-910b-20261116/gitcode_environment_and_build.txt)。所有设备运行均经 `bin/npu-lock`。
 
 ## 2. 复测结果
 
@@ -320,6 +320,72 @@ python3 verify_sigma.py
 - QDWH 的 1000×800 `seed=42` 非确定性缺陷来自作者 README，本机没有复现该特定输入；复用时必须把它当作已知风险。
 - Parity-LRX 未在本机构建/运行；其性能数字仍是 `O+A`，不是 `V`。
 
+### 2.9 GitCode 来源：recompute_w_u、Concat、Lstsq
+
+#### 2.9.1 recompute_w_u（Delicate02）
+
+源码副本：`repository-research-cache/gitcode-selected/ops/.../Delicate02`；固定 commit `5126fead...`。用 CANN 9.1.0 重新构建：
+
+```bash
+source /usr/local/Ascend/cann-9.1.0/set_env.sh
+cd code && bash build.sh -j8
+```
+
+构建成功，生成 `custom_opp_ubuntu_aarch64.run` 和 `RecomputeWu_...o`。运行用自写 ACLNN 驱动（全 1 输入、`g=1`、合法 chunk_offsets），5 个 shape（T=256/10016，H=8，Hg=2/8，D=128/256）全部在 `aclrtSynchronizeStream` 报：
+
+```text
+fault kernel_name=RecomputeWu_..._7
+AI Core kernel execution failed, retCode=0x26
+rtStreamSynchronize: ErrCode=507057, desc=[suspect remote error]
+```
+
+显式给 10 个 tiling key 加 `KERNEL_TASK_TYPE(..., KERNEL_TYPE_MIX_AIC_1_2)` 后仍失败。因此本机只能记录“CANN 9.1.0 可编译，不能运行”，不能把作者 CANNJudge 22/22 当本机复现。
+
+日志：[`gitcode_recompute_build.log`](../../our_work/evidence/local-910b-20261116/gitcode_recompute_build.log)、[`gitcode_recompute_run3.log`](../../our_work/evidence/local-910b-20261116/gitcode_recompute_run3.log)。
+
+#### 2.9.2 Concat（BatchLions）
+
+未构建 NPU 包；只运行仓库自带 CPU 离线测试：
+
+```text
+215242 项通过（来源映射/地址回放）
+32681 项通过（布局/对齐/Host-Kernel 一致性）
+8247 个可行布局通过（18000 组随机配置）
+```
+
+日志：[`gitcode_concat_offline_tests.log`](../../our_work/evidence/local-910b-20261116/gitcode_concat_offline_tests.log)。这不等于 NPU 精度/性能验证。
+
+#### 2.9.3 LinalgLstsq（XDU_XDU-BTD）
+
+源码副本：`local-validation-20261116/gitcode_lstsq`；固定 commit `dfe55921...`。CANN 9.1.0 直接构建失败于两处 `ReinterpretCast` 依赖模板名；在**本地副本**加两处 `template` 关键字后构建成功：
+
+```text
+op_kernel/qr/lstsq_qr_vector_common.h:67,72
+```
+
+NPU 结果（自写 ACLNN 驱动；输入 `A` 对角占优、`B=A·1`、期望 `X=1`；5 次取最好）：
+
+| shape | 结果 | best | max abs |
+|---|---|---:|---:|
+| 16×16, K=1, b=1 | PASS | 0.0265 ms | 1.192e-07 |
+| 50×50, K=2, b=1 | PASS | 0.0301 ms | 3.576e-07 |
+| 64×64, K=2, b=1 | PASS | 0.0395 ms | 3.576e-07 |
+| 16×16, K=1, b=2 | FAIL 507035 | — | — |
+| 50×50, K=2, b=4 | FAIL 507035 | — | — |
+| 64×32, K=2, b=1 | FAIL 507035 | — | — |
+| 64×50, K=2, b=1 | FAIL 507035 | — | — |
+| 100×64, K=1, b=1 | FAIL 507035 | — | — |
+| 200×200, K=4, b=1 | FAIL 507057 | — | — |
+| 256×256, K=3, b=1 | FAIL 507057 | — | — |
+
+判断：
+
+- 小尺寸单 batch 方阵在 CANN 9.1 上可运行且数值正确；
+- 多 batch、矩形、200/256 路径崩溃，根因尚未定位（可能是 `residuals` 布局、workspace 或 CANN 版本 ABI 差异）；
+- 不能把小尺寸 PASS 外推到全 shape，也不能把本机失败直接归因于作者实现。
+
+日志：[`gitcode_lstsq_build2.log`](../../our_work/evidence/local-910b-20261116/gitcode_lstsq_build2.log)、[`gitcode_lstsq_M16_N16_K1_B1.log`](../../our_work/evidence/local-910b-20261116/gitcode_lstsq_M16_N16_K1_B1.log)、[`gitcode_lstsq_M50_N50_K2_B1_r.log`](../../our_work/evidence/local-910b-20261116/gitcode_lstsq_M50_N50_K2_B1_r.log)、[`gitcode_lstsq_M64_N64_K2_B1_f.log`](../../our_work/evidence/local-910b-20261116/gitcode_lstsq_M64_N64_K2_B1_f.log)、[`gitcode_lstsq_M64_N32_K2_B1_r.log`](../../our_work/evidence/local-910b-20261116/gitcode_lstsq_M64_N32_K2_B1_r.log)、[`gitcode_lstsq_M256_N256_K3_B1_f.log`](../../our_work/evidence/local-910b-20261116/gitcode_lstsq_M256_N256_K3_B1_f.log)。
+
 ## 3. 对本批知识库的影响
 
 ### 3.1 已被本机支持的判断
@@ -330,13 +396,17 @@ python3 verify_sigma.py
 - **Be4ver 的批量矩阵交错 + 合并归约**：PACO 在 32×32×512 上 512/512 通过，6.174 ms 与作者 7.061 ms 同量级；说明把 K 个矩阵按行交错、把 `Mul/WholeReduceSum` 合并成一条长指令的路径可执行。
 - **Be4ver 的单 kernel QDWH+SDC 融合**：128/512/1024 都通过 QDWH/SDC/sigma 校验，4.288/20.698/48.475 ms 与作者 4.392/20.540/46.839 ms 接近；单 launch、device 内递归、H 不落盘的融合路径可执行。
 - **1000×800 seed=42 在本机 3 次运行中稳定**：sigma.bin SHA256 三次相同，QDWH/SDC/sigma 全 PASS；作者记录的 atomic 非确定性没有触发。这说明该风险是环境/调度相关的，不是必然现象。
+- **GitCode Lstsq 小尺寸单 batch 可运行**：16×16/50×50/64×64 方阵 PASS，max abs 1.19e-7~3.58e-7；说明补偿算术/迭代精化在这些 shape 上确实工作。
+- **GitCode Concat 的离线布局测试可复现**：215,242+32,681+8,247 项通过；Host/Kernel 共享布局头的思路可复用。
 
 ### 3.2 被本机削弱的判断
 
 - **FusedMoE 的 11.446× 不是可移植结论**：同一份代码在本机 TA 3.2.0/CANN 9.1.0 上编译失败。它可以作为“小 E/T 下稠密全专家可能值得”的假设，但不能作为当前环境的性能证据。
 - **Be4ver 的 4.26× 不是当前代码成绩**：4.26× 来自 64×64 tournament 研究补丁（`docs/research-64x64/tournament.patch`），没有合入当前主路径；本机验证的是通用路径。
 - **QDWH/SDC 的 atomic 非确定性是真实风险**：作者记录 1000×800、seed=42 时奇异值误差 1.5e-5~3.1e-4 且逐次不同；本机没有复现该输入，但复用时不能忽略。
-- **作者数字不能直接横比**：GroupedTopk/Sinkhorn/Be4ver 的绝对值与作者不同，设备/版本/参考实现都不同；只能说“方向一致/同量级”，不能说“精确复现”。
+- **GitCode recompute_wu 不能按“编译成功”复用**：CANN 9.1.0 编译通过，但 5 个 shape 运行都 507057；作者 22/22/第 1 名不能作为本机证据。
+- **GitCode Lstsq 不能按“小尺寸 PASS”外推**：多 batch、矩形、200/256 在 CANN 9.1 上崩溃；作者没有公开逐 case 时延。
+- **作者数字不能直接横比**：GroupedTopk/Sinkhorn/Be4ver/GitCode 的绝对值与作者不同，设备/版本/参考实现都不同；只能说“方向一致/同量级/部分路径可运行”，不能说“精确复现”。
 
 ### 3.3 仍未验证
 
@@ -344,12 +414,15 @@ python3 verify_sigma.py
 - Hansen 的 Fire/Spline/Tree：Ascend C 自定义算子，未在本机编译；需要按 CANN 9.1.0 重新构建并处理可能的 API/UB 差异。
 - Mamba-2：自定义 OPP + 复杂 MIX kernel，未在本机构建；作者结果仍是 910B3/CANN 8.2.RC1。
 - vLLM-HUST Linear+SwiGLU：需要 vLLM/vLLM-Ascend 依赖链，未在本机搭建。
+- GitCode Concat：未构建 NPU 包，未做设备精度/性能。
+- GitCode recompute_wu：未在 CANN 8.5.0 复跑，未定位 507057 根因。
+- GitCode Lstsq：未验证多 batch/矩形/200/256，未确认矩形 residuals 布局。
 - 910C：没有任何本机数据。
 
 ## 4. 复现边界
 
 - 本机是 910B3，不是作者的 910B1/910B2/910B4；不能把本机数字当作作者环境的复现。
-- 纯 Triton 任务和 Be4ver 的两个 Ascend C 算子已运行；Hansen Ascend C、Mamba-2 自定义 OPP、Parity 原生库、vLLM 端到端未验证。
+- 纯 Triton 任务、Be4ver 的两个 Ascend C 算子和 GitCode Lstsq 小尺寸已运行；GitCode recompute_wu 编译成功但运行失败，Concat 只做离线测试；Hansen Ascend C、Mamba-2 自定义 OPP、Parity 原生库、vLLM 端到端未验证。
 - 没有 msprof/PMU；时延包含 forward/launch/同步，不能拆出纯 kernel 时间。
 - `triton-ascend` 的 `npu_utils.cpp` workaround 只用于隔离 venv，不是可部署修复。
 - 未提交比赛平台，未验证规则合规。
@@ -371,3 +444,9 @@ python3 verify_sigma.py
   - [`qdwh_512x512_run.log`](../../our_work/evidence/local-910b-20261116/qdwh_512x512_run.log) / [`qdwh_512x512_verify.log`](../../our_work/evidence/local-910b-20261116/qdwh_512x512_verify.log)
   - [`qdwh_1024x1024_run.log`](../../our_work/evidence/local-910b-20261116/qdwh_1024x1024_run.log) / [`qdwh_1024x1024_verify.log`](../../our_work/evidence/local-910b-20261116/qdwh_1024x1024_verify.log)
   - [`qdwh_1000x800_run1.log`](../../our_work/evidence/local-910b-20261116/qdwh_1000x800_run1.log) / [`run2.log`](../../our_work/evidence/local-910b-20261116/qdwh_1000x800_run2.log) / [`run3.log`](../../our_work/evidence/local-910b-20261116/qdwh_1000x800_run3.log) / [`verify.log`](../../our_work/evidence/local-910b-20261116/qdwh_1000x800_verify.log)
+  - [`gitcode_environment_and_build.txt`](../../our_work/evidence/local-910b-20261116/gitcode_environment_and_build.txt)
+  - [`gitcode_recompute_build.log`](../../our_work/evidence/local-910b-20261116/gitcode_recompute_build.log) / [`gitcode_recompute_run3.log`](../../our_work/evidence/local-910b-20261116/gitcode_recompute_run3.log)
+  - [`gitcode_concat_offline_tests.log`](../../our_work/evidence/local-910b-20261116/gitcode_concat_offline_tests.log)
+  - [`gitcode_lstsq_build2.log`](../../our_work/evidence/local-910b-20261116/gitcode_lstsq_build2.log)
+  - [`gitcode_lstsq_M16_N16_K1_B1.log`](../../our_work/evidence/local-910b-20261116/gitcode_lstsq_M16_N16_K1_B1.log) / [`M50_N50_K2_B1_r.log`](../../our_work/evidence/local-910b-20261116/gitcode_lstsq_M50_N50_K2_B1_r.log) / [`M64_N64_K2_B1_f.log`](../../our_work/evidence/local-910b-20261116/gitcode_lstsq_M64_N64_K2_B1_f.log)
+  - [`gitcode_lstsq_M64_N32_K2_B1_r.log`](../../our_work/evidence/local-910b-20261116/gitcode_lstsq_M64_N32_K2_B1_r.log) / [`M256_N256_K3_B1_f.log`](../../our_work/evidence/local-910b-20261116/gitcode_lstsq_M256_N256_K3_B1_f.log)
