@@ -20,8 +20,8 @@
 
 ## 2026-11-16 新增：公开算子仓库调研
 
-- [总览：范围、方法、12 个来源、深读 10 份实现、5 项待验证机制](docs/research/OPEN_SOURCE_REPOSITORY_SURVEY_20261116.md)
-- [本机 Ascend 910B3 复测记录](docs/research/LOCAL_910B_VALIDATION_20261116.md)：GroupedTopk/Sinkhorn 通过，FusedMoE 编译失败，52Xayah 负例复现
+- [总览：范围、方法、12 个来源、深读 15 份实现、8 项待验证机制](docs/research/OPEN_SOURCE_REPOSITORY_SURVEY_20261116.md)
+- [本机 Ascend 910B3 复测记录](docs/research/LOCAL_910B_VALIDATION_20261116.md)：GroupedTopk/Sinkhorn/Be4ver 通过，FusedMoE 编译失败，52Xayah 负例复现
 - [机器可读来源登记](catalog/external-repositories.json)：固定 commit、源码路径/行号、环境、证据、负例、复用判断
 - 深读报告：
   - [Hansen 2026 电力行业算子归档](docs/repositories/Hansenwuwuwu__ascend-c-competition-archive.md)
@@ -29,12 +29,16 @@
   - [Mamba-2 AscendC](docs/repositories/So-cean__mamba-ascendc.md)
   - [vLLM-HUST Linear+SwiGLU](docs/repositories/vLLM-HUST__vllm-hust-opset.md)
   - [52Xayah Triton 负例](docs/repositories/52Xayah__triton-ascend-kernels.md)
+  - [Be4ver 批量 Jacobi SVD 与 QDWH+SDC](docs/repositories/Be4ver__svd.md)
+  - [Parity O(3) TP、mesh 静电与 capacity](docs/repositories/Parity-LRX__ICTC-O3-HP-Ascend.md)
 - 跨实现经验：
   - [工作量与固定开销](docs/experiences/work_reduction_vs_fixed_overhead.md)
   - [布局与缓冲生命周期](docs/experiences/layout_and_buffer_lifecycle.md)
   - [数值与选择性精度](docs/experiences/numerical_selective_precision.md)
   - [形状专用化与回退](docs/experiences/shape_specialization_and_fallbacks.md)
-- 纯 Triton 任务已在本机 910B3 复测；未在本机编译 Ascend C 自定义算子，未提交比赛平台。作者数字与本机数字分别标注，不能横比。
+  - [迭代线性代数与融合](docs/experiences/iterative_linear_algebra_and_fusion.md)
+  - [等变张量积与 mesh](docs/experiences/equivariant_and_mesh_operators.md)
+- 纯 Triton 任务和 Be4ver 的两个 Ascend C 算子已在本机 910B3 复测；Parity 未在本机构建；未提交比赛平台。作者数字与本机数字分别标注，不能横比。
 
 ## 文件布局
 

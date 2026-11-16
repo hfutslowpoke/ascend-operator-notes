@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "generated_utc": "2026-11-16T12:15:17Z",
-  "scope": "第一批公开比赛与高性能算子仓库调研；固定 commit、源码路径、证据级别、适用条件、负例与复用判断。",
+  "generated_utc": "2026-11-16T15:10:00Z",
+  "scope": "第一/二批公开比赛与高性能算子仓库调研；固定 commit、源码路径、证据级别、适用条件、负例与复用判断；含本机 910B3 复测。",
   "evidence_levels": {
     "S": "静态源码观察（固定 commit 路径/行号/符号）",
     "M": "数学或布局推导",
@@ -30,7 +30,7 @@
       "SVD Ascend"
     ],
     "gitcode_status": "TLS handshake failed; no new fetch; existing archive used as baseline only.",
-    "selection": "12 independent sources retained; 5 deep-read; 10 implementations; forks/mirrors/imports not counted as independent algorithm sources."
+    "selection": "12 independent sources retained; 7 deep-read (including 1 negative); 15 implementations; forks/mirrors/imports not counted as independent algorithm sources. Local 910B3 validation covers 3 sources and 8 implementations/runs."
   },
   "repositories": [
     {
@@ -289,10 +289,11 @@
       ],
       "competition_or_context": "生产/实验型 Ascend SVD（非比赛）",
       "local_cache": "repository-research-cache/Be4ver_svd",
-      "relationship_to_existing": "new; 下一批候选",
-      "status": "candidate",
-      "report": null,
-      "notes": "PACO Jacobi + QDWH/SDC 两份实现；有 910 设备日志和精度验证；根目录无 README，许可不明确。"
+      "relationship_to_existing": "new; 第二批深读",
+      "status": "deep-read",
+      "report": "docs/repositories/Be4ver__svd.md",
+      "notes": "PACO 批量 Jacobi + QDWH/SDC 融合两份实现；有 910B3 设备日志和精度验证；根目录无 LICENSE。本机 CANN 9.1.0 重新构建，PACO 32x32x512 6.174 ms/512 PASS，QDWH 128/512/1024 4.288/20.698/48.475 ms 全 PASS。",
+      "local_validation": "Both operators built and ran on local 910B3/CANN 9.1.0: PACO 32x32x512 6.174 ms/512 PASS; QDWH+SDC 128/512/1024 4.288/20.698/48.475 ms all PASS; 1000x800 seed=42 three runs bit-identical (author nondeterminism not triggered). See docs/research/LOCAL_910B_VALIDATION_20261116.md"
     },
     {
       "id": "parity-lrx-ictc-o3-hp-ascend",
@@ -317,10 +318,11 @@
       ],
       "competition_or_context": "生产型 O(3)/MACE 算子库（非比赛）",
       "local_cache": "repository-research-cache/Parity-LRX_ICTC-O3-HP-Ascend",
-      "relationship_to_existing": "new; 下一批优先候选",
-      "status": "candidate",
-      "report": null,
-      "notes": "910B3 上 3.90× forward / 4.76× training 等强数据；体量大，本轮未深读。"
+      "relationship_to_existing": "new; 第二批深读",
+      "status": "deep-read",
+      "report": "docs/repositories/Parity-LRX__ICTC-O3-HP-Ascend.md",
+      "notes": "910B3/CANN 9.0.0 上 3.90× forward、3.85× fwd+VJP、4.76× training、1.90× MD 等作者数据；MIT。深读 packed TP、mesh electrostatics、capacity chunk 三份实现；仓库只有文档/图，无逐点原始日志；本机未构建。",
+      "local_validation": "Not built locally; requires CANN 9.0.0/torch_npu 2.7.1/MACE stack. Author 3.90x/4.76x/1.90x remain O+A, not V."
     },
     {
       "id": "u-illll-ascend-eigh-operator",
@@ -787,7 +789,7 @@
           "num_warps=4 BLOCK_M=16 local copy"
         ],
         "log": "our_work/evidence/local-910b-20261116/fused_moe_compile_fail.log",
-        "log_sha256": "3b9ce6299dcd147da40e0d5f6b6e79845df74d76e6155ce0134b71710d06c95a",
+        "log_sha256": "b29f637da0d81d34d72761e3a7a8e83aab55eb8cba11d17d815b1d3792974d7b",
         "summary": "作者 11.446x 未能复现；当前 TA/CANN 编译失败，不是正确性或性能结果。"
       }
     },
@@ -1220,6 +1222,567 @@
         "log": "our_work/evidence/local-910b-20261116/xayah_persample.log",
         "log_sha256": "23bd5260408630965decd71bb854aa857d075fe07647d3fed9c89f701c8b86f9",
         "summary": "负例复现；作者批量协议 0.23x，本机逐 sample 0.242x。"
+      }
+    },
+    {
+      "id": "BE4VER-PACO-BATCHED-JACOBI",
+      "repository_id": "be4ver-svd",
+      "source_commit": "b02796511ea62861c647a56b880da15b6a07b3a0",
+      "operator": "PACO batched one-sided Jacobi SVD",
+      "operator_family": "svd",
+      "semantics": "批量 A(rows x cols) -> U S V^T；单边 Jacobi 行旋转使各行正交，行范数即奇异值；AIC 最后算 G=B B^T 并取对角线开根。",
+      "shape_dtype": "rows<=128, cols<=256, batch>0, FP32; 行 pad 64/列 pad 32; maxSweeps=30; MIX_AIC_1_2.",
+      "environment": {
+        "soc": "Ascend 910B3",
+        "cann": "not pinned in repo; QDWH prompt records 8.2.RC1",
+        "compiler": "Ascend C / ccec, CMake target ascend910b3",
+        "timing": "host high-resolution clock around launch + stream sync",
+        "local": "CANN 9.1.0, gcc 11.4.0, cmake 3.22.1"
+      },
+      "source_files": [
+        {
+          "path": "paco-jacobi-svd/jacobi_svd_custom.cpp",
+          "lines": "130-170,215-303,435-538",
+          "url": "https://github.com/Be4ver/svd/blob/b02796511ea62861c647a56b880da15b6a07b3a0/paco-jacobi-svd/jacobi_svd_custom.cpp",
+          "sha256": "c9ca7615ced974caec1085e5da3ddd060b4759f1c87c03c8836256fc92bf2a1c",
+          "local_cache": "repository-research-cache/Be4ver_svd/paco-jacobi-svd/jacobi_svd_custom.cpp"
+        },
+        {
+          "path": "paco-jacobi-svd/docs/64x64-optimization-study-2026-11-12.md",
+          "lines": "1-18,62-100",
+          "url": "https://github.com/Be4ver/svd/blob/b02796511ea62861c647a56b880da15b6a07b3a0/paco-jacobi-svd/docs/64x64-optimization-study-2026-11-12.md",
+          "sha256": "d963b05aeaddd8c7551faf1b43fcf964c2f4b55fa67cedd36a11c5b247e6bd25",
+          "local_cache": "repository-research-cache/Be4ver_svd/paco-jacobi-svd/docs/64x64-optimization-study-2026-11-12.md"
+        }
+      ],
+      "symbol": "jacobi_svd_batched / UnitWorker::RunMulti",
+      "mechanism": "小 batch 一矩阵一核；大 batch 按 K 个矩阵行交错到 UB，合并 Mul/WholeReduceSum；旋转用 Muls/Axpy，避免多次 Adds 拷回；AIC 只做 Gram。64x64 tournament 研究补丁把 2016 个串行对改成 63 轮 x 32 对，但未合入主路径。",
+      "work_model": "Jacobi 算术复杂度不变；减少短向量指令、归约启动和标量反馈。K 由 120KB UB 预算推导，上限 64；K 再大收益为负。",
+      "evidence": [
+        {
+          "type": "author-device-log",
+          "value": "512x(32x32): 7.061 ms; 512/512 PASS; max sigma abs 3.242e-05",
+          "source": "paco-jacobi-svd/benchmark_32x32_batch512_run1/run.log + verify.log"
+        },
+        {
+          "type": "author-research-prototype",
+          "value": "64x64 tournament: 3.62260->0.85056 ms (batch1, 4.26x); 3.94784->0.94690 ms (batch40, 4.17x); patch not merged",
+          "source": "docs/64x64-optimization-study-2026-11-12.md"
+        },
+        {
+          "type": "local-npu-run",
+          "value": "32x32 batch512: 6.174 ms; 512/512 PASS; max sigma abs 3.242e-05",
+          "source": "our_work/evidence/local-910b-20261116/paco_32x32_b512_run.log"
+        },
+        {
+          "type": "static-source",
+          "value": "K 矩阵行交错 + 合并 Reduce + AIC Gram 可定位",
+          "source": "source_files"
+        }
+      ],
+      "conditions": [
+        "FP32",
+        "rows<=128/cols<=256",
+        "batch 大到 perCore>1 才走 K 合并",
+        "UB 能容纳 K 个矩阵",
+        "sweep 自适应停止+maxSweeps 兜底"
+      ],
+      "negative_cases": [
+        "K 合并的矢量角度链只在 count=64 时正确，代码仍用标量角度",
+        "列 pad 到 64 会比 32 慢",
+        "UB>192KB 直接 507015/输出全 0",
+        "只常驻 UB 仅 3.2-3.4%",
+        "单独向量化角度链在小 batch 更慢",
+        "4.26x 是未合入研究补丁，不是当前代码成绩"
+      ],
+      "reuse_decision": "优先复用跨矩阵交错+合并归约；tournament 需先合入并做 cond=1e2/1e4/1e6 回归。",
+      "report": "docs/repositories/Be4ver__svd.md",
+      "verification": "locally-validated on Ascend 910B3; see local_validation",
+      "performance_evidence": {
+        "baseline": "无同环境 PyTorch/厂商库 baseline；作者只报算子时延",
+        "timing_scope": "host launch+stream sync；不含 H2D/D2H",
+        "unit": "ms",
+        "warmup_repeat": "单次 run（作者/本机同口径）",
+        "input": "batch=512, 32x32 FP32; pad 64x32; 40 AIV; maxSweeps=30",
+        "hardware": "Ascend 910B3；CANN 未固定（QDWH 文档记录 8.2.RC1）；本机 CANN 9.1.0",
+        "full_call_or_kernel": "完整算子",
+        "original_location": "paco-jacobi-svd/benchmark_32x32_batch512_run1/run.log",
+        "reproduced": true
+      },
+      "local_validation": {
+        "status": "pass",
+        "environment": "Ascend 910B3 / CANN 9.1.0 / gcc 11.4.0 / cmake 3.22.1",
+        "candidate_ms": 6.174,
+        "author_ms": 7.061,
+        "local_vs_author": 1.144,
+        "protocol": "host launch+sync；不含 H2D/D2H；单次 run",
+        "correctness": {
+          "pass": "512/512",
+          "max_sigma_abs": 3.242e-05,
+          "worst_B_row_orth": 9.345e-07,
+          "worst_Vt_row_orth": 1.025e-06,
+          "worst_recon_rel": 1.65e-06
+        },
+        "log": "our_work/evidence/local-910b-20261116/paco_32x32_b512_run.log",
+        "log_sha256": "ef8bb2ff5d0c64e8a3394ec830b55e78fb444e126a6aba48aef5bc5579df2a66",
+        "verify_log": "our_work/evidence/local-910b-20261116/paco_32x32_b512_verify.log",
+        "verify_log_sha256": "76f1ffde7a89600c53f528bc91eeff6d6357c1ae5e607b599e5a279b668a302c",
+        "summary": "当前通用路径 6.174 ms，作者 7.061 ms；512/512 PASS；不是 64x64 tournament 4.26x。"
+      }
+    },
+    {
+      "id": "BE4VER-QDWH-SDC-FUSED",
+      "repository_id": "be4ver-svd",
+      "source_commit": "b02796511ea62861c647a56b880da15b6a07b3a0",
+      "operator": "Fused QDWH polar decomposition + device SDC + leaf Jacobi",
+      "operator_family": "polar-eigendecomposition",
+      "semantics": "A=U H, H=(A^T A)^(1/2)（M>=N）；QDWH 求极分解，device 内 SDC 递归分裂 H 到 <=64 叶块，叶块 Jacobi 输出奇异值；单 kernel launch。",
+      "shape_dtype": "方阵/长矩阵 FP32; mPad+nPad<=6144; threshold 16..64; blockDim 16..64 even; maxIter 4 (n>=2816 需 >=6); kSdcBatchMax=15.",
+      "environment": {
+        "soc": "Ascend 910B3",
+        "cann": "not pinned; QDWH prompt records CANN 8.2.RC1",
+        "compiler": "Ascend C / ccec, CMake target ascend910b3",
+        "timing": "aclrtEventElapsedTime kernel_event + host_wait",
+        "local": "CANN 9.1.0, gcc 11.4.0, cmake 3.22.1"
+      },
+      "source_files": [
+        {
+          "path": "qdwh_sdc_fused_jacobi/fused_qdwh_sdc.hpp",
+          "lines": "89-188,386-500,733-825",
+          "url": "https://github.com/Be4ver/svd/blob/b02796511ea62861c647a56b880da15b6a07b3a0/qdwh_sdc_fused_jacobi/fused_qdwh_sdc.hpp",
+          "sha256": "8326fbad62acaf8c2bca93f11ef3c8af96a24710f889acc839233ad258edba40",
+          "local_cache": "repository-research-cache/Be4ver_svd/qdwh_sdc_fused_jacobi/fused_qdwh_sdc.hpp"
+        },
+        {
+          "path": "qdwh_sdc_fused_jacobi/sdc_node.hpp",
+          "lines": "331-397",
+          "url": "https://github.com/Be4ver/svd/blob/b02796511ea62861c647a56b880da15b6a07b3a0/qdwh_sdc_fused_jacobi/sdc_node.hpp#L331-L397",
+          "sha256": "6609010fc88662090866024144af737a6e91733f558aa6483bddd8ba603d39e7",
+          "local_cache": "repository-research-cache/Be4ver_svd/qdwh_sdc_fused_jacobi/sdc_node.hpp"
+        },
+        {
+          "path": "qdwh_sdc_fused_jacobi/vec.hpp",
+          "lines": "397-453",
+          "url": "https://github.com/Be4ver/svd/blob/b02796511ea62861c647a56b880da15b6a07b3a0/qdwh_sdc_fused_jacobi/vec.hpp#L397-L453",
+          "sha256": "984a7c51f42e949cd01f185d18eec8aeecb9dd5bb56ca08d3d8f2b63faf024c5",
+          "local_cache": "repository-research-cache/Be4ver_svd/qdwh_sdc_fused_jacobi/vec.hpp"
+        },
+        {
+          "path": "qdwh_sdc_fused_jacobi/qr_custom.cpp",
+          "lines": "215-300",
+          "url": "https://github.com/Be4ver/svd/blob/b02796511ea62861c647a56b880da15b6a07b3a0/qdwh_sdc_fused_jacobi/qr_custom.cpp#L215-L300",
+          "sha256": "62b2b5b689511ca42665742f797ed056208c328377ecfedb65106cb17a201a13",
+          "local_cache": "repository-research-cache/Be4ver_svd/qdwh_sdc_fused_jacobi/qr_custom.cpp"
+        },
+        {
+          "path": "qdwh_sdc_fused_jacobi/fused_batch_cfg.hpp",
+          "lines": "17-83",
+          "url": "https://github.com/Be4ver/svd/blob/b02796511ea62861c647a56b880da15b6a07b3a0/qdwh_sdc_fused_jacobi/fused_batch_cfg.hpp#L17-L83",
+          "sha256": "05733d49e81edaecd4d99948307fbb0632d01f798289f4a599bfa428131a750e",
+          "local_cache": "repository-research-cache/Be4ver_svd/qdwh_sdc_fused_jacobi/fused_batch_cfg.hpp"
+        },
+        {
+          "path": "qdwh_sdc_fused_jacobi/fused_main.cpp",
+          "lines": "280-354,435-436",
+          "url": "https://github.com/Be4ver/svd/blob/b02796511ea62861c647a56b880da15b6a07b3a0/qdwh_sdc_fused_jacobi/fused_main.cpp",
+          "sha256": "cdc5bd17e0458ef140be5c16adf24e477db3fc94b67b495a45654d7b3e456db7",
+          "local_cache": "repository-research-cache/Be4ver_svd/qdwh_sdc_fused_jacobi/fused_main.cpp"
+        }
+      ],
+      "symbol": "QdwhSdcFused / QdwhAiv / QdwhCube / SdcGroupAiv / SdcGroupCube",
+      "mechanism": "一次 host malloc/launch；H 直接写 SDC arena slot0；Phase1 QDWH + Phase2 SDC 在 kernel 内用 PhaseBarrier 衔接；同层节点 batch QDWH（kSdcBatchMax 由 UB 预算 static_assert 推导）；H±=Q^T H Q 一次 GEMM；跳过数学冗余对称化；lambda 跨 AIV 分布式归约。",
+      "work_model": "消除两次 main/两个 kernel 和 H 落盘；batch QR 摊薄逐节点搬运/flag；跳过对称化省标量读写；lambda 归约省重复对角线读。代价是复杂 flag 协议、UB 余量 768B、atomic 非确定性。",
+      "evidence": [
+        {
+          "type": "author-device-log",
+          "value": "128/512/1024/2048: 4.392/20.540/46.839/120.302 ms; all PASS",
+          "source": "QDWH_SQUARE_BENCHMARK_20261115.md + benchmark_square_sizes_20261115/*"
+        },
+        {
+          "type": "author-device-log",
+          "value": "64x64 fused 4.102 ms vs separate 6.278 ms, -34.7%; sigma max abs 1.481e-6",
+          "source": "qdwh_sdc_fused_jacobi/docs/performance_64x64.md"
+        },
+        {
+          "type": "author-device-log",
+          "value": "1024x1024 early batch<=8: 51.599 ms, eig_err 2.367e-07, sigma max abs 1.3838629e-06",
+          "source": "benchmark_1024x1024_run1/"
+        },
+        {
+          "type": "local-npu-run",
+          "value": "128/512/1024: 4.288/20.698/48.475 ms; QDWH/SDC/sigma PASS; sigma max abs 9.538e-07/1.004e-06/1.543e-06",
+          "source": "our_work/evidence/local-910b-20261116/qdwh_*_run.log"
+        },
+        {
+          "type": "static-source",
+          "value": "单 launch/batch QR/H 不落盘/skip symmetrize 可定位",
+          "source": "source_files"
+        }
+      ],
+      "conditions": [
+        "FP32",
+        "mPad+nPad<=6144",
+        "threshold 16..64",
+        "blockDim 16..64 even",
+        "n>=2816 时 maxIter>=6",
+        "UB 192KiB 且 kSdcBatchMax=15",
+        "能接受 atomic 非确定性"
+      ],
+      "negative_cases": [
+        "1000x800 seed42 奇异值误差 1.5e-5~3.1e-4 且逐次不同（atomic + 特征值间隙放大）",
+        "cond=1e6 小奇异值相对误差约1.5%",
+        "3072^2 batch 8->15 无收益，已计算受限",
+        "硬截断 sweep 伤小奇异值",
+        "batch 已到 UB 天花板 195840/196608 B",
+        "4.26x 属 PACO tournament，不属本实现"
+      ],
+      "reuse_decision": "优先复用一个 launch 的多阶段融合、UB 驱动的 batch 上限、跳过冗余对称化；atomic 路径需先确定性化再用于 golden 敏感任务。",
+      "report": "docs/repositories/Be4ver__svd.md",
+      "verification": "locally-validated on Ascend 910B3; see local_validation",
+      "performance_evidence": {
+        "baseline": "64x64：独立 QDWH+SDC + 独立 Jacobi 6.278 ms；方阵无同环境 baseline",
+        "timing_scope": "ACL event kernel_event；另记 host_wait",
+        "unit": "ms",
+        "warmup_repeat": "单次 run；方阵表用 event",
+        "input": "128/512/1024/2048 方阵 FP32 cond=1e2; threshold=64; blockDim=20; maxIter=4",
+        "hardware": "Ascend 910B3；CANN 未固定（QDWH 文档记录 8.2.RC1）；本机 CANN 9.1.0",
+        "full_call_or_kernel": "单 launch 融合 kernel（QDWH+SDC+leaf Jacobi）",
+        "original_location": "QDWH_SQUARE_BENCHMARK_20261115.md + benchmark_square_sizes_20261115/*",
+        "reproduced": true
+      },
+      "local_validation": {
+        "status": "pass",
+        "environment": "Ascend 910B3 / CANN 9.1.0 / gcc 11.4.0 / cmake 3.22.1",
+        "protocol": "ACL event kernel_event + host_wait；单 launch；不含 setup/H2D/D2H",
+        "runs": [
+          {
+            "shape": "128x128",
+            "candidate_ms": 4.288,
+            "host_wait_ms": 4.442,
+            "author_ms": 4.392,
+            "u_err": 7.119e-07,
+            "eig_err": 5.819e-08,
+            "sigma_max_abs": 9.538e-07,
+            "log": "our_work/evidence/local-910b-20261116/qdwh_128x128_run.log",
+            "log_sha256": "a369d6aa6c5ed3a6c9f2b88cbc1a73d9c7555b03ac2ea75c62a365eadee4f81f"
+          },
+          {
+            "shape": "512x512",
+            "candidate_ms": 20.698,
+            "host_wait_ms": 21.313,
+            "author_ms": 20.54,
+            "u_err": 8.422e-07,
+            "eig_err": 1.839e-07,
+            "sigma_max_abs": 1.004e-06,
+            "log": "our_work/evidence/local-910b-20261116/qdwh_512x512_run.log",
+            "log_sha256": "98ffbb147a6e85fe3cb7906c43bc11d95ac50c27679568fe09650faa7f0d76df"
+          },
+          {
+            "shape": "1024x1024",
+            "candidate_ms": 48.475,
+            "host_wait_ms": 48.647,
+            "author_ms": 46.839,
+            "u_err": 8.967e-07,
+            "eig_err": 1.942e-07,
+            "sigma_max_abs": 1.543e-06,
+            "log": "our_work/evidence/local-910b-20261116/qdwh_1024x1024_run.log",
+            "log_sha256": "2d881fbcd196bd1ffb9d1871e0c0ef5a90419712dca36a12ad8c471fcd770924"
+          }
+        ],
+        "log": "our_work/evidence/local-910b-20261116/qdwh_1024x1024_run.log",
+        "log_sha256": "2d881fbcd196bd1ffb9d1871e0c0ef5a90419712dca36a12ad8c471fcd770924",
+        "repeat_1000x800": {
+          "runs_ms": [
+            36.812,
+            38.104,
+            36.953
+          ],
+          "sigma_sha256_identical": true,
+          "correctness": "QDWH/SDC/sigma PASS",
+          "author_claim": "author saw nondeterminism 1.5e-5~3.1e-4 on 910B3/CANN 8.2.RC1",
+          "local_result": "not triggered in 3 runs on CANN 9.1.0",
+          "log": "our_work/evidence/local-910b-20261116/qdwh_1000x800_run1.log"
+        },
+        "summary": "128/512/1024 = 4.288/20.698/48.475 ms，全部 QDWH/SDC/sigma PASS；与作者 4.392/20.540/46.839 接近。1000x800 seed=42 三次 sigma 相同，作者 atomic 非确定性未触发。"
+      }
+    },
+    {
+      "id": "PARITY-O3-PACKED-TP",
+      "repository_id": "parity-lrx-ictc-o3-hp-ascend",
+      "source_commit": "ca9ccc4ea9e2e9d21e48daeb45925f2bc4382be8",
+      "operator": "Packed path-preserving O(3) tensor product",
+      "operator_family": "equivariant-tensor-product",
+      "semantics": "features[E,C*(L_in+1)^2] + harmonics[E,(L_edge+1)^2] + gates[E,P*C] -> packed output[E,output_width]；保留 path multiplicity 和角阶块。",
+      "shape_dtype": "E 最大到 262144; C 64/128/256; lmax 2/3; FP32 eager, HF32 off; ir_mul/mul_ir.",
+      "environment": {
+        "soc": "Ascend 910B3",
+        "cann": "9.0.0",
+        "python": "3.10",
+        "torch": "2.7.1",
+        "torch_npu": "2.7.1.post4",
+        "triton_ascend": "3.2.1",
+        "timing": ">=2s warmup; 3 rounds x 3 synchronized calls; median of round medians"
+      },
+      "source_files": [
+        {
+          "path": "ictc_o3/backends/ascend/packed_tensor_product.py",
+          "lines": "1-165",
+          "url": "https://github.com/Parity-LRX/ICTC-O3-HP-Ascend/blob/ca9ccc4ea9e2e9d21e48daeb45925f2bc4382be8/ictc_o3/backends/ascend/packed_tensor_product.py#L1-L165",
+          "sha256": "6239902413e319d8d0481629da4da66912c39e61635e491e10bc0e29487a5ba1",
+          "local_cache": "repository-research-cache/Parity-LRX_ICTC-O3-HP-Ascend/ictc_o3/backends/ascend/packed_tensor_product.py"
+        },
+        {
+          "path": "docs/PERFORMANCE.md",
+          "lines": "5-31,47-66",
+          "url": "https://github.com/Parity-LRX/ICTC-O3-HP-Ascend/blob/ca9ccc4ea9e2e9d21e48daeb45925f2bc4382be8/docs/PERFORMANCE.md",
+          "sha256": "e6141358a1942fd7db3b1d63f1f23ff48d09f4d121264fc226f065714ca56797",
+          "local_cache": "repository-research-cache/Parity-LRX_ICTC-O3-HP-Ascend/docs/PERFORMANCE.md"
+        },
+        {
+          "path": "docs/USAGE.md",
+          "lines": "792-861",
+          "url": "https://github.com/Parity-LRX/ICTC-O3-HP-Ascend/blob/ca9ccc4ea9e2e9d21e48daeb45925f2bc4382be8/docs/USAGE.md#L792-L861",
+          "sha256": "698797645fa7dd450f5ac8033b9305c3a4be9b7c7ecec7a0f67cd13bf88eb53b",
+          "local_cache": "repository-research-cache/Parity-LRX_ICTC-O3-HP-Ascend/docs/USAGE.md"
+        }
+      ],
+      "symbol": "_Product / tensor_product",
+      "mechanism": "按输入角阶 l_in 分组多个 path，每组一次 batched GEMM；channels contiguous inside GEMM；直接写 packed 输出的 path 偏移；gate adjoint 重算 base 而不是保存全部 path 输出；CANN vector BMM 仅在 E>=16384,C>=64 等条件启用，否则 torch.bmm。",
+      "work_model": "减少每 path GEMM 启动、输出 repack 和重复 feature 读；gate adjoint 用额外 base GEMM 换显存。小 E/小 C 时 grouped 收益下降。",
+      "evidence": [
+        {
+          "type": "author-report",
+          "value": "C128/lmax3: 3.90x e3nn forward at 262144 instances; 3.85x forward+VJP at 131072",
+          "source": "docs/PERFORMANCE.md:5-31"
+        },
+        {
+          "type": "author-report",
+          "value": "four configs: 1.87-3.90x forward, 2.19-3.85x fwd+VJP; MindChemistry C64/lmax2 23.18x/18.37x",
+          "source": "docs/PERFORMANCE.md + README.md"
+        },
+        {
+          "type": "static-source",
+          "value": "grouped plan/direct packed write/gate base recompute 可定位",
+          "source": "source_files"
+        }
+      ],
+      "conditions": [
+        "path-preserving ICTC basis",
+        "FP32",
+        "E large and C>=64 for CANN BMM",
+        "consumer accepts packed output/unpack_output",
+        "gate adjoint can afford recompute"
+      ],
+      "negative_cases": [
+        "not an arbitrary e3nn TP adapter; components need basis maps",
+        "E<16384 or C<64 falls back to torch.bmm",
+        "native mode not automatically faster than vendor GEMM",
+        "output path multiplicity/order easy to misread",
+        "gate base recompute adds backward FLOPs"
+      ],
+      "reuse_decision": "优先复用按输入角阶分组+直接写消费者布局；小 E/小 C 和 e3nn 互操作需单独验证。",
+      "report": "docs/repositories/Parity-LRX__ICTC-O3-HP-Ascend.md",
+      "verification": "not-reproduced; author report and docs only",
+      "performance_evidence": {
+        "baseline": "e3nn 0.5.9 / MindChemistry 0.2.0 PyNative；同初始化模型",
+        "timing_scope": "TP 输入/basis/layout 准备不计时；forward 或 forward+VJP",
+        "unit": "instances/s（图中吞吐），报告写相对倍数",
+        "warmup_repeat": ">=2s warmup; 3 rounds x 3 synchronized calls; median of round medians",
+        "input": "E up to 262144; C64/128/256; lmax 2/3; FP32; HF32 off; no torch.compile",
+        "hardware": "Ascend 910B3 / CANN 9.0.0 / PyTorch 2.7.1 / torch_npu 2.7.1.post4 / TA 3.2.1",
+        "full_call_or_kernel": "standalone EdgeTensorProduct forward / forward+VJP",
+        "original_location": "docs/PERFORMANCE.md:5-31; docs/USAGE.md:792-861",
+        "reproduced": false
+      }
+    },
+    {
+      "id": "PARITY-MESH-ELECTROSTATICS",
+      "repository_id": "parity-lrx-ictc-o3-hp-ascend",
+      "source_commit": "ca9ccc4ea9e2e9d21e48daeb45925f2bc4382be8",
+      "operator": "Bounded mesh assignment for reciprocal electrostatics",
+      "operator_family": "long-range-electrostatics",
+      "semantics": "positions[N,3]+batch+cell+Cartesian q/mu/Q -> reciprocal atomic energy[N,1]；CIC/TSC/PCS spread/gather，支持 periodic/slab、坐标/cell/force-loss mixed adjoints。",
+      "shape_dtype": "FP32; N up to 131072 multi-NPU; source channels 1..4+; mesh rectangular; PCS order 4; sigma fixed 1A in measured configs.",
+      "environment": {
+        "soc": "Ascend 910B3 (1/2/4/8 NPU for MD)",
+        "cann": "9.0.0",
+        "python": "3.10",
+        "torch": "2.7.1",
+        "torch_npu": "2.7.1.post4",
+        "triton_ascend": "3.2.1",
+        "timing": "3-call synchronized blocks, median of 5, >=2s warmup; neighbor/input transfer excluded"
+      },
+      "source_files": [
+        {
+          "path": "ictc_o3/ascendc/op_kernel/electrostatics.cpp",
+          "lines": "22-119",
+          "url": "https://github.com/Parity-LRX/ICTC-O3-HP-Ascend/blob/ca9ccc4ea9e2e9d21e48daeb45925f2bc4382be8/ictc_o3/ascendc/op_kernel/electrostatics.cpp#L22-L119",
+          "sha256": "b8379188434cef69b28de59753ae47ef9ac8e41333b70d68eb2af69c86ffa423",
+          "local_cache": "repository-research-cache/Parity-LRX_ICTC-O3-HP-Ascend/ictc_o3/ascendc/op_kernel/electrostatics.cpp"
+        },
+        {
+          "path": "ictc_o3/backends/ascend/electrostatics.py",
+          "lines": "22-85",
+          "url": "https://github.com/Parity-LRX/ICTC-O3-HP-Ascend/blob/ca9ccc4ea9e2e9d21e48daeb45925f2bc4382be8/ictc_o3/backends/ascend/electrostatics.py#L22-L85",
+          "sha256": "334c7e2db84289e74eeea4dfb2ad539e7fb279ddb988245c295b3bd531455d00",
+          "local_cache": "repository-research-cache/Parity-LRX_ICTC-O3-HP-Ascend/ictc_o3/backends/ascend/electrostatics.py"
+        },
+        {
+          "path": "docs/ELECTROSTATICS.md",
+          "lines": "245-327,366-455",
+          "url": "https://github.com/Parity-LRX/ICTC-O3-HP-Ascend/blob/ca9ccc4ea9e2e9d21e48daeb45925f2bc4382be8/docs/ELECTROSTATICS.md",
+          "sha256": "a7064ac0ef95ad184aecdb8549bb79e30bc130e013924c602d72c9529cfcb2d7",
+          "local_cache": "repository-research-cache/Parity-LRX_ICTC-O3-HP-Ascend/docs/ELECTROSTATICS.md"
+        }
+      ],
+      "symbol": "Assignment::Process / prefer_native_assignment / _particle_assignment",
+      "mechanism": "每 atom x channel tile 一个 task；Spline 权重/一阶/二阶导数只存寄存器/UB；order^3 stencil 循环内做 Muls/Add/atomic mesh 写；gather/coordinate VJP 同循环；按 N/channel/adjoint 目标选 native/vectorized/particle/CANN。",
+      "work_model": "避免 [N,stencil,S] 中间物化；channel tile 控制 UB；atomic scatter 省中间但非确定；particle tile 在中等 N/单通道最优，N>65536 单通道回退 CANN。",
+      "evidence": [
+        {
+          "type": "author-report",
+          "value": "16,384 atoms scalar q: +5.2% training, +6.2% E/F inference; particle scheduling reduces extra inference 51.2%, training 40.6%",
+          "source": "docs/ELECTROSTATICS.md:278-288"
+        },
+        {
+          "type": "author-report",
+          "value": "q+mu+Q: +6.8% training, +10.7% inference at 16,384; 8 NPU 131,072 MD step 1.90x, weak eff 36.8->70.5%",
+          "source": "docs/ELECTROSTATICS.md:303-320,400-402"
+        },
+        {
+          "type": "author-report",
+          "value": "65,536 atoms standalone: 60.64 vs 96.11 ms inference; 144.75 vs 169.63 ms training; peak 395->41 MB",
+          "source": "docs/ELECTROSTATICS.md:290-295"
+        },
+        {
+          "type": "static-source",
+          "value": "bounded stencil/channel tile/atomic mesh/schedule routing 可定位",
+          "source": "source_files"
+        }
+      ],
+      "conditions": [
+        "reciprocal-only Gaussian-screened functional",
+        "PCS/CIC/TSC and mesh fixed while positions/cell live",
+        "channel tile fits UB",
+        "multi-NPU needs HCCL + slab FFT"
+      ],
+      "negative_cases": [
+        "not full Ewald: no real-space/self/neutralizing background",
+        "floating atomic scatter nondeterministic",
+        "N>65536 single-channel auto falls back to CANN",
+        "channels>4 uses native; capacity/native always bounded",
+        "small N particle tile not worthwhile",
+        "mesh/sigma change potential",
+        "multi-NPU result not transferable from single NPU"
+      ],
+      "reuse_decision": "优先复用有界 stencil+channel tile+按规模选 schedule；atomic 非确定和 Ewald 语义边界必须先处理。",
+      "report": "docs/repositories/Parity-LRX__ICTC-O3-HP-Ascend.md",
+      "verification": "not-reproduced; author report and docs only",
+      "performance_evidence": {
+        "baseline": "matching short-range C64/lmax2; K100 reference",
+        "timing_scope": "complete model step / standalone mesh; extra time over short-range",
+        "unit": "ms, %; multi-NPU atom-steps/s",
+        "warmup_repeat": "3-call synchronized blocks; median of 5; >=2s warmup; neighbors/input transfer excluded",
+        "input": "4,096/16,384 atoms; 56 neighbors/atom; PCS; ~1A mesh; q or q+mu+Q; FP32",
+        "hardware": "Ascend 910B3 (1/2/4/8 NPU); CANN 9.0.0; torch_npu 2.7.1.post4; TA 3.2.1",
+        "full_call_or_kernel": "complete energy/force training/inference step; standalone mesh; LAMMPS MD step",
+        "original_location": "docs/ELECTROSTATICS.md:245-327,366-455; docs/USAGE.md:743-752",
+        "reproduced": false
+      }
+    },
+    {
+      "id": "PARITY-CAPACITY-CHUNK",
+      "repository_id": "parity-lrx-ictc-o3-hp-ascend",
+      "source_commit": "ca9ccc4ea9e2e9d21e48daeb45925f2bc4382be8",
+      "operator": "Capacity-mode chunked message recomputation",
+      "operator_family": "memory-scheduled-graph-message",
+      "semantics": "大图 energy/force 推理：forward 只保留紧凑 node 输出；backward 对普通一阶 adjoint 逐 edge chunk 重算中间，累加 node 梯度；高阶/训练走原 native graph。",
+      "shape_dtype": "C64/lmax2, C128/lmax2/3, C256/lmax3; 16,384..229,376 atoms; FP32; dynamic edge/atom counts; chunk 128-aligned.",
+      "environment": {
+        "soc": "Ascend 910B3",
+        "cann": "9.0.0",
+        "python": "3.10",
+        "torch": "2.7.1",
+        "torch_npu": "2.7.1.post4",
+        "triton_ascend": "3.2.1",
+        "timing": "fresh process; >=2s warmup; median of 5 synchronized calls"
+      },
+      "source_files": [
+        {
+          "path": "ictc_o3/backends/ascend/capacity_message.py",
+          "lines": "7-80,83-179",
+          "url": "https://github.com/Parity-LRX/ICTC-O3-HP-Ascend/blob/ca9ccc4ea9e2e9d21e48daeb45925f2bc4382be8/ictc_o3/backends/ascend/capacity_message.py",
+          "sha256": "7abb5d959bc8056094d1c19137ad4ce8d07de0b47e235ee2813c3570f2681efc",
+          "local_cache": "repository-research-cache/Parity-LRX_ICTC-O3-HP-Ascend/ictc_o3/backends/ascend/capacity_message.py"
+        },
+        {
+          "path": "docs/HP_API.md",
+          "lines": "67-101",
+          "url": "https://github.com/Parity-LRX/ICTC-O3-HP-Ascend/blob/ca9ccc4ea9e2e9d21e48daeb45925f2bc4382be8/docs/HP_API.md#L67-L101",
+          "sha256": "d3d128c52b2ba31f4f355de9dfc60609e4b100a4ce7197d99dc3017093c395d3",
+          "local_cache": "repository-research-cache/Parity-LRX_ICTC-O3-HP-Ascend/docs/HP_API.md"
+        },
+        {
+          "path": "docs/PERFORMANCE.md",
+          "lines": "47-66",
+          "url": "https://github.com/Parity-LRX/ICTC-O3-HP-Ascend/blob/ca9ccc4ea9e2e9d21e48daeb45925f2bc4382be8/docs/PERFORMANCE.md#L47-L66",
+          "sha256": "e6141358a1942fd7db3b1d63f1f23ff48d09f4d121264fc226f065714ca56797",
+          "local_cache": "repository-research-cache/Parity-LRX_ICTC-O3-HP-Ascend/docs/PERFORMANCE.md"
+        }
+      ],
+      "symbol": "_Message / graph_message / radial_graph_message",
+      "mechanism": "forward fast_graph(capacity_stream) 只留紧凑 node 输出；backward 若高阶走原图，否则按 chunk 重算边中间并累加；自动 chunk 由设备内存/已分配/node 输出/per-edge 工作估算；大 frozen radial 最后 Linear 流式放入 chunk。",
+      "work_model": "用重算 FLOPs 和 chunk 循环换显存；显存峰值从全边中间降到 node 输出+单 chunk；小图/训练/高阶不启用。",
+      "evidence": [
+        {
+          "type": "author-report",
+          "value": "C64/lmax2 capacity inference 229,376 atoms, first OOM 262,144; 40.7-42.8k atom-steps/s",
+          "source": "README.md + docs/USAGE.md:777-783"
+        },
+        {
+          "type": "author-report",
+          "value": "196,608 atoms: 11.30->4.65 s (2.43x); peak 52.68->43.55 GiB",
+          "source": "docs/PERFORMANCE.md:47-52"
+        },
+        {
+          "type": "author-report",
+          "value": "C256/lmax3 16,384 atoms: 5.53k atom-steps/s, 2.96 s/call",
+          "source": "docs/PERFORMANCE.md:24-29"
+        },
+        {
+          "type": "static-source",
+          "value": "chunk recompute/higher-order fallback/auto chunk/radial streaming 可定位",
+          "source": "source_files"
+        }
+      ],
+      "conditions": [
+        "inference/frozen params",
+        "ordinary first-order adjoint",
+        "large atom count and edge intermediates dominate memory",
+        "dynamic graph",
+        "chunk 128-aligned and memory budget sufficient"
+      ],
+      "negative_cases": [
+        "not training/higher-order; falls back to original graph",
+        "small graphs not worth chunk loop",
+        "chunk depends on live memory/allocator state",
+        "weight/projection replacement between fwd/bwd raises",
+        "radial streaming only for eligible Sequential last Linear",
+        "chunk boundaries change reduction order"
+      ],
+      "reuse_decision": "优先复用大图推理的 chunk 重算+紧凑 node 输出；不要把它当训练加速或小图优化。",
+      "report": "docs/repositories/Parity-LRX__ICTC-O3-HP-Ascend.md",
+      "verification": "not-reproduced; author report and docs only",
+      "performance_evidence": {
+        "baseline": "performance mode / previous HP capacity implementation",
+        "timing_scope": "complete inference step; peak PyTorch allocation",
+        "unit": "s, GiB, atom-steps/s",
+        "warmup_repeat": "fresh process; >=2s warmup; median of 5 synchronized calls",
+        "input": "C64/lmax2 16,384..229,376 atoms; C256/lmax3 16,384; FP32; dynamic graph",
+        "hardware": "Ascend 910B3 / CANN 9.0.0 / PyTorch 2.7.1 / torch_npu 2.7.1.post4 / TA 3.2.1",
+        "full_call_or_kernel": "complete energy-and-force inference step",
+        "original_location": "docs/PERFORMANCE.md:24-66; docs/USAGE.md:764-849",
+        "reproduced": false
       }
     }
   ],

@@ -20,5 +20,5 @@
 - MIT：`vLLM-HUST/vllm-hust-opset`、`Parity-LRX/ICTC-O3-HP-Ascend`、`U-Illll/ascend-eigh-operator`、`asfsdsf/S6`、`Yunle-Lee/CANN-Operator-test-competition-personal-solution`；
 - 未声明许可证：`Hansenwuwuwu/ascend-c-competition-archive`、`mantuoluozk/kernelswift-2026-triton-kernels`、`52Xayah/triton-ascend-kernels`、`Be4ver/svd`。
 
-未声明许可证的仓库仅用于私密学习/内部检索，不复制、不再分发其源码；公开可读不等于允许再许可。作者成绩、官方公示分数和本库的分析都不是本机复现，也不构成规则合规或通用正确性证明。
+未声明许可证的仓库仅用于私密学习/内部检索，不复制、不再分发其源码；公开可读不等于允许再许可。Be4ver 的本机构建只在工作区外的源码缓存副本中进行，本库只保存运行日志和哈希，没有加入第三方源码。作者成绩、官方公示分数和本库的分析都不是本机复现，也不构成规则合规或通用正确性证明。
 

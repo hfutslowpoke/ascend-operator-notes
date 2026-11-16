@@ -9,14 +9,16 @@
 - `V`：本机 Ascend 910B3 复测；
 - `N`：本环境未复现。
 
-当前首批：
+当前两批：
 
 | 文档 | 主题 | 主要来源 |
 |---|---|---|
 | [工作量与固定开销](work_reduction_vs_fixed_overhead.md) | 什么时候减少算法工作量，什么时候用更多计算换掉启动/分发/中间张量 | SplineConv、GroupedTopk、TreeLineMinDistance、FusedMoE、Sinkhorn、Linear+SwiGLU、Mamba-2 |
-| [布局与缓冲生命周期](layout_and_buffer_lifecycle.md) | AoS/SoA、消费者原生布局、双槽、跨核事件、UB/CBUF/L0C | Fire、Tree、Spline、Mamba-2、Linear+SwiGLU |
-| [数值与选择性精度](numerical_selective_precision.md) | FP32 中间、选择性高精度修复、half 粗筛风险、softmax 单调性、tie/eps | Fire、Tree、GroupedTopk、Sinkhorn |
-| [形状专用化与回退](shape_specialization_and_fallbacks.md) | Host 分路、编译期 key、fail-closed、路径覆盖与代码膨胀 | Hansen 三题、KernelSwift、Mamba-2、vLLM-HUST、52Xayah |
+| [布局与缓冲生命周期](layout_and_buffer_lifecycle.md) | AoS/SoA、消费者原生布局、双槽、跨核事件、UB/CBUF/L0C | Fire、Tree、Spline、Mamba-2、Linear+SwiGLU、Parity packed TP/mesh |
+| [数值与选择性精度](numerical_selective_precision.md) | FP32 中间、选择性高精度修复、half 粗筛风险、softmax 单调性、tie/eps | Fire、Tree、GroupedTopk、Sinkhorn、Be4ver atomic/QDWH |
+| [形状专用化与回退](shape_specialization_and_fallbacks.md) | Host 分路、编译期 key、fail-closed、路径覆盖与代码膨胀 | Hansen 三题、KernelSwift、Mamba-2、vLLM-HUST、52Xayah、Parity schedule |
+| [迭代线性代数与融合](iterative_linear_algebra_and_fusion.md) | 批量矩阵交错、轮内配对、单 kernel QDWH+SDC、UB 驱动 batch、atomic 风险 | Be4ver PACO/QDWH-SDC |
+| [等变张量积与 mesh](equivariant_and_mesh_operators.md) | 按输入角阶分组 GEMM、有界 stencil + channel tile、capacity chunk | Parity packed TP、mesh 静电、capacity message |
 
 使用建议：
 

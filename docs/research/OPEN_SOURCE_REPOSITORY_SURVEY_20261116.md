@@ -1,17 +1,19 @@
-# 公开比赛与高性能算子仓库调研（2026-11-16，第一批）
+# 公开比赛与高性能算子仓库调研（2026-11-16，第一/二批）
 
-状态：第一批来源筛选与源码深读完成；纯 Triton 任务已在本机 Ascend 910B3 复测。未在本机编译 Ascend C 自定义算子，未向比赛平台提交，未修改当前算子工程或 ACW 框架。除明确标注“本机复测”的数字外，本文中的“加速比”都是原作者/原报告在各自环境下的数字。
+状态：第一/二批来源筛选与源码深读完成；纯 Triton 任务和 Be4ver 的两个 Ascend C 算子已在本机 Ascend 910B3 复测。Parity-LRX 未在本机构建。未向比赛平台提交，未修改当前算子工程或 ACW 框架。除明确标注“本机复测”的数字外，本文中的“加速比”都是原作者/原报告在各自环境下的数字。
 
 ## 1. 结论摘要
 
-- 本轮筛选 **12 个独立仓库/来源**，其中 **5 个**完成源码级深读，覆盖 **10 份实现**、至少 8 类算子族：检测框解码融合、图样条卷积、点到线段最近距离、MoE 路由与专家计算、分组 TopK、Sinkhorn 归一化、Mamba-2 分块扫描、线性层+SwiGLU 融合、Softmax/Matmul 负例。
+- 本轮筛选 **12 个独立仓库/来源**，其中 **7 个**完成源码级深读（含 1 个负例），覆盖 **15 份实现**、至少 12 类算子族：检测框解码融合、图样条卷积、点到线段最近距离、MoE 路由与专家计算、分组 TopK、Sinkhorn 归一化、Mamba-2 分块扫描、线性层+SwiGLU 融合、Softmax/Matmul 负例、批量 Jacobi SVD、QDWH 极分解/SDC、O(3) 张量积、长程静电、容量调度图消息。
 - 与既有归档的 26 份 GroupedMatmulGelu 公开 PR **没有重复**。既有官方 `cann-ops-competitions` 快照仍作为基线引用，本轮不重复计数；GitCode 本轮 TLS 握手失败，未新增抓取。
-- 最值得后续验证的 5 项机制见第 6 节：按权重索引先聚合、选择性高精度修复、分块扫描+消费者布局+跨核流水、去中间张量的生产者消费者融合、按规模在“稠密全专家”和“动态分发”之间选路。
+- 第一批最值得后续验证的 5 项机制见第 6 节：按权重索引先聚合、选择性高精度修复、分块扫描+消费者布局+跨核流水、去中间张量的生产者消费者融合、按规模在“稠密全专家”和“动态分发”之间选路；第二批新增矩阵内配对重排、单 kernel 多阶段融合、有界 stencil/容量调度三组候选。
 - 最强的新证据来自：
   - `mantuoluozk/kernelswift-2026-triton-kernels`：Ascend 910B1、CANN 9.0.0、Triton-Ascend 3.2.1，官方评测器 `warmup=200`、`repeat=500`、中位数，10/10 正确性通过；本轮深读其中 3 题。
   - `So-cean/mamba-ascendc`：Ascend 910B3，device event p50，同平台 PyTorch/Triton-Ascend/AscendC 三层对照，并有 msprof 阶段分解；本轮深读 ChunkMix。
   - `vLLM-HUST/vllm-hust-opset`：Ascend 910B2，算子级 10 warmup/50 同步样本，端到端 3 轮匹配；本轮深读 Linear+SwiGLU Graph 融合。
-- **本机 910B3 复测**：GroupedTopk PASS 2.670×（作者 2.478×）、Sinkhorn PASS 13.226×（作者 9.203×）、52Xayah Softmax/Matmul 负例 0.288×/0.242×稳定复现；FusedMoE 在当前 TA 3.2.0/CANN 9.1.0 上 UB 溢出，作者 11.446× 未复现。详见 [本机复测记录](LOCAL_910B_VALIDATION_20261116.md)。
+  - `Be4ver/svd`：Ascend 910B3，PACO 批量 Jacobi 与 QDWH+SDC 融合；作者有设备日志/精度验证，本轮在 CANN 9.1.0 上重新构建并复测。
+  - `Parity-LRX/ICTC-O3-HP-Ascend`：Ascend 910B3/CANN 9.0.0，packed O(3) TP、mesh 静电、capacity chunk；MIT，性能协议完整，但仓库只有文档/图、无逐点原始日志。
+- **本机 910B3 复测**：GroupedTopk PASS 2.670×（作者 2.478×）、Sinkhorn PASS 13.226×（作者 9.203×）、52Xayah Softmax/Matmul 负例 0.288×/0.242×稳定复现；Be4ver PACO 32×32×512 为 6.174 ms（作者 7.061 ms，512/512 PASS），QDWH+SDC 128/512/1024 为 4.288/20.698/48.475 ms（作者 4.392/20.540/46.839 ms，全 PASS）；FusedMoE 在当前 TA 3.2.0/CANN 9.1.0 上 UB 溢出，作者 11.446× 未复现。详见 [本机复测记录](LOCAL_910B_VALIDATION_20261116.md)。
 - 证据最弱的深读项是 `Hansenwuwuwu/ascend-c-competition-archive` 的三份 2026 电力行业算子：有官方公示分数和名次，但没有逐 case 时延，也没有本机编译/运行；因此只把它当作“获奖源码的结构证据”，不把分数换算成加速比。
 - `52Xayah/triton-ascend-kernels` 的 Softmax/Matmul 是明确负例：原作者批量计时约 0.140 ms vs PyTorch 0.035 ms、0.699 ms vs 0.163 ms；本机逐 sample 协议为 0.288×/0.242×。它提醒我们，手写 Triton 不会自动超过厂商库，必须先把 tile、数据布局、融合和启动开销算清楚。
 
@@ -47,7 +49,7 @@
 | `V` | 本机 Ascend 910B3 复测：通过正确性并记录时延，或记录编译/运行失败 |
 | `N` | 本批未复现：本环境没有编译/运行/ profiler/平台提交 |
 
-一个结论可以同时有 `S+L`，但没有 `V` 或 `O` 之外的实验证据时，不写成“已验证性能”。本批：Hansen/Mamba/vLLM-HUST 仍为 `N`；KernelSwift 与 52Xayah 的部分实现为 `V`。
+一个结论可以同时有 `S+L`，但没有 `V` 或 `O` 之外的实验证据时，不写成“已验证性能”。本批：Hansen/Mamba/vLLM-HUST/Parity 仍为 `N`；KernelSwift、52Xayah、Be4ver 的部分实现为 `V`。
 
 ### 2.3 本地缓存
 
@@ -82,8 +84,8 @@
 | 6 | `Gxj230958/TritonAscendBench` | 迁移基准，101 个生产 kernel | 候选 | 正确性/来源冻结做得强，但作者明确说 910B 性能尚未接通；不能当性能证据 |
 | 7 | `elstainniles/triton-operator-benchmarks` | Triton 基准集合 | 候选 | 条目多、测试细，但主要是 FlagGems/Liger/FLA 导入，且历史环境是 950PR；独立算法与 910B 证据不足 |
 | 8 | `Yunle-Lee/CANN-Operator-test-competition-personal-solution` | 比赛提交/测试模板 | 淘汰（不计高性能） | 主要是 Add/Mul/Pow/Cumsum 的 aclnn 测试代码和赛事目录，没有 Ascend C 高性能 kernel 或时延 |
-| 9 | `Be4ver/svd` | Ascend SVD，C++/Ascend C | 候选（下一批优先） | PACO Jacobi + QDWH/SDC 两份实现，有 910 设备日志和精度验证；根目录无 LICENSE、无 README，留待下一批 |
-| 10 | `Parity-LRX/ICTC-O3-HP-Ascend` | 生产型 O(3)/MACE，Ascend C | 候选（下一批优先） | 910B3 上 3.90×/4.76× 等强证据，MIT；体量大，本轮未深读 |
+| 9 | `Be4ver/svd` | Ascend SVD，C++/Ascend C | **深读（第二批）** | PACO Jacobi + QDWH/SDC 两份实现，有 910B3 设备日志和精度验证；本轮在 CANN 9.1.0 上重新构建，PACO/QDWH 共 4 组运行全 PASS；根目录无 LICENSE |
+| 10 | `Parity-LRX/ICTC-O3-HP-Ascend` | 生产型 O(3)/MACE，Ascend C | **深读（第二批）** | 910B3 上 3.90× forward / 3.85× fwd+VJP / 4.76× training / 1.90× MD 等作者证据，MIT；深读 packed TP、mesh 静电、capacity chunk 三份实现；本机未构建 |
 | 11 | `U-Illll/ascend-eigh-operator` | 单算子 eigh，Ascend C | 候选 | 语义、tiling、双精度路径清楚，但只有单算子、没有性能数据 |
 | 12 | `asfsdsf/S6` | 单算子 Fmax，Ascend C | 淘汰 | 只有 6 个源文件和 LICENSE，无 README、无测试、无性能证据；不足以支撑“高性能”判断 |
 
@@ -112,8 +114,8 @@
 | Gxj TAB | 迁移基准 | Triton-Ascend | 101 个 vLLM/SGLang kernel | `8a395c87f60a5e0e97f4a48cb16dcc6129e7e850` | Apache-2.0 | 正确性/来源强；性能未接通 | 候选 |
 | elstainniles | Triton 基准 | Triton | 逐元素、归一化、FLA、Liger | `e6cf7c979f4b09968c59f25a15a542d282c9c7f2` | Apache-2.0 | 950PR 历史数据 + 大量导入 | 候选 |
 | Yunle-Lee | CANN 测试赛 | C++/aclnn | Add/Mul/Pow/Cumsum 测试 | `a0c1c8a8ba8ac203afe28f2f7d9c75b9c06ab595` | MIT | 测试模板；无 kernel/时延 | 淘汰 |
-| Be4ver svd | Ascend SVD | C++/Ascend C | Jacobi SVD、QDWH/SDC | `b02796511ea62861c647a56b880da15b6a07b3a0` | 未声明 | 设备日志 + 精度；无 README | 候选 |
-| Parity ICTC-O3 | 生产型 O(3)/MACE | Ascend C | 等变张量积、长程静电、MD | `ca9ccc4ea9e2e9d21e48daeb45925f2bc4382be8` | MIT | 910B3 多组强数据 + 协议 | 候选 |
+| Be4ver svd | Ascend SVD | C++/Ascend C | Jacobi SVD、QDWH/SDC | `b02796511ea62861c647a56b880da15b6a07b3a0` | 未声明 | 作者设备日志 + 精度；本机 910B3/CANN 9.1.0 构建并复测 4 组 | 深读 2 题 |
+| Parity ICTC-O3 | 生产型 O(3)/MACE | Ascend C | 等变张量积、长程静电、MD | `ca9ccc4ea9e2e9d21e48daeb45925f2bc4382be8` | MIT | 910B3 多组作者数据 + 完整协议；无逐点原始日志 | 深读 3 题 |
 | U-Illll eigh | 单算子 | Ascend C | 对称特征分解 | `fa2275fa4b2cee005e6868ce23266686eafa7a1b` | MIT | 源码/契约；无性能 | 候选 |
 | asfsdsf S6 | 单算子 | Ascend C | Fmax 广播 | `0454168359b4749058b61432bf15b3945b44efa9` | MIT | 源码极小；无文档/性能 | 淘汰 |
 
@@ -131,6 +133,11 @@
 | `VLLMHUST-LINEAR-SWIGLU` | vLLM-HUST | Linear+SwiGLU | `.../linear_swiglu_kernel.py:35-66` | 910B2 / CANN 9.0.0（报告）/ 9.1.0-beta.3（兼容清单） | 作者算子 −15.93~17.92%；e2e TPOT −3.82%；本机未搭建 | [OPset 报告](../repositories/vLLM-HUST__vllm-hust-opset.md) |
 | `XAYAH-ASC910B-SOFTMAX-NEG` | 52Xayah | Softmax | `src/softmax.py:8-41` | A2 / CANN 9.2.0 / TA 3.2.2 | 作者 0.140 vs 0.035 ms；本机逐 sample 0.288× | [52Xayah 报告](../repositories/52Xayah__triton-ascend-kernels.md) |
 | `XAYAH-ASC910B-MATMUL-NEG` | 52Xayah | Matmul | `src/matmul.py:8-89` | 同上 | 作者 0.699 vs 0.163 ms；本机逐 sample 0.242× | 同上 |
+| `BE4VER-PACO-BATCHED-JACOBI` | Be4ver | 批量单边 Jacobi SVD | `paco-jacobi-svd/jacobi_svd_custom.cpp:130-170,215-303,435-538` | 910B3 / CANN 未固定（QDWH 文档记 8.2.RC1） | 作者 7.061 ms；本机 6.174 ms，512/512 PASS | [Be4ver 报告](../repositories/Be4ver__svd.md) |
+| `BE4VER-QDWH-SDC-FUSED` | Be4ver | QDWH+SDC 融合 | `qdwh_sdc_fused_jacobi/fused_qdwh_sdc.hpp:89-188,386-500` | 同上 | 作者 128/512/1024=4.392/20.540/46.839 ms；本机 4.288/20.698/48.475 ms，全 PASS | 同上 |
+| `PARITY-O3-PACKED-TP` | Parity | packed O(3) TP | `ictc_o3/backends/ascend/packed_tensor_product.py:60-165` | 910B3 / CANN 9.0.0 / torch 2.7.1 | 作者 3.90× forward、3.85× fwd+VJP；本机未构建 | [Parity 报告](../repositories/Parity-LRX__ICTC-O3-HP-Ascend.md) |
+| `PARITY-MESH-ELECTROSTATICS` | Parity | mesh 静电 assignment | `ictc_o3/ascendc/op_kernel/electrostatics.cpp:22-119` | 同上 | 作者 q+μ+Q +6.8%/+10.7%；particle −40.6%/−51.2%；1.90× MD | 同上 |
+| `PARITY-CAPACITY-CHUNK` | Parity | capacity chunk | `ictc_o3/backends/ascend/capacity_message.py:7-80` | 同上 | 作者 196,608 atoms 2.43×、52.68→43.55 GiB | 同上 |
 
 ### 5.1 本机 910B3 复测摘要
 
@@ -143,6 +150,10 @@
 | FusedMoE | 编译失败 | UB 2359296 bits > 1572864 | 6.942960→0.606584 ms，11.446× | 当前环境不可移植 |
 | 52Xayah Softmax | PASS（负例） | 0.334385 vs 0.096430 ms，0.288× | 0.140 vs 0.035 ms，0.25× | 负例稳定 |
 | 52Xayah Matmul | PASS（负例） | 0.902870 vs 0.218790 ms，0.242× | 0.699 vs 0.163 ms，0.23× | 负例稳定 |
+| Be4ver PACO 32×32×512 | PASS | 6.174 ms；512/512 | 7.061 ms | 同量级；当前通用路径 |
+| Be4ver QDWH 128×128 | PASS | 4.288 ms | 4.392 ms | 基本一致 |
+| Be4ver QDWH 512×512 | PASS | 20.698 ms | 20.540 ms | 基本一致 |
+| Be4ver QDWH 1024×1024 | PASS | 48.475 ms | 46.839 ms | 慢 3.5% |
 
 完整命令、原始输出和兼容性 workaround 见 [本机 910B3 复测记录](LOCAL_910B_VALIDATION_20261116.md)。
 
@@ -190,28 +201,61 @@
 - **代价**：`O(E*T*H*I)` 的稠密计算和 `[E,T,I]` 中间缓冲；E 或 T 变大时，浪费的专家计算会吞掉所有收益。
 - **可证伪验证**：固定 `H/I`，把 `E` 从 8 扫到 64/128、`T` 从 83 扫到 1024/8192；分别记录 kernel-only 和端到端。若 E=64 时加速比消失，说明“小 E”是必要条件；若 kernel-only 仍快但端到端不快，说明收益主要来自 launch 消除而非 kernel 本身。
 
+### 6.6 第二批新增候选机制
+
+第一批的 5 项仍是主清单；第二批补 3 组与前面不重叠的机制。
+
+#### M6 矩阵内配对重排：把“每对一次标量反馈”改成“每轮 32 对一次向量更新”
+
+- **源码定位**：`paco-jacobi-svd/docs/64x64-optimization-study-2026-11-12.md:62-100` 的 tournament 原型；补丁在 `docs/research-64x64/tournament.patch`，未合入主路径。
+- **适用条件**：小矩阵（64×64）、batch 不大、单矩阵能常驻 UB；行数能被 2 整除；能接受旋转顺序改变导致 sweep 数/浮点结果变化。
+- **预期改变的关键路径**：每个 sweep 从 2016 个串行对、每对 4 条行更新（8064 条）降到 63 轮 × 4 条（252 条），角度链按 32 lane 批量；算术复杂度仍是 O(n³/sweep)。
+- **代价**：需要第二个 UB 矩阵做 ping-pong，5 段连续 `Adds` 重排；固定 64 lane 角度链在小 batch 更慢；条件数高时需要更多 sweep。
+- **可证伪验证**：把补丁合入独立分支，按 `cond=1e2/1e4/1e6`、batch=1/8/40 跑完整校验和 event 计时；若 batch=1 没有 ≥2× 或 cond=1e6 小奇异值相对误差明显变差，机制不成立。
+
+#### M7 单 kernel 多阶段融合：中间矩阵只被下一阶段消费时不落 GM
+
+- **源码定位**：`qdwh_sdc_fused_jacobi/fused_qdwh_sdc.hpp:89-188,196-477`、`fused_main.cpp:280-354`；H 直接写 SDC arena slot0，Phase1/Phase2 用 `PhaseBarrier` 衔接。
+- **适用条件**：多阶段分解（QDWH→SDC→叶块 Jacobi）的中间矩阵 H 只被下一阶段读；UB/arena 能容纳；能实现跨核 flag/phase barrier；不需要 host 中途检查。
+- **预期改变的关键路径**：省掉两次 host main、两个 kernel、H/U 落盘和 H2D/D2H；作者 64×64 4.102 vs 6.278 ms（−34.7%），1024² 46.839 ms；本机 128/512/1024 全 PASS。
+- **代价**：一个巨大 MIX kernel，flag 协议复杂；UB 余量只有 768 B；某阶段失败会拖垮整包；调试/回归成本高。
+- **可证伪验证**：对同一分解分别做“两次 launch + H 落盘”和“单 launch 融合”，记录 kernel 数、H2D/D2H 字节、event 时延、UB 占用和失败模式；若中间传输占比 <5% 或融合后编译失败，融合不划算。
+
+#### M8 有界 stencil/容量调度：按规模/通道/内存选 schedule，而不是单 kernel 通吃
+
+- **源码定位**：`ictc_o3/ascendc/op_kernel/electrostatics.cpp:22-119`（每 atom×channel tile，stencil 权重/导数在寄存器/UB）；`ictc_o3/backends/ascend/electrostatics.py:22-85`（native/vectorized/particle/CANN 选路）；`ictc_o3/backends/ascend/capacity_message.py:65-80`（按内存自动 chunk）。
+- **适用条件**：mesh/图算子有 3D stencil 或大边中间；channel 可 tile；能按 N/通道/adjoint 目标/内存选不同 schedule；能接受 atomic 非确定性或 chunk 重算。
+- **预期改变的关键路径**：避免 `[N,stencil,S]` 和全边中间物化；作者 scalar q 额外推理 37.78→18.43 ms（−51.2%），196,608 atoms capacity 11.30→4.65 s（2.43×），显存 52.68→43.55 GiB。
+- **代价**：多套 schedule 的维护/验证成本；atomic scatter 非确定；chunk 重算增加 FLOPs；小 N/训练/高阶要走回退。
+- **可证伪验证**：固定算子和输入，扫 `N`、`channels`、`stencil order`、`adjoint target`，分别记录每套 schedule 的时延/显存/数值；若 crossover 与作者相反，或回退路径不比单 schedule 快，说明选路规则不成立。
+
 ## 7. 证据局限与未复现项
 
-1. **本机只验证了纯 Triton 任务**。GroupedTopk、Sinkhorn 通过；FusedMoE 编译失败；52Xayah 两题负例复现。Hansen Ascend C、Mamba-2 自定义 OPP、vLLM-HUST/vLLM 未在本机编译/运行，仍为 `N`。
-2. **本机不是作者环境**。本机是 910B3/CANN 9.1.0/TA 3.2.0，作者分别是 910B1/CANN 9.0.0/TA 3.2.1（KernelSwift）、910B3/CANN 8.2.RC1/TA 3.2.0（Mamba）、910B2/CANN 9.0.0（vLLM）。只能比较机制方向，不能把绝对时延或加速比横比。
+1. **本机验证覆盖两批，但不是全部**。GroupedTopk、Sinkhorn、Be4ver PACO/QDWH 通过；FusedMoE 编译失败；52Xayah 两题负例复现。Hansen Ascend C、Mamba-2 自定义 OPP、Parity 原生库、vLLM-HUST/vLLM 未在本机编译/运行，仍为 `N`。
+2. **本机不是作者环境**。本机是 910B3/CANN 9.1.0/TA 3.2.0，作者分别是 910B1/CANN 9.0.0/TA 3.2.1（KernelSwift）、910B3/CANN 8.2.RC1/TA 3.2.0（Mamba）、910B2/CANN 9.0.0（vLLM）、910B3/CANN 未固定（Be4ver）、910B3/CANN 9.0.0（Parity）。只能比较机制方向，不能把绝对时延或加速比横比。
 3. **Hansen archive 没有逐 case 时延**。只有公示分数和名次，且分数不是跨题可比的加速比；不能把 91.85 分写成“比 83.26 快 10%”。
 4. **Mantuo 的作者数字与本地数字不同**。GroupedTopk/Sinkhorn 方向一致，但本机 reference/candidate 都更快，且 Sinkhorn 误差更大；不能把 2.478×/9.203× 当作本机复现。
-5. **FusedMoE 的 11.446× 未复现**。本机 TA 3.2.0/CANN 9.1.0 在原始 BLOCK_M=32、num_warps=1/4、以及本地 BLOCK_M=16 副本上都 UB 溢出；这是编译兼容性失败，不是性能结论。
+5. **FusedMoE 的 11.446× 未复现**。本机 TA 3.2.0/CANN 9.1.0 在原始 BLOCK_M=32、num_warps=1/4、BLOCK_M=16 和 num_stages=1 副本上都 UB 溢出；这是编译兼容性失败，不是性能结论。
 6. **So-cean 的数字是作者环境**。910B3、CANN 8.2.RC1、TA 3.2.0；跨设备 A100 对照是同 shape、同 feature，但不同架构，不能把 70.82% 当作“910B3 与 A100 的普遍比例”。950PR 当前 HEAD 还有 grouped fast-path 回归。
 7. **vLLM-HUST 的环境记录不完全一致**。原始报告写 CANN 9.0.0，兼容清单写 9.1.0-beta.3；证据快照的 source commit 是 `33d7813...`，当前仓库 HEAD 是 `58acc93...`。本轮只记录这两个事实，不把当前 HEAD 当成已复测。
 8. **52Xayah 的计时口径不同**。作者用 `time.time()` 包住 20/50 次调用后统一同步；本机逐 sample 同步的绝对值更高（含同步/launch），但负例方向一致。不能把两种协议的绝对时延直接比较。
-9. **许可证不完整**。Hansen、mantuo、52Xayah、Be4ver 没有声明 LICENSE；本库不复制其源码，只做引用、行号定位和分析。公开可读不等于可再分发。
-10. **未验证规则合规**。即使源码来自获奖提交，也不能证明当前比赛规则允许同样的融合、近似、私有 API 或数据布局。
+9. **Be4ver 的作者环境未固定 CANN**。QDWH 文档记录过 8.2.RC1，本机用 9.1.0；PACO 作者 7.061 ms、本机 6.174 ms，QDWH 1024 本机慢 3.5%。同 SoC 不同工具链，不能称为严格复现。
+10. **Be4ver 的 4.26× 是研究补丁**。64×64 tournament 只在 `docs/research-64x64/tournament.patch`，当前主路径没有它；本机验证的是通用路径。
+11. **Be4ver 的 atomic 非确定性是环境相关风险**。作者记录 1000×800、seed=42 的奇异值误差 1.5e-5~3.1e-4 且逐次不同；本机用同一输入连跑 3 次，`sigma.bin` SHA256 三次相同、全 PASS，说明该输入在当前 CANN 9.1.0/调度下没有触发。不能据此否定作者记录，也不能说已经修复；复用前要在目标环境重复运行。
+12. **Parity 没有逐点原始日志**。仓库有性能协议、图和说明，但没有逐点 benchmark JSON/CSV；3.90×/4.76×/1.90× 只能作为作者报告，不能当精确复现。
+13. **许可证不完整**。Hansen、mantuo、52Xayah、Be4ver 没有声明 LICENSE；本库不复制其源码，只做引用、行号定位和分析。公开可读不等于可再分发。
+14. **未验证规则合规**。即使源码来自获奖提交，也不能证明当前比赛规则允许同样的融合、近似、私有 API 或数据布局。
 
-## 8. 下一批建议
+## 8. 后续建议
 
 按“能直接服务未来 910B/910C 固定 Shape Case 优化”排序：
 
-1. **Be4ver/svd**：线性代数族，PACO Jacobi 与 QDWH/SDC 两份实现，有 910 设备日志和精度验证；先补 LICENSE/来源核验，再深读 QDWH/SDC 的 QR 串行链与 UB 预算。
-2. **Parity-LRX/ICTC-O3-HP-Ascend**：910B3 上强性能证据，MIT；重点看 O(3) 张量积的对称性剪枝、长程静电的 mesh/FFT 分块、HCCL 重叠。体量大，建议只选 1–2 个 kernel。
-3. **Gxj230958/TritonAscendBench**：选 1 个 L2/L3 kernel 做“上游 Triton 语义 → Triton-Ascend”迁移对照，重点不是速度，而是正确性/边界/来源冻结方法。
-4. **U-Illll/ascend-eigh-operator**：单算子 eigh，适合与 Be4ver 的 SVD 一起看“双精度/双 limb、tridiagonal reduction、back-transform”在 910B 上的资源取舍。
-5. **mantuoluozk 其余 7 题**：优先 Task04（watchdog 拆分）、Task10（UB 超限拆分）、Task03/06（弱收益），把“融合不一定快”的边界补全。
+1. **Be4ver 的 64×64 tournament**：把 `tournament.patch` 合入独立分支，按 cond=1e2/1e4/1e6、batch=1/8/40 做完整回归；这是当前最强的“指令组织”候选，但还不是当前代码成绩。
+2. **Be4ver 的 atomic 确定性化**：把 `QdwhPmat` 的 atomic 累加改成确定性树归约/补偿求和，或改 SDC 分裂路径；先用 1000×800、seed=42 复现“逐次不同”，再验证修复。
+3. **Parity 的 packed TP / mesh 静电**：在本机构建 `libictc_ascendc.so`（需要匹配 CANN/torch_npu），先跑 CPU FP64 小案例和单算子，再跑 910B3；重点验证 grouped TP 的小 E/小 C crossover 和 mesh 的 N/channel 选路。
+4. **Gxj230958/TritonAscendBench**：选 1 个 L2/L3 kernel 做“上游 Triton 语义 → Triton-Ascend”迁移对照，重点不是速度，而是正确性/边界/来源冻结方法。
+5. **U-Illll/ascend-eigh-operator**：单算子 eigh，适合与 Be4ver 的 SVD 一起看“双精度/双 limb、tridiagonal reduction、back-transform”在 910B 上的资源取舍。
+6. **mantuoluozk 其余 7 题**：优先 Task04（watchdog 拆分）、Task10（UB 超限拆分）、Task03/06（弱收益），把“融合不一定快”的边界补全。
 
 ## 9. 文件入口
 
@@ -226,3 +270,5 @@
   - [Mamba-2 AscendC](../repositories/So-cean__mamba-ascendc.md)
   - [vLLM-HUST OPset](../repositories/vLLM-HUST__vllm-hust-opset.md)
   - [52Xayah 负例](../repositories/52Xayah__triton-ascend-kernels.md)
+  - [Be4ver SVD](../repositories/Be4ver__svd.md)
+  - [Parity ICTC-O3](../repositories/Parity-LRX__ICTC-O3-HP-Ascend.md)

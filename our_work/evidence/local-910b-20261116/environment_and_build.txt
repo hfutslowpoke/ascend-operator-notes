@@ -1,0 +1,9 @@
+date_utc=2026-11-16T14:49:37Z
+device=Ascend910B3 NPU2
+cann=9.1.0
+cmake=cmake version 3.22.1
+gcc=gcc (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0
+build_paco=cmake -S paco-jacobi-svd -B build-local -DCMAKE_BUILD_TYPE=Release -DASCEND_CANN_PACKAGE_PATH=/usr/local/Ascend/cann-9.1.0; cmake --build build-local -j 8
+build_qdwh=cmake -S qdwh_sdc_fused_jacobi -B build-local -DCMAKE_BUILD_TYPE=Release -DASCEND_CANN_PACKAGE_PATH=/usr/local/Ascend/cann-9.1.0; cmake --build build-local --target fused_main -j 8
+result=both builds succeeded
+npu_lock=yes
