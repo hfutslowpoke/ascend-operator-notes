@@ -1,6 +1,6 @@
 # 昇腾算子比赛源码与经验库
 
-2026 CANN 挑战赛上合赛区决赛，GroupedMatmulGelu。整理日期：2026-11-16。用于以后算子开发、设计对照和实验复现。
+最初整理 2026 CANN 挑战赛上合赛区决赛 GroupedMatmulGelu。整理日期：2026-11-16。用于以后算子开发、设计对照和实验复现；后续已扩展到公开比赛与高性能算子仓库调研。
 
 本库保存 **26 份公开最终提交 PR、248 个原始文件**，每个文件有 SHA256、Git blob ID 和固定提交来源。公开 PR 下载时仍为 open；公开提交、平台 Pass 与人工核验是不同证据，本文不把它们等同。
 
@@ -18,13 +18,33 @@
 6. [数学顺序与赛事约束](docs/RULES_AND_MATH.md)：保留完整计算、单 kernel 和 Host/Device 边界。
 7. [GitHub 使用说明](docs/GITHUB_QUICKSTART.md)：浏览、下载、以后追加资料的方法。
 
+## 2026-11-16 新增：公开算子仓库调研
+
+- [总览：范围、方法、12 个来源、深读 10 份实现、5 项待验证机制](docs/research/OPEN_SOURCE_REPOSITORY_SURVEY_20261116.md)
+- [机器可读来源登记](catalog/external-repositories.json)：固定 commit、源码路径/行号、环境、证据、负例、复用判断
+- 深读报告：
+  - [Hansen 2026 电力行业算子归档](docs/repositories/Hansenwuwuwu__ascend-c-competition-archive.md)
+  - [KernelSwift 2026 Ascend 910B](docs/repositories/mantuoluozk__kernelswift-2026-triton-kernels.md)
+  - [Mamba-2 AscendC](docs/repositories/So-cean__mamba-ascendc.md)
+  - [vLLM-HUST Linear+SwiGLU](docs/repositories/vLLM-HUST__vllm-hust-opset.md)
+  - [52Xayah Triton 负例](docs/repositories/52Xayah__triton-ascend-kernels.md)
+- 跨实现经验：
+  - [工作量与固定开销](docs/experiences/work_reduction_vs_fixed_overhead.md)
+  - [布局与缓冲生命周期](docs/experiences/layout_and_buffer_lifecycle.md)
+  - [数值与选择性精度](docs/experiences/numerical_selective_precision.md)
+  - [形状专用化与回退](docs/experiences/shape_specialization_and_fallbacks.md)
+- 本轮未运行 NPU、未编译第三方源码、未提交比赛平台；所有外部成绩都是作者/原报告数字。
+
 ## 文件布局
 
 | 目录 | 内容 |
 |---|---|
 | `third_party/shanghe_final/pr-*` | 公开参赛队提交的源码、README、附带文档及逐文件来源 |
 | `third_party/official` | 固定版本的题目、提交规则、原始 LICENSE |
-| `catalog` | 全部 PR 索引、文件哈希、我们最终版及候选的来源 |
+| `catalog` | 全部 PR 索引、文件哈希、我们最终版及候选的来源；`external-repositories.json` 为外部调研登记 |
+| `docs/research` | 公开仓库调研总览、方法、证据局限与下一批建议 |
+| `docs/repositories` | 逐个外部仓库的源码深读报告 |
+| `docs/experiences` | 跨实现的可迁移机制、适用条件与负例 |
 | `our_work/final_submission` | 我们实际最终提交代码及当时的构建/验证驱动 |
 | `our_work/components` | 选中组件与未晋升候选，状态详见索引和分析 |
 | `our_work/evidence` | 精选 PMU、对照结果、负实验、最终提交凭据 |

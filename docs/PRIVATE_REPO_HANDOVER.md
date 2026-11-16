@@ -83,6 +83,8 @@ SID:    6af7d84c6bd0f9be3716f4c6
 
 新环境先读 [README](https://github.com/hfutslowpoke/ascend-operator-notes/blob/main/README.md)、[公开源码分析](https://github.com/hfutslowpoke/ascend-operator-notes/blob/main/docs/OPEN_SOURCE_REVIEW.md)、[复盘](https://github.com/hfutslowpoke/ascend-operator-notes/blob/main/docs/RETROSPECTIVE.md)，再按当前算子选择相关源码与工具，无需先通读所有历史文件。
 
+2026-11-16 新增的外部调研入口：[公开算子仓库调研总览](research/OPEN_SOURCE_REPOSITORY_SURVEY_20261116.md)、[来源登记](../catalog/external-repositories.json)、[仓库深读索引](repositories/README.md)、[跨实现经验](experiences/README.md)。这些是外部参考，不改变本库 GroupedMatmulGelu 的历史快照、成绩或规则。
+
 ## 4. 新环境首次配置
 
 ### 4.1 登录 GitHub 并克隆

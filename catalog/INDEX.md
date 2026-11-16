@@ -4,6 +4,8 @@
 
 PR 均为下载时的 open 状态，未据此宣称人工审核通过。所有 SHA256、Git blob ID 与原路径见 [机器索引](public-final-sources.json)。
 
+> 本页只索引 GroupedMatmulGelu 历史公开 PR。2026-11-16 新增的公开比赛/高性能算子调研（12 个来源、10 份深读实现）见 [external-repositories.json](external-repositories.json) 和 [调研总览](../docs/research/OPEN_SOURCE_REPOSITORY_SURVEY_20261116.md)，不混入本页计数。
+
 | PR | 提交标题 | 原始文件数 | 源码入口 |
 |---|---|---:|---|
 | [3064](https://gitcode.com/cann/cann-ops-competitions/pull/3064) | [2026 CANN 挑战赛区域决赛 上合赛区] WHAleX - groupmatmulgelu | 9 | [kernel.asc](../third_party/shanghe_final/pr-3064/fdu_alex_zeyize_hhm/code/groupmatmulgelu/kernel.asc) |

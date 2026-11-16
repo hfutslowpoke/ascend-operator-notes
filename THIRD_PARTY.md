@@ -10,3 +10,15 @@
 
 我们自己的代码和工具放在 `our_work` 与 `tools`。其中可能使用比赛模板及 Ascend C API，相关权利仍属于原权利人。当前没有为整个集合统一设置一个覆盖所有来源的新许可证。
 
+## 2026-11-16 外部算子调研
+
+本轮新增的 12 个外部来源只做固定 commit 引用、源码行号定位和中文分析，**没有把第三方源码复制进本库**。登记见 [catalog/external-repositories.json](catalog/external-repositories.json)，缓存位于工作区外 `repository-research-cache/`。
+
+许可证状态：
+
+- Apache-2.0：`So-cean/mamba-ascendc`、`Gxj230958/TritonAscendBench`、`elstainniles/triton-operator-benchmarks`；
+- MIT：`vLLM-HUST/vllm-hust-opset`、`Parity-LRX/ICTC-O3-HP-Ascend`、`U-Illll/ascend-eigh-operator`、`asfsdsf/S6`、`Yunle-Lee/CANN-Operator-test-competition-personal-solution`；
+- 未声明许可证：`Hansenwuwuwu/ascend-c-competition-archive`、`mantuoluozk/kernelswift-2026-triton-kernels`、`52Xayah/triton-ascend-kernels`、`Be4ver/svd`。
+
+未声明许可证的仓库仅用于私密学习/内部检索，不复制、不再分发其源码；公开可读不等于允许再许可。作者成绩、官方公示分数和本库的分析都不是本机复现，也不构成规则合规或通用正确性证明。
+
