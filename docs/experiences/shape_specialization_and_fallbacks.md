@@ -250,6 +250,6 @@ Hansen 的三份实现都有大量模板/PATH/宏：
 
 ## 9. 证据边界
 
-- 本文的路由/回退结论来自固定 commit 的源码；没有本机编译/运行。
+- 本文的路由/回退结论主要来自固定 commit 的源码；本机只运行了 KernelSwift 的 GroupedTopk/Sinkhorn（FusedMoE 编译失败），Hansen/Mamba/vLLM-HUST 的专用路径未在本机编译/运行。
 - “某个路径不可达”需要逐条静态核对；本轮只对 Hansen 三题的部分路径做了阅读，未做完整可达性证明。
 - 固定 shape 的官方成绩不能证明其它 shape 也正确/快；回退路径必须单独验证。

@@ -8,7 +8,8 @@
     "A": "作者声明/README/设计文档",
     "O": "原始评测/平台记录",
     "L": "本地缓存/固定版本核对",
-    "N": "本环境未复现（无 NPU 编译/运行/提交）"
+    "V": "本机 Ascend 910B3 复测（含通过/编译失败/负例）",
+    "N": "本批未复现（无编译/运行/profiler/平台提交）"
   },
   "search": {
     "date": "2026-11-16",
@@ -91,7 +92,8 @@
       "relationship_to_existing": "new; 与 GroupedMatmulGelu 无重复",
       "status": "deep-read",
       "report": "docs/repositories/mantuoluozk__kernelswift-2026-triton-kernels.md",
-      "notes": "四平台 10 题；本报告只用 Ascend 910B1 三题。官方评测器 warmup=200/repeat=500/中位数，每次 sample 同步；作者数字，未本机复现。"
+      "notes": "四平台 10 题；本报告只用 Ascend 910B1 三题。官方评测器 warmup=200/repeat=500/中位数，每次 sample 同步；作者数字 + 本机 910B3 部分复测（GroupedTopk/Sinkhorn 通过，FusedMoE 编译失败）。",
+      "local_validation": "GroupedTopk PASS 2.670x; Sinkhorn PASS 13.226x; FusedMoE compile-failed (UB overflow) on local 910B3/CANN 9.1.0/TA 3.2.0. See docs/research/LOCAL_910B_VALIDATION_20261116.md"
     },
     {
       "id": "so-cean-mamba-ascendc",
@@ -177,7 +179,8 @@
       "relationship_to_existing": "new; 用作负例",
       "status": "deep-read-negative",
       "report": "docs/repositories/52Xayah__triton-ascend-kernels.md",
-      "notes": "Softmax/Matmul 均慢于 PyTorch；作者粗略计时；用于校准“手写 Triton 不一定快”。"
+      "notes": "Softmax/Matmul 均慢于 PyTorch；作者粗略计时；本机 910B3 负例复现。用于校准“手写 Triton 不一定快”。",
+      "local_validation": "Softmax 0.288x and Matmul 0.242x vs PyTorch (per-sample median) on local 910B3; negative result reproduced. See docs/research/LOCAL_910B_VALIDATION_20261116.md"
     },
     {
       "id": "gxj230958-tritonascendbench",
@@ -674,7 +677,7 @@
       ],
       "reuse_decision": "优先复用单调性+分母抵消；选择链按 E/K 重设计。",
       "report": "docs/repositories/mantuoluozk__kernelswift-2026-triton-kernels.md",
-      "verification": "not-reproduced; author official evaluator",
+      "verification": "locally-validated on Ascend 910B3; see local_validation",
       "performance_evidence": {
         "baseline": "PyTorch reference.py（softmax + topk + renormalize）",
         "timing_scope": "forward 调用（含 launch/同步）",
@@ -685,6 +688,17 @@
         "full_call_or_kernel": "完整 ModelNew.forward",
         "original_location": "platforms/ascend910b/task01_grouped_topk/README.md",
         "reproduced": false
+      },
+      "local_validation": {
+        "status": "pass",
+        "environment": "Ascend 910B3 / CANN 9.1.0 / torch 2.10.0 / torch_npu 2.10.0 / triton-ascend 3.2.0",
+        "reference_ms": 0.5935,
+        "candidate_ms": 0.222255,
+        "speedup": 2.67,
+        "protocol": "warmup=200 repeat=500 median, per-sample sync",
+        "log": "our_work/evidence/local-910b-20261116/grouped_topk_official.log",
+        "log_sha256": "3187b334c43aab0b3797335e624cb8e11fa1d173d5bf7c795ed6c93f35ba521a",
+        "summary": "方向一致；作者 2.478x，本机 2.670x；设备/版本不同，不是严格复现。"
       }
     },
     {
@@ -751,7 +765,7 @@
       ],
       "reuse_decision": "在 E/T/H/I 小的固定 shape 下优先验证稠密全专家+三阶段规则 kernel；E/T 大时不用。",
       "report": "docs/repositories/mantuoluozk__kernelswift-2026-triton-kernels.md",
-      "verification": "not-reproduced; author official evaluator",
+      "verification": "local compile failed on Ascend 910B3; author number not reproduced",
       "performance_evidence": {
         "baseline": "PyTorch reference.py（动态 Top-2 + 每专家小 GEMM）",
         "timing_scope": "forward 调用（含 launch/同步）",
@@ -762,6 +776,19 @@
         "full_call_or_kernel": "完整 ModelNew.forward",
         "original_location": "platforms/ascend910b/task02_fused_moe/README.md",
         "reproduced": false
+      },
+      "local_validation": {
+        "status": "compile-failed",
+        "environment": "Ascend 910B3 / CANN 9.1.0 / triton-ascend 3.2.0",
+        "error": "UB overflow: requires 2359296 bits while 1572864 bits available",
+        "attempts": [
+          "num_warps=4 BLOCK_M=32",
+          "num_warps=1 BLOCK_M=32",
+          "num_warps=4 BLOCK_M=16 local copy"
+        ],
+        "log": "our_work/evidence/local-910b-20261116/fused_moe_compile_fail.log",
+        "log_sha256": "3b9ce6299dcd147da40e0d5f6b6e79845df74d76e6155ce0134b71710d06c95a",
+        "summary": "作者 11.446x 未能复现；当前 TA/CANN 编译失败，不是正确性或性能结果。"
       }
     },
     {
@@ -826,7 +853,7 @@
       ],
       "reuse_decision": "固定 4x4 小矩阵 Sinkhorn 优先复用标量化+单 kernel+寄存器驻留；矩阵变大改用二维 tile。",
       "report": "docs/repositories/mantuoluozk__kernelswift-2026-triton-kernels.md",
-      "verification": "not-reproduced; author official evaluator",
+      "verification": "locally-validated on Ascend 910B3; see local_validation",
       "performance_evidence": {
         "baseline": "PyTorch reference.py（20 轮 Sinkhorn，多个小 kernel）",
         "timing_scope": "forward 调用（含 launch/同步）",
@@ -837,6 +864,18 @@
         "full_call_or_kernel": "完整 ModelNew.forward",
         "original_location": "platforms/ascend910b/task08_hc_split_sinkhorn/README.md",
         "reproduced": false
+      },
+      "local_validation": {
+        "status": "pass",
+        "environment": "Ascend 910B3 / CANN 9.1.0 / torch 2.10.0 / torch_npu 2.10.0 / triton-ascend 3.2.0",
+        "reference_ms": 3.61623,
+        "candidate_ms": 0.27342,
+        "speedup": 13.226,
+        "max_abs_diff": 6.76512718e-06,
+        "protocol": "warmup=200 repeat=500 median, per-sample sync",
+        "log": "our_work/evidence/local-910b-20261116/sinkhorn_official.log",
+        "log_sha256": "fe30332c8346e9fc4705e80549ced3bdcfe788be841c90c9bf10cd50c5cc0325",
+        "summary": "方向一致；作者 9.203x，本机 13.226x；误差 6.765e-06 仍过 1e-2 容差。"
       }
     },
     {
@@ -1083,7 +1122,7 @@
       ],
       "reuse_decision": "作为负例；标准 shape 优先厂商库或做融合/分块归约。",
       "report": "docs/repositories/52Xayah__triton-ascend-kernels.md",
-      "verification": "not-reproduced; author rough timing",
+      "verification": "locally-validated negative on Ascend 910B3; see local_validation",
       "performance_evidence": {
         "baseline": "PyTorch torch.softmax",
         "timing_scope": "50 次调用批量计时后统一同步",
@@ -1094,6 +1133,17 @@
         "full_call_or_kernel": "完整 Python 调用",
         "original_location": "README.md",
         "reproduced": false
+      },
+      "local_validation": {
+        "status": "pass-negative",
+        "environment": "Ascend 910B3 / CANN 9.1.0 / triton-ascend 3.2.0",
+        "triton_ms": 0.334385,
+        "torch_ms": 0.09643,
+        "speedup": 0.288,
+        "protocol": "warmup=200 repeat=500 median, per-sample sync",
+        "log": "our_work/evidence/local-910b-20261116/xayah_persample.log",
+        "log_sha256": "23bd5260408630965decd71bb854aa857d075fe07647d3fed9c89f701c8b86f9",
+        "summary": "负例复现；作者批量协议 0.25x，本机逐 sample 0.288x。"
       }
     },
     {
@@ -1148,7 +1198,7 @@
       ],
       "reuse_decision": "作为负例；规则大 GEMM 优先厂商库或做 Cube 友好 tile/流水。",
       "report": "docs/repositories/52Xayah__triton-ascend-kernels.md",
-      "verification": "not-reproduced; author rough timing",
+      "verification": "locally-validated negative on Ascend 910B3; see local_validation",
       "performance_evidence": {
         "baseline": "PyTorch torch.matmul",
         "timing_scope": "20 次调用批量计时后统一同步",
@@ -1159,6 +1209,17 @@
         "full_call_or_kernel": "完整 Python 调用",
         "original_location": "README.md",
         "reproduced": false
+      },
+      "local_validation": {
+        "status": "pass-negative",
+        "environment": "Ascend 910B3 / CANN 9.1.0 / triton-ascend 3.2.0",
+        "triton_ms": 0.90287,
+        "torch_ms": 0.21879,
+        "speedup": 0.242,
+        "protocol": "warmup=20 repeat=50 median, per-sample sync",
+        "log": "our_work/evidence/local-910b-20261116/xayah_persample.log",
+        "log_sha256": "23bd5260408630965decd71bb854aa857d075fe07647d3fed9c89f701c8b86f9",
+        "summary": "负例复现；作者批量协议 0.23x，本机逐 sample 0.242x。"
       }
     }
   ],

@@ -183,6 +183,6 @@ for each target i:
 
 ## 6. 证据边界
 
-- 本文所有数字来自原作者/原报告；本机未复现。
-- 评测口径不同：KernelSwift 是 forward 级逐 sample 同步；Mamba-2 是 device event p50；vLLM-HUST 是算子级 10/50 + 端到端 3 轮；Hansen 只有公示分数。
+- 作者数字来自各自环境；本机 910B3 只复测了 GroupedTopk（PASS 2.670×）、Sinkhorn（PASS 13.226×）和 52Xayah 两题（负例）。FusedMoE 本机编译失败；Hansen/Mamba/vLLM-HUST 未在本机运行。
+- 评测口径不同：KernelSwift 是 forward 级逐 sample 同步；Mamba-2 是 device event p50；vLLM-HUST 是算子级 10/50 + 端到端 3 轮；Hansen 只有公示分数；52Xayah 作者是批量计时。
 - 不能跨来源比较加速比；只能比较“机制在各自条件下是否成立”。

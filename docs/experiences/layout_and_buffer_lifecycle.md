@@ -208,6 +208,6 @@ WaitFlag<HardEvent::FIX_M>(eventId);
 
 ## 8. 证据边界
 
-- 本文的布局/生命周期结论来自固定 commit 的源码；没有本机编译/运行。
+- 本文的布局/生命周期结论主要来自固定 commit 的源码；KernelSwift 的 GroupedTopk/Sinkhorn 已在本机 910B3 运行，但没有做布局专项 profiler；Hansen/Mamba 未在本机编译。
 - 容量数字（41.9/182.8/192 KiB、128 KiB accumulator）来自作者文档或按 shape 估算，不是本机 profiler。
 - 事件/双槽的正确性需要设备验证；静态源码只能证明“设计上有这些等待”，不能证明“运行时没有 race”。

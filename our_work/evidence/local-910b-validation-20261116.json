@@ -1,0 +1,179 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-11-16T14:31:32Z",
+  "scope": "本机 Ascend 910B3 对第一批外部实现的独立复测；只运行纯 Triton 任务，不提交比赛平台。",
+  "device": {
+    "name": "Ascend910B3",
+    "npu_index": 2,
+    "npu_smi_version": "26.1.1",
+    "hbm_mb": 65536,
+    "health": "OK"
+  },
+  "software": {
+    "cann": "9.1.0",
+    "driver": "26.1.1",
+    "python": "3.10.12",
+    "torch": "2.10.0+cpu",
+    "torch_npu": "2.10.0",
+    "triton_ascend": "3.2.0",
+    "venv": "/workspace/acw/var/private/venvs/triton-ascend-310"
+  },
+  "setup_workaround": {
+    "issue": "triton-ascend 3.2.0 的 npu_utils.cpp 引用 RT_LIMIT_TYPE_SIMT_WARP_STACK_SIZE，但本机 CANN 9.1.0 的 rtLimitType_t 没有该枚举；首次运行在编译 NPUUtils 时失败。",
+    "workaround": "仅在隔离 venv 的 triton/backends/ascend/npu_utils.cpp 中移除未使用的 LimitTypeMap 条目 WARP_STACK_SIZE；没有修改 CANN、驱动、仓库源码或系统全局环境。",
+    "risk": "调用 set_device_limit('WARP_STACK_SIZE') 会失败；本轮算子路径不调用该接口。",
+    "not_a_fix": "这不是 CANN/TA 兼容性修复，也不代表目标环境应这样部署；只用于本机复测。"
+  },
+  "commands": {
+    "lock": "cd /workspace/acw && bin/npu-lock bash -lc '<env> ...'",
+    "env": "CPATH 包含解包的 python3.10 头文件；LIBRARY_PATH 包含 libpython3.10.so；未修改系统 Python。",
+    "grouped_topk": "python benchmark.py --num-warps 1 --warmup 200 --repeat 500",
+    "sinkhorn": "python benchmark.py --num-warps 1 --warmup 200 --repeat 500",
+    "fused_moe": "python benchmark.py --num-warps 4 --warmup 200 --repeat 500（另试 --num-warps 1 和 BLOCK_M=16 本地副本）",
+    "xayah_per_sample": "python local_validate_xayah.py（softmax 200/500，matmul 20/50，逐 sample 同步，取中位数）"
+  },
+  "runs": [
+    {
+      "id": "KS2026-ASC910B-GROUPEDTOPK",
+      "status": "pass",
+      "shape": "gating_output[83,256] FP32; hidden_states[83,7168] FP16",
+      "protocol": {
+        "warmup": 200,
+        "repeat": 500,
+        "stat": "median",
+        "sync": "per-sample",
+        "includes": "完整 ModelNew.forward（含 launch/同步）"
+      },
+      "reference_ms": 0.5935,
+      "candidate_ms": 0.222255,
+      "speedup": 2.67,
+      "author": {
+        "reference_ms": 0.701666,
+        "candidate_ms": 0.283144,
+        "speedup": 2.478
+      },
+      "log": "our_work/evidence/local-910b-20261116/grouped_topk_official.log",
+      "log_sha256": "3187b334c43aab0b3797335e624cb8e11fa1d173d5bf7c795ed6c93f35ba521a",
+      "notes": "方向一致；本机 reference 和 candidate 都更快，不能把 2.670x 与作者 2.478x 当作同一硬件上的严格复现。"
+    },
+    {
+      "id": "KS2026-ASC910B-SINKHORN",
+      "status": "pass",
+      "shape": "mixes[2,8,24] FP32; hc_mult=4; 20 iterations; eps=1e-6",
+      "protocol": {
+        "warmup": 200,
+        "repeat": 500,
+        "stat": "median",
+        "sync": "per-sample",
+        "includes": "完整 ModelNew.forward（含 launch/同步）"
+      },
+      "reference_ms": 3.61623,
+      "candidate_ms": 0.27342,
+      "speedup": 13.226,
+      "max_abs_diff": 6.76512718e-06,
+      "author": {
+        "reference_ms": 3.032301,
+        "candidate_ms": 0.329475,
+        "speedup": 9.203,
+        "max_abs_diff": 1.1920929e-07
+      },
+      "log": "our_work/evidence/local-910b-20261116/sinkhorn_official.log",
+      "log_sha256": "fe30332c8346e9fc4705e80549ced3bdcfe788be841c90c9bf10cd50c5cc0325",
+      "notes": "方向一致；本机误差 6.765e-06 高于作者 1.19e-07，但仍通过 atol/rtol=1e-2。"
+    },
+    {
+      "id": "XAYAH-ASC910B-SOFTMAX-NEG",
+      "status": "pass-negative",
+      "shape": "M=4096,N=1024,FP32",
+      "protocol": {
+        "warmup": 200,
+        "repeat": 500,
+        "stat": "median",
+        "sync": "per-sample",
+        "includes": "完整 Python 调用（含 launch/同步）"
+      },
+      "triton_ms": 0.334385,
+      "torch_ms": 0.09643,
+      "speedup": 0.288,
+      "author": {
+        "triton_ms": 0.14,
+        "torch_ms": 0.035,
+        "speedup": 0.25,
+        "protocol": "作者脚本批量 50 次后统一同步"
+      },
+      "author_protocol_local": {
+        "triton_ms": 0.155,
+        "torch_ms": 0.035,
+        "speedup": 0.23
+      },
+      "log": "our_work/evidence/local-910b-20261116/xayah_persample.log",
+      "log_sha256": "23bd5260408630965decd71bb854aa857d075fe07647d3fed9c89f701c8b86f9",
+      "notes": "两种协议都显示朴素 Triton 慢于 PyTorch；逐 sample 协议的绝对时延包含同步开销，因此高于作者批量计时。"
+    },
+    {
+      "id": "XAYAH-ASC910B-MATMUL-NEG",
+      "status": "pass-negative",
+      "shape": "M=1024,K=16384,N=1024,FP16",
+      "protocol": {
+        "warmup": 20,
+        "repeat": 50,
+        "stat": "median",
+        "sync": "per-sample",
+        "includes": "完整 Python 调用（含 launch/同步）"
+      },
+      "triton_ms": 0.90287,
+      "torch_ms": 0.21879,
+      "speedup": 0.242,
+      "author": {
+        "triton_ms": 0.699,
+        "torch_ms": 0.163,
+        "speedup": 0.23,
+        "protocol": "作者脚本批量 20 次后统一同步"
+      },
+      "author_protocol_local": {
+        "triton_ms": 0.675,
+        "torch_ms": 0.164,
+        "speedup": 0.24
+      },
+      "log": "our_work/evidence/local-910b-20261116/xayah_persample.log",
+      "log_sha256": "23bd5260408630965decd71bb854aa857d075fe07647d3fed9c89f701c8b86f9",
+      "notes": "负例方向稳定；本地绝对时延高于作者，主要来自逐 sample 同步和不同 SoC/编译器。"
+    }
+  ],
+  "failures": [
+    {
+      "id": "KS2026-ASC910B-FUSEDMOE",
+      "status": "compile-failed",
+      "shape": "hidden_states[83,128] FP16; router_logits[83,8] FP32; E=8, topk=2",
+      "error": "UB overflow: requires 2359296 bits while 1572864 bits available",
+      "attempts": [
+        "--num-warps 4，原始 BLOCK_M=32",
+        "--num-warps 1，原始 BLOCK_M=32",
+        "本地副本 BLOCK_M=16，--num-warps 4"
+      ],
+      "author": {
+        "reference_ms": 6.94296,
+        "candidate_ms": 0.606584,
+        "speedup": 11.446,
+        "environment": "910B1/CANN 9.0.0/TA 3.2.1"
+      },
+      "log": "our_work/evidence/local-910b-20261116/fused_moe_compile_fail.log",
+      "log_sha256": "b29f637da0d81d34d72761e3a7a8e83aab55eb8cba11d17d815b1d3792974d7b",
+      "notes": "不是正确性或性能结果；说明作者 11.446x 依赖其 TA/CANN 版本，当前 910B3 + TA 3.2.0 + CANN 9.1.0 无法直接编译。"
+    }
+  ],
+  "conclusions": [
+    "GroupedTopk 的单调性+分母抵消机制在本地 910B3 上通过正确性并以 2.670x 复现方向；绝对值与作者不同。",
+    "Sinkhorn 的标量化+单 kernel 机制在本地 910B3 上通过正确性并以 13.226x 复现方向；误差仍在 1e-2 容差内。",
+    "52Xayah 的 Softmax/Matmul 负例在本地稳定复现：朴素 Triton 约为 PyTorch 的 0.288x/0.242x。",
+    "FusedMoE 的 11.446x 未能复现：原始 kernel 在 TA 3.2.0/CANN 9.1.0 上 UB 溢出；不能把作者数字外推到当前环境。",
+    "本地结果支持“先判断固定开销/中间张量/代数简化”的方法论，但不证明 910C、其它 CANN 或其它 shape 也成立。"
+  ],
+  "limitations": [
+    "设备是 910B3（作者 KernelSwift 为 910B1），CANN/TA 版本也不同；不是严格同环境复现。",
+    "只运行了纯 Triton 任务；Hansen Ascend C、Mamba-2 自定义 OPP、vLLM-HUST/vLLM 未在本机运行。",
+    "没有做 msprof/PMU 级 profiling；时延包含 forward/launch/同步。",
+    "没有提交比赛平台，也没有验证规则合规性。",
+    "triton-ascend 的 npu_utils.cpp 兼容性 workaround 只作用于隔离 venv，不代表可部署修复。"
+  ]
+}

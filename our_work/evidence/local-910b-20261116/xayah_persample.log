@@ -1,0 +1,8 @@
+/workspace/acw/var/private/repository-research-cache/52Xayah_triton-ascend-kernels/src/softmax.py:34: UserWarning: Cannot create tensor with interal format while allow_internel_format=False, tensor will be created with base format. (Triggered internally at ../torch_npu/csrc/aten/common/TensorFactories.cpp:340.)
+  output = torch.empty_like(x)
+softmax PASS shape=4096x1024 fp32 triton_median_ms=0.334385 triton_min=0.304260 triton_max=0.377440 torch_median_ms=0.096430 torch_min=0.091150 torch_max=0.131860 speedup=0.288x
+[WARNING] Please DO NOT tune args ['num_warps', 'num_ctas', 'num_stages', 'num_buffers_warp_spec', 'num_consumer_groups', 'reg_dec_producer', 'reg_inc_consumer', 'force_simt_template', 'enable_linearize']!
+[WARNING] Please DO NOT tune args ['num_warps', 'num_ctas', 'num_stages', 'num_buffers_warp_spec', 'num_consumer_groups', 'reg_dec_producer', 'reg_inc_consumer', 'force_simt_template', 'enable_linearize']!
+[WARNING] Please DO NOT tune args ['num_warps', 'num_ctas', 'num_stages', 'num_buffers_warp_spec', 'num_consumer_groups', 'reg_dec_producer', 'reg_inc_consumer', 'force_simt_template', 'enable_linearize']!
+[WARNING] Please DO NOT tune args ['num_warps', 'num_ctas', 'num_stages', 'num_buffers_warp_spec', 'num_consumer_groups', 'reg_dec_producer', 'reg_inc_consumer', 'force_simt_template', 'enable_linearize']!
+matmul PASS shape=1024x16384x1024 fp16 triton_median_ms=0.902870 triton_min=0.890970 triton_max=0.942540 torch_median_ms=0.218790 torch_min=0.212350 torch_max=0.237780 speedup=0.242x

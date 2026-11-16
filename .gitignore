@@ -18,3 +18,6 @@ hosts.yml
 *.key
 *.log
 
+
+# Small reviewed evidence logs only
+!our_work/evidence/local-910b-20261116/*.log

@@ -1,6 +1,6 @@
 # 公开比赛与高性能算子仓库调研（2026-11-16，第一批）
 
-状态：第一批来源筛选与源码深读完成。未在 NPU 上编译或运行任何第三方代码，未向比赛平台提交，未修改当前算子工程或 ACW 框架。本文中的“加速比”全部是原作者/原报告在各自环境下的数字，不是本机复现。
+状态：第一批来源筛选与源码深读完成；纯 Triton 任务已在本机 Ascend 910B3 复测。未在本机编译 Ascend C 自定义算子，未向比赛平台提交，未修改当前算子工程或 ACW 框架。除明确标注“本机复测”的数字外，本文中的“加速比”都是原作者/原报告在各自环境下的数字。
 
 ## 1. 结论摘要
 
@@ -11,8 +11,9 @@
   - `mantuoluozk/kernelswift-2026-triton-kernels`：Ascend 910B1、CANN 9.0.0、Triton-Ascend 3.2.1，官方评测器 `warmup=200`、`repeat=500`、中位数，10/10 正确性通过；本轮深读其中 3 题。
   - `So-cean/mamba-ascendc`：Ascend 910B3，device event p50，同平台 PyTorch/Triton-Ascend/AscendC 三层对照，并有 msprof 阶段分解；本轮深读 ChunkMix。
   - `vLLM-HUST/vllm-hust-opset`：Ascend 910B2，算子级 10 warmup/50 同步样本，端到端 3 轮匹配；本轮深读 Linear+SwiGLU Graph 融合。
+- **本机 910B3 复测**：GroupedTopk PASS 2.670×（作者 2.478×）、Sinkhorn PASS 13.226×（作者 9.203×）、52Xayah Softmax/Matmul 负例 0.288×/0.242×稳定复现；FusedMoE 在当前 TA 3.2.0/CANN 9.1.0 上 UB 溢出，作者 11.446× 未复现。详见 [本机复测记录](LOCAL_910B_VALIDATION_20261116.md)。
 - 证据最弱的深读项是 `Hansenwuwuwu/ascend-c-competition-archive` 的三份 2026 电力行业算子：有官方公示分数和名次，但没有逐 case 时延，也没有本机编译/运行；因此只把它当作“获奖源码的结构证据”，不把分数换算成加速比。
-- `52Xayah/triton-ascend-kernels` 的 Softmax/Matmul 是明确负例：Triton 版本分别约 0.140 ms vs PyTorch 0.035 ms、0.699 ms vs 0.163 ms。它提醒我们，手写 Triton 不会自动超过厂商库，必须先把 tile、数据布局、融合和启动开销算清楚。
+- `52Xayah/triton-ascend-kernels` 的 Softmax/Matmul 是明确负例：原作者批量计时约 0.140 ms vs PyTorch 0.035 ms、0.699 ms vs 0.163 ms；本机逐 sample 协议为 0.288×/0.242×。它提醒我们，手写 Triton 不会自动超过厂商库，必须先把 tile、数据布局、融合和启动开销算清楚。
 
 ## 2. 范围、搜索与证据方法
 
@@ -43,9 +44,10 @@
 | `A` | 作者声明：README、注释、设计文档中的解释或数字 |
 | `O` | 原始平台/评测记录：官方公示分数、官方评测器输出、原始 benchmark 报告 |
 | `L` | 本地缓存/固定版本核对：clone 后 commit、文件哈希、路径存在 |
-| `N` | 未复现：本环境没有编译、运行、profiling 或平台提交 |
+| `V` | 本机 Ascend 910B3 复测：通过正确性并记录时延，或记录编译/运行失败 |
+| `N` | 本批未复现：本环境没有编译/运行/ profiler/平台提交 |
 
-一个结论可以同时有 `S+L`，但没有 `N` 之外的实验证据时，不写成“已验证性能”。本轮所有实现都是 `N`。
+一个结论可以同时有 `S+L`，但没有 `V` 或 `O` 之外的实验证据时，不写成“已验证性能”。本批：Hansen/Mamba/vLLM-HUST 仍为 `N`；KernelSwift 与 52Xayah 的部分实现为 `V`。
 
 ### 2.3 本地缓存
 
@@ -122,13 +124,27 @@
 | `HANSEN-2026POWER-FIRE-R2` | Hansen archive | FireCandidateDecodeFusion (rank2) | `.../FireCandidateDecodeFusion/rank2_submission_1176342/code/op_kernel/device_fire.h:105-143,272-365` | 910B4 / CANN 9.0.0.0 / 20 AIC（比赛环境） | 公示分 83.26；无逐 case 时延 | [Hansen 报告](../repositories/Hansenwuwuwu__ascend-c-competition-archive.md) |
 | `HANSEN-2026POWER-SPLINE-R1` | Hansen archive | SplineConv (rank1) | `.../SplineConv/rank1_submission_1174398/code/op_kernel/spline_conv_compact.h:86-94,200-225` | 同上 | 公示分 89.16；无逐 case 时延 | 同上 |
 | `HANSEN-2026POWER-TREE-R1` | Hansen archive | TreeLineMinDistance (rank1) | `.../TreeLineMinDistance/rank1_submission_1175341/code/op_kernel/tree_pairs.h:323-515,752-854` | 同上 | 公示分 91.85；无逐 case 时延 | 同上 |
-| `KS2026-ASC910B-GROUPEDTOPK` | mantuo | GroupedTopk | `platforms/ascend910b/task01_grouped_topk/solution.py:8-89` | 910B1 / CANN 9.0.0 / TA 3.2.1 | 0.701666→0.283144 ms，2.478×，官方评测器 | [KernelSwift 报告](../repositories/mantuoluozk__kernelswift-2026-triton-kernels.md) |
-| `KS2026-ASC910B-FUSEDMOE` | mantuo | FusedMoE | `.../task02_fused_moe/solution.py:8-87` | 同上 | 6.942960→0.606584 ms，11.446× | 同上 |
-| `KS2026-ASC910B-SINKHORN` | mantuo | hc_split_sinkhorn | `.../task08_hc_split_sinkhorn/solution.py:67-89` | 同上 | 3.032301→0.329475 ms，9.203× | 同上 |
-| `MAMBA2-ASCENDC-CHUNKMIX` | So-cean | Mamba-2 SSD ChunkMix | `mamba_ascendc_ops/mamba2_ssd_chunk_mix/op_kernel/mamba2_ssd_chunk_mix.cpp:1016-1211` | 910B3 / CANN 8.2.RC1 / TA 3.2.0 | 0.632 ms vs 6.287/4.305；H256 31.888 ms | [Mamba 报告](../repositories/So-cean__mamba-ascendc.md) |
-| `VLLMHUST-LINEAR-SWIGLU` | vLLM-HUST | Linear+SwiGLU | `.../linear_swiglu_kernel.py:35-66` | 910B2 / CANN 9.0.0（报告）/ 9.1.0-beta.3（兼容清单） | 算子 −15.93~17.92%；e2e TPOT −3.82% | [OPset 报告](../repositories/vLLM-HUST__vllm-hust-opset.md) |
-| `XAYAH-ASC910B-SOFTMAX-NEG` | 52Xayah | Softmax | `src/softmax.py:8-41` | A2 / CANN 9.2.0 / TA 3.2.2 | 0.140 ms vs PyTorch 0.035 ms | [52Xayah 报告](../repositories/52Xayah__triton-ascend-kernels.md) |
-| `XAYAH-ASC910B-MATMUL-NEG` | 52Xayah | Matmul | `src/matmul.py:8-89` | 同上 | 0.699 ms vs PyTorch 0.163 ms | 同上 |
+| `KS2026-ASC910B-GROUPEDTOPK` | mantuo | GroupedTopk | `platforms/ascend910b/task01_grouped_topk/solution.py:8-89` | 910B1 / CANN 9.0.0 / TA 3.2.1 | 作者 0.701666→0.283144 ms，2.478×；本机 2.670× PASS | [KernelSwift 报告](../repositories/mantuoluozk__kernelswift-2026-triton-kernels.md) |
+| `KS2026-ASC910B-FUSEDMOE` | mantuo | FusedMoE | `.../task02_fused_moe/solution.py:8-87` | 同上 | 作者 6.942960→0.606584 ms，11.446×；本机编译失败（UB） | 同上 |
+| `KS2026-ASC910B-SINKHORN` | mantuo | hc_split_sinkhorn | `.../task08_hc_split_sinkhorn/solution.py:67-89` | 同上 | 作者 3.032301→0.329475 ms，9.203×；本机 13.226× PASS | 同上 |
+| `MAMBA2-ASCENDC-CHUNKMIX` | So-cean | Mamba-2 SSD ChunkMix | `mamba_ascendc_ops/mamba2_ssd_chunk_mix/op_kernel/mamba2_ssd_chunk_mix.cpp:1016-1211` | 910B3 / CANN 8.2.RC1 / TA 3.2.0 | 作者 0.632 ms vs 6.287/4.305；H256 31.888 ms；本机未构建 | [Mamba 报告](../repositories/So-cean__mamba-ascendc.md) |
+| `VLLMHUST-LINEAR-SWIGLU` | vLLM-HUST | Linear+SwiGLU | `.../linear_swiglu_kernel.py:35-66` | 910B2 / CANN 9.0.0（报告）/ 9.1.0-beta.3（兼容清单） | 作者算子 −15.93~17.92%；e2e TPOT −3.82%；本机未搭建 | [OPset 报告](../repositories/vLLM-HUST__vllm-hust-opset.md) |
+| `XAYAH-ASC910B-SOFTMAX-NEG` | 52Xayah | Softmax | `src/softmax.py:8-41` | A2 / CANN 9.2.0 / TA 3.2.2 | 作者 0.140 vs 0.035 ms；本机逐 sample 0.288× | [52Xayah 报告](../repositories/52Xayah__triton-ascend-kernels.md) |
+| `XAYAH-ASC910B-MATMUL-NEG` | 52Xayah | Matmul | `src/matmul.py:8-89` | 同上 | 作者 0.699 vs 0.163 ms；本机逐 sample 0.242× | 同上 |
+
+### 5.1 本机 910B3 复测摘要
+
+环境：Ascend 910B3（NPU 2）、CANN 9.1.0、torch 2.10.0+cpu、torch_npu 2.10.0、Triton-Ascend 3.2.0；所有 NPU 运行经 `bin/npu-lock`。
+
+| 实现 | 结果 | 本机数字 | 作者数字 | 判断 |
+|---|---|---:|---:|---|
+| GroupedTopk | PASS | 0.593500→0.222255 ms，2.670× | 0.701666→0.283144 ms，2.478× | 方向一致 |
+| Sinkhorn | PASS | 3.616230→0.273420 ms，13.226×；max diff 6.765e-06 | 3.032301→0.329475 ms，9.203×；max diff 1.19e-07 | 方向一致 |
+| FusedMoE | 编译失败 | UB 2359296 bits > 1572864 | 6.942960→0.606584 ms，11.446× | 当前环境不可移植 |
+| 52Xayah Softmax | PASS（负例） | 0.334385 vs 0.096430 ms，0.288× | 0.140 vs 0.035 ms，0.25× | 负例稳定 |
+| 52Xayah Matmul | PASS（负例） | 0.902870 vs 0.218790 ms，0.242× | 0.699 vs 0.163 ms，0.23× | 负例稳定 |
+
+完整命令、原始输出和兼容性 workaround 见 [本机 910B3 复测记录](LOCAL_910B_VALIDATION_20261116.md)。
 
 ## 6. 最值得后续验证的 5 项机制
 
@@ -176,14 +192,16 @@
 
 ## 7. 证据局限与未复现项
 
-1. **没有任何本机 NPU 实验**。本轮没有编译第三方工程、没有运行 profiler、没有执行比赛平台提交脚本。所有性能数字都是作者/原报告/官方公示记录。
-2. **Hansen archive 没有逐 case 时延**。只有公示分数和名次，且分数不是跨题可比的加速比；不能把 91.85 分写成“比 83.26 快 10%”。
-3. **Mantuo 的数字是作者环境**。910B1、CANN 9.0.0、Triton-Ascend 3.2.1，官方评测器 `warmup=200/repeat=500`、中位数、每次 sample 同步。没有本机重跑；不能外推到 910C 或不同 CANN。
-4. **So-cean 的数字是作者环境**。910B3、CANN 8.2.RC1、TA 3.2.0；跨设备 A100 对照是同 shape、同 feature，但不同架构，不能把 70.82% 当作“910B3 与 A100 的普遍比例”。950PR 当前 HEAD 还有 grouped fast-path 回归。
-5. **vLLM-HUST 的环境记录不完全一致**。原始报告写 CANN 9.0.0，兼容清单写 9.1.0-beta.3；证据快照的 source commit 是 `33d7813...`，当前仓库 HEAD 是 `58acc93...`。本轮只记录这两个事实，不把当前 HEAD 当成已复测。
-6. **52Xayah 的计时很粗**。`time.time()` 包住 20/50 次调用后统一同步，没有逐 sample 同步、没有中位数、没有环境隔离；只能当负例方向，不能当精确数字。
-7. **许可证不完整**。Hansen、mantuo、52Xayah、Be4ver 没有声明 LICENSE；本库不复制其源码，只做引用、行号定位和分析。公开可读不等于可再分发。
-8. **未验证规则合规**。即使源码来自获奖提交，也不能证明当前比赛规则允许同样的融合、近似、私有 API 或数据布局。
+1. **本机只验证了纯 Triton 任务**。GroupedTopk、Sinkhorn 通过；FusedMoE 编译失败；52Xayah 两题负例复现。Hansen Ascend C、Mamba-2 自定义 OPP、vLLM-HUST/vLLM 未在本机编译/运行，仍为 `N`。
+2. **本机不是作者环境**。本机是 910B3/CANN 9.1.0/TA 3.2.0，作者分别是 910B1/CANN 9.0.0/TA 3.2.1（KernelSwift）、910B3/CANN 8.2.RC1/TA 3.2.0（Mamba）、910B2/CANN 9.0.0（vLLM）。只能比较机制方向，不能把绝对时延或加速比横比。
+3. **Hansen archive 没有逐 case 时延**。只有公示分数和名次，且分数不是跨题可比的加速比；不能把 91.85 分写成“比 83.26 快 10%”。
+4. **Mantuo 的作者数字与本地数字不同**。GroupedTopk/Sinkhorn 方向一致，但本机 reference/candidate 都更快，且 Sinkhorn 误差更大；不能把 2.478×/9.203× 当作本机复现。
+5. **FusedMoE 的 11.446× 未复现**。本机 TA 3.2.0/CANN 9.1.0 在原始 BLOCK_M=32、num_warps=1/4、以及本地 BLOCK_M=16 副本上都 UB 溢出；这是编译兼容性失败，不是性能结论。
+6. **So-cean 的数字是作者环境**。910B3、CANN 8.2.RC1、TA 3.2.0；跨设备 A100 对照是同 shape、同 feature，但不同架构，不能把 70.82% 当作“910B3 与 A100 的普遍比例”。950PR 当前 HEAD 还有 grouped fast-path 回归。
+7. **vLLM-HUST 的环境记录不完全一致**。原始报告写 CANN 9.0.0，兼容清单写 9.1.0-beta.3；证据快照的 source commit 是 `33d7813...`，当前仓库 HEAD 是 `58acc93...`。本轮只记录这两个事实，不把当前 HEAD 当成已复测。
+8. **52Xayah 的计时口径不同**。作者用 `time.time()` 包住 20/50 次调用后统一同步；本机逐 sample 同步的绝对值更高（含同步/launch），但负例方向一致。不能把两种协议的绝对时延直接比较。
+9. **许可证不完整**。Hansen、mantuo、52Xayah、Be4ver 没有声明 LICENSE；本库不复制其源码，只做引用、行号定位和分析。公开可读不等于可再分发。
+10. **未验证规则合规**。即使源码来自获奖提交，也不能证明当前比赛规则允许同样的融合、近似、私有 API 或数据布局。
 
 ## 8. 下一批建议
 
@@ -198,6 +216,8 @@
 ## 9. 文件入口
 
 - 来源登记：[`catalog/external-repositories.json`](../../catalog/external-repositories.json)
+- 本机复测：[`docs/research/LOCAL_910B_VALIDATION_20261116.md`](LOCAL_910B_VALIDATION_20261116.md)
+- 机器摘要：[`our_work/evidence/local-910b-validation-20261116.json`](../../our_work/evidence/local-910b-validation-20261116.json)
 - 仓库报告：[`docs/repositories/README.md`](../repositories/README.md)
 - 跨实现经验：[`docs/experiences/README.md`](../experiences/README.md)
 - 三个重点仓库：

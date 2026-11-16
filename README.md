@@ -21,6 +21,7 @@
 ## 2026-11-16 新增：公开算子仓库调研
 
 - [总览：范围、方法、12 个来源、深读 10 份实现、5 项待验证机制](docs/research/OPEN_SOURCE_REPOSITORY_SURVEY_20261116.md)
+- [本机 Ascend 910B3 复测记录](docs/research/LOCAL_910B_VALIDATION_20261116.md)：GroupedTopk/Sinkhorn 通过，FusedMoE 编译失败，52Xayah 负例复现
 - [机器可读来源登记](catalog/external-repositories.json)：固定 commit、源码路径/行号、环境、证据、负例、复用判断
 - 深读报告：
   - [Hansen 2026 电力行业算子归档](docs/repositories/Hansenwuwuwu__ascend-c-competition-archive.md)
@@ -33,7 +34,7 @@
   - [布局与缓冲生命周期](docs/experiences/layout_and_buffer_lifecycle.md)
   - [数值与选择性精度](docs/experiences/numerical_selective_precision.md)
   - [形状专用化与回退](docs/experiences/shape_specialization_and_fallbacks.md)
-- 本轮未运行 NPU、未编译第三方源码、未提交比赛平台；所有外部成绩都是作者/原报告数字。
+- 纯 Triton 任务已在本机 910B3 复测；未在本机编译 Ascend C 自定义算子，未提交比赛平台。作者数字与本机数字分别标注，不能横比。
 
 ## 文件布局
 
