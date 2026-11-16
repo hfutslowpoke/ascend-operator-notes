@@ -1,6 +1,6 @@
 {
   "created_utc": "2026-11-16T07:14:48.960951+00:00",
-  "updated_utc": "2026-11-16T14:45:00+00:00",
+  "updated_utc": "2026-11-16T14:50:00+00:00",
   "algorithm": "sha256",
   "files": {
     ".git": "d6cfc619345ab3a6dfeeaa547291b5ed5a725a8862d31adc879c5348e08cea12",
@@ -31,7 +31,7 @@
     "docs/repositories/So-cean__mamba-ascendc.md": "0f18155b243686fa86d1d5993cff3014609978242cc0588125f7ceb2ff390a19",
     "docs/repositories/mantuoluozk__kernelswift-2026-triton-kernels.md": "1647d7c5dae46be5fa21cb887a9a645b5e210cf0a58461517fa24bc2760f2fcc",
     "docs/repositories/vLLM-HUST__vllm-hust-opset.md": "2247713339ee86fa426b9c011d53a5828f66c9edc9d8e82818251a794961f3fb",
-    "docs/research/LOCAL_910B_VALIDATION_20261116.md": "fe17a4d572984af85f98f6d4cc78fada57e15d5f48a4b7fa7809d1ad00b0c026",
+    "docs/research/LOCAL_910B_VALIDATION_20261116.md": "edaa8d9c4ebedc629571d4b1bc566585001c52fe4c982f6a6806d195d2eb2029",
     "docs/research/OPEN_SOURCE_REPOSITORY_SURVEY_20261116.md": "100bc47b5e53d8aa142d0e543f8c1b0f4de5b07e06c4c204a633e0a2001e7fb7",
     "our_work/components/README.md": "2f7ab8ebc9e61a9e1fe557c4c9d816fc4ab9007bfbcd4c4ccb56ef7612e60685",
     "our_work/components/c1-expert-work-v2.asc": "88452616a279c1d62b5c2052335a152b45f443a43d32535044498ce2f3b3b9e2",
@@ -57,7 +57,7 @@
     "our_work/evidence/local-910b-20261116/xayah_matmul.log": "5f76dff779537d94c0b582eec1895d59521296f3bedb6dc8f9c5988c673a7ec1",
     "our_work/evidence/local-910b-20261116/xayah_persample.log": "23bd5260408630965decd71bb854aa857d075fe07647d3fed9c89f701c8b86f9",
     "our_work/evidence/local-910b-20261116/xayah_softmax.log": "a60a4f6d5143491a012524687bc47ab58c07e117d25818d56568a5dc746c8bc3",
-    "our_work/evidence/local-910b-validation-20261116.json": "6070a62d17b5e1fae04e6f018efef1130241250104da34b719c53e3f2cd58f39",
+    "our_work/evidence/local-910b-validation-20261116.json": "9d78ff0a87c1a043bbe9db6c5f714e29908358733d663a7f04ddbe5723d9686e",
     "our_work/evidence/main-five-pmu-roofline.md": "25a9d42fbe2e2a838b20505b0186deb76ad6633ca273ddddc6b9a47e42870dcf",
     "our_work/evidence/r2-wide512-pmu.json": "0ca72133f53822cf90406e603c6cca84028c6a05aaea9759e8a0ebdb39b11493",
     "our_work/evidence/r2-wide512-pmu.md": "2ffdaab7fa06e3fb0c3b451500064238d2ee437fe2ceb4ce527643b4962f5079",

@@ -149,7 +149,8 @@
       "attempts": [
         "--num-warps 4，原始 BLOCK_M=32",
         "--num-warps 1，原始 BLOCK_M=32",
-        "本地副本 BLOCK_M=16，--num-warps 4"
+        "本地副本 BLOCK_M=16，--num-warps 4",
+        "本地副本 BLOCK_M=32、--num-warps 4、num_stages=1"
       ],
       "author": {
         "reference_ms": 6.94296,

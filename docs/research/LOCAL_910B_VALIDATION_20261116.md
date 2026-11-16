@@ -128,7 +128,8 @@ error: ub overflow, requires 2359296 bits while 1572864 bits available!
 
 1. 原始 `BLOCK_M=32`、`num_warps=4`：失败；
 2. 原始 `BLOCK_M=32`、`num_warps=1`：失败；
-3. 本地副本 `BLOCK_M=16`、`num_warps=4`：仍失败，required bits 不变。
+3. 本地副本 `BLOCK_M=16`、`num_warps=4`：仍失败，required bits 不变；
+4. 本地副本 `BLOCK_M=32`、`num_warps=4`、`num_stages=1`：仍失败。
 
 结论：
 
