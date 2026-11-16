@@ -1,9 +1,9 @@
 {
-  "created_utc": "2026-11-16T06:42:15.771029+00:00",
+  "created_utc": "2026-11-16T06:45:58.839563+00:00",
   "algorithm": "sha256",
   "files": {
     ".gitignore": "4666066c4b2a1e966296c120524d06025469297f22385dde9ef3cd05172eb9c6",
-    "README.md": "8ff066deb5e4ded3ec739459ed8dd9239f10cec33ed90a0ae3a413805f3f7661",
+    "README.md": "67f468fb22a64ea979935da71f8cd1810b7b20308526c7f35174b9fbdd798f13",
     "THIRD_PARTY.md": "19036cc67d065b8177c80c947d48bc8559e4daf43ccab2a53302400395e5663c",
     "catalog/INDEX.md": "1bb136ddb345af57f0e06230fda7f654f4f544ac0c06dc602a7ecd5658ef09fd",
     "catalog/our-work.json": "bb6e162530f7ad27884a9adc6a662fef8c0fbdc91e69f94a88f0a5a522812df6",
@@ -14,6 +14,7 @@
     "docs/PATTERN_COOKBOOK.md": "c9ad93278d3b695d023c6c2e7a009e9b3c9edb4d36d7aab10530cadd749f90ad",
     "docs/PLATFORM_EVIDENCE.md": "b062fbf69200efeee3eff259be1cea023149fa6fed313d8d81705eb6f9156cd1",
     "docs/RETROSPECTIVE.md": "754509a9e96413ee26abafdc31dfd96181da14b05fbcc8545c4955ecea780990",
+    "docs/RULES_AND_MATH.md": "d874455e563ae0ef38ceefbf4c5a2204a90bec321fe397a36c9d44cec6f8be09",
     "docs/TOOLS_AND_REPRODUCIBILITY.md": "5161c682dedabe475a60f193875935f93dc82ddb2fc30dc8912e7ec585317688",
     "our_work/components/README.md": "2f7ab8ebc9e61a9e1fe557c4c9d816fc4ab9007bfbcd4c4ccb56ef7612e60685",
     "our_work/components/c1-expert-work-v2.asc": "88452616a279c1d62b5c2052335a152b45f443a43d32535044498ce2f3b3b9e2",

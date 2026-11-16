@@ -13,7 +13,8 @@
 3. [可迁移设计手册](docs/PATTERN_COOKBOOK.md)：如何从语义、代价、存储层次和最后消费者推导设计。
 4. [工具与复现](docs/TOOLS_AND_REPRODUCIBILITY.md)：构建、测试、PMU、提交、协作工具及其适用边界。
 5. [平台成绩和源码对应关系](docs/PLATFORM_EVIDENCE.md)：当前快照、缺失字段、历史最低值与当前集成的区别。
-6. [GitHub 使用说明](docs/GITHUB_QUICKSTART.md)：浏览、下载、以后追加资料的方法。
+6. [数学顺序与赛事约束](docs/RULES_AND_MATH.md)：保留完整计算、单 kernel 和 Host/Device 边界。
+7. [GitHub 使用说明](docs/GITHUB_QUICKSTART.md)：浏览、下载、以后追加资料的方法。
 
 ## 文件布局
 
