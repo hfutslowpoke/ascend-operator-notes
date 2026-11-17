@@ -1,0 +1,9 @@
+run 1: 1.2524 ms
+run 2: 0.1880 ms
+run 3: 0.1574 ms
+run 4: 0.1544 ms
+run 5: 0.1537 ms
+best: 0.1537 ms
+shape=32x32 batch=1
+max_abs=9.086799e-08 max_rel=9.086799e-08 bad=0
+RESULT: PASS

@@ -1247,7 +1247,7 @@
         "device": "Ascend 910B3 physical NPU 2 / ACL logical 0",
         "cann": "9.1.0",
         "build_log": "competition/mfg-2026/evidence/ops-fft_fft2d_build_20261117.log",
-        "build_log_sha256": "1835a5ed2c17fd75593d3ed3b101a8f3924f02805e0f281118e0209b2e23b358",
+        "build_log_sha256": "8aab5f484acad4fdd710516ebe4f6406e6e3dfe5fed9a197c82faeeb4e329e03",
         "run_log": "competition/mfg-2026/evidence/ops-fft_fft2d_32x32_run_20261117.log",
         "run_log_sha256": "a2ccf18320bc632ef81ef98530921ddffe5096fcf06de9d0e960bd5af59c7338",
         "driver": "competition/mfg-2026/evidence/fft2d_verify.cpp",

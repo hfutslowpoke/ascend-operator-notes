@@ -1,0 +1,364 @@
+==========================================
+    ops-fft Build Script
+==========================================
+
+[0;34m[INFO][0m Checking dependencies...
+[0;32m[SUCCESS][0m cmake is installed (version: 3.22.1)
+[0;32m[SUCCESS][0m make is installed (GNU Make 4.3)
+[0;32m[SUCCESS][0m g++ is installed (g++ (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0)
+[0;32m[SUCCESS][0m bisheng compiler is installed (2026-07-30T20:53:21+08:00 clang version 15.0.5 (clang-5c68a1cb1231 flang-5c68a1cb1231))
+[0;32m[SUCCESS][0m Python is installed (Python 3.12.13)
+[0;34m[INFO][0m Checking ASCEND environment...
+[0;32m[SUCCESS][0m ASCEND_HOME_PATH: /usr/local/Ascend/cann-9.1.0
+[0;32m[SUCCESS][0m All dependencies checked
+
+[0;34m[INFO][0m ========== Build Plan ==========
+[0;34m[INFO][0m Build operators: fft2_d
+[0;34m[INFO][0m Run tests: NO
+[0;32m[SUCCESS][0m Build package: YES
+[0;34m[INFO][0m Target SoC: Ascend910B
+==================================
+
+[0;34m[INFO][0m Starting build...
+[0;34m[INFO][0m Configuring CMake...
+[0;34m[INFO][0m Enabled operators: fft2_d
+[0;34m[INFO][0m Test compilation: DISABLED
+[0;34m[INFO][0m Package generation: ENABLED
+[0;34m[INFO][0m Target SoC: Ascend910B
+[0;34m[INFO][0m   -> SOC_VERSION: ascend910b (for ASC compiler)
+[0;34m[INFO][0m   -> ASCEND_NPU_ARCH: dav-2201 (for arch dir selection)
+[0;34m[INFO][0m   -> ASCEND_SOC: Ascend910B (for NPU arch mapping)
+[0;34m[INFO][0m ASCEND path: /usr/local/Ascend/cann-9.1.0
+-- System processer: aarch64
+-- CMAKE_ASC_COMPILER: /usr/local/Ascend/cann-9.1.0/bin/bisheng
+-- ASCEND_CANN_PACKAGE_LINUX_PATH: /usr/local/Ascend/cann-9.1.0/aarch64-linux
+-- CMAKE_ASC_LLD_LINKER: /usr/local/Ascend/cann-9.1.0/aarch64-linux/ccec_compiler/bin/ld.lld
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Package: ops_fft
+-- Architecture: aarch64
+-- Install Prefix: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build_out
+-- ✓ ASCEND: /usr/local/Ascend/cann-9.1.0
+-- ? NPU: dav-2201 (user)
+-- ✓ Build: fft2_d
+-- ==========================================
+-- Configuring API Layer
+-- ==========================================
+-- API layer sources found:
+--   /workspace/acw/var/private/repository-research-cache/review_ops-fft/lib/fft_exec_api.cpp
+--   /workspace/acw/var/private/repository-research-cache/review_ops-fft/lib/fft_plan_api.cpp
+--   /workspace/acw/var/private/repository-research-cache/review_ops-fft/lib/fft_plan_destroy_api.cpp
+--   /workspace/acw/var/private/repository-research-cache/review_ops-fft/lib/fft_plan_init_api.cpp
+--   /workspace/acw/var/private/repository-research-cache/review_ops-fft/lib/fft_stream_api.cpp
+--   /workspace/acw/var/private/repository-research-cache/review_ops-fft/lib/fft_utils_api.cpp
+-- NPU architecture: dav-2201
+-- ==========================================
+--
+-- ==========================================
+-- Registering operators...
+-- ==========================================
+--   Operator: fft2_d, ARCH_DIR: arch32 (NPU: dav-2201)
+--   Registered operator: fft2_d
+--     ASC Sources: /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd.cpp;/workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/fft2_d_exec_api.cpp
+-- Added operator directory: fft2_d
+-- ==========================================
+-- Operator registration completed
+-- ==========================================
+--
+-- Set ASC language for all sources
+-- [ThirdPartyLib][makeself] https://gitcode.com/cann-src-third-party/makeself/releases/download/release-2.5.0-patch1.0/makeself-release-2.5.0-patch1.tar.gz not found, need download.
+-- MAKESELF_PATH: /workspace/acw/var/private/repository-research-cache/review_ops-fft/third_party/makeself
+-- ============================================
+-- Packing built-in ops_fft package...
+--   SOC: ascend910b
+--   Architecture: aarch64
+-- ============================================
+-- CMAKE_INSTALL_PREFIX = /workspace/acw/var/private/repository-research-cache/review_ops-fft/build_out
+--
+-- ==========================================
+--   Build Summary
+-- ==========================================
+--   Version   : 9.0.0
+--   NPU       : dav-2201
+--   Operators : fft2_d
+--   Tests     : OFF
+-- ==========================================
+-- Configuring done
+-- Generating done
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    ASCEND_SOC
+
+
+-- Build files have been written to: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build
+[0;34m[INFO][0m Compiling with 8 threads...
+[  9%] Generating version.ops_fft.info
+[ 27%] Building ASC object CMakeFiles/ops_fft.dir/lib/fft_stream_api.cpp.o
+[ 27%] Building ASC object CMakeFiles/ops_fft.dir/lib/fft_exec_api.cpp.o
+[ 45%] Building ASC object CMakeFiles/ops_fft.dir/ops_fft_stub.cpp.o
+[ 45%] Building ASC object CMakeFiles/ops_fft.dir/lib/fft_plan_destroy_api.cpp.o
+[ 54%] Building ASC object CMakeFiles/ops_fft.dir/lib/fft_plan_init_api.cpp.o
+[ 72%] Building ASC object CMakeFiles/ops_fft.dir/lib/fft_utils_api.cpp.o
+[ 72%] Building ASC object CMakeFiles/ops_fft.dir/lib/fft_plan_api.cpp.o
+[ 72%] Built target version_ops_fft_info
+[ 81%] Building ASC object CMakeFiles/ops_fft.dir/src/fft2_d/arch32/dd/fft2_d_dd.cpp.o
+[ 90%] Building ASC object CMakeFiles/ops_fft.dir/src/fft2_d/arch32/fft2_d_exec_api.cpp.o
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd.cpp:15:
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd_kernel.h:14:
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/common/kernel/fft_common_kernel.h:18:
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/common/kernel/base/mem.h:14:
+/usr/local/Ascend/cann-9.1.0/aarch64-linux/asc/impl/basic_api/kernel_event.h:16:9: warning: impl/basic_api/kernel_event.h is an internal header file and must not be used directly. Functions or variables defined in this file may be removed in the future. Please use "#include "basic_api/kernel_tpipe.h"" and use public functions or variables defined in interface headers files. [-W#pragma-messages]
+#pragma message("impl/basic_api/kernel_event.h is an internal header file and must not be used directly. Functions or variables defined in this file may be removed in the future. Please use \"#include \"basic_api/kernel_tpipe.h\"\" and use public functions or variables defined in interface headers files.")
+        ^
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd.cpp:15:
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd_kernel.h:14:
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/common/kernel/fft_common_kernel.h:18:
+/workspace/acw/var/private/repository-research-cache/review_ops-fft/src/common/kernel/base/mem.h:50:49: warning: 'InitBuffer' is deprecated: NOTICE: InitBuffer has been deprecated and will be removed in the next version. Please do not use it! [-Wdeprecated-declarations]
+        tensor[(uint32_t)BufferType::ASCEND_CB].InitBuffer(0, bufferSize[(uint32_t)BufferType::ASCEND_CB]);
+                                                ^
+/usr/local/Ascend/cann-9.1.0/asc/include/basic_api/../../impl/basic_api/kernel_tensor_base.h:174:7: note: 'InitBuffer' has been explicitly marked deprecated here
+    [[deprecated("NOTICE: InitBuffer has been deprecated and will be removed in the next version. "
+      ^
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd.cpp:15:
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd_kernel.h:14:
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/common/kernel/fft_common_kernel.h:18:
+/workspace/acw/var/private/repository-research-cache/review_ops-fft/src/common/kernel/base/mem.h:52:50: warning: 'InitBuffer' is deprecated: NOTICE: InitBuffer has been deprecated and will be removed in the next version. Please do not use it! [-Wdeprecated-declarations]
+        tensor[(uint32_t)BufferType::ASCEND_L0A].InitBuffer(0, bufferSize[(uint32_t)BufferType::ASCEND_L0A]);
+                                                 ^
+/usr/local/Ascend/cann-9.1.0/asc/include/basic_api/../../impl/basic_api/kernel_tensor_base.h:174:7: note: 'InitBuffer' has been explicitly marked deprecated here
+    [[deprecated("NOTICE: InitBuffer has been deprecated and will be removed in the next version. "
+      ^
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd.cpp:15:
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd_kernel.h:14:
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/common/kernel/fft_common_kernel.h:18:
+/workspace/acw/var/private/repository-research-cache/review_ops-fft/src/common/kernel/base/mem.h:54:50: warning: 'InitBuffer' is deprecated: NOTICE: InitBuffer has been deprecated and will be removed in the next version. Please do not use it! [-Wdeprecated-declarations]
+        tensor[(uint32_t)BufferType::ASCEND_L0B].InitBuffer(0, bufferSize[(uint32_t)BufferType::ASCEND_L0B]);
+                                                 ^
+/usr/local/Ascend/cann-9.1.0/asc/include/basic_api/../../impl/basic_api/kernel_tensor_base.h:174:7: note: 'InitBuffer' has been explicitly marked deprecated here
+    [[deprecated("NOTICE: InitBuffer has been deprecated and will be removed in the next version. "
+      ^
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd.cpp:15:
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd_kernel.h:14:
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/common/kernel/fft_common_kernel.h:18:
+/workspace/acw/var/private/repository-research-cache/review_ops-fft/src/common/kernel/base/mem.h:56:50: warning: 'InitBuffer' is deprecated: NOTICE: InitBuffer has been deprecated and will be removed in the next version. Please do not use it! [-Wdeprecated-declarations]
+        tensor[(uint32_t)BufferType::ASCEND_L0C].InitBuffer(0, bufferSize[(uint32_t)BufferType::ASCEND_L0C]);
+                                                 ^
+/usr/local/Ascend/cann-9.1.0/asc/include/basic_api/../../impl/basic_api/kernel_tensor_base.h:174:7: note: 'InitBuffer' has been explicitly marked deprecated here
+    [[deprecated("NOTICE: InitBuffer has been deprecated and will be removed in the next version. "
+      ^
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd.cpp:15:
+/workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd_kernel.h:21:9: warning: '__aicore__' macro redefined [-Wmacro-redefined]
+#define __aicore__ [aicore]
+        ^
+/usr/local/Ascend/cann-9.1.0/tools/bisheng_compiler/lib/clang/15.0.5/include/__clang_cce_defines.h:94:9: note: previous definition is here
+#define __aicore__ __attribute__((cce_aicore))
+        ^
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd.cpp:15:
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd_kernel.h:14:
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/common/kernel/fft_common_kernel.h:18:
+/workspace/acw/var/private/repository-research-cache/review_ops-fft/src/common/kernel/base/mem.h:50:49: warning: 'InitBuffer' is deprecated: NOTICE: InitBuffer has been deprecated and will be removed in the next version. Please do not use it! [-Wdeprecated-declarations]
+        tensor[(uint32_t)BufferType::ASCEND_CB].InitBuffer(0, bufferSize[(uint32_t)BufferType::ASCEND_CB]);
+                                                ^
+/workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd_kernel.h:381:41: note: in instantiation of member function 'AsdopsBuffer<ArchType::ASCEND_V220>::AsdopsBuffer' requested here
+    AsdopsBuffer<ArchType::ASCEND_V220> buf;
+                                        ^
+/usr/local/Ascend/cann-9.1.0/asc/include/basic_api/../../impl/basic_api/kernel_tensor_base.h:174:7: note: 'InitBuffer' has been explicitly marked deprecated here
+    [[deprecated("NOTICE: InitBuffer has been deprecated and will be removed in the next version. "
+      ^
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd.cpp:15:
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd_kernel.h:14:
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/common/kernel/fft_common_kernel.h:18:
+/workspace/acw/var/private/repository-research-cache/review_ops-fft/src/common/kernel/base/mem.h:52:50: warning: 'InitBuffer' is deprecated: NOTICE: InitBuffer has been deprecated and will be removed in the next version. Please do not use it! [-Wdeprecated-declarations]
+        tensor[(uint32_t)BufferType::ASCEND_L0A].InitBuffer(0, bufferSize[(uint32_t)BufferType::ASCEND_L0A]);
+                                                 ^
+/usr/local/Ascend/cann-9.1.0/asc/include/basic_api/../../impl/basic_api/kernel_tensor_base.h:174:7: note: 'InitBuffer' has been explicitly marked deprecated here
+    [[deprecated("NOTICE: InitBuffer has been deprecated and will be removed in the next version. "
+      ^
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd.cpp:15:
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd_kernel.h:14:
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/common/kernel/fft_common_kernel.h:18:
+/workspace/acw/var/private/repository-research-cache/review_ops-fft/src/common/kernel/base/mem.h:54:50: warning: 'InitBuffer' is deprecated: NOTICE: InitBuffer has been deprecated and will be removed in the next version. Please do not use it! [-Wdeprecated-declarations]
+        tensor[(uint32_t)BufferType::ASCEND_L0B].InitBuffer(0, bufferSize[(uint32_t)BufferType::ASCEND_L0B]);
+                                                 ^
+/usr/local/Ascend/cann-9.1.0/asc/include/basic_api/../../impl/basic_api/kernel_tensor_base.h:174:7: note: 'InitBuffer' has been explicitly marked deprecated here
+    [[deprecated("NOTICE: InitBuffer has been deprecated and will be removed in the next version. "
+      ^
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd.cpp:15:
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd_kernel.h:14:
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/common/kernel/fft_common_kernel.h:18:
+/workspace/acw/var/private/repository-research-cache/review_ops-fft/src/common/kernel/base/mem.h:56:50: warning: 'InitBuffer' is deprecated: NOTICE: InitBuffer has been deprecated and will be removed in the next version. Please do not use it! [-Wdeprecated-declarations]
+        tensor[(uint32_t)BufferType::ASCEND_L0C].InitBuffer(0, bufferSize[(uint32_t)BufferType::ASCEND_L0C]);
+                                                 ^
+/usr/local/Ascend/cann-9.1.0/asc/include/basic_api/../../impl/basic_api/kernel_tensor_base.h:174:7: note: 'InitBuffer' has been explicitly marked deprecated here
+    [[deprecated("NOTICE: InitBuffer has been deprecated and will be removed in the next version. "
+      ^
+10 warnings generated.
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd.cpp:15:
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd_kernel.h:14:
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/common/kernel/fft_common_kernel.h:18:
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/common/kernel/base/mem.h:14:
+/usr/local/Ascend/cann-9.1.0/aarch64-linux/asc/impl/basic_api/kernel_event.h:16:9: warning: impl/basic_api/kernel_event.h is an internal header file and must not be used directly. Functions or variables defined in this file may be removed in the future. Please use "#include "basic_api/kernel_tpipe.h"" and use public functions or variables defined in interface headers files. [-W#pragma-messages]
+#pragma message("impl/basic_api/kernel_event.h is an internal header file and must not be used directly. Functions or variables defined in this file may be removed in the future. Please use \"#include \"basic_api/kernel_tpipe.h\"\" and use public functions or variables defined in interface headers files.")
+        ^
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd.cpp:15:
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd_kernel.h:14:
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/common/kernel/fft_common_kernel.h:18:
+/workspace/acw/var/private/repository-research-cache/review_ops-fft/src/common/kernel/base/mem.h:47:49: warning: 'InitBuffer' is deprecated: NOTICE: InitBuffer has been deprecated and will be removed in the next version. Please do not use it! [-Wdeprecated-declarations]
+        tensor[(uint32_t)BufferType::ASCEND_UB].InitBuffer(0, bufferSize[(uint32_t)BufferType::ASCEND_UB]);
+                                                ^
+/usr/local/Ascend/cann-9.1.0/asc/include/basic_api/../../impl/basic_api/kernel_tensor_base.h:174:7: note: 'InitBuffer' has been explicitly marked deprecated here
+    [[deprecated("NOTICE: InitBuffer has been deprecated and will be removed in the next version. "
+      ^
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd.cpp:15:
+/workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd_kernel.h:21:9: warning: '__aicore__' macro redefined [-Wmacro-redefined]
+#define __aicore__ [aicore]
+        ^
+/usr/local/Ascend/cann-9.1.0/tools/bisheng_compiler/lib/clang/15.0.5/include/__clang_cce_defines.h:94:9: note: previous definition is here
+#define __aicore__ __attribute__((cce_aicore))
+        ^
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd.cpp:15:
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd_kernel.h:14:
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/common/kernel/fft_common_kernel.h:18:
+/workspace/acw/var/private/repository-research-cache/review_ops-fft/src/common/kernel/base/mem.h:47:49: warning: 'InitBuffer' is deprecated: NOTICE: InitBuffer has been deprecated and will be removed in the next version. Please do not use it! [-Wdeprecated-declarations]
+        tensor[(uint32_t)BufferType::ASCEND_UB].InitBuffer(0, bufferSize[(uint32_t)BufferType::ASCEND_UB]);
+                                                ^
+/workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd_kernel.h:106:41: note: in instantiation of member function 'AsdopsBuffer<ArchType::ASCEND_V220>::AsdopsBuffer' requested here
+    AsdopsBuffer<ArchType::ASCEND_V220> buf;
+                                        ^
+/usr/local/Ascend/cann-9.1.0/asc/include/basic_api/../../impl/basic_api/kernel_tensor_base.h:174:7: note: 'InitBuffer' has been explicitly marked deprecated here
+    [[deprecated("NOTICE: InitBuffer has been deprecated and will be removed in the next version. "
+      ^
+4 warnings generated.
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd.cpp:15:
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd_kernel.h:14:
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/common/kernel/fft_common_kernel.h:18:
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/common/kernel/base/mem.h:14:
+/usr/local/Ascend/cann-9.1.0/aarch64-linux/asc/impl/basic_api/kernel_event.h:16:9: warning: impl/basic_api/kernel_event.h is an internal header file and must not be used directly. Functions or variables defined in this file may be removed in the future. Please use "#include "basic_api/kernel_tpipe.h"" and use public functions or variables defined in interface headers files. [-W#pragma-messages]
+#pragma message("impl/basic_api/kernel_event.h is an internal header file and must not be used directly. Functions or variables defined in this file may be removed in the future. Please use \"#include \"basic_api/kernel_tpipe.h\"\" and use public functions or variables defined in interface headers files.")
+        ^
+In file included from /workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd.cpp:15:
+/workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd_kernel.h:21:9: warning: '__aicore__' macro redefined [-Wmacro-redefined]
+#define __aicore__ [aicore]
+        ^
+/usr/local/Ascend/cann-9.1.0/tools/bisheng_compiler/lib/clang/15.0.5/include/__clang_cce_defines.h:94:9: note: previous definition is here
+#define __aicore__ __attribute__((cce_aicore))
+        ^
+/workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd.cpp:151:10: warning: 'cce_global' attribute ignored when parsing type [-Wignored-attributes]
+        (__gm__ uint8_t *)sync,
+         ^~~~~~
+/usr/local/Ascend/cann-9.1.0/tools/bisheng_compiler/lib/clang/15.0.5/include/__clang_cce_defines.h:62:31: note: expanded from macro '__gm__'
+#define __gm__ __attribute__((cce_global))
+                              ^~~~~~~~~~
+/workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd.cpp:152:10: warning: 'cce_global' attribute ignored when parsing type [-Wignored-attributes]
+        (__gm__ float *)dev_input,
+         ^~~~~~
+/usr/local/Ascend/cann-9.1.0/tools/bisheng_compiler/lib/clang/15.0.5/include/__clang_cce_defines.h:62:31: note: expanded from macro '__gm__'
+#define __gm__ __attribute__((cce_global))
+                              ^~~~~~~~~~
+/workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd.cpp:153:10: warning: 'cce_global' attribute ignored when parsing type [-Wignored-attributes]
+        (__gm__ float *)dev_pMatrix,
+         ^~~~~~
+/usr/local/Ascend/cann-9.1.0/tools/bisheng_compiler/lib/clang/15.0.5/include/__clang_cce_defines.h:62:31: note: expanded from macro '__gm__'
+#define __gm__ __attribute__((cce_global))
+                              ^~~~~~~~~~
+/workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd.cpp:154:10: warning: 'cce_global' attribute ignored when parsing type [-Wignored-attributes]
+        (__gm__ float *)dev_qMatrix,
+         ^~~~~~
+/usr/local/Ascend/cann-9.1.0/tools/bisheng_compiler/lib/clang/15.0.5/include/__clang_cce_defines.h:62:31: note: expanded from macro '__gm__'
+#define __gm__ __attribute__((cce_global))
+                              ^~~~~~~~~~
+/workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd.cpp:155:10: warning: 'cce_global' attribute ignored when parsing type [-Wignored-attributes]
+        (__gm__ float *)dev_output,
+         ^~~~~~
+/usr/local/Ascend/cann-9.1.0/tools/bisheng_compiler/lib/clang/15.0.5/include/__clang_cce_defines.h:62:31: note: expanded from macro '__gm__'
+#define __gm__ __attribute__((cce_global))
+                              ^~~~~~~~~~
+/workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd.cpp:156:10: warning: 'cce_global' attribute ignored when parsing type [-Wignored-attributes]
+        (__gm__ float *)dev_workspace,
+         ^~~~~~
+/usr/local/Ascend/cann-9.1.0/tools/bisheng_compiler/lib/clang/15.0.5/include/__clang_cce_defines.h:62:31: note: expanded from macro '__gm__'
+#define __gm__ __attribute__((cce_global))
+                              ^~~~~~~~~~
+/workspace/acw/var/private/repository-research-cache/review_ops-fft/src/fft2_d/arch32/dd/fft2_d_dd.cpp:157:10: warning: 'cce_global' attribute ignored when parsing type [-Wignored-attributes]
+        (__gm__ uint8_t *)dev_tiling
+         ^~~~~~
+/usr/local/Ascend/cann-9.1.0/tools/bisheng_compiler/lib/clang/15.0.5/include/__clang_cce_defines.h:62:31: note: expanded from macro '__gm__'
+#define __gm__ __attribute__((cce_global))
+                              ^~~~~~~~~~
+9 warnings generated.
+[100%] Linking ASC shared library libcann_ops_fft.so
+[100%] Built target ops_fft
+[0;32m[SUCCESS][0m Build succeeded
+[0;34m[INFO][0m Building package...
+[0;34m[INFO][0m Running CPack...
+CPack: Create package using External
+CPack: Install projects
+CPack: - Run preinstall target for: ops_fft
+CPack: - Install project: ops_fft []
+CPack: Create package
+-- Install configuration: ""
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/ops_fft/lib64/libcann_ops_fft.so.9.0.0
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/ops_fft/lib64/libcann_ops_fft.so.1
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/ops_fft/lib64/libcann_ops_fft.so
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/ops_fft/include/cann_ops_fft.h
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/share/info/ops_fft/script
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/share/info/ops_fft/script/cleanup.sh
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/share/info/ops_fft/script/help.info
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/share/info/ops_fft/script/install.sh
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/share/info/ops_fft/script/opp_common.sh
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/share/info/ops_fft/script/opp_install.sh
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/share/info/ops_fft/script/opp_uninstall.sh
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/share/info/ops_fft/script/uninstall.sh
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/share/info/ops_fft/script/ver_check.sh
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/share/info/ops_fft/script/check_version_required.awk
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/share/info/ops_fft/script/common_func.inc
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/share/info/ops_fft/script/common_interface.sh
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/share/info/ops_fft/script/common_interface.csh
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/share/info/ops_fft/script/common_interface.fish
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/share/info/ops_fft/script/version_compatiable.inc
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/share/info/ops_fft/version.info
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/ops_fft/conf/path.cfg
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/share/info/ops_fft/script/install_common_parser.sh
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/share/info/ops_fft/script/common_func_v2.inc
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/share/info/ops_fft/script/common_installer.inc
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/share/info/ops_fft/script/script_operator.inc
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/share/info/ops_fft/script/version_cfg.inc
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/share/info/ops_fft/script/multi_version.inc
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/latest_manager/install_common_parser.sh
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/latest_manager/common_func_v2.inc
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/latest_manager/common_installer.inc
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/latest_manager/script_operator.inc
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/latest_manager/version_cfg.inc
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/latest_manager/common_func.inc
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/latest_manager/version_compatiable.inc
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/latest_manager/check_version_required.awk
+-- Up-to-date: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/latest_manager
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/latest_manager/filelist.csv
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/latest_manager/install.sh
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/latest_manager/manager.sh
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/latest_manager/manager_func.sh
+-- Installing: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging/latest_manager/uninstall.sh
+-- package.py exit code: 0
+-- Filelist generated successfully
+-- script output: --pigz --complevel 4 --nomd5 --sha256 --nooverwrite --chown --tar-format gnu --tar-extra --numeric-owner --tar-quietly --cleanup share/info/ops_fft/script/cleanup.sh cann-910b-ops-fft_9.0.0_linux-aarch64.run "ASCEND910B_OPS-FFT_RUN_PACKAGE"
+-- makeself: --pigz;--complevel;4;--nomd5;--sha256;--nooverwrite;--chown;--tar-format;gnu;--tar-extra;--numeric-owner;--tar-quietly;--cleanup;share/info/ops_fft/script/cleanup.sh;/workspace/acw/var/private/repository-research-cache/review_ops-fft/build/_CPack_Packages/makeself_staging;cann-910b-ops-fft_9.0.0_linux-aarch64.run;"ASCEND910B_OPS-FFT_RUN_PACKAGE"
+-- package: cann-910b-ops-fft_9.0.0_linux-aarch64.run
+
+About to compress 1388 KB of data...
+Adding files to archive named "cann-910b-ops-fft_9.0.0_linux-aarch64.run"...
+CRC: 2736720597
+SHA256: 1aa58979203dc6b55c954236239b3bbd620e425c45a62f4dc1b1bb76a10d0e92
+Skipping md5sum at user request
+
+Self-extractable archive "cann-910b-ops-fft_9.0.0_linux-aarch64.run" successfully created.
+Build package success: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build_out/cann-910b-ops-fft_9.0.0_linux-aarch64.run
+-- Package created successfully: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build_out/cann-910b-ops-fft_9.0.0_linux-aarch64.run
+CPack: - package: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build_out/cann-ascend910b-ops-fft_9.0.0_linux-aarch64.json generated.
+[0;32m[SUCCESS][0m Package created successfully
+[0;32m[SUCCESS][0m Package file: /workspace/acw/var/private/repository-research-cache/review_ops-fft/build_out/cann-910b-ops-fft_9.0.0_linux-aarch64.run
+[0;32m[SUCCESS][0m All operations completed!
