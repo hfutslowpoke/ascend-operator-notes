@@ -126,7 +126,7 @@
 | 14 `BallQuery` | AnyGrasp `ball_query_gpu.cu` | 严格 `d²<r²`、first-K、不足重复首个、零命中全 0 |
 | 15 `CylinderQuery` | AnyGrasp `cylinder_query_gpu.cu` | `rot^T·Δ`、严格边界、first-K、不足重复首个、零命中全 0 |
 
-这些参考只用于核对语义，不是 Ascend 实现；实际复用代码前阅读对应 LICENSE。
+这些参考只用于核对语义，不是 Ascend 实现；实际复用代码前阅读对应 LICENSE。语义已整理成可运行的 CPU 参考：[`reference/`](reference/)（9 项测试 PASS，非官方隐藏 golden）。
 
 ## 7. 后续增量
 

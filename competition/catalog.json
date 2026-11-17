@@ -1551,6 +1551,11 @@
           "type": "algorithm-reference",
           "value": "AnyGrasp cylinder_query_gpu.cu confirms rot^T*delta, strict d2<radius2 and hmin<x<hmax, ascending-k first-K, fill first hit, zero hits all 0.",
           "source": "https://github.com/graspnet/anygrasp_sdk/blob/b8eaafc9eca7babd5208e7a5ade3c561060be4c5/pointnet2/pointnet2/_ext_src/src/cylinder_query_gpu.cu#L14-L61"
+        },
+        {
+          "type": "cpu-reference-test",
+          "value": "Independent NumPy reference and 9 semantic tests PASS (not official hidden golden, not NPU).",
+          "source": "competition/mfg-2026/reference/README.md; competition/mfg-2026/evidence/mfg_reference_tests_20261117.log"
         }
       ],
       "conditions": [
@@ -1664,6 +1669,11 @@
           "type": "algorithm-reference",
           "value": "torch_cluster fps_cpu.cpp uses (x-x[idx]).pow_(2).sum(1) and argmax first-max, i.e. smallest-index tie; random_start/ratio are not the official npoint interface.",
           "source": "https://github.com/rusty1s/pytorch_cluster/blob/e9a855c284b45edcbf0282cf70ac09bee0ce4e49/csrc/cpu/fps_cpu.cpp#L7-L53"
+        },
+        {
+          "type": "cpu-reference-test",
+          "value": "Independent NumPy reference and 9 semantic tests PASS (not official hidden golden, not NPU).",
+          "source": "competition/mfg-2026/reference/README.md; competition/mfg-2026/evidence/mfg_reference_tests_20261117.log"
         }
       ],
       "conditions": [
@@ -1825,6 +1835,11 @@
           "type": "algorithm-reference",
           "value": "torch_cluster radius_cpu.cpp uses KD-tree radiusSearch(r*r), unsorted order and dynamic [2,E]; ignore_same_index compares global indices. Official requires scan-order first-K and fixed slots.",
           "source": "https://github.com/rusty1s/pytorch_cluster/blob/e9a855c284b45edcbf0282cf70ac09bee0ce4e49/csrc/cpu/radius_cpu.cpp#L31-L110"
+        },
+        {
+          "type": "cpu-reference-test",
+          "value": "Independent NumPy reference and 9 semantic tests PASS (not official hidden golden, not NPU).",
+          "source": "competition/mfg-2026/reference/README.md; competition/mfg-2026/evidence/mfg_reference_tests_20261117.log"
         }
       ],
       "conditions": [
@@ -2040,6 +2055,11 @@
           "type": "local-build",
           "value": "Supporting HIT1920/torch_scatter_npu SegmentMinCsr msOpGen project builds on the 910B3 toolchain with CANN 9.1.0; AclNN run queued behind npu-lock. This is build-only, not official semantics.",
           "source": "competition/mfg-2026/evidence/segment_min_csr_alt_20261117.md"
+        },
+        {
+          "type": "cpu-reference-test",
+          "value": "Independent NumPy reference and 9 semantic tests PASS (not official hidden golden, not NPU).",
+          "source": "competition/mfg-2026/reference/README.md; competition/mfg-2026/evidence/mfg_reference_tests_20261117.log"
         }
       ],
       "conditions": [
@@ -2377,6 +2397,11 @@
           "type": "local-validation",
           "value": "not-run.",
           "source": "competition/mfg-2026/evidence/README.md"
+        },
+        {
+          "type": "cpu-reference-test",
+          "value": "Independent NumPy reference and 9 semantic tests PASS (not official hidden golden, not NPU).",
+          "source": "competition/mfg-2026/reference/README.md; competition/mfg-2026/evidence/mfg_reference_tests_20261117.log"
         }
       ],
       "conditions": [
@@ -2582,6 +2607,11 @@
           "type": "local-validation",
           "value": "not-run; A2 arch22 exists.",
           "source": "competition/mfg-2026/evidence/README.md"
+        },
+        {
+          "type": "cpu-reference-test",
+          "value": "Independent NumPy reference and 9 semantic tests PASS (not official hidden golden, not NPU).",
+          "source": "competition/mfg-2026/reference/README.md; competition/mfg-2026/evidence/mfg_reference_tests_20261117.log"
         }
       ],
       "conditions": [
@@ -3120,6 +3150,11 @@
           "type": "algorithm-reference",
           "value": "AnyGrasp ball_query_gpu.cu confirms strict d2<radius2, ascending-k first-K, fill first hit, zero hits all 0.",
           "source": "https://github.com/graspnet/anygrasp_sdk/blob/b8eaafc9eca7babd5208e7a5ade3c561060be4c5/pointnet2/pointnet2/_ext_src/src/ball_query_gpu.cu#L14-L58"
+        },
+        {
+          "type": "cpu-reference-test",
+          "value": "Independent NumPy reference and 9 semantic tests PASS (not official hidden golden, not NPU).",
+          "source": "competition/mfg-2026/reference/README.md; competition/mfg-2026/evidence/mfg_reference_tests_20261117.log"
         }
       ],
       "conditions": [

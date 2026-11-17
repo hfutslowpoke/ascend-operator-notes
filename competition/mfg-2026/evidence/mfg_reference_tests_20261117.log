@@ -1,0 +1,10 @@
+PASS test_ball_query_strict_and_padding
+PASS test_cylinder_query_identity_and_padding
+PASS test_fps_fp16_modes_are_explicit
+PASS test_fps_tie_and_repeat
+PASS test_radius_example_and_boundary
+PASS test_segment_min_csr_example_and_empty
+PASS test_segment_min_csr_first_match_tie
+PASS test_spmm_sum_example_and_empty_row
+PASS test_spspmm_fixed_slots_and_zero_sum
+REFERENCE TESTS: PASS (9)

@@ -297,4 +297,5 @@ idx 逐位一致；禁止排序
 - 官方题面：[`official/descriptions/`](official/descriptions/)
 - 官方规格：[`official/specs.json`](official/specs.json)
 - 上游语义核对：[`../../docs/research/MFG2026_ALGORITHM_REFERENCES_20261117.md`](../../docs/research/MFG2026_ALGORITHM_REFERENCES_20261117.md)
+- 独立 CPU 参考：[`reference/`](reference/)（9 项语义测试；不是官方隐藏 golden）
 - 本机验证协议：[`../../skills/ascend-910b-local-validation/SKILL.md`](../../skills/ascend-910b-local-validation/SKILL.md)
