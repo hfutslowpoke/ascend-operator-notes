@@ -108,5 +108,6 @@
 2. 构建/调用 `DrivingSDK` 的 Radius/FPS/CylinderQuery（A2 文档最明确）；
 3. 构建 `ops-math/stack_ball_query`（有 910B 配置）；
 4. 构建 `ops-gnn/segment_csr`、`ops-sparse/spmm`/`spgemm` 的 arch22，跑小图/小点云；
-5. 用 `torch_scatter_npu` 的最小 A2/A3 工程先验证 910B3 SegmentMinCsr 工具链，再回到 `ops-gnn` arch22 补官方 arg_out/空段/首遇语义；
-6. 跟进 `cann/mfg-ops-cax`、`cann/mfg-ops-vision` 是否公开；若公开，优先检查是否已有 15 题的官方/参赛实现。
+5. `torch_scatter_npu` 的最小 A2/A3 SegmentMinCsr 工程已在 CANN 9.1.0 / 910B3 工具链构建成功（`install_rc=0`）；AclNN 运行仍在 `bin/npu-lock` 排队；之后回到 `ops-gnn` arch22 补官方 arg_out/空段/首遇语义；
+6. 跟进 `cann/mfg-ops-cax`、`cann/mfg-ops-vision` 是否公开；若公开，优先检查是否已有 15 题的官方/参赛实现；
+7. 已完成上游语义核对与 6 题适配蓝图：见 [算法参考](MFG2026_ALGORITHM_REFERENCES_20261117.md) 与 [adapters.md](../../competition/mfg-2026/adapters.md)。

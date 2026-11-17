@@ -238,3 +238,23 @@ gcw_4VCbQSde/huawei-spgemm-task@5528c34     仅登记，不复制（无 LICENSE�
 ```
 
 当前制造专场源码快照：**75 个唯一文件 / 78 条引用**（主仓 `source/` + 补充 `supporting/`）。所有 NPU 运行仍只有 FFT 32×32 子集 PASS，其余未跑。
+
+### 8.5 上游语义核对、适配蓝图与段最小构建（2026-11-17）
+
+```text
+d9d347d docs(competition): add upstream semantics and adapter blueprints
+  新增 docs/research/MFG2026_ALGORITHM_REFERENCES_20261117.md
+  新增 competition/mfg-2026/adapters.md
+  核对：pyg-lib segment_min_csr / torch_cluster FPS+Radius /
+        AnyGrasp ball_query+cylinder_query / PointNet++ ball_query
+  只引用链接和短公式，不复制第三方代码
+
+f06aa6a feat(competition): add source-match view and SegmentMinCsr build evidence
+  新增 index/by-source-match.md（direct/adapt/reference/none/building-block）
+  新增 evidence/segment_min_csr_alt_20261117.md + build log
+  HIT1920/torch_scatter_npu SegmentMinCsr A2/A3 msOpGen 工程
+  CANN 9.1.0 / 910B3 工具链：install_rc=0
+  package sha256 94b1155e7028400ebc4944a4f10ef100872bf2d180ec2bafa5c2f4e36bbccbba
+```
+
+边界：该工程是 int32 indptr、无 arg_out、空段填最大值，**不是官方语义**；AclNN 运行仍在 `bin/npu-lock` 排队。主 `ops-gnn` 实现仍为 `not-run`，没有新增 910B PASS。
