@@ -75,7 +75,7 @@
   - `Segment_Coo` 是 COO/index 归约，不是官方 CSR 行切片。
 - 本地副本：`supporting/torch_scatter_npu/`（15 个文件，含 LICENSE、两份 README、kernel/host/tiling、AclNN 调用示例、Segment_Coo arch2201 min kernel）；来源/边界见 [`PROVENANCE.md`](supporting/torch_scatter_npu/PROVENANCE.md)。
 - 复用判断：只把它当**构建/调用骨架**和 kernel 写法参考；官方候选仍是本仓 `ops-gnn` 的 arch22 `segment_min_csr`，并需补齐 int64、arg_out、空段 0/E、首遇 tie-break。
-- 本机状态：`not-run`；没有在 910B3 构建该仓。
+- 本机状态：**BUILD PASS**（2026-11-17，CANN 9.1.0 / 910B3 工具链，`install.sh -v Ascend910B3` 成功生成 910B 自定义算子包）；AclNN 用例在 `bin/npu-lock` 排队，运行结果未出，不能写 `pass`。见 [构建记录](../evidence/segment_min_csr_alt_20261117.md)。
 
 ## 4. 机制
 

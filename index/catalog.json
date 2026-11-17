@@ -3433,6 +3433,11 @@
           "type": "algorithm-reference",
           "value": "pyg-lib segment_min_csr CPU source confirms sentinel E, max-init, strict < first-match, empty out=0, int64 arg_out; official semantics match.",
           "source": "https://github.com/pyg-team/pyg-lib/blob/d13e20662aaa075c82ab9c814f8c39789425bf7a/pyg_lib/csrc/ops/cpu/segment_csr_kernel.cpp#L256-L404"
+        },
+        {
+          "type": "local-build",
+          "value": "Supporting HIT1920/torch_scatter_npu SegmentMinCsr msOpGen project builds on the 910B3 toolchain with CANN 9.1.0; AclNN run queued behind npu-lock. This is build-only, not official semantics.",
+          "source": "competition/mfg-2026/evidence/segment_min_csr_alt_20261117.md"
         }
       ],
       "conditions": [
@@ -3449,7 +3454,7 @@
       ],
       "reuse_decision": "优先复用模板化 reduce/流式行 tile/空段填充；在 910B3 构建 arch22 并对照 scatter 参考。 另可用 `HIT1920/torch_scatter_npu` 的最小 A2/A3 msOpGen 工程作为 910B 构建/调用参考，但必须按官方语义改 int64、arg_out、空段 0/E 与首遇 tie-break。",
       "report": "competition/mfg-2026/ops-gnn/README.md",
-      "verification": "not-run; A2/A3 arch22 exists Alternative standalone A2/A3 project archived as supporting_sources; not locally run and not official-semantics compliant.",
+      "verification": "not-run; A2/A3 arch22 exists Alternative standalone A2/A3 project archived as supporting_sources; not locally run and not official-semantics compliant. Supporting alt project build PASS only; main ops-gnn implementation still not-run.",
       "tier": "competition",
       "entry_path": "competition/mfg-2026/ops-gnn",
       "local_status": "not-run",

@@ -1,0 +1,182 @@
+=================================================================
+                   >>>>>   MindStudio   <<<<<
+    THE END-TO-END TOOLCHAIN TO UNLEASH HUAWEI ASCEND COMPUTE
+=================================================================
+
+2026-11-17 17:24:20 (285611) - [INFO] Start to generate AI Core operator files.
+2026-11-17 17:24:20 (285611) - [INFO] Start to parse the ir template:/workspace/acw/var/private/repository-research-cache/mfg-refs-20261117/segment-alt/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/SegmentMinCsr.json
+2026-11-17 17:24:20 (285611) - [INFO] Start to parse the op: SegmentMinCsr
+2026-11-17 17:24:20 (285611) - [INFO] Start to parse the input_desc: src
+2026-11-17 17:24:20 (285611) - [INFO] Start to parse the input_desc: indptr
+2026-11-17 17:24:20 (285611) - [INFO] Start to parse the input_desc: optional_out
+2026-11-17 17:24:20 (285611) - [INFO] Start to parse the output_desc: out
+2026-11-17 17:24:20 (285611) - [INFO] Start to check the type and format between the inputs/outputs in IR template.
+2026-11-17 17:24:20 (285611) - [INFO] Start to generate a new project.
+2026-11-17 17:24:20 (285611) - [WARNING] User used the "aclnn" parameter to generate an AscendC template project via the tool; this feature will be deprecated in future releases.
+2026-11-17 17:24:20 (285611) - [INFO] File /workspace/acw/var/private/repository-research-cache/mfg-refs-20261117/segment-alt/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/CustomOp/op_kernel/segment_min_csr_tiling.h generated successfully.
+2026-11-17 17:24:20 (285611) - [INFO] File /workspace/acw/var/private/repository-research-cache/mfg-refs-20261117/segment-alt/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/CustomOp/op_host/segment_min_csr.cpp generated successfully.
+2026-11-17 17:24:20 (285611) - [INFO] File /workspace/acw/var/private/repository-research-cache/mfg-refs-20261117/segment-alt/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/CustomOp/op_kernel/segment_min_csr.cpp generated successfully.
+2026-11-17 17:24:20 (285611) - [INFO] Generation completed.
+using ASCEND_HOME_PATH: /usr/local/Ascend/cann-9.1.0
+Preset CMake variables:
+
+  ASCEND_CANN_PACKAGE_PATH:PATH="/usr/local/Ascend/cann-9.1.0"
+  ASCEND_COMPUTE_UNIT:STRING="ascend910b"
+  ASCEND_PACK_SHARED_LIBRARY:BOOL="False"
+  ASCEND_PYTHON_EXECUTABLE:STRING="python3"
+  CMAKE_BUILD_TYPE:STRING="Release"
+  CMAKE_CROSS_PLATFORM_COMPILER:PATH="/usr/bin/aarch64-linux-gnu-g++"
+  CMAKE_INSTALL_PREFIX:PATH="/workspace/acw/var/private/repository-research-cache/mfg-refs-20261117/segment-alt/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/CustomOp/build_out"
+  ENABLE_BINARY_PACKAGE:BOOL="True"
+  ENABLE_CROSS_COMPILE:BOOL="False"
+  ENABLE_SOURCE_PACKAGE:BOOL="True"
+  ENABLE_TEST:BOOL="True"
+  vendor_name:STRING="customize"
+
+-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- set package config: INSTALL_PATH;/workspace/acw/var/private/repository-research-cache/mfg-refs-20261117/segment-alt/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/CustomOp/build_out/
+-- Opbuild generating sources
+-- Opbuild generating sources - done
+INFO target name: cust_optiling
+INFO target name: cust_opapi
+INFO target name: cust_op_proto
+INFO target name: ascendc_kernels
+-- Configuring done
+-- Generating done
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    ASCEND_PACK_SHARED_LIBRARY
+    CMAKE_CROSS_PLATFORM_COMPILER
+    ENABLE_TEST
+
+
+-- Build files have been written to: /workspace/acw/var/private/repository-research-cache/mfg-refs-20261117/segment-alt/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/CustomOp/build_out
+[ 25%] Building CXX object op_host/CMakeFiles/cust_optiling.dir/segment_min_csr.cpp.o
+[ 50%] Generating ../autogen/copy_kernel_src.timestamp
+[ 50%] Built target ascendc_kernels_copy_kernel_srcs
+[ 75%] Generating ascendc_kernels/tbe/op_info_cfg/ai_core/ascend910b/aic-ascend910b-ops-info.json
+
+
+==============check valid for ops info start==============
+==============check valid for ops info end================
+
+
+Compile op info cfg successfully.
+[ 75%] Built target ascendc_kernels_ops_info_gen_ascend910b
+[ 75%] Built target cust_optiling
+[100%] Linking CXX shared library libcust_opmaster_rt2.0.so
+[100%] Built target customize_ascendc_cust_optiling
+[ascend910b] Generating SegmentMinCsr_8eb38ed87a260005dd7cbcfbb5f6cd9b ...
+[ascend910b] Generating SegmentMinCsr_af03235294f301e2126d9b3cb32db8c8 ...
+[ascend910b] Generating SegmentMinCsr_b0f0df1a58f1238e0b97a8f13377522d ...
+[ascend910b] Generating SegmentMinCsr_1f0e9a5ec163006af7fcf3aa4893a5dd ...
+[INFO] RUNTIME(286073,python3):2026-11-17-17:24:28.717.861 [task_fail_callback_data_manager.cc:93] 286073 TaskFailCallBackManager: Constructor.
+[INFO] RUNTIME(286073,python3):2026-11-17-17:24:28.717.900 [xpu_task_fail_callback_data_manager.cc:59] 286073 XpuTaskFailCallBackManager: XpuTaskFailCallBackManager Constructor.
+Opc tool start working now, please wait for a moment.
+[INFO] RUNTIME(286073,python3):2026-11-17-17:24:32.322.543 [xpu_task_fail_callback_data_manager.cc:64] 286073 ~XpuTaskFailCallBackManager: XpuTaskFailCallBackManager Destructor.
+[INFO] RUNTIME(286073,python3):2026-11-17-17:24:32.322.570 [task_fail_callback_data_manager.cc:98] 286073 ~TaskFailCallBackManager: Destructor.
+[INFO] ATRACE(286073,python3):2026-11-17-17:24:32.328.399 [stacktrace_signal.c:199](tid:286073) unregister all signal handlers, can not capture signal.
+[ascend910b] Generating SegmentMinCsr_af03235294f301e2126d9b3cb32db8c8 Done
+[INFO] RUNTIME(286071,python3):2026-11-17-17:24:28.761.207 [task_fail_callback_data_manager.cc:93] 286071 TaskFailCallBackManager: Constructor.
+[INFO] RUNTIME(286071,python3):2026-11-17-17:24:28.761.250 [xpu_task_fail_callback_data_manager.cc:59] 286071 XpuTaskFailCallBackManager: XpuTaskFailCallBackManager Constructor.
+Opc tool start working now, please wait for a moment.
+[INFO] RUNTIME(286071,python3):2026-11-17-17:24:32.420.661 [xpu_task_fail_callback_data_manager.cc:64] 286071 ~XpuTaskFailCallBackManager: XpuTaskFailCallBackManager Destructor.
+[INFO] RUNTIME(286071,python3):2026-11-17-17:24:32.420.691 [task_fail_callback_data_manager.cc:98] 286071 ~TaskFailCallBackManager: Destructor.
+[INFO] ATRACE(286071,python3):2026-11-17-17:24:32.428.438 [stacktrace_signal.c:199](tid:286071) unregister all signal handlers, can not capture signal.
+[ascend910b] Generating SegmentMinCsr_8eb38ed87a260005dd7cbcfbb5f6cd9b Done
+[INFO] RUNTIME(286079,python3):2026-11-17-17:24:28.771.668 [task_fail_callback_data_manager.cc:93] 286079 TaskFailCallBackManager: Constructor.
+[INFO] RUNTIME(286079,python3):2026-11-17-17:24:28.771.711 [xpu_task_fail_callback_data_manager.cc:59] 286079 XpuTaskFailCallBackManager: XpuTaskFailCallBackManager Constructor.
+Opc tool start working now, please wait for a moment.
+[INFO] RUNTIME(286079,python3):2026-11-17-17:24:32.388.576 [xpu_task_fail_callback_data_manager.cc:64] 286079 ~XpuTaskFailCallBackManager: XpuTaskFailCallBackManager Destructor.
+[INFO] RUNTIME(286079,python3):2026-11-17-17:24:32.388.600 [task_fail_callback_data_manager.cc:98] 286079 ~TaskFailCallBackManager: Destructor.
+[INFO] ATRACE(286079,python3):2026-11-17-17:24:32.395.985 [stacktrace_signal.c:199](tid:286079) unregister all signal handlers, can not capture signal.
+[ascend910b] Generating SegmentMinCsr_1f0e9a5ec163006af7fcf3aa4893a5dd Done
+[INFO] RUNTIME(286077,python3):2026-11-17-17:24:28.778.099 [task_fail_callback_data_manager.cc:93] 286077 TaskFailCallBackManager: Constructor.
+[INFO] RUNTIME(286077,python3):2026-11-17-17:24:28.778.138 [xpu_task_fail_callback_data_manager.cc:59] 286077 XpuTaskFailCallBackManager: XpuTaskFailCallBackManager Constructor.
+Opc tool start working now, please wait for a moment.
+[INFO] RUNTIME(286077,python3):2026-11-17-17:24:32.502.050 [xpu_task_fail_callback_data_manager.cc:64] 286077 ~XpuTaskFailCallBackManager: XpuTaskFailCallBackManager Destructor.
+[INFO] RUNTIME(286077,python3):2026-11-17-17:24:32.502.074 [task_fail_callback_data_manager.cc:98] 286077 ~TaskFailCallBackManager: Destructor.
+[INFO] ATRACE(286077,python3):2026-11-17-17:24:32.508.668 [stacktrace_signal.c:199](tid:286077) unregister all signal handlers, can not capture signal.
+[ascend910b] Generating SegmentMinCsr_b0f0df1a58f1238e0b97a8f13377522d Done
+[100%] Built target SegmentMinCsr_ascend910b
+[100%] Built target ascendc_kernels_ascendc_bin_ascend910b_gen_ops_config
+[100%] Built target binary
+Consolidate compiler generated dependencies of target cust_optiling
+[  9%] Building CXX object op_host/CMakeFiles/cust_opapi.dir/__/autogen/aclnn_segment_min_csr.cpp.o
+[ 18%] Generating scripts/install.sh, scripts/upgrade.sh, scripts/uninstall.sh
+[ 27%] Generating ascendc_kernels/tbe/op_info_cfg/ai_core/npu_supported_ops.json
+[ 36%] Built target ascendc_kernels_copy_kernel_srcs
+[ 45%] Building CXX object op_host/CMakeFiles/cust_op_proto.dir/__/autogen/op_proto.cc.o
+[ 54%] Building CXX object op_host/CMakeFiles/cust_op_proto.dir/segment_min_csr.cpp.o
+[ 63%] Built target cust_optiling
+[ 63%] Built target gen_version_info
+/workspace/acw/var/private/repository-research-cache/mfg-refs-20261117/segment-alt/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/CustomOp/build_out/autogen /workspace/acw/var/private/repository-research-cache/mfg-refs-20261117/segment-alt/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/CustomOp/build_out/op_kernel/ascendc_kernels/tbe/op_info_cfg/ai_core
+[ 72%] Built target ascendc_kernels_ops_info_gen_ascend910b
+[ 81%] Built target customize_ascendc_cust_optiling
+[ 81%] Built target modify_vendor
+[INFO] Succeeded generated /workspace/acw/var/private/repository-research-cache/mfg-refs-20261117/segment-alt/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/CustomOp/build_out/op_kernel/ascendc_kernels/tbe/op_info_cfg/ai_core/npu_supported_ops.json
+[ 81%] Built target customize_npu_supported_ops
+[ 81%] Built target optiling_compat
+[ 81%] Built target customize_update_so_names
+[ 81%] Built target cust_opapi
+[ 90%] Linking CXX shared library libcust_opapi.so
+[ 90%] Built target customize_ascendc_cust_opapi
+[ 90%] Built target cust_op_proto
+[100%] Linking CXX shared library libcust_opsproto_rt2.0.so
+[100%] Built target customize_ascendc_cust_op_proto
+Run CPack packaging tool...
+CPack: Create package using External
+CPack: Install projects
+CPack: - Run preinstall target for: opp
+CPack: - Install project: opp []
+CPack: Create package
+
+About to compress 1056 KB of data...
+Adding files to archive named "custom_opp_ubuntu_aarch64.run"...
+./help.info
+./install.sh
+./packages/vendors/customize/framework/tensorflow/npu_supported_ops.json
+./packages/vendors/customize/op_api/include/aclnn_segment_min_csr.h
+./packages/vendors/customize/op_api/lib/libcust_opapi.so
+./packages/vendors/customize/op_impl/ai_core/tbe/config/ascend910b/aic-ascend910b-ops-info.json
+./packages/vendors/customize/op_impl/ai_core/tbe/customize_impl/dynamic/segment_min_csr.cpp
+./packages/vendors/customize/op_impl/ai_core/tbe/customize_impl/dynamic/segment_min_csr.py
+./packages/vendors/customize/op_impl/ai_core/tbe/customize_impl/dynamic/segment_min_csr_tiling.h
+./packages/vendors/customize/op_impl/ai_core/tbe/kernel/ascend910b/segment_min_csr/SegmentMinCsr_1f0e9a5ec163006af7fcf3aa4893a5dd.json
+./packages/vendors/customize/op_impl/ai_core/tbe/kernel/ascend910b/segment_min_csr/SegmentMinCsr_1f0e9a5ec163006af7fcf3aa4893a5dd.o
+./packages/vendors/customize/op_impl/ai_core/tbe/kernel/ascend910b/segment_min_csr/SegmentMinCsr_8eb38ed87a260005dd7cbcfbb5f6cd9b.json
+./packages/vendors/customize/op_impl/ai_core/tbe/kernel/ascend910b/segment_min_csr/SegmentMinCsr_8eb38ed87a260005dd7cbcfbb5f6cd9b.o
+./packages/vendors/customize/op_impl/ai_core/tbe/kernel/ascend910b/segment_min_csr/SegmentMinCsr_af03235294f301e2126d9b3cb32db8c8.json
+./packages/vendors/customize/op_impl/ai_core/tbe/kernel/ascend910b/segment_min_csr/SegmentMinCsr_af03235294f301e2126d9b3cb32db8c8.o
+./packages/vendors/customize/op_impl/ai_core/tbe/kernel/ascend910b/segment_min_csr/SegmentMinCsr_b0f0df1a58f1238e0b97a8f13377522d.json
+./packages/vendors/customize/op_impl/ai_core/tbe/kernel/ascend910b/segment_min_csr/SegmentMinCsr_b0f0df1a58f1238e0b97a8f13377522d.o
+./packages/vendors/customize/op_impl/ai_core/tbe/kernel/config/ascend910b/binary_info_config.json
+./packages/vendors/customize/op_impl/ai_core/tbe/kernel/config/ascend910b/segment_min_csr.json
+./packages/vendors/customize/op_impl/ai_core/tbe/op_tiling/lib/linux/aarch64/libcust_opmaster_rt2.0.so
+./packages/vendors/customize/op_impl/ai_core/tbe/op_tiling/liboptiling.so
+./packages/vendors/customize/op_proto/inc/op_proto.h
+./packages/vendors/customize/op_proto/lib/linux/aarch64/libcust_opsproto_rt2.0.so
+./packages/vendors/customize/version.info
+./uninstall.sh
+./upgrade.sh
+CRC: 1776320488
+SHA256: 393f54e9518895be42381f8febbd347e93b504abece9c7b5278ffbb72d53d28b
+Skipping md5sum at user request
+
+Self-extractable archive "custom_opp_ubuntu_aarch64.run" successfully created.
+Copy /workspace/acw/var/private/repository-research-cache/mfg-refs-20261117/segment-alt/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/CustomOp/build_out//_CPack_Packages/Linux/External/custom_opp_ubuntu_aarch64.run/custom_opp_ubuntu_aarch64.run to /workspace/acw/var/private/repository-research-cache/mfg-refs-20261117/segment-alt/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/CustomOp/build_out/
+Copy /workspace/acw/var/private/repository-research-cache/mfg-refs-20261117/segment-alt/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/CustomOp/build_out//_CPack_Packages/Linux/External/custom_opp_ubuntu_aarch64.run/custom_opp_ubuntu_aarch64.run to /workspace/acw/var/private/repository-research-cache/mfg-refs-20261117/segment-alt/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/CustomOp/build_out//
+CPack: - package: /workspace/acw/var/private/repository-research-cache/mfg-refs-20261117/segment-alt/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/CustomOp/build_out/custom_opp_ubuntu_aarch64.run.json generated.
+CPack: - package: /workspace/acw/var/private/repository-research-cache/mfg-refs-20261117/segment-alt/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/CustomOp/build_out/custom_opp_ubuntu_aarch64.run generated.

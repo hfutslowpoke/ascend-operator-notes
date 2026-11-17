@@ -10,6 +10,7 @@
 | [entry-schema.json](entry-schema.json) | 条目/来源字段契约；新增字段先改 schema |
 | [by-family.md](by-family.md) | 按算子族检索（生成） |
 | [by-evidence.md](by-evidence.md) | 按本机证据状态检索（生成） |
+| [by-source-match.md](by-source-match.md) | 按官方源码匹配级别（direct/adapt/reference/none/building-block）检索制造专场（生成） |
 | [cards.md](cards.md) | 35 张人读阅读卡（生成） |
 | [cards.json](cards.json) | 35 张机器可读阅读卡（生成） |
 | `../competition/catalog.json` | 竞赛层过滤视图（生成） |

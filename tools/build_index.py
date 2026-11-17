@@ -25,6 +25,14 @@ STATUS_ORDER = [
     "not-run",
     "pending",
 ]
+SOURCE_MATCH_ORDER = [
+    "direct",
+    "adapt",
+    "reference",
+    "none",
+    "building-block",
+    "not-applicable",
+]
 
 
 def load() -> dict:
@@ -209,6 +217,44 @@ def build_by_evidence(data: dict) -> str:
     return "\n".join(lines).rstrip() + "\n"
 
 
+def build_by_source_match(data: dict) -> str:
+    grouped: dict[str, list[dict]] = {s: [] for s in SOURCE_MATCH_ORDER}
+    for impl in data["implementations"]:
+        match = impl.get("source_match")
+        if match:
+            grouped.setdefault(match, []).append(impl)
+    lines = [
+        "# 按官方源码匹配级别",
+        "",
+        "由 `tools/build_index.py` 从 `index/catalog.json` 生成；不要手改。",
+        "",
+        "只列出制造专场的 15 题映射与 2 个基础件；级别定义见 `competition/mfg-2026/README.md`。",
+        "",
+        "> 同一题可能有多个候选实现（例如 SpmmSum 的 ops-gnn/ops-sparse）。`pass` 只表示本机测试通过，不一定是官方全 shape。",
+        "",
+    ]
+    for match in SOURCE_MATCH_ORDER:
+        items = grouped.get(match, [])
+        if not items:
+            continue
+        lines += [
+            f"## `{match}`",
+            "",
+            "| 实现 | 官方题 | 条目 | 本机 |",
+            "|---|---|---|---|",
+        ]
+        for impl in sorted(items, key=lambda i: i["id"]):
+            entry = ROOT / impl["entry_path"]
+            link = rel_link(ROOT / "index/by-source-match.md", entry / "README.md")
+            problem = impl.get("official_problem", {}) or {}
+            title = str(problem.get("title", "")).replace("|", "/")
+            lines.append(
+                f"| `{impl['id']}` | {title or '—'} | [README]({link}) | `{impl.get('local_status', 'not-run')}` |"
+            )
+        lines.append("")
+    return "\n".join(lines).rstrip() + "\n"
+
+
 def card_view(impl: dict) -> dict:
     mechanism = re.sub(r"\s+", " ", str(impl.get("mechanism", ""))).strip()
     one_line = mechanism.split("。", 1)[0][:260]
@@ -364,6 +410,7 @@ def main() -> int:
 
     ok &= write_or_check(ROOT / "index/by-family.md", build_by_family(data), args.check)
     ok &= write_or_check(ROOT / "index/by-evidence.md", build_by_evidence(data), args.check)
+    ok &= write_or_check(ROOT / "index/by-source-match.md", build_by_source_match(data), args.check)
     ok &= write_or_check(ROOT / "index/cards.json", dump(build_cards(data)), args.check)
     ok &= write_or_check(ROOT / "index/cards.md", build_cards_md(data), args.check)
 

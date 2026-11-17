@@ -1,10 +1,11 @@
 # 制造专场本机验证记录
 
-当前状态：**1 份本机 PASS、14 份未跑**。
+当前状态：**1 份本机 PASS、14 份未跑**；另有 1 份补充骨架构建 PASS、运行待锁。
 
 | 实现 | 状态 | 设备/版本 | 结果 | 证据 |
 |---|---|---|---|---|
 | 05 `FourierTransform2D` / `ops-fft/fft2_d` | **PASS** | Ascend 910B3（物理 NPU 2 / ACL logical 0）、CANN 9.1.0、gcc 11.4.0、cmake 3.22.1 | 32×32 batch=1 C2C，5 次 best **0.1537 ms**，`max_abs=9.086799e-08`，`bad=0` | [构建日志](ops-fft_fft2d_build_20261117.log)、[运行日志](ops-fft_fft2d_32x32_run_20261117.log)、[驱动](fft2d_verify.cpp) |
+| 07 补充骨架 `HIT1920/torch_scatter_npu` SegmentMinCsr | **BUILD PASS** | Ascend 910B3 工具链、CANN 9.1.0、gcc 11.4.0、cmake 3.22.1 | `install.sh -v Ascend910B3` 成功，生成 `custom_opp_ubuntu_aarch64.run`；AclNN 用例在 `bin/npu-lock` 排队 | [构建说明](segment_min_csr_alt_20261117.md)、[构建日志](segment_min_csr_alt_build_20261117.log) |
 | 其余 14 份 | `not-run` | — | — | 见各条目 README |
 
 ## FFT 构建与运行细节
