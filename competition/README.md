@@ -11,6 +11,7 @@
 | [elec-ops-inspection](elec-ops-inspection/README.md) | 2026 电力行业算子专场（官方仓） | XDU_XDU-BTD `LinalgLstsq` | `S+L+A` | 16/50/64 单 batch PASS；多 batch/矩形/200/256 失败 |
 | [hansen-2026-power](hansen-2026-power/README.md) | 2026 电力行业算子专场（公开归档） | Fire rank2、SplineConv rank1、TreeLineMinDistance rank1 | `O+A` | 未构建/未运行 |
 | [kernelswift-2026](kernelswift-2026/README.md) | 2026 KernelSwift 算子创新大赛 | GroupedTopk、FusedMoE、Sinkhorn | `O+A` | GroupedTopk/Sinkhorn PASS；FusedMoE 编译失败 |
+| [mfg-2026](mfg-2026/README.md) | 2026 制造行业算子专场（15 题） | 6 个官方/生产仓、15 份实现映射 | `S+L+A` + 本机 `V`（FFT） | FourierTransform2D 32×32 PASS；其余 14 份未跑；8 题有 A2/910B 目标源码，5 题 950/部分，2 题缺口 |
 
 淘汰记录见 [excluded.md](excluded.md)。机器索引见 [catalog.json](catalog.json)（由 `tools/build_index.py` 生成），全库索引见 [../index/README.md](../index/README.md)。
 
@@ -34,6 +35,7 @@
 
 ## 当前缺口
 
+- 制造专场 15 题：8 题有 A2/910B 目标源码，5 题只有 950/arch35 参考或部分覆盖，2 题（ComplexExp、FusedPropStep）未找到公开源码；`FourierTransform2D` 已在 910B3 通过 32×32 C2C，其余 14 份未跑；
 - `recompute_w_u` 未在 CANN 8.5.0 复跑，`507057` 根因未定位；
 - `Concat` 未构建 NPU 包，动态张量列表 ACLNN 驱动缺失；
 - `LinalgLstsq` 多 batch/矩形/200/256 未通过，矩形 `residuals` 布局未确认；

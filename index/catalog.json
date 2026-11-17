@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
-  "generated_utc": "2026-11-16T16:00:00Z",
-  "scope": "两层知识库：competition（竞赛高性能 PR/实现）与 general（CANNBot 及其它非竞赛来源）；固定 commit、源码路径、证据级别、适用条件、负例与复用判断；含本机 910B3 复测。",
+  "generated_utc": "2026-11-17T15:30:00Z",
+  "scope": "两层知识库：competition（竞赛高性能 PR/实现）与 general（CANNBot 及其它非竞赛来源）；新增 2026 制造行业算子专场 6 个官方/生产仓与 15 份实现映射；含本机 910B3 复测。",
   "evidence_levels": {
     "S": "静态源码观察（固定 commit 路径/行号/符号）",
     "M": "数学或布局推导",
@@ -29,10 +29,14 @@
       "vLLM Ascend operator",
       "SVD Ascend",
       "site:gitcode.com 昇腾 算子 比赛 CANN 2026",
-      "gitcode recompute_w_u / Concat / IndexAdd / LinalgLstsq"
+      "gitcode recompute_w_u / Concat / IndexAdd / LinalgLstsq",
+      "site:gitcode.com 2026 制造行业算子专场 15 赛题",
+      "gitcode ComplexAbs ComplexDiv FusedPropStep FourierTransform2D",
+      "gitcode GatherCoo SegmentMinCsr RandomWalk SpmmSum Spspmm",
+      "gitcode Radius GridCluster FurthestPointSample BallQuery CylinderQuery"
     ],
     "gitcode_status": "Direct connection works (proxy times out). Fixed commits cann/cann-ops-competitions@5126fead and cann/elec-ops-inspection@dfe55921. Found qualifying official repos and submissions; added 2 repo records, 3 implementations.",
-    "selection": "14 repository records split into competition (5) and general (9); 9 deep-read repositories; 18 implementations; 2 excluded. GroupedMatmulGelu 26-PR archive is a competition baseline entry. Forks/mirrors/imports are not independent sources."
+    "selection": "20 repository records (14 prior + 6 manufacturing), 18 independent algorithm sources, 15 deep-read repository records, 33 implementations, 2 excluded. GroupedMatmulGelu 26-PR archive is a competition baseline entry. Manufacturing batch maps all 15 problems: 8 have A2/910B-targeted source, 5 are 950/arch35 reference or partial, 2 have no public source found."
   },
   "repositories": [
     {
@@ -479,6 +483,191 @@
       "tier": "competition",
       "entry_path": "competition/elec-ops-inspection",
       "local_status": "partial"
+    },
+    {
+      "id": "gitcode-mfg-ops-fft",
+      "url": "https://gitcode.com/cann/ops-fft",
+      "owner": "cann",
+      "author": "CANN 开源社区",
+      "year": 2026,
+      "name": "ops-fft",
+      "default_branch": "master",
+      "commit": "65f5ff1dee32802562a9412789b0c7719ef99269",
+      "commit_date": "2026-11-17T15:05:47+08:00",
+      "accessed": "2026-11-17",
+      "license": "CANN-Open-Software-License-2.0",
+      "license_note": "根 LICENSE 为 CANN Open Software License Agreement Version 2.0。",
+      "primary_dsl": [
+        "Ascend C"
+      ],
+      "operator_families": [
+        "fourier-transform",
+        "fft2d"
+      ],
+      "competition_or_context": "昇腾AI行业创新大赛——2026制造行业算子专场（15 赛题源码补充）",
+      "local_cache": "repository-research-cache/mfg-2026/ops-fft",
+      "relationship_to_existing": "new; 制造专场官方/生产算子库来源",
+      "status": "deep-read",
+      "tier": "competition",
+      "entry_path": "competition/mfg-2026/ops-fft",
+      "local_status": "not-run",
+      "report": "competition/mfg-2026/ops-fft/README.md",
+      "notes": "910B 的 fft2_d C2C 2D FFT；文档明确 950 不支持；尺寸仅 {32,64,128}²。"
+    },
+    {
+      "id": "gitcode-mfg-driving-sdk",
+      "url": "https://gitcode.com/Ascend/DrivingSDK",
+      "owner": "Ascend",
+      "author": "Ascend / 华为",
+      "year": 2026,
+      "name": "DrivingSDK",
+      "default_branch": "master",
+      "commit": "d10b13c95ec7f25a54a4aa9677c436cde30ff6e2",
+      "commit_date": "2026-11-17T14:13:55+08:00",
+      "accessed": "2026-11-17",
+      "license": "Apache-2.0",
+      "license_note": "根 LICENSE 为 Apache License 2.0。",
+      "primary_dsl": [
+        "Ascend C"
+      ],
+      "operator_families": [
+        "point-cloud-query",
+        "point-cloud-sampling",
+        "robotics"
+      ],
+      "competition_or_context": "昇腾AI行业创新大赛——2026制造行业算子专场（15 赛题源码补充）",
+      "local_cache": "repository-research-cache/mfg-2026/driving-sdk",
+      "relationship_to_existing": "new; 制造专场官方/生产算子库来源",
+      "status": "deep-read",
+      "tier": "competition",
+      "entry_path": "competition/mfg-2026/driving-sdk",
+      "local_status": "not-run",
+      "report": "competition/mfg-2026/driving-sdk/README.md",
+      "notes": "自动驾驶生产 SDK；Radius/FPS 文档明确 A2/A3/950；CylinderQuery 为通用 kernel，A2 待构建确认。"
+    },
+    {
+      "id": "gitcode-mfg-ops-gnn",
+      "url": "https://gitcode.com/cann/ops-gnn",
+      "owner": "cann",
+      "author": "CANN 开源社区",
+      "year": 2026,
+      "name": "ops-gnn",
+      "default_branch": "master",
+      "commit": "ea0b18a1d3e97f1ae2315df69338bb51c9f96466",
+      "commit_date": "2026-11-17T20:05:12+08:00",
+      "accessed": "2026-11-17",
+      "license": "CANN-Open-Software-License-2.0",
+      "license_note": "根 LICENSE 为 CANN Open Software License Agreement Version 2.0。",
+      "primary_dsl": [
+        "Ascend C"
+      ],
+      "operator_families": [
+        "graph-gather",
+        "graph-segment-reduction",
+        "graph-random-walk",
+        "sparse-dense-matmul",
+        "point-cloud-clustering"
+      ],
+      "competition_or_context": "昇腾AI行业创新大赛——2026制造行业算子专场（15 赛题源码补充）",
+      "local_cache": "repository-research-cache/mfg-2026/ops-gnn",
+      "relationship_to_existing": "new; 制造专场官方/生产算子库来源",
+      "status": "deep-read",
+      "tier": "competition",
+      "entry_path": "competition/mfg-2026/ops-gnn",
+      "local_status": "not-run",
+      "report": "competition/mfg-2026/ops-gnn/README.md",
+      "notes": "A2/A3 arch22 覆盖 segment/spmm；gather_coo/random_walk/radius/grid_cluster/fps 为 950 arch35-only。"
+    },
+    {
+      "id": "gitcode-mfg-ops-sparse",
+      "url": "https://gitcode.com/cann/ops-sparse",
+      "owner": "cann",
+      "author": "CANN 开源社区",
+      "year": 2026,
+      "name": "ops-sparse",
+      "default_branch": "master",
+      "commit": "8fae00b8832bf31f1ce26059680bce67c6026c4f",
+      "commit_date": "2026-11-17T16:33:43+08:00",
+      "accessed": "2026-11-17",
+      "license": "CANN-Open-Software-License-2.0",
+      "license_note": "根 LICENSE 为 CANN Open Software License Agreement Version 2.0。",
+      "primary_dsl": [
+        "Ascend C"
+      ],
+      "operator_families": [
+        "sparse-dense-matmul",
+        "sparse-sparse-matmul",
+        "graph-gather"
+      ],
+      "competition_or_context": "昇腾AI行业创新大赛——2026制造行业算子专场（15 赛题源码补充）",
+      "local_cache": "repository-research-cache/mfg-2026/ops-sparse",
+      "relationship_to_existing": "new; 制造专场官方/生产算子库来源",
+      "status": "deep-read",
+      "tier": "competition",
+      "entry_path": "competition/mfg-2026/ops-sparse",
+      "local_status": "not-run",
+      "report": "competition/mfg-2026/ops-sparse/README.md",
+      "notes": "A2/A3 的 SpMM/SpGEMM/Gather；Gather 是 dense gather，不是 COO 行扩展。"
+    },
+    {
+      "id": "gitcode-mfg-ops-math",
+      "url": "https://gitcode.com/cann/ops-math",
+      "owner": "cann",
+      "author": "CANN 开源社区",
+      "year": 2026,
+      "name": "ops-math",
+      "default_branch": "master",
+      "commit": "3b2baac63624c32e03781bd9f0290f1a4584f0c7",
+      "commit_date": "2026-11-17T21:00:49+08:00",
+      "accessed": "2026-11-17",
+      "license": "CANN-Open-Software-License-2.0",
+      "license_note": "根 LICENSE 为 CANN Open Software License Agreement Version 2.0。",
+      "primary_dsl": [
+        "Ascend C"
+      ],
+      "operator_families": [
+        "complex-elementwise",
+        "point-cloud-query"
+      ],
+      "competition_or_context": "昇腾AI行业创新大赛——2026制造行业算子专场（15 赛题源码补充）",
+      "local_cache": "repository-research-cache/mfg-2026/ops-math",
+      "relationship_to_existing": "new; 制造专场官方/生产算子库来源",
+      "status": "deep-read",
+      "tier": "competition",
+      "entry_path": "competition/mfg-2026/ops-math",
+      "local_status": "not-run",
+      "report": "competition/mfg-2026/ops-math/README.md",
+      "notes": "ComplexAbs arch35-only；BallQuery README 写 A2 √ 但代码/config 仅 arch35；StackBallQuery 有 ascend910b 配置。"
+    },
+    {
+      "id": "gitcode-mfg-ops-solver",
+      "url": "https://gitcode.com/cann/ops-solver",
+      "owner": "cann",
+      "author": "CANN 开源社区",
+      "year": 2026,
+      "name": "ops-solver",
+      "default_branch": "master",
+      "commit": "739775a145d7789693f97758f6771bb1b3eb6a8f",
+      "commit_date": "2026-11-17T13:47:47+08:00",
+      "accessed": "2026-11-17",
+      "license": "CANN-Open-Software-License-2.0",
+      "license_note": "根 LICENSE 为 CANN Open Software License Agreement Version 2.0。",
+      "primary_dsl": [
+        "Ascend C"
+      ],
+      "operator_families": [
+        "complex-elementwise",
+        "linear-algebra"
+      ],
+      "competition_or_context": "昇腾AI行业创新大赛——2026制造行业算子专场（15 赛题源码补充）",
+      "local_cache": "repository-research-cache/mfg-2026/ops-solver",
+      "relationship_to_existing": "new; 制造专场官方/生产算子库来源",
+      "status": "deep-read",
+      "tier": "competition",
+      "entry_path": "competition/mfg-2026/ops-solver",
+      "local_status": "not-run",
+      "report": "competition/mfg-2026/ops-solver/README.md",
+      "notes": "复数 LU/QR 求解器；ComplexDiv 只是 950 SIMT 内部 helper，不是独立算子。"
     }
   ],
   "implementations": [
@@ -2308,6 +2497,1331 @@
       "tier": "competition",
       "entry_path": "competition/elec-ops-inspection",
       "local_status": "partial"
+    },
+    {
+      "id": "MFG2026-FFT2D",
+      "repository_id": "gitcode-mfg-ops-fft",
+      "source_commit": "65f5ff1dee32802562a9412789b0c7719ef99269",
+      "operator": "FourierTransform2D (fft2_d C2C)",
+      "operator_family": "fourier-transform",
+      "semantics": "二维复数到复数 DFT；aclfftPlan2d(batch,nx,ny,ACLFFT_C2C) + aclfftExecC2C；复数实虚交错、行主序。",
+      "shape_dtype": "complex64 (float32 interleaved); nx,ny ∈ {32,64,128}; batch>0; C2C only.",
+      "environment": {
+        "soc": "Ascend 910B (docs); 950 unsupported",
+        "cann": "CANN 9.1.0 (local build); README verified 9.0.0-beta.2",
+        "dsl": "Ascend C / Cube",
+        "gcc": "11.4.0",
+        "cmake": "3.22.1",
+        "device": "Ascend 910B3 physical NPU 2 / ACL logical 0"
+      },
+      "source_files": [
+        {
+          "path": "docs/zh/API_Reference/FFT_2D.md",
+          "lines": "1-70",
+          "sha256": "5f89f98e336a88e43a32fcb5f9adb682f7befed7ce6339bc51c3bb0481f7fcf8",
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/docs/zh/API_Reference/FFT_2D.md"
+        },
+        {
+          "path": "src/fft2_d/arch32/fft2_d_exec_api.cpp",
+          "lines": "18-60",
+          "sha256": "51b0ed903eb87e73cc1c66732fd31f48c31715ad22b2010f4db27498afd12a80",
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/fft2_d/arch32/fft2_d_exec_api.cpp"
+        },
+        {
+          "path": "src/fft2_d/arch32/dd/fft2_d_dd.cpp",
+          "lines": "17-29,31-62,64-112",
+          "sha256": "e729b6d549d2860f7462fd5bcfe958e4794a16f08620f393b68c674498f70ed4",
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/fft2_d/arch32/dd/fft2_d_dd.cpp"
+        },
+        {
+          "path": "src/fft2_d/arch32/dd/fft2_d_dd_kernel.h",
+          "lines": "50-143,259-420",
+          "sha256": "68a252d2e46cbb08d675ad0ddf9e0c974372783641ca068ee9ba2db73db05ba0",
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/fft2_d/arch32/dd/fft2_d_dd_kernel.h"
+        }
+      ],
+      "symbol": "aclfftPlan2d / aclfftExecC2C_2D / aclfftFft2DDd",
+      "mechanism": "Host 生成 P/Q DFT 矩阵；设备按 P·X·Q 做两次 Cube 矩阵乘；复数实虚用 vreducev2 分离，矩阵乘后合并写回；尺寸专用 batch 循环 + 多核/L1/L0C 双缓冲。",
+      "work_model": "把逐点 O(N²) DFT 换成两次矩阵乘；减少重复三角函数和标量乘加；代价是 Host P/Q O(N²) 内存、固定尺寸和复数拆合搬运。",
+      "evidence": [
+        {
+          "type": "official-doc",
+          "value": "FFT_2D 文档明确 Ascend 910B √、950 ×；仅 {32,64,128}² C2C。",
+          "source": "docs/zh/API_Reference/FFT_2D.md:1-70"
+        },
+        {
+          "type": "static-source",
+          "value": "尺寸表、P/Q 生成、exec 校验和 Cube kernel 可定位。",
+          "source": "source_files"
+        },
+        {
+          "type": "local-validation",
+          "value": "PASS: 910B3 build + 32x32 C2C impulse check, best 0.1537 ms, max_abs 9.086799e-08, bad=0.",
+          "source": "competition/mfg-2026/evidence/ops-fft_fft2d_build_20261117.log; .../ops-fft_fft2d_32x32_run_20261117.log"
+        }
+      ],
+      "conditions": [
+        "Ascend 910B only",
+        "nx,ny ∈ {32,64,128}",
+        "C2C only",
+        "batch>0",
+        "row-major complex interleaved"
+      ],
+      "negative_cases": [
+        "950 unsupported",
+        "arbitrary/prime sizes unsupported",
+        "no R2C/C2R",
+        "Host P/Q O(N²) memory",
+        "no author performance data"
+      ],
+      "reuse_decision": "优先复用 P/Q 矩阵乘分解、复数实虚分离、尺寸专用 batch 循环；先在 910B3 构建 fft2_d 并对照 torch.fft.fft2。",
+      "report": "competition/mfg-2026/ops-fft/README.md",
+      "verification": "local 910B3 PASS: build CANN 9.1.0; 32x32 C2C impulse vs analytic DFT, best 0.1537 ms, max_abs 9.086799e-08, bad=0",
+      "tier": "competition",
+      "entry_path": "competition/mfg-2026/ops-fft",
+      "local_status": "pass",
+      "local_validation": {
+        "status": "pass",
+        "notes": "本机 Ascend 910B3 / CANN 9.1.0 / gcc 11.4.0 / cmake 3.22.1 构建成功并生成 910B .run 包；32×32 batch=1 C2C 冲激输入与解析 DFT 对照 5 次，best 0.1537 ms，max_abs=9.086799e-08，bad=0。",
+        "device": "Ascend 910B3 physical NPU 2 / ACL logical 0",
+        "cann": "9.1.0",
+        "build_log": "competition/mfg-2026/evidence/ops-fft_fft2d_build_20261117.log",
+        "build_log_sha256": "1835a5ed2c17fd75593d3ed3b101a8f3924f02805e0f281118e0209b2e23b358",
+        "run_log": "competition/mfg-2026/evidence/ops-fft_fft2d_32x32_run_20261117.log",
+        "run_log_sha256": "a2ccf18320bc632ef81ef98530921ddffe5096fcf06de9d0e960bd5af59c7338",
+        "driver": "competition/mfg-2026/evidence/fft2d_verify.cpp",
+        "driver_sha256": "f978fe97177a8d16aa5d8f83cd95526075b3cc5159968cd67b98e33e6b1412ff",
+        "build_command": "./build.sh --ops=fft2_d --soc=Ascend910B --pkg -j8",
+        "package": "cann-910b-ops-fft_9.0.0_linux-aarch64.run",
+        "package_sha256": "1aa58979203dc6b55c954236239b3bbd620e425c45a62f4dc1b1bb76a10d0e92",
+        "runs": [
+          {
+            "shape": "32x32 batch=1",
+            "dtype": "complex64 (float32 interleaved)",
+            "reference": "analytic impulse DFT: exp(-2*pi*i*(3*k1/32 + 7*k2/32))",
+            "command": "bin/npu-lock bash -lc 'source /usr/local/Ascend/cann-9.1.0/set_env.sh; ./fft2d_verify'",
+            "best_ms": 0.1537,
+            "repeat": 5,
+            "max_abs": 9.086799e-08,
+            "max_rel": 9.086799e-08,
+            "bad": 0,
+            "result": "PASS",
+            "log": "competition/mfg-2026/evidence/ops-fft_fft2d_32x32_run_20261117.log",
+            "log_sha256": "a2ccf18320bc632ef81ef98530921ddffe5096fcf06de9d0e960bd5af59c7338"
+          }
+        ]
+      },
+      "performance_evidence": {
+        "baseline": "no author baseline in the files read; local check uses an analytic impulse DFT",
+        "timing_scope": "host steady_clock around aclfftExecC2C + aclrtSynchronizeStream; includes launch overhead",
+        "unit": "ms",
+        "warmup_repeat": "5 sequential runs, no separate warmup; best reported",
+        "input": "32x32 batch=1 complex64 impulse at (3,7)",
+        "hardware": "Ascend 910B3 physical NPU 2 / ACL logical 0; CANN 9.1.0",
+        "full_call_or_kernel": "aclfftExecC2C (plan + single 2D C2C exec)",
+        "original_location": "competition/mfg-2026/ops-fft/README.md",
+        "reproduced": true
+      }
+    },
+    {
+      "id": "MFG2026-CYLINDER-QUERY",
+      "repository_id": "gitcode-mfg-driving-sdk",
+      "source_commit": "d10b13c95ec7f25a54a4aa9677c436cde30ff6e2",
+      "operator": "CylinderQuery",
+      "operator_family": "point-cloud-query",
+      "semantics": "对每个 query 点，用 3×3 旋转把点云变到局部坐标，在 y²+z²<r² 且 hmin<x<hmax 内取前 nsample；Python 排序/截断/填充。",
+      "shape_dtype": "new_xyz/xyz float32; rot 9 floats/query; output int32; B/M/N/nsample attrs; nsample 受 UB 限制。",
+      "environment": {
+        "soc": "Atlas A2/A3/950 for Radius/FPS; CylinderQuery A2-targeted, build pending",
+        "cann": "not pinned; local 9.1.0",
+        "dsl": "Ascend C + torch_npu"
+      },
+      "source_files": [
+        {
+          "path": "kernels/cylinder_query/op_host/cylinder_query.cpp",
+          "lines": "1-120",
+          "sha256": "b0c9b2adb0d9f2bd868896a817994f21fb5d20e94425a6f95d9f737280162e64",
+          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/kernels/cylinder_query/op_host/cylinder_query.cpp"
+        },
+        {
+          "path": "kernels/cylinder_query/op_kernel/cylinder_query.cpp",
+          "lines": "60-102,300-350",
+          "sha256": "adbcf1f90af3f5bf1be4a14508e130344ac67b125ba8caaa95018ea5c945f567",
+          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/kernels/cylinder_query/op_kernel/cylinder_query.cpp"
+        },
+        {
+          "path": "mx_driving/ops/cylinder_query.py",
+          "lines": "29-50",
+          "sha256": "d14246e76cbbb5ef130381c2da49e2cda1ca8a563b38f97aa146b87aa00b692c",
+          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/mx_driving/ops/cylinder_query.py"
+        }
+      ],
+      "symbol": "CylinderQuery / cylinder_query",
+      "mechanism": "每核处理若干 query；点云 tile 进 UB 双缓冲；p-center 后用 R 旋转；CompareScalar 生成半径/高度 mask；Select 写候选；Python sort/truncate/fill。",
+      "work_model": "减少重复坐标变换和标量循环；用 tile 流水隐藏搬运；代价是 nsample UB 预算、全量候选输出和 Python 排序。",
+      "evidence": [
+        {
+          "type": "static-source",
+          "value": "host tiling/UB、kernel 旋转/距离/select、Python 排序均可定位。",
+          "source": "source_files"
+        },
+        {
+          "type": "local-validation",
+          "value": "not-run; A2 generic path, build pending.",
+          "source": "competition/mfg-2026/evidence/README.md"
+        }
+      ],
+      "conditions": [
+        "3×3 rot (9 floats)",
+        "nsample fits UB",
+        "A2-targeted generic path",
+        "output post-processed in Python"
+      ],
+      "negative_cases": [
+        "A2 support not explicitly documented",
+        "nsample UB limit",
+        "Python sort cost",
+        "no author performance data"
+      ],
+      "reuse_decision": "优先复用旋转+双 mask+候选输出；先在 910B3 构建/调用并和 CPU 公式对照。",
+      "report": "competition/mfg-2026/driving-sdk/README.md",
+      "verification": "not-run; A2-targeted generic path; build pending",
+      "tier": "competition",
+      "entry_path": "competition/mfg-2026/driving-sdk",
+      "local_status": "not-run",
+      "local_validation": {
+        "status": "not-run",
+        "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",
+        "log": "competition/mfg-2026/evidence/README.md",
+        "log_sha256": "5c1e4ae0ec1a4e9da61e5ea174f014c83305845350dca2aee71fd9e93acc1048"
+      },
+      "performance_evidence": {
+        "baseline": "not disclosed in the files read",
+        "timing_scope": "no author timing in the files read",
+        "unit": "none",
+        "warmup_repeat": "not disclosed",
+        "input": "see entry README",
+        "hardware": "Atlas A2/A3/950 for Radius/FPS; CylinderQuery A2-targeted, build pending",
+        "full_call_or_kernel": "CylinderQuery",
+        "original_location": "competition/mfg-2026/driving-sdk/README.md",
+        "reproduced": false
+      }
+    },
+    {
+      "id": "MFG2026-FPS",
+      "repository_id": "gitcode-mfg-driving-sdk",
+      "source_commit": "d10b13c95ec7f25a54a4aa9677c436cde30ff6e2",
+      "operator": "FurthestPointSampling",
+      "operator_family": "point-cloud-sampling",
+      "semantics": "从 [B,N,3] 点云迭代选 num_points 个最远点，输出 [B,num_points] int32；首点固定索引 0。",
+      "shape_dtype": "points fp32/fp16/bf16 [B,N,3]; num_points; B*N*3<=383166; output int32.",
+      "environment": {
+        "soc": "Atlas A2/A3/950 for Radius/FPS; CylinderQuery A2-targeted, build pending",
+        "cann": "not pinned; local 9.1.0",
+        "dsl": "Ascend C + torch_npu"
+      },
+      "source_files": [
+        {
+          "path": "kernels/furthest_point_sampling/op_kernel/furthest_point_sampling.cpp",
+          "lines": "115-208",
+          "sha256": "fb7722013394ba057a2391647396bce3f51f3e853e777452458134fd96ad2893",
+          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/kernels/furthest_point_sampling/op_kernel/furthest_point_sampling.cpp"
+        },
+        {
+          "path": "kernels/furthest_point_sampling/op_host/furthest_point_sampling.cpp",
+          "lines": "1-100",
+          "sha256": "9202966cb666c7e3e52058297d784a48a8e07329236c621016b49f3f399871ce",
+          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/kernels/furthest_point_sampling/op_host/furthest_point_sampling.cpp"
+        },
+        {
+          "path": "docs/zh/api/context/furthest_point_sampling.md",
+          "lines": "1-39",
+          "sha256": "6b6243aa3e85fc0a0ed2b398da6769001c84384ab65bad560ad1ac9e200ad2d7",
+          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/docs/zh/api/context/furthest_point_sampling.md"
+        }
+      ],
+      "symbol": "furthest_point_sampling / furthestPointSamplingKernel",
+      "mechanism": "维护 nearestDist[N]；每轮计算到新选中点的距离、取 min、reduce max 选下一个；点云大于 UB 时按 pieces 分片；多核按 batch；fp16/bf16 cast fp32 算距离。",
+      "work_model": "每轮只算“到新点”的距离并更新最近距离，避免全量重算；代价是 num_points 轮串行、分片多次读、首点约定影响结果。",
+      "evidence": [
+        {
+          "type": "official-doc",
+          "value": "文档明确 A2/A3/950 与总元素上限。",
+          "source": "docs/zh/api/context/furthest_point_sampling.md:1-40"
+        },
+        {
+          "type": "static-source",
+          "value": "迭代/距离更新/分片/tiling 可定位。",
+          "source": "source_files"
+        },
+        {
+          "type": "local-validation",
+          "value": "not-run.",
+          "source": "competition/mfg-2026/evidence/README.md"
+        }
+      ],
+      "conditions": [
+        "B*N*3<=383166",
+        "num_points>0",
+        "first index 0",
+        "fp32/fp16/bf16"
+      ],
+      "negative_cases": [
+        "total element cap",
+        "first-index convention",
+        "piece re-reads",
+        "no author performance data"
+      ],
+      "reuse_decision": "优先复用 nearestDist + 每轮 min/max 更新 + 分片；在 910B3 与 CPU 参考逐索引对照。",
+      "report": "competition/mfg-2026/driving-sdk/README.md",
+      "verification": "not-run; docs A2/A3/950",
+      "tier": "competition",
+      "entry_path": "competition/mfg-2026/driving-sdk",
+      "local_status": "not-run",
+      "local_validation": {
+        "status": "not-run",
+        "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",
+        "log": "competition/mfg-2026/evidence/README.md",
+        "log_sha256": "5c1e4ae0ec1a4e9da61e5ea174f014c83305845350dca2aee71fd9e93acc1048"
+      },
+      "performance_evidence": {
+        "baseline": "not disclosed in the files read",
+        "timing_scope": "no author timing in the files read",
+        "unit": "none",
+        "warmup_repeat": "not disclosed",
+        "input": "see entry README",
+        "hardware": "Atlas A2/A3/950 for Radius/FPS; CylinderQuery A2-targeted, build pending",
+        "full_call_or_kernel": "FurthestPointSampling",
+        "original_location": "competition/mfg-2026/driving-sdk/README.md",
+        "reproduced": false
+      }
+    },
+    {
+      "id": "MFG2026-RADIUS",
+      "repository_id": "gitcode-mfg-driving-sdk",
+      "source_commit": "d10b13c95ec7f25a54a4aa9677c436cde30ff6e2",
+      "operator": "Radius",
+      "operator_family": "point-cloud-query",
+      "semantics": "对 Y 中每个点，找同 batch 内 X 中 dist²<=r² 的点；超过 max_num_neighbors 保留扫描顺序前 K；输出 [2,E] int64。",
+      "shape_dtype": "x/y fp32 [numpoints,Ndim]; ptr_x/ptr_y [batch+1]; Ndim<9; batch<=1024; per-batch points<=512.",
+      "environment": {
+        "soc": "Atlas A2/A3/950 for Radius/FPS; CylinderQuery A2-targeted, build pending",
+        "cann": "not pinned; local 9.1.0",
+        "dsl": "Ascend C + torch_npu"
+      },
+      "source_files": [
+        {
+          "path": "kernels/radius/op_host/radius.cpp",
+          "lines": "1-100",
+          "sha256": "f246a6fe33d9fc3868379ccfe0ad996dce04ab80ed6ec30ddb63e678b583ce63",
+          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/kernels/radius/op_host/radius.cpp"
+        },
+        {
+          "path": "kernels/radius/op_kernel/radius.cpp",
+          "lines": "1-120",
+          "sha256": "ec6007172be87f25b6f1335764447fe82e8a6319c97bcfff78ce6861fea73b49",
+          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/kernels/radius/op_kernel/radius.cpp"
+        },
+        {
+          "path": "docs/zh/api/context/radius.md",
+          "lines": "1-50",
+          "sha256": "621a9f20d45398b18f9af230a852a62fc1b40f3b3a730541c7258604ae93bac9",
+          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/docs/zh/api/context/radius.md"
+        }
+      ],
+      "symbol": "radius / TilingForRadius",
+      "mechanism": "按 batch 分核；每 batch 点数上限 512 以驻留 UB；半径平方比较；命中写邻居对；超过 max_num_neighbors 截断；输出动态 [2,E]。",
+      "work_model": "避免 sqrt 和跨 batch 扫描；用 batch 分核/UB 驻留；代价是 batch/点数上限和动态输出 workspace。",
+      "evidence": [
+        {
+          "type": "official-doc",
+          "value": "文档明确 A2/A3/950 与 Ndim/batch/点数约束。",
+          "source": "docs/zh/api/context/radius.md:1-50"
+        },
+        {
+          "type": "static-source",
+          "value": "host tiling/UB 与 kernel 可定位。",
+          "source": "source_files"
+        },
+        {
+          "type": "local-validation",
+          "value": "not-run.",
+          "source": "competition/mfg-2026/evidence/README.md"
+        }
+      ],
+      "conditions": [
+        "Ndim<9",
+        "batch<=1024",
+        "per-batch points<=512",
+        "output [2,E]"
+      ],
+      "negative_cases": [
+        "hard caps",
+        "dynamic output workspace",
+        "ordering/truncation semantics",
+        "no author performance data"
+      ],
+      "reuse_decision": "优先复用 batch 分核 + 半径平方 + 截断；在 910B3 与 CPU 暴力搜索对照。",
+      "report": "competition/mfg-2026/driving-sdk/README.md",
+      "verification": "not-run; docs A2/A3/950",
+      "tier": "competition",
+      "entry_path": "competition/mfg-2026/driving-sdk",
+      "local_status": "not-run",
+      "local_validation": {
+        "status": "not-run",
+        "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",
+        "log": "competition/mfg-2026/evidence/README.md",
+        "log_sha256": "5c1e4ae0ec1a4e9da61e5ea174f014c83305845350dca2aee71fd9e93acc1048"
+      },
+      "performance_evidence": {
+        "baseline": "not disclosed in the files read",
+        "timing_scope": "no author timing in the files read",
+        "unit": "none",
+        "warmup_repeat": "not disclosed",
+        "input": "see entry README",
+        "hardware": "Atlas A2/A3/950 for Radius/FPS; CylinderQuery A2-targeted, build pending",
+        "full_call_or_kernel": "Radius",
+        "original_location": "competition/mfg-2026/driving-sdk/README.md",
+        "reproduced": false
+      }
+    },
+    {
+      "id": "MFG2026-GNN-GATHER-COO",
+      "repository_id": "gitcode-mfg-ops-gnn",
+      "source_commit": "ea0b18a1d3e97f1ae2315df69338bb51c9f96466",
+      "operator": "GatherCoo",
+      "operator_family": "graph-gather",
+      "semantics": "按有序 COO 索引扩展源行：out[...,e,...]=src[...,index[...,e],...]；index int64 非降序。",
+      "shape_dtype": "rank 1-8; fp16/bf16/fp32/int8/16/32/uint8/fp64/int64; index int64 nondecreasing.",
+      "environment": {
+        "soc": "A2/A3 arch22 for segment/spmm; 950 arch35 for gather/random_walk/grid_cluster",
+        "cann": "9.1.0+",
+        "dsl": "Ascend C + PyTorch"
+      },
+      "source_files": [
+        {
+          "path": "csrc/npu/gather_coo/op_kernel/arch35/gather_coo_kernel.h",
+          "lines": "24-110",
+          "sha256": "f233754ed50110565386c3d3f9e334c587ea1e7e6c95c1ca85d68bbcff73d5b6",
+          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/csrc/npu/gather_coo/op_kernel/arch35/gather_coo_kernel.h"
+        },
+        {
+          "path": "docs/zh/api_reference.md",
+          "lines": "533-563",
+          "sha256": "0043c8e8ff3553987aff0a581aed902c5481e546ae033dc3cfcc2139e4ee9446",
+          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/docs/zh/api_reference.md"
+        }
+      ],
+      "symbol": "GatherCooKernel",
+      "mechanism": "slab 快路径处理连续重复行；通用 tile 逐行拷贝；输出 slab 缓存/批量写出；纯前向位拷贝。",
+      "work_model": "把重复索引的逐行拷贝合并成 slab，减少 MTE3 次数；代价是 arch35 SIMT 实现、索引必须有序。",
+      "evidence": [
+        {
+          "type": "static-source",
+          "value": "slab/通用 tile/输出缓存可定位。",
+          "source": "source_files"
+        },
+        {
+          "type": "support-matrix",
+          "value": "ops-gnn 支持表标注 gather_coo 为 950/arch35。",
+          "source": "docs/zh/api_reference.md:178-199"
+        },
+        {
+          "type": "local-validation",
+          "value": "not-run; 950-only, not 910B.",
+          "source": "competition/mfg-2026/evidence/README.md"
+        }
+      ],
+      "conditions": [
+        "950/arch35 only",
+        "index int64 nondecreasing",
+        "no backward",
+        "rank 1-8"
+      ],
+      "negative_cases": [
+        "not 910B-buildable",
+        "no COO alternative in ops-sparse (dense gather only)",
+        "index ordering required",
+        "no backward"
+      ],
+      "reuse_decision": "只作为 910B GatherCoo 的算法参考（slab 合并）；不能直接构建/复用 arch35 代码。",
+      "report": "competition/mfg-2026/ops-gnn/README.md",
+      "verification": "not-run; 950-only reference",
+      "tier": "competition",
+      "entry_path": "competition/mfg-2026/ops-gnn",
+      "local_status": "not-run",
+      "local_validation": {
+        "status": "not-run",
+        "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",
+        "log": "competition/mfg-2026/evidence/README.md",
+        "log_sha256": "5c1e4ae0ec1a4e9da61e5ea174f014c83305845350dca2aee71fd9e93acc1048"
+      },
+      "performance_evidence": {
+        "baseline": "not disclosed in the files read",
+        "timing_scope": "no author timing in the files read",
+        "unit": "none",
+        "warmup_repeat": "not disclosed",
+        "input": "see entry README",
+        "hardware": "A2/A3 arch22 for segment/spmm; 950 arch35 for gather/random_walk/grid_cluster",
+        "full_call_or_kernel": "GatherCoo",
+        "original_location": "competition/mfg-2026/ops-gnn/README.md",
+        "reproduced": false
+      }
+    },
+    {
+      "id": "MFG2026-GNN-SEGMENT-MIN-CSR",
+      "repository_id": "gitcode-mfg-ops-gnn",
+      "source_commit": "ea0b18a1d3e97f1ae2315df69338bb51c9f96466",
+      "operator": "SegmentMinCsr",
+      "operator_family": "graph-segment-reduction",
+      "semantics": "沿 CSR indptr 对 src 做分段最小值归约；空段填 dtype 最小值。",
+      "shape_dtype": "int64 indptr nondecreasing; fp16/bf16/fp32/int16/int32; 1D/多维广播.",
+      "environment": {
+        "soc": "A2/A3 arch22 for segment/spmm; 950 arch35 for gather/random_walk/grid_cluster",
+        "cann": "9.1.0+",
+        "dsl": "Ascend C + PyTorch"
+      },
+      "source_files": [
+        {
+          "path": "csrc/npu/segment_csr/op_kernel/arch22/segment_csr.cpp",
+          "lines": "22-61",
+          "sha256": "b8360db34993be394edf7864c3f8d2e03fdf5a9a5758f3b1bec63a612d87f687",
+          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/csrc/npu/segment_csr/op_kernel/arch22/segment_csr.cpp"
+        },
+        {
+          "path": "csrc/npu/segment_csr/op_kernel/arch22/segment_csr_common.h",
+          "lines": "35-61",
+          "sha256": "7fc52b0bc40a32a7522890753bec9f5d49f4e71764bcb8725af6112bff540bf5",
+          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/csrc/npu/segment_csr/op_kernel/arch22/segment_csr_common.h"
+        },
+        {
+          "path": "docs/zh/api_reference.md",
+          "lines": "73-140",
+          "sha256": "0043c8e8ff3553987aff0a581aed902c5481e546ae033dc3cfcc2139e4ee9446",
+          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/docs/zh/api_reference.md"
+        }
+      ],
+      "symbol": "SegmentReduceDevice / segment_csr",
+      "mechanism": "模板 SegmentReduce 同时覆盖 min/max/sum；按 tileRows×tileK 流式读 CSR 行；多 AIV 按 unit 切分；极值与有序浮点路径分开；空段填充。",
+      "work_model": "流式行 tile + 多核切分减少 GM 往返；min/max 极值路径避免不必要排序；代价是 tileK 容量规划、空段/NaN 语义。",
+      "evidence": [
+        {
+          "type": "official-doc",
+          "value": "API 文档给出 min/max/sum、空段填充和 dtype。",
+          "source": "docs/zh/api_reference.md:73-140"
+        },
+        {
+          "type": "static-source",
+          "value": "模板/行 tile/多 AIV 可定位。",
+          "source": "source_files"
+        },
+        {
+          "type": "local-validation",
+          "value": "not-run; arch22 A2/A3 path exists.",
+          "source": "competition/mfg-2026/evidence/README.md"
+        }
+      ],
+      "conditions": [
+        "A2/A3 arch22",
+        "int64 indptr nondecreasing",
+        "min/max/sum shared template",
+        "empty segment fill"
+      ],
+      "negative_cases": [
+        "NaN/extreme semantics per题面",
+        "tileK tuning",
+        "empty segment fill",
+        "no author performance data"
+      ],
+      "reuse_decision": "优先复用模板化 reduce/流式行 tile/空段填充；在 910B3 构建 arch22 并对照 scatter 参考。",
+      "report": "competition/mfg-2026/ops-gnn/README.md",
+      "verification": "not-run; A2/A3 arch22 exists",
+      "tier": "competition",
+      "entry_path": "competition/mfg-2026/ops-gnn",
+      "local_status": "not-run",
+      "local_validation": {
+        "status": "not-run",
+        "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",
+        "log": "competition/mfg-2026/evidence/README.md",
+        "log_sha256": "5c1e4ae0ec1a4e9da61e5ea174f014c83305845350dca2aee71fd9e93acc1048"
+      },
+      "performance_evidence": {
+        "baseline": "not disclosed in the files read",
+        "timing_scope": "no author timing in the files read",
+        "unit": "none",
+        "warmup_repeat": "not disclosed",
+        "input": "see entry README",
+        "hardware": "A2/A3 arch22 for segment/spmm; 950 arch35 for gather/random_walk/grid_cluster",
+        "full_call_or_kernel": "SegmentMinCsr",
+        "original_location": "competition/mfg-2026/ops-gnn/README.md",
+        "reproduced": false
+      }
+    },
+    {
+      "id": "MFG2026-GNN-RANDOM-WALK",
+      "repository_id": "gitcode-mfg-ops-gnn",
+      "source_commit": "ea0b18a1d3e97f1ae2315df69338bb51c9f96466",
+      "operator": "RandomWalk",
+      "operator_family": "graph-random-walk",
+      "semantics": "COO 图上的均匀/node2vec 随机游走；输出节点序列 [S,walk_length+1]，可选边序列。",
+      "shape_dtype": "row/col/start int64; walk_length>=0; p/q>0; coalesced bool; num_nodes optional.",
+      "environment": {
+        "soc": "A2/A3 arch22 for segment/spmm; 950 arch35 for gather/random_walk/grid_cluster",
+        "cann": "9.1.0+",
+        "dsl": "Ascend C + PyTorch"
+      },
+      "source_files": [
+        {
+          "path": "csrc/npu/random_walk/op_kernel/arch35/random_walk.h",
+          "lines": "18-33",
+          "sha256": "b3b66d5bb699e32cb9f2522d3c76c6d0c966a4c47f497a3455521ba48447bb43",
+          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/csrc/npu/random_walk/op_kernel/arch35/random_walk.h"
+        },
+        {
+          "path": "docs/zh/api_reference.md",
+          "lines": "688-730",
+          "sha256": "0043c8e8ff3553987aff0a581aed902c5481e546ae033dc3cfcc2139e4ee9446",
+          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/docs/zh/api_reference.md"
+        }
+      ],
+      "symbol": "RandomWalk / RandomWalkLaunchParams",
+      "mechanism": "Philox 计数器 RNG；按源节点分组/排序；node2vec p/q 权重；输出节点/边序列。",
+      "work_model": "用设备 RNG 并行采样，避免 Host 逐 walk；代价是 arch35 SIMT、随机种子/排序语义和 p/q 权重。",
+      "evidence": [
+        {
+          "type": "official-doc",
+          "value": "API 文档给出参数/返回/随机性说明。",
+          "source": "docs/zh/api_reference.md:688-730"
+        },
+        {
+          "type": "static-source",
+          "value": "launch 参数与 Philox 路径可定位；.cpp 本次 raw 403。",
+          "source": "source_files"
+        },
+        {
+          "type": "local-validation",
+          "value": "not-run; 950-only reference.",
+          "source": "competition/mfg-2026/evidence/README.md"
+        }
+      ],
+      "conditions": [
+        "950/arch35 only",
+        "fixed seed for reproducibility",
+        "coalesced input semantics",
+        "p/q>0"
+      ],
+      "negative_cases": [
+        "not 910B-buildable",
+        "stochastic result",
+        "self-loop/duplicate edge semantics",
+        "no author performance data"
+      ],
+      "reuse_decision": "只作为 910B RandomWalk 的算法参考（Philox/分组采样）；不能直接构建 arch35 代码。",
+      "report": "competition/mfg-2026/ops-gnn/README.md",
+      "verification": "not-run; 950-only reference",
+      "tier": "competition",
+      "entry_path": "competition/mfg-2026/ops-gnn",
+      "local_status": "not-run",
+      "local_validation": {
+        "status": "not-run",
+        "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",
+        "log": "competition/mfg-2026/evidence/README.md",
+        "log_sha256": "5c1e4ae0ec1a4e9da61e5ea174f014c83305845350dca2aee71fd9e93acc1048"
+      },
+      "performance_evidence": {
+        "baseline": "not disclosed in the files read",
+        "timing_scope": "no author timing in the files read",
+        "unit": "none",
+        "warmup_repeat": "not disclosed",
+        "input": "see entry README",
+        "hardware": "A2/A3 arch22 for segment/spmm; 950 arch35 for gather/random_walk/grid_cluster",
+        "full_call_or_kernel": "RandomWalk",
+        "original_location": "competition/mfg-2026/ops-gnn/README.md",
+        "reproduced": false
+      }
+    },
+    {
+      "id": "MFG2026-GNN-SPMM",
+      "repository_id": "gitcode-mfg-ops-gnn",
+      "source_commit": "ea0b18a1d3e97f1ae2315df69338bb51c9f96466",
+      "operator": "SpmmSum (CSR aggregation)",
+      "operator_family": "sparse-dense-matmul",
+      "semantics": "CSR copy/binary 消息 + sum/max/min/mean 聚合；PyTorch/torch_sparse 兼容层。",
+      "shape_dtype": "CSR indptr/indices; fp16/bf16/fp32; sum/max/min/mean.",
+      "environment": {
+        "soc": "A2/A3 arch22 for segment/spmm; 950 arch35 for gather/random_walk/grid_cluster",
+        "cann": "9.1.0+",
+        "dsl": "Ascend C + PyTorch"
+      },
+      "source_files": [
+        {
+          "path": "csrc/npu/common/spmm/spmm_utils.h",
+          "lines": "210-241",
+          "sha256": "4ca1fb0b3b09641569d5923007ac435a760bbe42a792f7bac301a0a0c0ce34e7",
+          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/csrc/npu/common/spmm/spmm_utils.h"
+        },
+        {
+          "path": "docs/zh/api_reference.md",
+          "lines": "197-199",
+          "sha256": "0043c8e8ff3553987aff0a581aed902c5481e546ae033dc3cfcc2139e4ee9446",
+          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/docs/zh/api_reference.md"
+        }
+      ],
+      "symbol": "SpmmReduce / SpmmReducer / RunSpmmCopyLhs",
+      "mechanism": "SpmmReduce 枚举 sum/max/min/mean；Reducer 给初值/apply；CSR 行分组 + copy_lhs；形状/索引校验。",
+      "work_model": "按 CSR 行分组减少索引重复；reduce 枚举复用同一 kernel；代价是 dtype/空段/布局分支。",
+      "evidence": [
+        {
+          "type": "static-source",
+          "value": "reduce 枚举/Reducer/copy_lhs 可定位。",
+          "source": "source_files"
+        },
+        {
+          "type": "support-matrix",
+          "value": "支持表标注 spmm 为 A2/A3 arch22。",
+          "source": "docs/zh/api_reference.md:197-199"
+        },
+        {
+          "type": "local-validation",
+          "value": "not-run.",
+          "source": "competition/mfg-2026/evidence/README.md"
+        }
+      ],
+      "conditions": [
+        "A2/A3 arch22",
+        "CSR",
+        "sum/max/min/mean",
+        "dtype combos"
+      ],
+      "negative_cases": [
+        "empty segment semantics",
+        "dtype combos",
+        "row grouping layout",
+        "no author performance data"
+      ],
+      "reuse_decision": "优先复用 reduce 枚举/Reducer/行分组；在 910B3 构建 arch22 并对照 torch_sparse。",
+      "report": "competition/mfg-2026/ops-gnn/README.md",
+      "verification": "not-run; A2/A3 arch22 exists",
+      "tier": "competition",
+      "entry_path": "competition/mfg-2026/ops-gnn",
+      "local_status": "not-run",
+      "local_validation": {
+        "status": "not-run",
+        "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",
+        "log": "competition/mfg-2026/evidence/README.md",
+        "log_sha256": "5c1e4ae0ec1a4e9da61e5ea174f014c83305845350dca2aee71fd9e93acc1048"
+      },
+      "performance_evidence": {
+        "baseline": "not disclosed in the files read",
+        "timing_scope": "no author timing in the files read",
+        "unit": "none",
+        "warmup_repeat": "not disclosed",
+        "input": "see entry README",
+        "hardware": "A2/A3 arch22 for segment/spmm; 950 arch35 for gather/random_walk/grid_cluster",
+        "full_call_or_kernel": "SpmmSum (CSR aggregation)",
+        "original_location": "competition/mfg-2026/ops-gnn/README.md",
+        "reproduced": false
+      }
+    },
+    {
+      "id": "MFG2026-GNN-GRID-CLUSTER",
+      "repository_id": "gitcode-mfg-ops-gnn",
+      "source_commit": "ea0b18a1d3e97f1ae2315df69338bb51c9f96466",
+      "operator": "GridCluster",
+      "operator_family": "point-cloud-clustering",
+      "semantics": "把点坐标量化到规则网格，输出线性 int64 网格 ID（torch_cluster 兼容）。",
+      "shape_dtype": "points [N,D]; size/origin/start/end per dim; output int64.",
+      "environment": {
+        "soc": "A2/A3 arch22 for segment/spmm; 950 arch35 for gather/random_walk/grid_cluster",
+        "cann": "9.1.0+",
+        "dsl": "Ascend C + PyTorch"
+      },
+      "source_files": [
+        {
+          "path": "csrc/npu/grid_cluster/op_kernel/arch35/grid_cluster.cpp",
+          "lines": "15-120,135-221",
+          "sha256": "a5651a332d9a821d98bfcc8b3e358d3fb175f6ad11ac76cc0e8647eaae2c2fb8",
+          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/csrc/npu/grid_cluster/op_kernel/arch35/grid_cluster.cpp"
+        }
+      ],
+      "symbol": "GridIndex / Grid3Simt / GridWideBody",
+      "mechanism": "每维 floor((x-origin)/size) 得索引；按 radix 组合成线性 ID；subnormal/极小 size 用缩放与倒数快路径；3D SIMT/宽维分支。",
+      "work_model": "把多维网格坐标压成单个 int64 ID，便于后续聚类/排序；代价是 arch35 SIMT、size/负坐标/溢出边界。",
+      "evidence": [
+        {
+          "type": "static-source",
+          "value": "网格索引/radix/SIMT 分支可定位。",
+          "source": "source_files"
+        },
+        {
+          "type": "support-matrix",
+          "value": "ops-gnn 支持表标注 grid_cluster 为 950/arch35。",
+          "source": "docs/zh/api_reference.md:178-199"
+        },
+        {
+          "type": "local-validation",
+          "value": "not-run; 950-only reference.",
+          "source": "competition/mfg-2026/evidence/README.md"
+        }
+      ],
+      "conditions": [
+        "950/arch35 only",
+        "int64 linear ID",
+        "3D/wide dims",
+        "size>0"
+      ],
+      "negative_cases": [
+        "not 910B-buildable",
+        "subnormal/negative coords",
+        "int64 overflow",
+        "dimension order"
+      ],
+      "reuse_decision": "只作为 910B GridCluster 的算法参考；需要重写 SIMT/Vector 路径。",
+      "report": "competition/mfg-2026/ops-gnn/README.md",
+      "verification": "not-run; 950-only reference",
+      "tier": "competition",
+      "entry_path": "competition/mfg-2026/ops-gnn",
+      "local_status": "not-run",
+      "local_validation": {
+        "status": "not-run",
+        "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",
+        "log": "competition/mfg-2026/evidence/README.md",
+        "log_sha256": "5c1e4ae0ec1a4e9da61e5ea174f014c83305845350dca2aee71fd9e93acc1048"
+      },
+      "performance_evidence": {
+        "baseline": "not disclosed in the files read",
+        "timing_scope": "no author timing in the files read",
+        "unit": "none",
+        "warmup_repeat": "not disclosed",
+        "input": "see entry README",
+        "hardware": "A2/A3 arch22 for segment/spmm; 950 arch35 for gather/random_walk/grid_cluster",
+        "full_call_or_kernel": "GridCluster",
+        "original_location": "competition/mfg-2026/ops-gnn/README.md",
+        "reproduced": false
+      }
+    },
+    {
+      "id": "MFG2026-SPARSE-SPGEMM",
+      "repository_id": "gitcode-mfg-ops-sparse",
+      "source_commit": "8fae00b8832bf31f1ce26059680bce67c6026c4f",
+      "operator": "Spspmm (CSR × CSR)",
+      "operator_family": "sparse-sparse-matmul",
+      "semantics": "C' = alpha·A·B + beta·C；CSR×CSR；输出列索引严格升序、无重复坐标；显式零保留。",
+      "shape_dtype": "CSR A (M×K), B (K×N), C (M×N); fp16/bf16/fp32/complex64; opA/opB non-transpose.",
+      "environment": {
+        "soc": "A2/A3/950",
+        "cann": "not pinned; local 9.1.0",
+        "dsl": "Ascend C / aclsparse"
+      },
+      "source_files": [
+        {
+          "path": "sparse/spgemm/README.md",
+          "lines": "1-40",
+          "sha256": "a978c57a14ae24b2a8bc3a0672fabba3e85e42644c0afe9ec28c8aaff007d5ad",
+          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/spgemm/README.md"
+        },
+        {
+          "path": "sparse/spgemm/arch22/spgemm_host.cpp",
+          "lines": "654-720,1066-1120",
+          "sha256": "13eb58db9801f746754f6ee1d671aa4278b6745dd2dfdae4beb9b75bd6ae39a7",
+          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/spgemm/arch22/spgemm_host.cpp"
+        },
+        {
+          "path": "sparse/spgemm/arch22/spgemm_symbolic_kernel.cpp",
+          "lines": "1-120",
+          "sha256": "6291fdfb487d129551003c5dd60289b933fcb6b0ff18cf24d7f7006ce9736de5",
+          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/spgemm/arch22/spgemm_symbolic_kernel.cpp"
+        },
+        {
+          "path": "sparse/spgemm/arch22/spgemm_numeric_kernel.cpp",
+          "lines": "1-120",
+          "sha256": "82a537ca32c253830d587d7478e3ea4349ff8b26755b05511310fd7d29dbd013",
+          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/spgemm/arch22/spgemm_numeric_kernel.cpp"
+        }
+      ],
+      "symbol": "aclsparseSpGEMMWorkEstimation / Compute / Copy / spgemm_host",
+      "mechanism": "WorkEstimation 统计中间乘积 → EstimateMemory 规划 workspace → Compute symbolic(rowOffsets)+numeric(merge/去重) → Copy 写输出 CSR。",
+      "work_model": "把稀疏乘拆成 symbolic/numeric/merge 多阶段，避免重复分配/扫描；代价是 workspace/numProds/多阶段状态机。",
+      "evidence": [
+        {
+          "type": "official-doc",
+          "value": "README 给出多阶段接口、显式零/排序语义和 A2 支持。",
+          "source": "sparse/spgemm/README.md:1-40"
+        },
+        {
+          "type": "static-source",
+          "value": "host symbolic/compute 与 kernel 可定位。",
+          "source": "source_files"
+        },
+        {
+          "type": "local-validation",
+          "value": "not-run; A2 arch22 exists.",
+          "source": "competition/mfg-2026/evidence/README.md"
+        }
+      ],
+      "conditions": [
+        "A2/A3/950",
+        "CSR",
+        "non-transpose only",
+        "sorted unique output"
+      ],
+      "negative_cases": [
+        "numProds != nnz(C)",
+        "dynamic output allocation",
+        "INT32 nnz limit",
+        "state machine cannot skip stages"
+      ],
+      "reuse_decision": "优先复用 symbolic+numeric+merge 多阶段；在 910B3 用小图验证结构/数值。",
+      "report": "competition/mfg-2026/ops-sparse/README.md",
+      "verification": "not-run; A2/A3 arch22 exists",
+      "tier": "competition",
+      "entry_path": "competition/mfg-2026/ops-sparse",
+      "local_status": "not-run",
+      "local_validation": {
+        "status": "not-run",
+        "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",
+        "log": "competition/mfg-2026/evidence/README.md",
+        "log_sha256": "5c1e4ae0ec1a4e9da61e5ea174f014c83305845350dca2aee71fd9e93acc1048"
+      },
+      "performance_evidence": {
+        "baseline": "not disclosed in the files read",
+        "timing_scope": "no author timing in the files read",
+        "unit": "none",
+        "warmup_repeat": "not disclosed",
+        "input": "see entry README",
+        "hardware": "A2/A3/950",
+        "full_call_or_kernel": "Spspmm (CSR × CSR)",
+        "original_location": "competition/mfg-2026/ops-sparse/README.md",
+        "reproduced": false
+      }
+    },
+    {
+      "id": "MFG2026-SPARSE-SPMM",
+      "repository_id": "gitcode-mfg-ops-sparse",
+      "source_commit": "8fae00b8832bf31f1ce26059680bce67c6026c4f",
+      "operator": "SpmmSum (aclsparse SpMM)",
+      "operator_family": "sparse-dense-matmul",
+      "semantics": "C = alpha·op(A)·op(B) + beta·C；A 为 CSR，B/C 稠密；A2/A3 支持多 alg。",
+      "shape_dtype": "CSR A; dense B/C row/col major; fp32/fp16/bf16/complex64; A2/A3.",
+      "environment": {
+        "soc": "A2/A3/950",
+        "cann": "not pinned; local 9.1.0",
+        "dsl": "Ascend C / aclsparse"
+      },
+      "source_files": [
+        {
+          "path": "sparse/spmm/README.md",
+          "lines": "1-120",
+          "sha256": "0931104b0a7351059a9014ac94e53ad1ee961adee324e5220f6fad986a553c0a",
+          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/spmm/README.md"
+        },
+        {
+          "path": "sparse/spmm/arch22/spmm_host.cpp",
+          "lines": "201-330",
+          "sha256": "b60322d815f31818804e1c67f7cc286dd0b5828dd7d269f6c3bbc0f5ef12db81",
+          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/spmm/arch22/spmm_host.cpp"
+        },
+        {
+          "path": "sparse/spmm/arch22/kernels/spmm_kernel_group_axpy.h",
+          "lines": "1-120",
+          "sha256": "ed6208a4c211f42818a8ba2cbde5c6b8c358965ad20b1835160858fba24905d8",
+          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/spmm/arch22/kernels/spmm_kernel_group_axpy.h"
+        }
+      ],
+      "symbol": "aclsparseSpMM / SelectSpmmRowBlock / group_axpy",
+      "mechanism": "按 dtype/布局/opA/opB 选行分块；行组 axpy；ALG1 通用/ALG2 行主序快路径/ALG3 确定性；fp32 Kahan。",
+      "work_model": "行分块 + group axpy 减少重复索引/循环；alg 选择适配布局；代价是 dtype/布局分支和预处理。",
+      "evidence": [
+        {
+          "type": "official-doc",
+          "value": "README 给出 A2/A3 dtype/alg/布局约束。",
+          "source": "sparse/spmm/README.md:1-120"
+        },
+        {
+          "type": "static-source",
+          "value": "host 行分块/group axpy/Kahan 可定位。",
+          "source": "source_files"
+        },
+        {
+          "type": "local-validation",
+          "value": "not-run; A2 arch22 exists.",
+          "source": "competition/mfg-2026/evidence/README.md"
+        }
+      ],
+      "conditions": [
+        "A2/A3",
+        "CSR A",
+        "A2 dtype combos",
+        "ALG1/2/3"
+      ],
+      "negative_cases": [
+        "dtype combos narrower than 950",
+        "ALG3 non-transpose only",
+        "layout/alg performance varies",
+        "no author performance data"
+      ],
+      "reuse_decision": "优先复用行分块/group axpy/Kahan；在 910B3 先 fp32 再 fp16/bf16。",
+      "report": "competition/mfg-2026/ops-sparse/README.md",
+      "verification": "not-run; A2/A3 arch22 exists",
+      "tier": "competition",
+      "entry_path": "competition/mfg-2026/ops-sparse",
+      "local_status": "not-run",
+      "local_validation": {
+        "status": "not-run",
+        "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",
+        "log": "competition/mfg-2026/evidence/README.md",
+        "log_sha256": "5c1e4ae0ec1a4e9da61e5ea174f014c83305845350dca2aee71fd9e93acc1048"
+      },
+      "performance_evidence": {
+        "baseline": "not disclosed in the files read",
+        "timing_scope": "no author timing in the files read",
+        "unit": "none",
+        "warmup_repeat": "not disclosed",
+        "input": "see entry README",
+        "hardware": "A2/A3/950",
+        "full_call_or_kernel": "SpmmSum (aclsparse SpMM)",
+        "original_location": "competition/mfg-2026/ops-sparse/README.md",
+        "reproduced": false
+      }
+    },
+    {
+      "id": "MFG2026-SPARSE-GATHER",
+      "repository_id": "gitcode-mfg-ops-sparse",
+      "source_commit": "8fae00b8832bf31f1ce26059680bce67c6026c4f",
+      "operator": "Gather (dense gather)",
+      "operator_family": "graph-gather",
+      "semantics": "X.values[i] = Y[X.indices[i]-idxBase]；稀疏索引从稠密向量 gather。",
+      "shape_dtype": "idx int32; idxBase 0/1; value fp16/bf16/fp32/complex64; nnz.",
+      "environment": {
+        "soc": "A2/A3/950",
+        "cann": "not pinned; local 9.1.0",
+        "dsl": "Ascend C / aclsparse"
+      },
+      "source_files": [
+        {
+          "path": "sparse/gather/README.md",
+          "lines": "1-60",
+          "sha256": "b02963b7701fc2da5d4cb8754eeb9b5ca641758c12126af2d1d76f18b47b2ae0",
+          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/gather/README.md"
+        },
+        {
+          "path": "sparse/gather/arch22/gather_host.cpp",
+          "lines": "1-120",
+          "sha256": "f7ded5ea056a1e3c9d59a46583a818f833808e51b98c3d77eaefcf58cbc4c3de",
+          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/gather/arch22/gather_host.cpp"
+        }
+      ],
+      "symbol": "aclsparseGather / aclsparseGatherRaw",
+      "mechanism": "按索引从稠密向量取值写 sparse values；raw 快路径跳过描述符创建/销毁；idxBase 0/1。",
+      "work_model": "raw 快路径减少高频小 gather 的 Host 开销；代价是只支持 dense gather，不处理 COO 行扩展。",
+      "evidence": [
+        {
+          "type": "official-doc",
+          "value": "README 给出 dense gather/raw/idxBase 语义。",
+          "source": "sparse/gather/README.md:1-60"
+        },
+        {
+          "type": "static-source",
+          "value": "arch22 host 可定位。",
+          "source": "source_files"
+        },
+        {
+          "type": "local-validation",
+          "value": "not-run; A2 arch22 exists.",
+          "source": "competition/mfg-2026/evidence/README.md"
+        }
+      ],
+      "conditions": [
+        "A2/A3",
+        "dense gather only",
+        "idx int32",
+        "idxBase 0/1"
+      ],
+      "negative_cases": [
+        "not GatherCoo",
+        "no COO row expansion",
+        "index range/duplicates",
+        "no author performance data"
+      ],
+      "reuse_decision": "只作为 dense gather 参考；GatherCoo 需要 ops-gnn 语义或另写 910B COO 扩展。",
+      "report": "competition/mfg-2026/ops-sparse/README.md",
+      "verification": "not-run; A2 arch22 exists",
+      "tier": "competition",
+      "entry_path": "competition/mfg-2026/ops-sparse",
+      "local_status": "not-run",
+      "local_validation": {
+        "status": "not-run",
+        "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",
+        "log": "competition/mfg-2026/evidence/README.md",
+        "log_sha256": "5c1e4ae0ec1a4e9da61e5ea174f014c83305845350dca2aee71fd9e93acc1048"
+      },
+      "performance_evidence": {
+        "baseline": "not disclosed in the files read",
+        "timing_scope": "no author timing in the files read",
+        "unit": "none",
+        "warmup_repeat": "not disclosed",
+        "input": "see entry README",
+        "hardware": "A2/A3/950",
+        "full_call_or_kernel": "Gather (dense gather)",
+        "original_location": "competition/mfg-2026/ops-sparse/README.md",
+        "reproduced": false
+      }
+    },
+    {
+      "id": "MFG2026-MATH-COMPLEX-ABS",
+      "repository_id": "gitcode-mfg-ops-math",
+      "source_commit": "3b2baac63624c32e03781bd9f0290f1a4584f0c7",
+      "operator": "ComplexAbs",
+      "operator_family": "complex-elementwise",
+      "semantics": "复数逐元素模长 y=sqrt(re²+im²)；输出 dtype 由输入推导。",
+      "shape_dtype": "complex32/64/128; output fp16/fp32/fp64; ND; rank<=8; no empty tensor.",
+      "environment": {
+        "soc": "A2/A3/950 varies by op",
+        "cann": "not pinned; local 9.1.0",
+        "dsl": "Ascend C"
+      },
+      "source_files": [
+        {
+          "path": "math/complex_abs/README.md",
+          "lines": "1-60",
+          "sha256": "3441cc3c26c96d5839743a313898c5be6bb6081acab52598b419fb59f537d01b",
+          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/math/complex_abs/README.md"
+        },
+        {
+          "path": "math/complex_abs/op_kernel/arch35/complex_abs_dag.h",
+          "lines": "23-178",
+          "sha256": "60d0750fd1d3fd53fdfe1c322adb4b3f56856c5f0e5d3a8904e9d41aea0d0500",
+          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/math/complex_abs/op_kernel/arch35/complex_abs_dag.h"
+        }
+      ],
+      "symbol": "ComplexAbsCustom / ComplexAbsVf",
+      "mechanism": "实虚平方和再 sqrt；超大值先 SCALE_UP/SCALE_DOWN；Compare/Select 处理 |re|/|im|；按 dtype pack 输出。",
+      "work_model": "用缩放避免平方溢出/下溢；DAG 逐元素，适合向量化；代价是 arch35-only、dtype pack/特殊值。",
+      "evidence": [
+        {
+          "type": "official-doc",
+          "value": "README 明确 A2 ×、950/A3 √、dtype 映射。",
+          "source": "math/complex_abs/README.md:1-60"
+        },
+        {
+          "type": "static-source",
+          "value": "平方和/sqrt/缩放/Select 可定位。",
+          "source": "source_files"
+        },
+        {
+          "type": "local-validation",
+          "value": "not-run; 950-only reference.",
+          "source": "competition/mfg-2026/evidence/README.md"
+        }
+      ],
+      "conditions": [
+        "950/A3 only",
+        "complex32/64/128",
+        "no empty tensor",
+        "rank<=8"
+      ],
+      "negative_cases": [
+        "A2 not supported",
+        "COMPLEX128 on 910B unclear",
+        "NaN/Inf semantics",
+        "no performance data"
+      ],
+      "reuse_decision": "只作为 910B ComplexAbs 的算法参考；需另写 arch22/Vector 版本。",
+      "report": "competition/mfg-2026/ops-math/README.md",
+      "verification": "not-run; 950-only reference",
+      "tier": "competition",
+      "entry_path": "competition/mfg-2026/ops-math",
+      "local_status": "not-run",
+      "local_validation": {
+        "status": "not-run",
+        "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",
+        "log": "competition/mfg-2026/evidence/README.md",
+        "log_sha256": "5c1e4ae0ec1a4e9da61e5ea174f014c83305845350dca2aee71fd9e93acc1048"
+      },
+      "performance_evidence": {
+        "baseline": "not disclosed in the files read",
+        "timing_scope": "no author timing in the files read",
+        "unit": "none",
+        "warmup_repeat": "not disclosed",
+        "input": "see entry README",
+        "hardware": "A2/A3/950 varies by op",
+        "full_call_or_kernel": "ComplexAbs",
+        "original_location": "competition/mfg-2026/ops-math/README.md",
+        "reproduced": false
+      }
+    },
+    {
+      "id": "MFG2026-MATH-STACK-BALL-QUERY",
+      "repository_id": "gitcode-mfg-ops-math",
+      "source_commit": "3b2baac63624c32e03781bd9f0290f1a4584f0c7",
+      "operator": "StackBallQuery",
+      "operator_family": "point-cloud-query",
+      "semantics": "堆叠 2D 点云 + batch counts 的球查询；按 center 在 max_radius 内取前 sample_num 个索引。",
+      "shape_dtype": "xyz (3,N_total), center_xyz (M,3), batch_cnt (B,); fp16/fp32; output int32 (M,sample_num).",
+      "environment": {
+        "soc": "A2/A3/950 varies by op",
+        "cann": "not pinned; local 9.1.0",
+        "dsl": "Ascend C"
+      },
+      "source_files": [
+        {
+          "path": "conversion/stack_ball_query/README.md",
+          "lines": "1-58",
+          "sha256": "9e1d5af15ce7b228d2692b95b418e7f7474f3c7e02797067cd85a874a9b3ab31",
+          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/conversion/stack_ball_query/README.md"
+        },
+        {
+          "path": "conversion/stack_ball_query/op_kernel/stack_ball_query.h",
+          "lines": "28-140,281-397",
+          "sha256": "4fc295c8429c145575506bd0492097f0ec470d94fd116f1a195a0fcaedee1f19",
+          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/conversion/stack_ball_query/op_kernel/stack_ball_query.h"
+        },
+        {
+          "path": "conversion/stack_ball_query/op_kernel/stack_ball_query.cpp",
+          "lines": "17-40",
+          "sha256": "21748f67be4b9bc22bab4329c2c1416b32e6bdc404a11b9a1a223019ac788445",
+          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/conversion/stack_ball_query/op_kernel/stack_ball_query.cpp"
+        }
+      ],
+      "symbol": "KernelStackBallQuery / stack_ball_query",
+      "mechanism": "按 center 分段；batch 的 xyz 片段流式搬 UB；距离平方与 maxRadius² 比较；命中写结果；达到 sample_num 提前停；不足用首索引补齐。",
+      "work_model": "2D 堆叠布局 + batch counts 减少 padding；流式片段 + 提前停降低搬运；代价是输入需适配、FP16 半径精度、零命中语义。",
+      "evidence": [
+        {
+          "type": "official-doc",
+          "value": "README 明确 A2/A3 √ 与 2D 堆叠/ batch counts 约束。",
+          "source": "conversion/stack_ball_query/README.md:1-58"
+        },
+        {
+          "type": "static-source",
+          "value": "910B 配置、kernel 类/流式片段/补齐可定位。",
+          "source": "source_files"
+        },
+        {
+          "type": "local-validation",
+          "value": "not-run; A2 config exists.",
+          "source": "competition/mfg-2026/evidence/README.md"
+        }
+      ],
+      "conditions": [
+        "A2/A3",
+        "2D stacked layout",
+        "batch counts",
+        "fp16/fp32",
+        "sample_num>0"
+      ],
+      "negative_cases": [
+        "not raw [B,3,N]",
+        "zero-hit all-0 indistinguishable",
+        "fp16 radius² precision",
+        "fill semantics"
+      ],
+      "reuse_decision": "优先复用堆叠/分段/提前停；在 910B3 构建 ascend910b 配置并对 GEIR 用例。",
+      "report": "competition/mfg-2026/ops-math/README.md",
+      "verification": "not-run; A2 config exists",
+      "tier": "competition",
+      "entry_path": "competition/mfg-2026/ops-math",
+      "local_status": "not-run",
+      "local_validation": {
+        "status": "not-run",
+        "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",
+        "log": "competition/mfg-2026/evidence/README.md",
+        "log_sha256": "5c1e4ae0ec1a4e9da61e5ea174f014c83305845350dca2aee71fd9e93acc1048"
+      },
+      "performance_evidence": {
+        "baseline": "not disclosed in the files read",
+        "timing_scope": "no author timing in the files read",
+        "unit": "none",
+        "warmup_repeat": "not disclosed",
+        "input": "see entry README",
+        "hardware": "A2/A3/950 varies by op",
+        "full_call_or_kernel": "StackBallQuery",
+        "original_location": "competition/mfg-2026/ops-math/README.md",
+        "reproduced": false
+      }
+    },
+    {
+      "id": "MFG2026-SOLVER-COMPLEX-DIV",
+      "repository_id": "gitcode-mfg-ops-solver",
+      "source_commit": "739775a145d7789693f97758f6771bb1b3eb6a8f",
+      "operator": "ComplexDiv (reference)",
+      "operator_family": "complex-elementwise",
+      "semantics": "复数除法 (a+bi)/(c+di) 的缩放 + FMA 补偿实现；用于 LU 面板，不是独立 elementwise 算子。",
+      "shape_dtype": "aclFloatComplex (complex64); SIMT 950; no standalone aclnn API.",
+      "environment": {
+        "soc": "950 only",
+        "cann": "not pinned",
+        "dsl": "Ascend C SIMT"
+      },
+      "source_files": [
+        {
+          "path": "src/utils/complex_solver_kernel.hpp",
+          "lines": "49-80",
+          "sha256": "488d70e56cc13da6b3570250099343d2ffb312d4f8a0bd4cc59adce9e797e799",
+          "url": "https://gitcode.com/cann/ops-solver/blob/739775a145d7789693f97758f6771bb1b3eb6a8f/src/utils/complex_solver_kernel.hpp"
+        },
+        {
+          "path": "docs/zh/complex_solver_migration.md",
+          "lines": "1-20",
+          "sha256": "28e5229e00e11ae9fbae7d2de69d838afeb8d0e5520453dcf4c072d60b23a5d2",
+          "url": "https://gitcode.com/cann/ops-solver/blob/739775a145d7789693f97758f6771bb1b3eb6a8f/docs/zh/complex_solver_migration.md"
+        }
+      ],
+      "symbol": "ComplexSolverKernel::Divide / Quotient",
+      "mechanism": "按 max(|c|,|d|) 取 2 的幂缩放；归一化后算分母/分子；FMA 记录乘积/分母误差；remainder 修正商；虚部按 bc-ad。",
+      "work_model": "避免 c²+d² 溢出/下溢和大幅值抵消；补偿商提高精度；代价是多条 FMA/额外指令。",
+      "evidence": [
+        {
+          "type": "official-doc",
+          "value": "迁移文档明确复数接口仅 950，其他架构 ARCH_MISMATCH。",
+          "source": "docs/zh/complex_solver_migration.md:1-20"
+        },
+        {
+          "type": "static-source",
+          "value": "Divide/Quotient/缩放/架构守卫可定位。",
+          "source": "source_files"
+        },
+        {
+          "type": "local-validation",
+          "value": "not-run; 950 SIMT reference.",
+          "source": "competition/mfg-2026/evidence/README.md"
+        }
+      ],
+      "conditions": [
+        "950 SIMT only",
+        "complex64 helper",
+        "not an elementwise op",
+        "no aclnn API"
+      ],
+      "negative_cases": [
+        "not 910B-buildable",
+        "no standalone op",
+        "complex32/128 not covered",
+        "no performance data"
+      ],
+      "reuse_decision": "只复用算法（缩放+补偿商）；在 910B 写 Vector 版 ComplexDiv，并问题面 dtype/特殊值。",
+      "report": "competition/mfg-2026/ops-solver/README.md",
+      "verification": "not-run; 950 SIMT reference",
+      "tier": "competition",
+      "entry_path": "competition/mfg-2026/ops-solver",
+      "local_status": "not-run",
+      "local_validation": {
+        "status": "not-run",
+        "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",
+        "log": "competition/mfg-2026/evidence/README.md",
+        "log_sha256": "5c1e4ae0ec1a4e9da61e5ea174f014c83305845350dca2aee71fd9e93acc1048"
+      },
+      "performance_evidence": {
+        "baseline": "not disclosed in the files read",
+        "timing_scope": "no author timing in the files read",
+        "unit": "none",
+        "warmup_repeat": "not disclosed",
+        "input": "see entry README",
+        "hardware": "950 only",
+        "full_call_or_kernel": "ComplexDiv (reference)",
+        "original_location": "competition/mfg-2026/ops-solver/README.md",
+        "reproduced": false
+      }
     }
   ],
   "excluded_candidates": [

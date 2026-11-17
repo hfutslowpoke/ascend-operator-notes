@@ -9,7 +9,7 @@
 1. [README](../README.md)：两层结构、当前规模、本机验证摘要。
 2. [docs/ARCHITECTURE.md](ARCHITECTURE.md)：条目契约、证据等级、910B3 验证协议。
 3. [index/README.md](../index/README.md)：机器索引怎么读、`local_status` 含义。
-4. [index/cards.md](../index/cards.md)：18 份实现的“一句话机制 + 先读文件 + 本机状态 + 边界”。
+4. [index/cards.md](../index/cards.md)：33 份实现的“一句话机制 + 先读文件 + 本机状态 + 边界”。
 5. 选下面一条阅读路线。
 
 如果只做一次检索，直接读 [index/cards.json](../index/cards.json) 或 [index/by-family.md](../index/by-family.md)；cards 是给 agent 的入口，不替代条目 README。
@@ -132,7 +132,28 @@
 - 正确性通过和性能通过是两件事；作者是否明确“910B 性能未接通”？
 - 手写 Triton 在什么情况下反而更慢？负例的稳定复现说明了什么？
 
-### 路线 G：给知识库新增来源（agent 维护者）
+### 路线 G：2026 制造行业算子专场（15 题）
+
+适合：要参加/复现制造专场，或需要图计算、点云、复数/FFT 的行业算子。
+
+1. [competition/mfg-2026/README.md](../competition/mfg-2026/README.md)（15 题总表、8/5/2 覆盖口径）
+2. [problems.md](../competition/mfg-2026/problems.md)（逐题语义/源码/缺口）
+3. [driving-sdk](../competition/mfg-2026/driving-sdk/README.md)（Radius、FPS、CylinderQuery；A2 文档最明确）
+4. [ops-fft](../competition/mfg-2026/ops-fft/README.md)（FourierTransform2D；910B √、950 ×；32×32 本机 PASS，64/128/backward 未跑）
+5. [ops-gnn](../competition/mfg-2026/ops-gnn/README.md)（SegmentMinCsr/Spmm A2；GatherCoo/RandomWalk/GridCluster 950-only）
+6. [ops-sparse](../competition/mfg-2026/ops-sparse/README.md)（SpmmSum/Spspmm A2；Gather 不是 GatherCoo）
+7. [ops-math](../competition/mfg-2026/ops-math/README.md)（ComplexAbs 950-only；StackBallQuery 有 910B 配置；BallQuery README/代码冲突）
+8. [ops-solver](../competition/mfg-2026/ops-solver/README.md)（ComplexDiv 算法参考，950 SIMT）
+
+带着问题读：
+
+- 15 题里哪 8 题有 A2/910B 目标源码？哪 5 题只有 950/arch35 参考？哪 2 题没有公开源码？
+- 为什么 `ball_query` README 写 A2 √、代码却只有 arch35？`stack_ball_query` 能不能替代？
+- `CylinderQuery` 的 A2 支持为什么没有文档单列？构建前要确认什么？
+- `SpmmSum` 在 ops-gnn 与 ops-sparse 两套实现有什么不同？Gather 为什么不能替代 GatherCoo？
+- FFT 的 32×32 PASS 能证明什么、不能证明什么？为什么不能外推到 128×128 或 910C？
+
+### 路线 H：给知识库新增来源（agent 维护者）
 
 适合：要把一个新竞赛仓/通用算子纳入本库。
 

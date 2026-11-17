@@ -11,11 +11,11 @@
 
 | 入口 | 用途 |
 |---|---|
-| [competition/README.md](competition/README.md) | 竞赛库：GroupedMatmulGelu、CANN 竞赛仓、电力行业、Hansen、KernelSwift |
+| [competition/README.md](competition/README.md) | 竞赛库：GroupedMatmulGelu、CANN 竞赛仓、电力行业、Hansen、KernelSwift、制造专场 |
 | [general/README.md](general/README.md) | 通用库：SVD/eigh、Mamba-2、vLLM-HUST、O(3)/mesh、Triton 基准、CANNBot |
 | [index/README.md](index/README.md) | 统一索引、按算子族/按证据检索 |
-| [index/catalog.json](index/catalog.json) | ACW 直接读取的机器索引（14 仓库记录、18 份实现） |
-| [index/cards.md](index/cards.md) | 18 张阅读卡：一句话机制、源码入口、本机状态、边界 |
+| [index/catalog.json](index/catalog.json) | ACW 直接读取的机器索引（20 仓库记录、33 份实现） |
+| [index/cards.md](index/cards.md) | 33 张阅读卡：一句话机制、源码入口、本机状态、边界 |
 | [docs/AGENT_READING_GUIDE.md](docs/AGENT_READING_GUIDE.md) | 给后续 agent 的十分钟地图 + 7 条阅读路线 |
 | [skills/README.md](skills/README.md) | 给 ACW/agent 的检索、入库、本机验证工作流 |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | 两层架构、条目契约、证据等级、验证协议 |
@@ -25,14 +25,22 @@
 
 | 项 | 数量 |
 |---|---:|
-| 仓库记录 | 14（12 个独立算法来源） |
-| 深读仓库 | 9（含 1 个负例） |
-| 实现条目 | 18 |
-| 竞赛条目 | 5 个赛事/基线 + 1 个淘汰记录 |
+| 仓库记录 | 20（18 个独立算法来源） |
+| 深读仓库 | 15（含 1 个负例） |
+| 实现条目 | 33 |
+| 竞赛条目 | 6 个赛事/基线（含制造专场）+ 1 个淘汰记录 |
 | 通用条目 | 8 个算子/基准 + CANNBot 接入位 + 1 个淘汰记录 |
-| 本机 910B3 有证据的实现 | 10 / 18：4 通过、2 负例通过、1 部分通过、2 失败、1 仅离线 |
+| 本机 910B3 有证据的实现 | 11 / 33：5 通过、2 负例通过、1 部分通过、2 失败、1 仅离线；制造专场 1/15 已跑（FourierTransform2D 32×32） |
 
 > 去重口径：GitCode `cann/cann-ops-competitions` 与既有 26 份 GroupedMatmulGelu 官方基线同仓不同赛事；`cann/elec-ops-inspection` 是 Hansen 归档的上游官方仓。两者都登记并深读，但不重复增加“独立算法来源”数。
+
+## 2026-11-17 制造专场补充
+
+- [2026 制造行业算子专场：15 题源码地图](competition/mfg-2026/README.md)：6 个官方/生产仓、15 份实现映射；搜索/去重/缺口见 [制造专场源码调研](docs/research/MFG2026_SOURCE_SURVEY_20261117.md)；
+- 8 题有 A2/910B 目标源码（FourierTransform2D、SegmentMinCsr、SpmmSum、Spspmm、Radius、FPS、StackBallQuery、CylinderQuery）；
+- 5 题只有 950/arch35 参考或部分覆盖（ComplexAbs、ComplexDiv、GatherCoo、RandomWalk、GridCluster）；
+- 2 题未找到公开源码（ComplexExp、FusedPropStep）；
+- 本机已跑 1/15：`FourierTransform2D`（`ops-fft/fft2_d`）在 910B3 通过 32×32 C2C，best 0.1537 ms、max_abs 9.086799e-08；其余 14 份 `local_status=not-run`，没有把文档支持或 950 实现写成 910B 通过。
 
 ## 本机验证摘要
 

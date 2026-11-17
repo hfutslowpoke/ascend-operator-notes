@@ -1,6 +1,6 @@
 # CANNBot 知识接入位（待接入）
 
-`general/cannbot/` 预留给 CANNBot Knowledge 及其它官方/社区知识源。当前**没有导入任何条目**，因此不计入 18 份实现，也不提供性能结论。
+`general/cannbot/` 预留给 CANNBot Knowledge 及其它官方/社区知识源。当前**没有导入任何条目**，因此不计入 33 份实现，也不提供性能结论。
 
 ## 为什么单独放
 

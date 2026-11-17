@@ -12,7 +12,7 @@
 
 ## 2026-11-16 / 11-17 外部算子调研
 
-本轮登记 14 个仓库记录（12 个 GitHub/独立来源 + 2 个 GitCode 官方/上游记录），只做固定 commit 引用、源码行号定位和中文分析，**没有把第三方源码复制进本库**。登记见 [index/catalog.json](index/catalog.json)，缓存位于工作区外 `repository-research-cache/`。
+本轮登记 20 个仓库记录（14 个既有来源 + 6 个制造专场官方/生产仓），只做固定 commit 引用、源码行号定位和中文分析，**没有把第三方源码复制进本库**。登记见 [index/catalog.json](index/catalog.json)，缓存位于工作区外 `repository-research-cache/`。
 
 两层结构：
 

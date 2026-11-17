@@ -1,0 +1,117 @@
+{
+  "schema_version": 2,
+  "entry": "competition/mfg-2026/driving-sdk",
+  "tier": "competition",
+  "repository": {
+    "id": "gitcode-mfg-driving-sdk",
+    "url": "https://gitcode.com/Ascend/DrivingSDK",
+    "commit": "d10b13c95ec7f25a54a4aa9677c436cde30ff6e2",
+    "default_branch": "master",
+    "license": "Apache-2.0",
+    "status": "deep-read",
+    "local_cache": "repository-research-cache/mfg-2026/driving-sdk"
+  },
+  "implementations": [
+    {
+      "id": "MFG2026-CYLINDER-QUERY",
+      "operator": "CylinderQuery",
+      "operator_family": "point-cloud-query",
+      "source_files": [
+        {
+          "path": "kernels/cylinder_query/op_host/cylinder_query.cpp",
+          "lines": "1-120",
+          "sha256": "b0c9b2adb0d9f2bd868896a817994f21fb5d20e94425a6f95d9f737280162e64",
+          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/kernels/cylinder_query/op_host/cylinder_query.cpp"
+        },
+        {
+          "path": "kernels/cylinder_query/op_kernel/cylinder_query.cpp",
+          "lines": "60-102,300-350",
+          "sha256": "adbcf1f90af3f5bf1be4a14508e130344ac67b125ba8caaa95018ea5c945f567",
+          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/kernels/cylinder_query/op_kernel/cylinder_query.cpp"
+        },
+        {
+          "path": "mx_driving/ops/cylinder_query.py",
+          "lines": "29-50",
+          "sha256": "d14246e76cbbb5ef130381c2da49e2cda1ca8a563b38f97aa146b87aa00b692c",
+          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/mx_driving/ops/cylinder_query.py"
+        }
+      ],
+      "local_status": "not-run",
+      "local_validation": {
+        "status": "not-run",
+        "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",
+        "log": "competition/mfg-2026/evidence/README.md",
+        "log_sha256": "5c1e4ae0ec1a4e9da61e5ea174f014c83305845350dca2aee71fd9e93acc1048"
+      }
+    },
+    {
+      "id": "MFG2026-FPS",
+      "operator": "FurthestPointSampling",
+      "operator_family": "point-cloud-sampling",
+      "source_files": [
+        {
+          "path": "kernels/furthest_point_sampling/op_kernel/furthest_point_sampling.cpp",
+          "lines": "115-208",
+          "sha256": "fb7722013394ba057a2391647396bce3f51f3e853e777452458134fd96ad2893",
+          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/kernels/furthest_point_sampling/op_kernel/furthest_point_sampling.cpp"
+        },
+        {
+          "path": "kernels/furthest_point_sampling/op_host/furthest_point_sampling.cpp",
+          "lines": "1-100",
+          "sha256": "9202966cb666c7e3e52058297d784a48a8e07329236c621016b49f3f399871ce",
+          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/kernels/furthest_point_sampling/op_host/furthest_point_sampling.cpp"
+        },
+        {
+          "path": "docs/zh/api/context/furthest_point_sampling.md",
+          "lines": "1-39",
+          "sha256": "6b6243aa3e85fc0a0ed2b398da6769001c84384ab65bad560ad1ac9e200ad2d7",
+          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/docs/zh/api/context/furthest_point_sampling.md"
+        }
+      ],
+      "local_status": "not-run",
+      "local_validation": {
+        "status": "not-run",
+        "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",
+        "log": "competition/mfg-2026/evidence/README.md",
+        "log_sha256": "5c1e4ae0ec1a4e9da61e5ea174f014c83305845350dca2aee71fd9e93acc1048"
+      }
+    },
+    {
+      "id": "MFG2026-RADIUS",
+      "operator": "Radius",
+      "operator_family": "point-cloud-query",
+      "source_files": [
+        {
+          "path": "kernels/radius/op_host/radius.cpp",
+          "lines": "1-100",
+          "sha256": "f246a6fe33d9fc3868379ccfe0ad996dce04ab80ed6ec30ddb63e678b583ce63",
+          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/kernels/radius/op_host/radius.cpp"
+        },
+        {
+          "path": "kernels/radius/op_kernel/radius.cpp",
+          "lines": "1-120",
+          "sha256": "ec6007172be87f25b6f1335764447fe82e8a6319c97bcfff78ce6861fea73b49",
+          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/kernels/radius/op_kernel/radius.cpp"
+        },
+        {
+          "path": "docs/zh/api/context/radius.md",
+          "lines": "1-50",
+          "sha256": "621a9f20d45398b18f9af230a852a62fc1b40f3b3a730541c7258604ae93bac9",
+          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/docs/zh/api/context/radius.md"
+        }
+      ],
+      "local_status": "not-run",
+      "local_validation": {
+        "status": "not-run",
+        "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",
+        "log": "competition/mfg-2026/evidence/README.md",
+        "log_sha256": "5c1e4ae0ec1a4e9da61e5ea174f014c83305845350dca2aee71fd9e93acc1048"
+      }
+    }
+  ],
+  "local_validation": {
+    "status": "not-run",
+    "notes": "自动驾驶生产 SDK；Radius/FPS 文档明确 A2/A3/950；CylinderQuery 为通用 kernel，A2 待构建确认。"
+  },
+  "generated_from": "index/catalog.json"
+}

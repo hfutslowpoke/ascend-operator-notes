@@ -216,14 +216,16 @@ def card_view(impl: dict) -> dict:
     logs = []
     lv = impl.get("local_validation", {})
     if isinstance(lv, dict):
-        if lv.get("log"):
-            logs.append(lv["log"])
+        for key in ("log", "build_log", "run_log"):
+            if lv.get(key):
+                logs.append(lv[key])
         for run in lv.get("runs", []):
             if isinstance(run, dict) and run.get("log"):
                 logs.append(run["log"])
         for run in lv.get("passes", []):
             if isinstance(run, dict) and run.get("log"):
                 logs.append(run["log"])
+    logs = list(dict.fromkeys(logs))
     return {
         "id": impl["id"],
         "title": impl["operator"],

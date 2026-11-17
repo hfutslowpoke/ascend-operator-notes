@@ -12,6 +12,7 @@
 | `BE4VER-QDWH-SDC-FUSED` | `general` | [README](../general/linear-algebra/be4ver-svd/README.md) | locally-validated on Ascend 910B3; see local_validation |
 | `KS2026-ASC910B-GROUPEDTOPK` | `competition` | [README](../competition/kernelswift-2026/README.md) | locally-validated on Ascend 910B3; see local_validation |
 | `KS2026-ASC910B-SINKHORN` | `competition` | [README](../competition/kernelswift-2026/README.md) | locally-validated on Ascend 910B3; see local_validation |
+| `MFG2026-FFT2D` | `competition` | [README](../competition/mfg-2026/ops-fft/README.md) | local 910B3 PASS: build CANN 9.1.0; 32x32 C2C impulse vs analytic DFT, best 0.1537 ms, max_abs 9.086799e-08, bad=0 |
 
 ## `pass-negative`
 
@@ -47,6 +48,20 @@
 | `HANSEN-2026POWER-SPLINE-R1` | `competition` | [README](../competition/hansen-2026-power/README.md) | not-reproduced; static source and public score only |
 | `HANSEN-2026POWER-TREE-R1` | `competition` | [README](../competition/hansen-2026-power/README.md) | not-reproduced; static source and public score only |
 | `MAMBA2-ASCENDC-CHUNKMIX` | `general` | [README](../general/attention/mamba-ascendc/README.md) | not-reproduced; author device event/profiler |
+| `MFG2026-CYLINDER-QUERY` | `competition` | [README](../competition/mfg-2026/driving-sdk/README.md) | not-run; A2-targeted generic path; build pending |
+| `MFG2026-FPS` | `competition` | [README](../competition/mfg-2026/driving-sdk/README.md) | not-run; docs A2/A3/950 |
+| `MFG2026-GNN-GATHER-COO` | `competition` | [README](../competition/mfg-2026/ops-gnn/README.md) | not-run; 950-only reference |
+| `MFG2026-GNN-GRID-CLUSTER` | `competition` | [README](../competition/mfg-2026/ops-gnn/README.md) | not-run; 950-only reference |
+| `MFG2026-GNN-RANDOM-WALK` | `competition` | [README](../competition/mfg-2026/ops-gnn/README.md) | not-run; 950-only reference |
+| `MFG2026-GNN-SEGMENT-MIN-CSR` | `competition` | [README](../competition/mfg-2026/ops-gnn/README.md) | not-run; A2/A3 arch22 exists |
+| `MFG2026-GNN-SPMM` | `competition` | [README](../competition/mfg-2026/ops-gnn/README.md) | not-run; A2/A3 arch22 exists |
+| `MFG2026-MATH-COMPLEX-ABS` | `competition` | [README](../competition/mfg-2026/ops-math/README.md) | not-run; 950-only reference |
+| `MFG2026-MATH-STACK-BALL-QUERY` | `competition` | [README](../competition/mfg-2026/ops-math/README.md) | not-run; A2 config exists |
+| `MFG2026-RADIUS` | `competition` | [README](../competition/mfg-2026/driving-sdk/README.md) | not-run; docs A2/A3/950 |
+| `MFG2026-SOLVER-COMPLEX-DIV` | `competition` | [README](../competition/mfg-2026/ops-solver/README.md) | not-run; 950 SIMT reference |
+| `MFG2026-SPARSE-GATHER` | `competition` | [README](../competition/mfg-2026/ops-sparse/README.md) | not-run; A2 arch22 exists |
+| `MFG2026-SPARSE-SPGEMM` | `competition` | [README](../competition/mfg-2026/ops-sparse/README.md) | not-run; A2/A3 arch22 exists |
+| `MFG2026-SPARSE-SPMM` | `competition` | [README](../competition/mfg-2026/ops-sparse/README.md) | not-run; A2/A3 arch22 exists |
 | `PARITY-CAPACITY-CHUNK` | `general` | [README](../general/equivariant/parity-ictc-o3/README.md) | not-reproduced; author report and docs only |
 | `PARITY-MESH-ELECTROSTATICS` | `general` | [README](../general/equivariant/parity-ictc-o3/README.md) | not-reproduced; author report and docs only |
 | `PARITY-O3-PACKED-TP` | `general` | [README](../general/equivariant/parity-ictc-o3/README.md) | not-reproduced; author report and docs only |

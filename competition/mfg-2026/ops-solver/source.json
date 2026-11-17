@@ -1,0 +1,47 @@
+{
+  "schema_version": 2,
+  "entry": "competition/mfg-2026/ops-solver",
+  "tier": "competition",
+  "repository": {
+    "id": "gitcode-mfg-ops-solver",
+    "url": "https://gitcode.com/cann/ops-solver",
+    "commit": "739775a145d7789693f97758f6771bb1b3eb6a8f",
+    "default_branch": "master",
+    "license": "CANN-Open-Software-License-2.0",
+    "status": "deep-read",
+    "local_cache": "repository-research-cache/mfg-2026/ops-solver"
+  },
+  "implementations": [
+    {
+      "id": "MFG2026-SOLVER-COMPLEX-DIV",
+      "operator": "ComplexDiv (reference)",
+      "operator_family": "complex-elementwise",
+      "source_files": [
+        {
+          "path": "src/utils/complex_solver_kernel.hpp",
+          "lines": "49-80",
+          "sha256": "488d70e56cc13da6b3570250099343d2ffb312d4f8a0bd4cc59adce9e797e799",
+          "url": "https://gitcode.com/cann/ops-solver/blob/739775a145d7789693f97758f6771bb1b3eb6a8f/src/utils/complex_solver_kernel.hpp"
+        },
+        {
+          "path": "docs/zh/complex_solver_migration.md",
+          "lines": "1-20",
+          "sha256": "28e5229e00e11ae9fbae7d2de69d838afeb8d0e5520453dcf4c072d60b23a5d2",
+          "url": "https://gitcode.com/cann/ops-solver/blob/739775a145d7789693f97758f6771bb1b3eb6a8f/docs/zh/complex_solver_migration.md"
+        }
+      ],
+      "local_status": "not-run",
+      "local_validation": {
+        "status": "not-run",
+        "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",
+        "log": "competition/mfg-2026/evidence/README.md",
+        "log_sha256": "5c1e4ae0ec1a4e9da61e5ea174f014c83305845350dca2aee71fd9e93acc1048"
+      }
+    }
+  ],
+  "local_validation": {
+    "status": "not-run",
+    "notes": "复数 LU/QR 求解器；ComplexDiv 只是 950 SIMT 内部 helper，不是独立算子。"
+  },
+  "generated_from": "index/catalog.json"
+}

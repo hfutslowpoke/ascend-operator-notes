@@ -1,0 +1,151 @@
+{
+  "schema_version": 2,
+  "entry": "competition/mfg-2026/ops-gnn",
+  "tier": "competition",
+  "repository": {
+    "id": "gitcode-mfg-ops-gnn",
+    "url": "https://gitcode.com/cann/ops-gnn",
+    "commit": "ea0b18a1d3e97f1ae2315df69338bb51c9f96466",
+    "default_branch": "master",
+    "license": "CANN-Open-Software-License-2.0",
+    "status": "deep-read",
+    "local_cache": "repository-research-cache/mfg-2026/ops-gnn"
+  },
+  "implementations": [
+    {
+      "id": "MFG2026-GNN-GATHER-COO",
+      "operator": "GatherCoo",
+      "operator_family": "graph-gather",
+      "source_files": [
+        {
+          "path": "csrc/npu/gather_coo/op_kernel/arch35/gather_coo_kernel.h",
+          "lines": "24-110",
+          "sha256": "f233754ed50110565386c3d3f9e334c587ea1e7e6c95c1ca85d68bbcff73d5b6",
+          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/csrc/npu/gather_coo/op_kernel/arch35/gather_coo_kernel.h"
+        },
+        {
+          "path": "docs/zh/api_reference.md",
+          "lines": "533-563",
+          "sha256": "0043c8e8ff3553987aff0a581aed902c5481e546ae033dc3cfcc2139e4ee9446",
+          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/docs/zh/api_reference.md"
+        }
+      ],
+      "local_status": "not-run",
+      "local_validation": {
+        "status": "not-run",
+        "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",
+        "log": "competition/mfg-2026/evidence/README.md",
+        "log_sha256": "5c1e4ae0ec1a4e9da61e5ea174f014c83305845350dca2aee71fd9e93acc1048"
+      }
+    },
+    {
+      "id": "MFG2026-GNN-SEGMENT-MIN-CSR",
+      "operator": "SegmentMinCsr",
+      "operator_family": "graph-segment-reduction",
+      "source_files": [
+        {
+          "path": "csrc/npu/segment_csr/op_kernel/arch22/segment_csr.cpp",
+          "lines": "22-61",
+          "sha256": "b8360db34993be394edf7864c3f8d2e03fdf5a9a5758f3b1bec63a612d87f687",
+          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/csrc/npu/segment_csr/op_kernel/arch22/segment_csr.cpp"
+        },
+        {
+          "path": "csrc/npu/segment_csr/op_kernel/arch22/segment_csr_common.h",
+          "lines": "35-61",
+          "sha256": "7fc52b0bc40a32a7522890753bec9f5d49f4e71764bcb8725af6112bff540bf5",
+          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/csrc/npu/segment_csr/op_kernel/arch22/segment_csr_common.h"
+        },
+        {
+          "path": "docs/zh/api_reference.md",
+          "lines": "73-140",
+          "sha256": "0043c8e8ff3553987aff0a581aed902c5481e546ae033dc3cfcc2139e4ee9446",
+          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/docs/zh/api_reference.md"
+        }
+      ],
+      "local_status": "not-run",
+      "local_validation": {
+        "status": "not-run",
+        "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",
+        "log": "competition/mfg-2026/evidence/README.md",
+        "log_sha256": "5c1e4ae0ec1a4e9da61e5ea174f014c83305845350dca2aee71fd9e93acc1048"
+      }
+    },
+    {
+      "id": "MFG2026-GNN-RANDOM-WALK",
+      "operator": "RandomWalk",
+      "operator_family": "graph-random-walk",
+      "source_files": [
+        {
+          "path": "csrc/npu/random_walk/op_kernel/arch35/random_walk.h",
+          "lines": "18-33",
+          "sha256": "b3b66d5bb699e32cb9f2522d3c76c6d0c966a4c47f497a3455521ba48447bb43",
+          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/csrc/npu/random_walk/op_kernel/arch35/random_walk.h"
+        },
+        {
+          "path": "docs/zh/api_reference.md",
+          "lines": "688-730",
+          "sha256": "0043c8e8ff3553987aff0a581aed902c5481e546ae033dc3cfcc2139e4ee9446",
+          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/docs/zh/api_reference.md"
+        }
+      ],
+      "local_status": "not-run",
+      "local_validation": {
+        "status": "not-run",
+        "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",
+        "log": "competition/mfg-2026/evidence/README.md",
+        "log_sha256": "5c1e4ae0ec1a4e9da61e5ea174f014c83305845350dca2aee71fd9e93acc1048"
+      }
+    },
+    {
+      "id": "MFG2026-GNN-SPMM",
+      "operator": "SpmmSum (CSR aggregation)",
+      "operator_family": "sparse-dense-matmul",
+      "source_files": [
+        {
+          "path": "csrc/npu/common/spmm/spmm_utils.h",
+          "lines": "210-241",
+          "sha256": "4ca1fb0b3b09641569d5923007ac435a760bbe42a792f7bac301a0a0c0ce34e7",
+          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/csrc/npu/common/spmm/spmm_utils.h"
+        },
+        {
+          "path": "docs/zh/api_reference.md",
+          "lines": "197-199",
+          "sha256": "0043c8e8ff3553987aff0a581aed902c5481e546ae033dc3cfcc2139e4ee9446",
+          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/docs/zh/api_reference.md"
+        }
+      ],
+      "local_status": "not-run",
+      "local_validation": {
+        "status": "not-run",
+        "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",
+        "log": "competition/mfg-2026/evidence/README.md",
+        "log_sha256": "5c1e4ae0ec1a4e9da61e5ea174f014c83305845350dca2aee71fd9e93acc1048"
+      }
+    },
+    {
+      "id": "MFG2026-GNN-GRID-CLUSTER",
+      "operator": "GridCluster",
+      "operator_family": "point-cloud-clustering",
+      "source_files": [
+        {
+          "path": "csrc/npu/grid_cluster/op_kernel/arch35/grid_cluster.cpp",
+          "lines": "15-120,135-221",
+          "sha256": "a5651a332d9a821d98bfcc8b3e358d3fb175f6ad11ac76cc0e8647eaae2c2fb8",
+          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/csrc/npu/grid_cluster/op_kernel/arch35/grid_cluster.cpp"
+        }
+      ],
+      "local_status": "not-run",
+      "local_validation": {
+        "status": "not-run",
+        "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",
+        "log": "competition/mfg-2026/evidence/README.md",
+        "log_sha256": "5c1e4ae0ec1a4e9da61e5ea174f014c83305845350dca2aee71fd9e93acc1048"
+      }
+    }
+  ],
+  "local_validation": {
+    "status": "not-run",
+    "notes": "A2/A3 arch22 覆盖 segment/spmm；gather_coo/random_walk/radius/grid_cluster/fps 为 950 arch35-only。"
+  },
+  "generated_from": "index/catalog.json"
+}

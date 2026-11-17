@@ -401,8 +401,7 @@
       "evidence": [
         "general/linear-algebra/be4ver-svd/evidence/qdwh_1024x1024_run.log",
         "general/linear-algebra/be4ver-svd/evidence/qdwh_128x128_run.log",
-        "general/linear-algebra/be4ver-svd/evidence/qdwh_512x512_run.log",
-        "general/linear-algebra/be4ver-svd/evidence/qdwh_1024x1024_run.log"
+        "general/linear-algebra/be4ver-svd/evidence/qdwh_512x512_run.log"
       ]
     },
     {
@@ -540,7 +539,8 @@
         "01_official/cann-ops-ladder-2026/July/recompute_w_u/submissions/Delicate02/README.md:60-76"
       ],
       "evidence": [
-        "competition/cann-ops-competitions/evidence/gitcode_recompute_run3.log"
+        "competition/cann-ops-competitions/evidence/gitcode_recompute_run3.log",
+        "competition/cann-ops-competitions/evidence/gitcode_recompute_build.log"
       ]
     },
     {
@@ -621,6 +621,499 @@
         "competition/elec-ops-inspection/evidence/gitcode_lstsq_M16_N16_K1_B1.log",
         "competition/elec-ops-inspection/evidence/gitcode_lstsq_M50_N50_K2_B1_r.log",
         "competition/elec-ops-inspection/evidence/gitcode_lstsq_M64_N64_K2_B1_f.log"
+      ]
+    },
+    {
+      "id": "MFG2026-FFT2D",
+      "title": "FourierTransform2D (fft2_d C2C)",
+      "tier": "competition",
+      "entry": "competition/mfg-2026/ops-fft",
+      "family": "fourier-transform",
+      "readme": "competition/mfg-2026/ops-fft/README.md",
+      "source_json": "competition/mfg-2026/ops-fft/source.json",
+      "one_line": "Host 生成 P/Q DFT 矩阵；设备按 P·X·Q 做两次 Cube 矩阵乘；复数实虚用 vreducev2 分离，矩阵乘后合并写回；尺寸专用 batch 循环 + 多核/L1/L0C 双缓冲",
+      "local_status": "pass",
+      "verification": "local 910B3 PASS: build CANN 9.1.0; 32x32 C2C impulse vs analytic DFT, best 0.1537 ms, max_abs 9.086799e-08, bad=0",
+      "conditions": [
+        "Ascend 910B only",
+        "nx,ny ∈ {32,64,128}",
+        "C2C only",
+        "batch>0",
+        "row-major complex interleaved"
+      ],
+      "negative_cases": [
+        "950 unsupported",
+        "arbitrary/prime sizes unsupported",
+        "no R2C/C2R",
+        "Host P/Q O(N²) memory",
+        "no author performance data"
+      ],
+      "reuse_decision": "优先复用 P/Q 矩阵乘分解、复数实虚分离、尺寸专用 batch 循环；先在 910B3 构建 fft2_d 并对照 torch.fft.fft2。",
+      "source_files": [
+        "docs/zh/API_Reference/FFT_2D.md:1-70",
+        "src/fft2_d/arch32/fft2_d_exec_api.cpp:18-60",
+        "src/fft2_d/arch32/dd/fft2_d_dd.cpp:17-29,31-62,64-112",
+        "src/fft2_d/arch32/dd/fft2_d_dd_kernel.h:50-143,259-420"
+      ],
+      "evidence": [
+        "competition/mfg-2026/evidence/ops-fft_fft2d_build_20261117.log",
+        "competition/mfg-2026/evidence/ops-fft_fft2d_32x32_run_20261117.log"
+      ]
+    },
+    {
+      "id": "MFG2026-CYLINDER-QUERY",
+      "title": "CylinderQuery",
+      "tier": "competition",
+      "entry": "competition/mfg-2026/driving-sdk",
+      "family": "point-cloud-query",
+      "readme": "competition/mfg-2026/driving-sdk/README.md",
+      "source_json": "competition/mfg-2026/driving-sdk/source.json",
+      "one_line": "每核处理若干 query；点云 tile 进 UB 双缓冲；p-center 后用 R 旋转；CompareScalar 生成半径/高度 mask；Select 写候选；Python sort/truncate/fill",
+      "local_status": "not-run",
+      "verification": "not-run; A2-targeted generic path; build pending",
+      "conditions": [
+        "3×3 rot (9 floats)",
+        "nsample fits UB",
+        "A2-targeted generic path",
+        "output post-processed in Python"
+      ],
+      "negative_cases": [
+        "A2 support not explicitly documented",
+        "nsample UB limit",
+        "Python sort cost",
+        "no author performance data"
+      ],
+      "reuse_decision": "优先复用旋转+双 mask+候选输出；先在 910B3 构建/调用并和 CPU 公式对照。",
+      "source_files": [
+        "kernels/cylinder_query/op_host/cylinder_query.cpp:1-120",
+        "kernels/cylinder_query/op_kernel/cylinder_query.cpp:60-102,300-350",
+        "mx_driving/ops/cylinder_query.py:29-50"
+      ],
+      "evidence": [
+        "competition/mfg-2026/evidence/README.md"
+      ]
+    },
+    {
+      "id": "MFG2026-FPS",
+      "title": "FurthestPointSampling",
+      "tier": "competition",
+      "entry": "competition/mfg-2026/driving-sdk",
+      "family": "point-cloud-sampling",
+      "readme": "competition/mfg-2026/driving-sdk/README.md",
+      "source_json": "competition/mfg-2026/driving-sdk/source.json",
+      "one_line": "维护 nearestDist[N]；每轮计算到新选中点的距离、取 min、reduce max 选下一个；点云大于 UB 时按 pieces 分片；多核按 batch；fp16/bf16 cast fp32 算距离",
+      "local_status": "not-run",
+      "verification": "not-run; docs A2/A3/950",
+      "conditions": [
+        "B*N*3<=383166",
+        "num_points>0",
+        "first index 0",
+        "fp32/fp16/bf16"
+      ],
+      "negative_cases": [
+        "total element cap",
+        "first-index convention",
+        "piece re-reads",
+        "no author performance data"
+      ],
+      "reuse_decision": "优先复用 nearestDist + 每轮 min/max 更新 + 分片；在 910B3 与 CPU 参考逐索引对照。",
+      "source_files": [
+        "kernels/furthest_point_sampling/op_kernel/furthest_point_sampling.cpp:115-208",
+        "kernels/furthest_point_sampling/op_host/furthest_point_sampling.cpp:1-100",
+        "docs/zh/api/context/furthest_point_sampling.md:1-39"
+      ],
+      "evidence": [
+        "competition/mfg-2026/evidence/README.md"
+      ]
+    },
+    {
+      "id": "MFG2026-RADIUS",
+      "title": "Radius",
+      "tier": "competition",
+      "entry": "competition/mfg-2026/driving-sdk",
+      "family": "point-cloud-query",
+      "readme": "competition/mfg-2026/driving-sdk/README.md",
+      "source_json": "competition/mfg-2026/driving-sdk/source.json",
+      "one_line": "按 batch 分核；每 batch 点数上限 512 以驻留 UB；半径平方比较；命中写邻居对；超过 max_num_neighbors 截断；输出动态 [2,E]",
+      "local_status": "not-run",
+      "verification": "not-run; docs A2/A3/950",
+      "conditions": [
+        "Ndim<9",
+        "batch<=1024",
+        "per-batch points<=512",
+        "output [2,E]"
+      ],
+      "negative_cases": [
+        "hard caps",
+        "dynamic output workspace",
+        "ordering/truncation semantics",
+        "no author performance data"
+      ],
+      "reuse_decision": "优先复用 batch 分核 + 半径平方 + 截断；在 910B3 与 CPU 暴力搜索对照。",
+      "source_files": [
+        "kernels/radius/op_host/radius.cpp:1-100",
+        "kernels/radius/op_kernel/radius.cpp:1-120",
+        "docs/zh/api/context/radius.md:1-50"
+      ],
+      "evidence": [
+        "competition/mfg-2026/evidence/README.md"
+      ]
+    },
+    {
+      "id": "MFG2026-GNN-GATHER-COO",
+      "title": "GatherCoo",
+      "tier": "competition",
+      "entry": "competition/mfg-2026/ops-gnn",
+      "family": "graph-gather",
+      "readme": "competition/mfg-2026/ops-gnn/README.md",
+      "source_json": "competition/mfg-2026/ops-gnn/source.json",
+      "one_line": "slab 快路径处理连续重复行；通用 tile 逐行拷贝；输出 slab 缓存/批量写出；纯前向位拷贝",
+      "local_status": "not-run",
+      "verification": "not-run; 950-only reference",
+      "conditions": [
+        "950/arch35 only",
+        "index int64 nondecreasing",
+        "no backward",
+        "rank 1-8"
+      ],
+      "negative_cases": [
+        "not 910B-buildable",
+        "no COO alternative in ops-sparse (dense gather only)",
+        "index ordering required",
+        "no backward"
+      ],
+      "reuse_decision": "只作为 910B GatherCoo 的算法参考（slab 合并）；不能直接构建/复用 arch35 代码。",
+      "source_files": [
+        "csrc/npu/gather_coo/op_kernel/arch35/gather_coo_kernel.h:24-110",
+        "docs/zh/api_reference.md:533-563"
+      ],
+      "evidence": [
+        "competition/mfg-2026/evidence/README.md"
+      ]
+    },
+    {
+      "id": "MFG2026-GNN-SEGMENT-MIN-CSR",
+      "title": "SegmentMinCsr",
+      "tier": "competition",
+      "entry": "competition/mfg-2026/ops-gnn",
+      "family": "graph-segment-reduction",
+      "readme": "competition/mfg-2026/ops-gnn/README.md",
+      "source_json": "competition/mfg-2026/ops-gnn/source.json",
+      "one_line": "模板 SegmentReduce 同时覆盖 min/max/sum；按 tileRows×tileK 流式读 CSR 行；多 AIV 按 unit 切分；极值与有序浮点路径分开；空段填充",
+      "local_status": "not-run",
+      "verification": "not-run; A2/A3 arch22 exists",
+      "conditions": [
+        "A2/A3 arch22",
+        "int64 indptr nondecreasing",
+        "min/max/sum shared template",
+        "empty segment fill"
+      ],
+      "negative_cases": [
+        "NaN/extreme semantics per题面",
+        "tileK tuning",
+        "empty segment fill",
+        "no author performance data"
+      ],
+      "reuse_decision": "优先复用模板化 reduce/流式行 tile/空段填充；在 910B3 构建 arch22 并对照 scatter 参考。",
+      "source_files": [
+        "csrc/npu/segment_csr/op_kernel/arch22/segment_csr.cpp:22-61",
+        "csrc/npu/segment_csr/op_kernel/arch22/segment_csr_common.h:35-61",
+        "docs/zh/api_reference.md:73-140"
+      ],
+      "evidence": [
+        "competition/mfg-2026/evidence/README.md"
+      ]
+    },
+    {
+      "id": "MFG2026-GNN-RANDOM-WALK",
+      "title": "RandomWalk",
+      "tier": "competition",
+      "entry": "competition/mfg-2026/ops-gnn",
+      "family": "graph-random-walk",
+      "readme": "competition/mfg-2026/ops-gnn/README.md",
+      "source_json": "competition/mfg-2026/ops-gnn/source.json",
+      "one_line": "Philox 计数器 RNG；按源节点分组/排序；node2vec p/q 权重；输出节点/边序列",
+      "local_status": "not-run",
+      "verification": "not-run; 950-only reference",
+      "conditions": [
+        "950/arch35 only",
+        "fixed seed for reproducibility",
+        "coalesced input semantics",
+        "p/q>0"
+      ],
+      "negative_cases": [
+        "not 910B-buildable",
+        "stochastic result",
+        "self-loop/duplicate edge semantics",
+        "no author performance data"
+      ],
+      "reuse_decision": "只作为 910B RandomWalk 的算法参考（Philox/分组采样）；不能直接构建 arch35 代码。",
+      "source_files": [
+        "csrc/npu/random_walk/op_kernel/arch35/random_walk.h:18-33",
+        "docs/zh/api_reference.md:688-730"
+      ],
+      "evidence": [
+        "competition/mfg-2026/evidence/README.md"
+      ]
+    },
+    {
+      "id": "MFG2026-GNN-SPMM",
+      "title": "SpmmSum (CSR aggregation)",
+      "tier": "competition",
+      "entry": "competition/mfg-2026/ops-gnn",
+      "family": "sparse-dense-matmul",
+      "readme": "competition/mfg-2026/ops-gnn/README.md",
+      "source_json": "competition/mfg-2026/ops-gnn/source.json",
+      "one_line": "SpmmReduce 枚举 sum/max/min/mean；Reducer 给初值/apply；CSR 行分组 + copy_lhs；形状/索引校验",
+      "local_status": "not-run",
+      "verification": "not-run; A2/A3 arch22 exists",
+      "conditions": [
+        "A2/A3 arch22",
+        "CSR",
+        "sum/max/min/mean",
+        "dtype combos"
+      ],
+      "negative_cases": [
+        "empty segment semantics",
+        "dtype combos",
+        "row grouping layout",
+        "no author performance data"
+      ],
+      "reuse_decision": "优先复用 reduce 枚举/Reducer/行分组；在 910B3 构建 arch22 并对照 torch_sparse。",
+      "source_files": [
+        "csrc/npu/common/spmm/spmm_utils.h:210-241",
+        "docs/zh/api_reference.md:197-199"
+      ],
+      "evidence": [
+        "competition/mfg-2026/evidence/README.md"
+      ]
+    },
+    {
+      "id": "MFG2026-GNN-GRID-CLUSTER",
+      "title": "GridCluster",
+      "tier": "competition",
+      "entry": "competition/mfg-2026/ops-gnn",
+      "family": "point-cloud-clustering",
+      "readme": "competition/mfg-2026/ops-gnn/README.md",
+      "source_json": "competition/mfg-2026/ops-gnn/source.json",
+      "one_line": "每维 floor((x-origin)/size) 得索引；按 radix 组合成线性 ID；subnormal/极小 size 用缩放与倒数快路径；3D SIMT/宽维分支",
+      "local_status": "not-run",
+      "verification": "not-run; 950-only reference",
+      "conditions": [
+        "950/arch35 only",
+        "int64 linear ID",
+        "3D/wide dims",
+        "size>0"
+      ],
+      "negative_cases": [
+        "not 910B-buildable",
+        "subnormal/negative coords",
+        "int64 overflow",
+        "dimension order"
+      ],
+      "reuse_decision": "只作为 910B GridCluster 的算法参考；需要重写 SIMT/Vector 路径。",
+      "source_files": [
+        "csrc/npu/grid_cluster/op_kernel/arch35/grid_cluster.cpp:15-120,135-221"
+      ],
+      "evidence": [
+        "competition/mfg-2026/evidence/README.md"
+      ]
+    },
+    {
+      "id": "MFG2026-SPARSE-SPGEMM",
+      "title": "Spspmm (CSR × CSR)",
+      "tier": "competition",
+      "entry": "competition/mfg-2026/ops-sparse",
+      "family": "sparse-sparse-matmul",
+      "readme": "competition/mfg-2026/ops-sparse/README.md",
+      "source_json": "competition/mfg-2026/ops-sparse/source.json",
+      "one_line": "WorkEstimation 统计中间乘积 → EstimateMemory 规划 workspace → Compute symbolic(rowOffsets)+numeric(merge/去重) → Copy 写输出 CSR",
+      "local_status": "not-run",
+      "verification": "not-run; A2/A3 arch22 exists",
+      "conditions": [
+        "A2/A3/950",
+        "CSR",
+        "non-transpose only",
+        "sorted unique output"
+      ],
+      "negative_cases": [
+        "numProds != nnz(C)",
+        "dynamic output allocation",
+        "INT32 nnz limit",
+        "state machine cannot skip stages"
+      ],
+      "reuse_decision": "优先复用 symbolic+numeric+merge 多阶段；在 910B3 用小图验证结构/数值。",
+      "source_files": [
+        "sparse/spgemm/README.md:1-40",
+        "sparse/spgemm/arch22/spgemm_host.cpp:654-720,1066-1120",
+        "sparse/spgemm/arch22/spgemm_symbolic_kernel.cpp:1-120",
+        "sparse/spgemm/arch22/spgemm_numeric_kernel.cpp:1-120"
+      ],
+      "evidence": [
+        "competition/mfg-2026/evidence/README.md"
+      ]
+    },
+    {
+      "id": "MFG2026-SPARSE-SPMM",
+      "title": "SpmmSum (aclsparse SpMM)",
+      "tier": "competition",
+      "entry": "competition/mfg-2026/ops-sparse",
+      "family": "sparse-dense-matmul",
+      "readme": "competition/mfg-2026/ops-sparse/README.md",
+      "source_json": "competition/mfg-2026/ops-sparse/source.json",
+      "one_line": "按 dtype/布局/opA/opB 选行分块；行组 axpy；ALG1 通用/ALG2 行主序快路径/ALG3 确定性；fp32 Kahan",
+      "local_status": "not-run",
+      "verification": "not-run; A2/A3 arch22 exists",
+      "conditions": [
+        "A2/A3",
+        "CSR A",
+        "A2 dtype combos",
+        "ALG1/2/3"
+      ],
+      "negative_cases": [
+        "dtype combos narrower than 950",
+        "ALG3 non-transpose only",
+        "layout/alg performance varies",
+        "no author performance data"
+      ],
+      "reuse_decision": "优先复用行分块/group axpy/Kahan；在 910B3 先 fp32 再 fp16/bf16。",
+      "source_files": [
+        "sparse/spmm/README.md:1-120",
+        "sparse/spmm/arch22/spmm_host.cpp:201-330",
+        "sparse/spmm/arch22/kernels/spmm_kernel_group_axpy.h:1-120"
+      ],
+      "evidence": [
+        "competition/mfg-2026/evidence/README.md"
+      ]
+    },
+    {
+      "id": "MFG2026-SPARSE-GATHER",
+      "title": "Gather (dense gather)",
+      "tier": "competition",
+      "entry": "competition/mfg-2026/ops-sparse",
+      "family": "graph-gather",
+      "readme": "competition/mfg-2026/ops-sparse/README.md",
+      "source_json": "competition/mfg-2026/ops-sparse/source.json",
+      "one_line": "按索引从稠密向量取值写 sparse values；raw 快路径跳过描述符创建/销毁；idxBase 0/1",
+      "local_status": "not-run",
+      "verification": "not-run; A2 arch22 exists",
+      "conditions": [
+        "A2/A3",
+        "dense gather only",
+        "idx int32",
+        "idxBase 0/1"
+      ],
+      "negative_cases": [
+        "not GatherCoo",
+        "no COO row expansion",
+        "index range/duplicates",
+        "no author performance data"
+      ],
+      "reuse_decision": "只作为 dense gather 参考；GatherCoo 需要 ops-gnn 语义或另写 910B COO 扩展。",
+      "source_files": [
+        "sparse/gather/README.md:1-60",
+        "sparse/gather/arch22/gather_host.cpp:1-120"
+      ],
+      "evidence": [
+        "competition/mfg-2026/evidence/README.md"
+      ]
+    },
+    {
+      "id": "MFG2026-MATH-COMPLEX-ABS",
+      "title": "ComplexAbs",
+      "tier": "competition",
+      "entry": "competition/mfg-2026/ops-math",
+      "family": "complex-elementwise",
+      "readme": "competition/mfg-2026/ops-math/README.md",
+      "source_json": "competition/mfg-2026/ops-math/source.json",
+      "one_line": "实虚平方和再 sqrt；超大值先 SCALE_UP/SCALE_DOWN；Compare/Select 处理 |re|/|im|；按 dtype pack 输出",
+      "local_status": "not-run",
+      "verification": "not-run; 950-only reference",
+      "conditions": [
+        "950/A3 only",
+        "complex32/64/128",
+        "no empty tensor",
+        "rank<=8"
+      ],
+      "negative_cases": [
+        "A2 not supported",
+        "COMPLEX128 on 910B unclear",
+        "NaN/Inf semantics",
+        "no performance data"
+      ],
+      "reuse_decision": "只作为 910B ComplexAbs 的算法参考；需另写 arch22/Vector 版本。",
+      "source_files": [
+        "math/complex_abs/README.md:1-60",
+        "math/complex_abs/op_kernel/arch35/complex_abs_dag.h:23-178"
+      ],
+      "evidence": [
+        "competition/mfg-2026/evidence/README.md"
+      ]
+    },
+    {
+      "id": "MFG2026-MATH-STACK-BALL-QUERY",
+      "title": "StackBallQuery",
+      "tier": "competition",
+      "entry": "competition/mfg-2026/ops-math",
+      "family": "point-cloud-query",
+      "readme": "competition/mfg-2026/ops-math/README.md",
+      "source_json": "competition/mfg-2026/ops-math/source.json",
+      "one_line": "按 center 分段；batch 的 xyz 片段流式搬 UB；距离平方与 maxRadius² 比较；命中写结果；达到 sample_num 提前停；不足用首索引补齐",
+      "local_status": "not-run",
+      "verification": "not-run; A2 config exists",
+      "conditions": [
+        "A2/A3",
+        "2D stacked layout",
+        "batch counts",
+        "fp16/fp32",
+        "sample_num>0"
+      ],
+      "negative_cases": [
+        "not raw [B,3,N]",
+        "zero-hit all-0 indistinguishable",
+        "fp16 radius² precision",
+        "fill semantics"
+      ],
+      "reuse_decision": "优先复用堆叠/分段/提前停；在 910B3 构建 ascend910b 配置并对 GEIR 用例。",
+      "source_files": [
+        "conversion/stack_ball_query/README.md:1-58",
+        "conversion/stack_ball_query/op_kernel/stack_ball_query.h:28-140,281-397",
+        "conversion/stack_ball_query/op_kernel/stack_ball_query.cpp:17-40"
+      ],
+      "evidence": [
+        "competition/mfg-2026/evidence/README.md"
+      ]
+    },
+    {
+      "id": "MFG2026-SOLVER-COMPLEX-DIV",
+      "title": "ComplexDiv (reference)",
+      "tier": "competition",
+      "entry": "competition/mfg-2026/ops-solver",
+      "family": "complex-elementwise",
+      "readme": "competition/mfg-2026/ops-solver/README.md",
+      "source_json": "competition/mfg-2026/ops-solver/source.json",
+      "one_line": "按 max(|c|,|d|) 取 2 的幂缩放；归一化后算分母/分子；FMA 记录乘积/分母误差；remainder 修正商；虚部按 bc-ad",
+      "local_status": "not-run",
+      "verification": "not-run; 950 SIMT reference",
+      "conditions": [
+        "950 SIMT only",
+        "complex64 helper",
+        "not an elementwise op",
+        "no aclnn API"
+      ],
+      "negative_cases": [
+        "not 910B-buildable",
+        "no standalone op",
+        "complex32/128 not covered",
+        "no performance data"
+      ],
+      "reuse_decision": "只复用算法（缩放+补偿商）；在 910B 写 Vector 版 ComplexDiv，并问题面 dtype/特殊值。",
+      "source_files": [
+        "src/utils/complex_solver_kernel.hpp:49-80",
+        "docs/zh/complex_solver_migration.md:1-20"
+      ],
+      "evidence": [
+        "competition/mfg-2026/evidence/README.md"
       ]
     }
   ]

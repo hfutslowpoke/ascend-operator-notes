@@ -1,0 +1,117 @@
+{
+  "schema_version": 2,
+  "entry": "competition/mfg-2026/ops-sparse",
+  "tier": "competition",
+  "repository": {
+    "id": "gitcode-mfg-ops-sparse",
+    "url": "https://gitcode.com/cann/ops-sparse",
+    "commit": "8fae00b8832bf31f1ce26059680bce67c6026c4f",
+    "default_branch": "master",
+    "license": "CANN-Open-Software-License-2.0",
+    "status": "deep-read",
+    "local_cache": "repository-research-cache/mfg-2026/ops-sparse"
+  },
+  "implementations": [
+    {
+      "id": "MFG2026-SPARSE-SPGEMM",
+      "operator": "Spspmm (CSR × CSR)",
+      "operator_family": "sparse-sparse-matmul",
+      "source_files": [
+        {
+          "path": "sparse/spgemm/README.md",
+          "lines": "1-40",
+          "sha256": "a978c57a14ae24b2a8bc3a0672fabba3e85e42644c0afe9ec28c8aaff007d5ad",
+          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/spgemm/README.md"
+        },
+        {
+          "path": "sparse/spgemm/arch22/spgemm_host.cpp",
+          "lines": "654-720,1066-1120",
+          "sha256": "13eb58db9801f746754f6ee1d671aa4278b6745dd2dfdae4beb9b75bd6ae39a7",
+          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/spgemm/arch22/spgemm_host.cpp"
+        },
+        {
+          "path": "sparse/spgemm/arch22/spgemm_symbolic_kernel.cpp",
+          "lines": "1-120",
+          "sha256": "6291fdfb487d129551003c5dd60289b933fcb6b0ff18cf24d7f7006ce9736de5",
+          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/spgemm/arch22/spgemm_symbolic_kernel.cpp"
+        },
+        {
+          "path": "sparse/spgemm/arch22/spgemm_numeric_kernel.cpp",
+          "lines": "1-120",
+          "sha256": "82a537ca32c253830d587d7478e3ea4349ff8b26755b05511310fd7d29dbd013",
+          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/spgemm/arch22/spgemm_numeric_kernel.cpp"
+        }
+      ],
+      "local_status": "not-run",
+      "local_validation": {
+        "status": "not-run",
+        "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",
+        "log": "competition/mfg-2026/evidence/README.md",
+        "log_sha256": "5c1e4ae0ec1a4e9da61e5ea174f014c83305845350dca2aee71fd9e93acc1048"
+      }
+    },
+    {
+      "id": "MFG2026-SPARSE-SPMM",
+      "operator": "SpmmSum (aclsparse SpMM)",
+      "operator_family": "sparse-dense-matmul",
+      "source_files": [
+        {
+          "path": "sparse/spmm/README.md",
+          "lines": "1-120",
+          "sha256": "0931104b0a7351059a9014ac94e53ad1ee961adee324e5220f6fad986a553c0a",
+          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/spmm/README.md"
+        },
+        {
+          "path": "sparse/spmm/arch22/spmm_host.cpp",
+          "lines": "201-330",
+          "sha256": "b60322d815f31818804e1c67f7cc286dd0b5828dd7d269f6c3bbc0f5ef12db81",
+          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/spmm/arch22/spmm_host.cpp"
+        },
+        {
+          "path": "sparse/spmm/arch22/kernels/spmm_kernel_group_axpy.h",
+          "lines": "1-120",
+          "sha256": "ed6208a4c211f42818a8ba2cbde5c6b8c358965ad20b1835160858fba24905d8",
+          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/spmm/arch22/kernels/spmm_kernel_group_axpy.h"
+        }
+      ],
+      "local_status": "not-run",
+      "local_validation": {
+        "status": "not-run",
+        "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",
+        "log": "competition/mfg-2026/evidence/README.md",
+        "log_sha256": "5c1e4ae0ec1a4e9da61e5ea174f014c83305845350dca2aee71fd9e93acc1048"
+      }
+    },
+    {
+      "id": "MFG2026-SPARSE-GATHER",
+      "operator": "Gather (dense gather)",
+      "operator_family": "graph-gather",
+      "source_files": [
+        {
+          "path": "sparse/gather/README.md",
+          "lines": "1-60",
+          "sha256": "b02963b7701fc2da5d4cb8754eeb9b5ca641758c12126af2d1d76f18b47b2ae0",
+          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/gather/README.md"
+        },
+        {
+          "path": "sparse/gather/arch22/gather_host.cpp",
+          "lines": "1-120",
+          "sha256": "f7ded5ea056a1e3c9d59a46583a818f833808e51b98c3d77eaefcf58cbc4c3de",
+          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/gather/arch22/gather_host.cpp"
+        }
+      ],
+      "local_status": "not-run",
+      "local_validation": {
+        "status": "not-run",
+        "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",
+        "log": "competition/mfg-2026/evidence/README.md",
+        "log_sha256": "5c1e4ae0ec1a4e9da61e5ea174f014c83305845350dca2aee71fd9e93acc1048"
+      }
+    }
+  ],
+  "local_validation": {
+    "status": "not-run",
+    "notes": "A2/A3 的 SpMM/SpGEMM/Gather；Gather 是 dense gather，不是 COO 行扩展。"
+  },
+  "generated_from": "index/catalog.json"
+}

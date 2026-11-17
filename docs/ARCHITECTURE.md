@@ -43,7 +43,8 @@
 │   ├── cann-ops-competitions/    # GitCode CANN 竞赛仓
 │   ├── elec-ops-inspection/      # GitCode 电力行业仓
 │   ├── hansen-2026-power/        # 电力行业赛公开归档
-│   └── kernelswift-2026/         # KernelSwift 2026
+│   ├── kernelswift-2026/         # KernelSwift 2026
+│   └── mfg-2026/                 # 制造行业专场（15 题源码地图）
 ├── general/                      # 通用算子库
 │   ├── README.md
 │   ├── catalog.json              # 通用层机器索引（生成）
@@ -193,8 +194,8 @@ bin/npu-lock bash -lc '<命令>'
 
 `index/catalog.json` 是唯一机器可读主索引，包含：
 
-- `repositories[]`：14 个仓库记录，带 `tier`、`entry_path`、固定 commit、许可、状态、去重关系；
-- `implementations[]`：18 份实现，带算子族、源码文件/行号/哈希、作者证据、适用条件、负例、复用判断、本机验证；
+- `repositories[]`：20 个仓库记录，带 `tier`、`entry_path`、固定 commit、许可、状态、去重关系；
+- `implementations[]`：33 份实现，带算子族、源码文件/行号/哈希、作者证据、适用条件、负例、复用判断、本机验证；
 - `excluded_candidates[]`：未计入的候选及原因。
 
 运行：

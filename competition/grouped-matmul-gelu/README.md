@@ -41,7 +41,7 @@
 - 每份 PR 固定到 head commit，逐文件保存 SHA256 和 Git blob ID；
 - 采集时 PR 仍为 open；公开提交、平台 Pass、人工核验是三件不同的事；
 - 归档阶段没有重新编译/运行第三方源码；本库不把任何 PR 的榜单成绩当成本机复现；
-- 26 份 PR 是“竞赛基线”，不计入后续 18 份新深读实现。
+- 26 份 PR 是“竞赛基线”，不计入后续 33 份外部实现。
 
 人读索引：[catalog/INDEX.md](catalog/INDEX.md)；机器索引：[catalog/public-final-sources.json](catalog/public-final-sources.json)。
 

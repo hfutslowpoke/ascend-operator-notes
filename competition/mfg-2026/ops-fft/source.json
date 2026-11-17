@@ -1,0 +1,84 @@
+{
+  "schema_version": 2,
+  "entry": "competition/mfg-2026/ops-fft",
+  "tier": "competition",
+  "repository": {
+    "id": "gitcode-mfg-ops-fft",
+    "url": "https://gitcode.com/cann/ops-fft",
+    "commit": "65f5ff1dee32802562a9412789b0c7719ef99269",
+    "default_branch": "master",
+    "license": "CANN-Open-Software-License-2.0",
+    "status": "deep-read",
+    "local_cache": "repository-research-cache/mfg-2026/ops-fft"
+  },
+  "implementations": [
+    {
+      "id": "MFG2026-FFT2D",
+      "operator": "FourierTransform2D (fft2_d C2C)",
+      "operator_family": "fourier-transform",
+      "source_files": [
+        {
+          "path": "docs/zh/API_Reference/FFT_2D.md",
+          "lines": "1-70",
+          "sha256": "5f89f98e336a88e43a32fcb5f9adb682f7befed7ce6339bc51c3bb0481f7fcf8",
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/docs/zh/API_Reference/FFT_2D.md"
+        },
+        {
+          "path": "src/fft2_d/arch32/fft2_d_exec_api.cpp",
+          "lines": "18-60",
+          "sha256": "51b0ed903eb87e73cc1c66732fd31f48c31715ad22b2010f4db27498afd12a80",
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/fft2_d/arch32/fft2_d_exec_api.cpp"
+        },
+        {
+          "path": "src/fft2_d/arch32/dd/fft2_d_dd.cpp",
+          "lines": "17-29,31-62,64-112",
+          "sha256": "e729b6d549d2860f7462fd5bcfe958e4794a16f08620f393b68c674498f70ed4",
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/fft2_d/arch32/dd/fft2_d_dd.cpp"
+        },
+        {
+          "path": "src/fft2_d/arch32/dd/fft2_d_dd_kernel.h",
+          "lines": "50-143,259-420",
+          "sha256": "68a252d2e46cbb08d675ad0ddf9e0c974372783641ca068ee9ba2db73db05ba0",
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/fft2_d/arch32/dd/fft2_d_dd_kernel.h"
+        }
+      ],
+      "local_status": "pass",
+      "local_validation": {
+        "status": "pass",
+        "notes": "本机 Ascend 910B3 / CANN 9.1.0 / gcc 11.4.0 / cmake 3.22.1 构建成功并生成 910B .run 包；32×32 batch=1 C2C 冲激输入与解析 DFT 对照 5 次，best 0.1537 ms，max_abs=9.086799e-08，bad=0。",
+        "device": "Ascend 910B3 physical NPU 2 / ACL logical 0",
+        "cann": "9.1.0",
+        "build_log": "competition/mfg-2026/evidence/ops-fft_fft2d_build_20261117.log",
+        "build_log_sha256": "1835a5ed2c17fd75593d3ed3b101a8f3924f02805e0f281118e0209b2e23b358",
+        "run_log": "competition/mfg-2026/evidence/ops-fft_fft2d_32x32_run_20261117.log",
+        "run_log_sha256": "a2ccf18320bc632ef81ef98530921ddffe5096fcf06de9d0e960bd5af59c7338",
+        "driver": "competition/mfg-2026/evidence/fft2d_verify.cpp",
+        "driver_sha256": "f978fe97177a8d16aa5d8f83cd95526075b3cc5159968cd67b98e33e6b1412ff",
+        "build_command": "./build.sh --ops=fft2_d --soc=Ascend910B --pkg -j8",
+        "package": "cann-910b-ops-fft_9.0.0_linux-aarch64.run",
+        "package_sha256": "1aa58979203dc6b55c954236239b3bbd620e425c45a62f4dc1b1bb76a10d0e92",
+        "runs": [
+          {
+            "shape": "32x32 batch=1",
+            "dtype": "complex64 (float32 interleaved)",
+            "reference": "analytic impulse DFT: exp(-2*pi*i*(3*k1/32 + 7*k2/32))",
+            "command": "bin/npu-lock bash -lc 'source /usr/local/Ascend/cann-9.1.0/set_env.sh; ./fft2d_verify'",
+            "best_ms": 0.1537,
+            "repeat": 5,
+            "max_abs": 9.086799e-08,
+            "max_rel": 9.086799e-08,
+            "bad": 0,
+            "result": "PASS",
+            "log": "competition/mfg-2026/evidence/ops-fft_fft2d_32x32_run_20261117.log",
+            "log_sha256": "a2ccf18320bc632ef81ef98530921ddffe5096fcf06de9d0e960bd5af59c7338"
+          }
+        ]
+      }
+    }
+  ],
+  "local_validation": {
+    "status": "not-run",
+    "notes": "910B 的 fft2_d C2C 2D FFT；文档明确 950 不支持；尺寸仅 {32,64,128}²。"
+  },
+  "generated_from": "index/catalog.json"
+}
