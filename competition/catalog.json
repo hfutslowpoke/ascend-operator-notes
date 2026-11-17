@@ -1,0 +1,978 @@
+{
+  "schema_version": 2,
+  "generated_from": "index/catalog.json",
+  "tier": "competition",
+  "counts": {
+    "repositories": 5,
+    "deep_read": 4,
+    "implementations": 9,
+    "excluded": 1,
+    "by_local_status": {
+      "not-run": 3,
+      "pass": 2,
+      "fail": 2,
+      "offline-only": 1,
+      "partial": 1
+    }
+  },
+  "repositories": [
+    {
+      "id": "hansen-ascend-c-competition-archive",
+      "url": "https://github.com/Hansenwuwuwu/ascend-c-competition-archive",
+      "owner": "Hansenwuwuwu",
+      "author": "Hansenwuwuwu（归档维护者）；原始提交为公开参赛队",
+      "year": 2026,
+      "name": "ascend-c-competition-archive",
+      "default_branch": "main",
+      "commit": "37e07aba5273e280d2d227d8764c5e49b7eb3eae",
+      "commit_date": "2026-11-10T10:38:02+08:00",
+      "accessed": "2026-11-16",
+      "license": "none-declared",
+      "license_note": "仓库未声明 LICENSE/COPYING；THIRD_PARTY_NOTICES.md 说明公开可读不等于可再分发。本库只做引用与分析，不复制源码。",
+      "primary_dsl": [
+        "Ascend C"
+      ],
+      "operator_families": [
+        "candidate-decode-fusion",
+        "graph-spline-conv",
+        "geometric-argmin",
+        "swiglu",
+        "linear-algebra"
+      ],
+      "competition_or_context": "2026 电力行业算子专场（昇腾 AI 行业创新大赛）",
+      "local_cache": "repository-research-cache/Hansenwuwuwu_ascend-c-competition-archive",
+      "relationship_to_existing": "new; 与既有 26 份 GroupedMatmulGelu 公开 PR 无重复",
+      "status": "deep-read",
+      "tier": "competition",
+      "entry_path": "competition/hansen-2026-power",
+      "local_status": "not-run",
+      "notes": "9 题 27 份公开提交 + SwiGLU 3 份本地补充；官方公示分数，无逐 case 时延；源码未在本机编译/运行。",
+      "report": "competition/hansen-2026-power/README.md"
+    },
+    {
+      "id": "mantuoluozk-kernelswift-2026-triton-kernels",
+      "url": "https://github.com/mantuoluozk/kernelswift-2026-triton-kernels",
+      "owner": "mantuoluozk",
+      "author": "mantuoluozk",
+      "year": 2026,
+      "name": "kernelswift-2026-triton-kernels",
+      "default_branch": "main",
+      "commit": "ac937591f5517b0dfc7c172252f0f27caf772d34",
+      "commit_date": "2026-08-24T12:07:49+08:00",
+      "accessed": "2026-11-16",
+      "license": "none-declared",
+      "license_note": "仓库未声明 LICENSE；evaluator/LICENSE 为官方评测器上游许可证。本库不复制其源码。",
+      "primary_dsl": [
+        "Triton",
+        "Triton-Ascend"
+      ],
+      "operator_families": [
+        "moe-routing",
+        "topk",
+        "attention",
+        "normalization",
+        "augmentation"
+      ],
+      "competition_or_context": "2026 KernelSwift 算子创新大赛 赛道一",
+      "local_cache": "repository-research-cache/mantuoluozk_kernelswift-2026-triton-kernels",
+      "relationship_to_existing": "new; 与 GroupedMatmulGelu 无重复",
+      "status": "deep-read",
+      "tier": "competition",
+      "entry_path": "competition/kernelswift-2026",
+      "local_status": "partial",
+      "notes": "四平台 10 题；本报告只用 Ascend 910B1 三题。官方评测器 warmup=200/repeat=500/中位数，每次 sample 同步；作者数字 + 本机 910B3 部分复测（GroupedTopk/Sinkhorn 通过，FusedMoE 编译失败）。",
+      "report": "competition/kernelswift-2026/README.md"
+    },
+    {
+      "id": "yunle-lee-cann-operator-test-competition-personal-solution",
+      "url": "https://github.com/Yunle-Lee/CANN-Operator-test-competition-personal-solution",
+      "owner": "Yunle-Lee",
+      "author": "Yunle-Lee",
+      "year": 2026,
+      "name": "CANN-Operator-test-competition-personal-solution",
+      "default_branch": "main",
+      "commit": "a0c1c8a8ba8ac203afe28f2f7d9c75b9c06ab595",
+      "commit_date": "2026-04-28T03:16:57+08:00",
+      "accessed": "2026-11-16",
+      "license": "MIT",
+      "license_note": "根 LICENSE 为 MIT，版权年份/持有人仍是占位符。",
+      "primary_dsl": [
+        "C++",
+        "aclnn"
+      ],
+      "operator_families": [
+        "operator-test-harness"
+      ],
+      "competition_or_context": "CANN 算子测试挑战赛（2026）",
+      "local_cache": "repository-research-cache/Yunle-Lee_CANN-Operator-test-competition-personal-solution",
+      "relationship_to_existing": "new; 不计高性能来源",
+      "status": "excluded",
+      "tier": "competition",
+      "entry_path": "competition/excluded.md",
+      "local_status": "not-run",
+      "notes": "主要是 Add/Mul/Pow/Cumsum 的 aclnn 测试和赛事目录；没有 Ascend C 高性能 kernel 或时延。",
+      "report": "competition/excluded.md"
+    },
+    {
+      "id": "gitcode-cann-ops-competitions",
+      "url": "https://gitcode.com/cann/cann-ops-competitions",
+      "owner": "cann",
+      "author": "CANN 开源社区；Delicate02、BatchLions 等参赛队",
+      "year": 2026,
+      "name": "cann-ops-competitions",
+      "default_branch": "master",
+      "commit": "5126fead3327c7544ed4becff93775505071334c",
+      "commit_date": "2026-11-16T20:16:27+08:00",
+      "accessed": "2026-11-16",
+      "license": "MIT",
+      "license_note": "根 LICENSE 为 MIT（版权年份/持有人为占位符）；S9 Concat 提交目录另有 Apache-2.0 LICENSE；各提交可能不同。",
+      "primary_dsl": [
+        "Ascend C"
+      ],
+      "operator_families": [
+        "attention-recompute",
+        "concat",
+        "index-add",
+        "operator-challenge"
+      ],
+      "competition_or_context": "CANN 开源社区竞赛仓：2026 天梯赛、S8/S9 算子挑战赛等",
+      "local_cache": "repository-research-cache/gitcode-selected/ops",
+      "relationship_to_existing": "same official repo as existing 26 GroupedMatmulGelu baseline; new 2026 ladder/S9 implementations; not counted as a new independent algorithm source",
+      "status": "deep-read",
+      "tier": "competition",
+      "entry_path": "competition/cann-ops-competitions",
+      "local_status": "partial",
+      "notes": "GitCode 直连成功（代理会超时）；固定 commit 5126fead；深读 Delicate02 recompute_w_u（CANNJudge 22/22、7 月第 1 名）与 BatchLions S9 Concat（最终第十名、五档 348.33 µs）。本机 recompute 编译成功但运行 507057；Concat 离线测试 215242+32681+8247 项通过，未上 NPU。",
+      "report": "competition/cann-ops-competitions/README.md"
+    },
+    {
+      "id": "gitcode-elec-ops-inspection",
+      "url": "https://gitcode.com/cann/elec-ops-inspection",
+      "owner": "cann",
+      "author": "CANN 开源社区；XDU_XDU-BTD 等参赛队",
+      "year": 2026,
+      "name": "elec-ops-inspection",
+      "default_branch": "master",
+      "commit": "dfe55921db351f71cfb8c96f795fd4472bd6bd47",
+      "commit_date": "2026-11-16T19:09:03+08:00",
+      "accessed": "2026-11-16",
+      "license": "Apache-2.0",
+      "license_note": "根 LICENSE 为 Apache-2.0；提交文件头也标注 Apache-2.0。",
+      "primary_dsl": [
+        "Ascend C"
+      ],
+      "operator_families": [
+        "batched-least-squares",
+        "linear-algebra",
+        "electric-industry"
+      ],
+      "competition_or_context": "昇腾 AI 行业创新大赛——2026 电力行业算子专场",
+      "local_cache": "repository-research-cache/gitcode-selected/elec",
+      "relationship_to_existing": "upstream official repo of Hansen archive; not an independent algorithm source; adds LinalgLstsq implementation",
+      "status": "deep-read",
+      "tier": "competition",
+      "entry_path": "competition/elec-ops-inspection",
+      "local_status": "partial",
+      "notes": "固定 commit dfe55921；深读 XDU_XDU-BTD LinalgLstsq。作者 README 无逐 case 时延；本机 CANN 9.1.0 加两处 template 兼容性关键字后编译成功，16/50/64 单 batch PASS，多 batch/矩形/200/256 失败。",
+      "report": "competition/elec-ops-inspection/README.md"
+    }
+  ],
+  "implementations": [
+    {
+      "id": "HANSEN-2026POWER-FIRE-R2",
+      "repository_id": "hansen-ascend-c-competition-archive",
+      "source_commit": "37e07aba5273e280d2d227d8764c5e49b7eb3eae",
+      "operator": "FireCandidateDecodeFusion (rank2)",
+      "operator_family": "candidate-decode-fusion",
+      "semantics": "Sigmoid 解码候选框 x/y/w/h 并融合 obj/fire 置信度；输出 [B,N,5]，顺序固定。",
+      "shape_dtype": "raw_pred[B,N,6] FP16/FP32; priors[N,5] FP32; B 1..8; N 1..32768; 连续 ND；FP32 中间，输出 dtype 同 raw。",
+      "environment": {
+        "soc": "Ascend 910B4 (competition record)",
+        "cann": "9.0.0.0",
+        "aiv": 20,
+        "source": "题面/公示记录；未本机验证"
+      },
+      "source_files": [
+        {
+          "path": "archives/2026-electric-power/extracted/FireCandidateDecodeFusion/rank2_submission_1176342/code/op_host/fire_host_plan.h",
+          "lines": "10-120",
+          "url": "https://github.com/Hansenwuwuwu/ascend-c-competition-archive/blob/37e07aba5273e280d2d227d8764c5e49b7eb3eae/archives/2026-electric-power/extracted/FireCandidateDecodeFusion/rank2_submission_1176342/code/op_host/fire_host_plan.h#L10-L120",
+          "sha256": "f4612e6bfe1bfdcff44a79067bdd16ef6daee8cd11972cfa617b8c113ad85f45",
+          "local_cache": "repository-research-cache/Hansenwuwuwu_ascend-c-competition-archive/archives/2026-electric-power/extracted/FireCandidateDecodeFusion/rank2_submission_1176342/code/op_host/fire_host_plan.h"
+        },
+        {
+          "path": "archives/2026-electric-power/extracted/FireCandidateDecodeFusion/rank2_submission_1176342/code/op_kernel/fire_candidate_decode_fusion.cpp",
+          "lines": "77-195",
+          "url": "https://github.com/Hansenwuwuwu/ascend-c-competition-archive/blob/37e07aba5273e280d2d227d8764c5e49b7eb3eae/archives/2026-electric-power/extracted/FireCandidateDecodeFusion/rank2_submission_1176342/code/op_kernel/fire_candidate_decode_fusion.cpp#L77-L195",
+          "sha256": "e5c444ea25a0b5a9fb751bae2e102409b31c304867f649413868b9f431e1bcdd",
+          "local_cache": "repository-research-cache/Hansenwuwuwu_ascend-c-competition-archive/archives/2026-electric-power/extracted/FireCandidateDecodeFusion/rank2_submission_1176342/code/op_kernel/fire_candidate_decode_fusion.cpp"
+        },
+        {
+          "path": "archives/2026-electric-power/extracted/FireCandidateDecodeFusion/rank2_submission_1176342/code/op_kernel/device_fire.h",
+          "lines": "105-143,272-365",
+          "url": "https://github.com/Hansenwuwuwu/ascend-c-competition-archive/blob/37e07aba5273e280d2d227d8764c5e49b7eb3eae/archives/2026-electric-power/extracted/FireCandidateDecodeFusion/rank2_submission_1176342/code/op_kernel/device_fire.h",
+          "sha256": "7d201791e790ba54a88f6ef3911179e8c177fd7fb4ed55fd7404245f4ab79fe2",
+          "local_cache": "repository-research-cache/Hansenwuwuwu_ascend-c-competition-archive/archives/2026-electric-power/extracted/FireCandidateDecodeFusion/rank2_submission_1176342/code/op_kernel/device_fire.h"
+        },
+        {
+          "path": "archives/2026-electric-power/extracted/FireCandidateDecodeFusion/rank2_submission_1176342/code/op_kernel/fire_static_metadata.h",
+          "lines": "whole-file",
+          "url": "https://github.com/Hansenwuwuwu/ascend-c-competition-archive/blob/37e07aba5273e280d2d227d8764c5e49b7eb3eae/archives/2026-electric-power/extracted/FireCandidateDecodeFusion/rank2_submission_1176342/code/op_kernel/fire_static_metadata.h",
+          "sha256": "9c58bd934b0838fc05b6514d614ed560c27f34b17a02c71a6674c9b6874020c3",
+          "local_cache": "repository-research-cache/Hansenwuwuwu_ascend-c-competition-archive/archives/2026-electric-power/extracted/FireCandidateDecodeFusion/rank2_submission_1176342/code/op_kernel/fire_static_metadata.h"
+        }
+      ],
+      "symbol": "FireLargeUniform / BlockedTransposeDecode / PadSmallDecode / RepairSensitiveCenters",
+      "mechanism": "Host 按 B*N/核数选 tile；设备把 AoS 6 字段转 SoA 平面，一次 sigmoid 后完成 5 字段解码；对中心坐标抵消的少数 lane 用软件 53 位 exp + 正确舍入倒数修复；静态地址/索引表减少 scalar。",
+      "work_model": "融合后无 [B,N,5] 中间写回、无多 kernel 启动；每候选仍 6 次 sigmoid + 5 字段解码。选择性修复只对 |2s-0.5+gx|<1/16 且 stride 超阈值的 lane 走标量。",
+      "evidence": [
+        {
+          "type": "official-public-score",
+          "value": "83.26 分，公示顺序 2，原榜 2",
+          "source": "archives/2026-electric-power/README.md"
+        },
+        {
+          "type": "static-source",
+          "value": "Host 分路、SoA gather、选择性修复可定位",
+          "source": "source_files"
+        }
+      ],
+      "conditions": [
+        "小字段 AoS 逐元素变换",
+        "敏感 lane 比例低",
+        "UB 能容纳多个平面/静态表",
+        "目标 SoC 支持 vgather/scatter 内建"
+      ],
+      "negative_cases": [
+        "敏感 lane 多时标量修复反噬",
+        "N/B 很小时平面化/静态表准备不划算",
+        "私有内建/静态表与 CANN/SoC 绑定",
+        "无逐 case 时延/本机复现"
+      ],
+      "reuse_decision": "优先复用 AoS→SoA→AoS 与选择性高精度设计；不复制私有内建/静态表。",
+      "report": "competition/hansen-2026-power/README.md",
+      "verification": "not-reproduced; static source and public score only",
+      "tier": "competition",
+      "entry_path": "competition/hansen-2026-power",
+      "local_status": "not-run"
+    },
+    {
+      "id": "HANSEN-2026POWER-SPLINE-R1",
+      "repository_id": "hansen-ascend-c-competition-archive",
+      "source_commit": "37e07aba5273e280d2d227d8764c5e49b7eb3eae",
+      "operator": "SplineConv (rank1)",
+      "operator_family": "graph-spline-conv",
+      "semantics": "B-spline 基函数加权图卷积：每条边按伪坐标算 basis/weight_index，取权重矩阵投影 x_src，再按目标节点聚合；支持 add/mean、root/bias。",
+      "shape_dtype": "x[N,Ci] FP32/BF16; edge_index[2,E] INT64; edge_attr[E,dim]; weight[K,Ci,Co]; Ci/Co 8..128; dim 2/3; degree 1..3; kernel_size 2..4.",
+      "environment": {
+        "soc": "Ascend 910B4 (competition record)",
+        "cann": "9.0.0.0",
+        "aiv": 20,
+        "source": "题面/公示记录；未本机验证"
+      },
+      "source_files": [
+        {
+          "path": "archives/2026-electric-power/extracted/SplineConv/rank1_submission_1174398/code/op_host/spline_conv.cpp",
+          "lines": "14-145",
+          "url": "https://github.com/Hansenwuwuwu/ascend-c-competition-archive/blob/37e07aba5273e280d2d227d8764c5e49b7eb3eae/archives/2026-electric-power/extracted/SplineConv/rank1_submission_1174398/code/op_host/spline_conv.cpp#L14-L145",
+          "sha256": "677b9e8d032f66bd4c7d51e052df6a133d444f78d2215f220803cf69681d38d8",
+          "local_cache": "repository-research-cache/Hansenwuwuwu_ascend-c-competition-archive/archives/2026-electric-power/extracted/SplineConv/rank1_submission_1174398/code/op_host/spline_conv.cpp"
+        },
+        {
+          "path": "archives/2026-electric-power/extracted/SplineConv/rank1_submission_1174398/code/op_kernel/spline_conv_compact.h",
+          "lines": "51-94,183-225",
+          "url": "https://github.com/Hansenwuwuwu/ascend-c-competition-archive/blob/37e07aba5273e280d2d227d8764c5e49b7eb3eae/archives/2026-electric-power/extracted/SplineConv/rank1_submission_1174398/code/op_kernel/spline_conv_compact.h",
+          "sha256": "e5919e0ee59371d454076e0c1866be35f189b9973981aeadf8d383115fefb176",
+          "local_cache": "repository-research-cache/Hansenwuwuwu_ascend-c-competition-archive/archives/2026-electric-power/extracted/SplineConv/rank1_submission_1174398/code/op_kernel/spline_conv_compact.h"
+        }
+      ],
+      "symbol": "SplineCompactSparse::Process / Dot / SingleDot",
+      "mechanism": "把逐边 x@W[wi] 重排为按离散 wi 先聚合 x*basis，再对 4 个权重矩阵做一次 4C×16 向量乘；目标节点链表遍历；Host 按 UB/稀疏族选 single/sparse/generic。",
+      "work_model": "每目标节点入度 d：通用约 4*C*16*d MAC；重排约 4*C*d + 4*C*16 MAC。d=4 约 3.2× 少；d=1 约 0.94×（略差）。",
+      "evidence": [
+        {
+          "type": "official-public-score",
+          "value": "89.16 分，公示顺序 1，原榜 1",
+          "source": "archives/2026-electric-power/README.md"
+        },
+        {
+          "type": "static-source",
+          "value": "聚合顺序/权重索引/目标链表/Dot 可定位",
+          "source": "source_files"
+        }
+      ],
+      "conditions": [
+        "权重索引只由离散 cell 决定",
+        "basis 对边线性",
+        "目标节点入度较高（d>=2，d>=4 更稳）",
+        "4C 聚合与权重能驻留 UB"
+      ],
+      "negative_cases": [
+        "d=1 时聚合开销大于收益",
+        "basis 依赖非离散属性或索引随边变化时代数不成立",
+        "浮点求和顺序改变",
+        "聚合专用路径主要是 ci=32/128,co=16,dim=2,degree=1,kernel=2；compact 另有 ci=8 single 特化",
+        "Host 条件/kernel key 可能漂移"
+      ],
+      "reuse_decision": "优先复用离散索引先聚合的代数重排；不复制固定 ci/co/key 常量。",
+      "report": "competition/hansen-2026-power/README.md",
+      "verification": "not-reproduced; static source and public score only",
+      "tier": "competition",
+      "entry_path": "competition/hansen-2026-power",
+      "local_status": "not-run"
+    },
+    {
+      "id": "HANSEN-2026POWER-TREE-R1",
+      "repository_id": "hansen-ascend-c-competition-archive",
+      "source_commit": "37e07aba5273e280d2d227d8764c5e49b7eb3eae",
+      "operator": "TreeLineMinDistance (rank1)",
+      "operator_family": "geometric-argmin",
+      "semantics": "每个树障点到全部线段的最小欧氏距离和最近线段索引；线段退化时用端点点距；完全 tie 取最小索引。",
+      "shape_dtype": "points[B,N,3] / segments[B,M,2,3] FP16/FP32; B 1..8; N 1..16384; M 1..1024; 连续 ND；half 中间升 FP32。",
+      "environment": {
+        "soc": "Ascend 910B4 (competition record)",
+        "cann": "9.0.0.0",
+        "aiv": 20,
+        "source": "题面/公示记录；未本机验证"
+      },
+      "source_files": [
+        {
+          "path": "archives/2026-electric-power/extracted/TreeLineMinDistance/rank1_submission_1175341/code/op_host/tree_line_min_distance.cpp",
+          "lines": "438-496",
+          "url": "https://github.com/Hansenwuwuwu/ascend-c-competition-archive/blob/37e07aba5273e280d2d227d8764c5e49b7eb3eae/archives/2026-electric-power/extracted/TreeLineMinDistance/rank1_submission_1175341/code/op_host/tree_line_min_distance.cpp#L438-L496",
+          "sha256": "ea4886ab0fe481e36c9bef93c005aa1b204df34efa5486aa7bc8da66a0685d5b",
+          "local_cache": "repository-research-cache/Hansenwuwuwu_ascend-c-competition-archive/archives/2026-electric-power/extracted/TreeLineMinDistance/rank1_submission_1175341/code/op_host/tree_line_min_distance.cpp"
+        },
+        {
+          "path": "archives/2026-electric-power/extracted/TreeLineMinDistance/rank1_submission_1175341/code/op_kernel/tree_line_min_distance.cpp",
+          "lines": "550-659",
+          "url": "https://github.com/Hansenwuwuwu/ascend-c-competition-archive/blob/37e07aba5273e280d2d227d8764c5e49b7eb3eae/archives/2026-electric-power/extracted/TreeLineMinDistance/rank1_submission_1175341/code/op_kernel/tree_line_min_distance.cpp#L550-L659",
+          "sha256": "ad652b92592fe84acbbe28f16f1ff18e27b7c30c19072d846a09dbf6fa6dcff6",
+          "local_cache": "repository-research-cache/Hansenwuwuwu_ascend-c-competition-archive/archives/2026-electric-power/extracted/TreeLineMinDistance/rank1_submission_1175341/code/op_kernel/tree_line_min_distance.cpp"
+        },
+        {
+          "path": "archives/2026-electric-power/extracted/TreeLineMinDistance/rank1_submission_1175341/code/op_kernel/tree_pairs.h",
+          "lines": "221-515,752-854",
+          "url": "https://github.com/Hansenwuwuwu/ascend-c-competition-archive/blob/37e07aba5273e280d2d227d8764c5e49b7eb3eae/archives/2026-electric-power/extracted/TreeLineMinDistance/rank1_submission_1175341/code/op_kernel/tree_pairs.h",
+          "sha256": "3bb699614c775f2900bf17401f7e232854cd6df8adddf5772a9f6829911664cf",
+          "local_cache": "repository-research-cache/Hansenwuwuwu_ascend-c-competition-archive/archives/2026-electric-power/extracted/TreeLineMinDistance/rank1_submission_1175341/code/op_kernel/tree_pairs.h"
+        }
+      ],
+      "symbol": "TreePairs::run / run_1024 / TreeShort / tree_tiny",
+      "mechanism": "Host 按 M/N 退化维度选 PATH；线段 AoS→SoA，D/L/1/L 按 batch 外提；点 tile 向量化平方距离，64 段 chunk 归约 + 跨 chunk 成对归约，sqrt 后置；M=1024 路径用 half Top-2 粗筛 + FP32 重算 16 候选。",
+      "work_model": "通用约 N*M 次距离；rank1 复用 D/L/1/L，sqrt 从 N*M 降到 N；M=1024 路径把 FP32 距离从 1024/点降到 16/点，但无 no-miss 证明。",
+      "evidence": [
+        {
+          "type": "official-public-score",
+          "value": "91.85 分，公示顺序 1，原榜 1",
+          "source": "archives/2026-electric-power/README.md"
+        },
+        {
+          "type": "static-source",
+          "value": "shape 路由/不变量/归约/half 粗筛可定位",
+          "source": "source_files"
+        }
+      ],
+      "conditions": [
+        "存在 M=1/N=1 等退化维度",
+        "线段不变量可在 batch 内复用",
+        "tie 需最小索引",
+        "尾块非 32 对齐"
+      ],
+      "negative_cases": [
+        "half Top-2 无 no-miss 证明，不能用于精确 argmin",
+        "max(L,FLT_MIN) 不等价 L==0",
+        "大量固定 PATH/UB 绝对偏移",
+        "未本机验证"
+      ],
+      "reuse_decision": "复用退化维度换轴 + 不变量外提 + sqrt 后置 + 成对归约；不复制固定 Top-2 粗筛。",
+      "report": "competition/hansen-2026-power/README.md",
+      "verification": "not-reproduced; static source and public score only",
+      "tier": "competition",
+      "entry_path": "competition/hansen-2026-power",
+      "local_status": "not-run"
+    },
+    {
+      "id": "KS2026-ASC910B-GROUPEDTOPK",
+      "repository_id": "mantuoluozk-kernelswift-2026-triton-kernels",
+      "source_commit": "ac937591f5517b0dfc7c172252f0f27caf772d34",
+      "operator": "GroupedTopk",
+      "operator_family": "moe-routing",
+      "semantics": "256 专家分 8 组，取组内 max 选 Top-4 组，再在选中组内选 Top-8 专家并重新归一化权重。",
+      "shape_dtype": "gating_output[83,256] FP32; hidden_states[83,7168] FP16; weights[83,8] FP32; ids[83,8] INT32; topk=8, groups=8, topk_group=4.",
+      "environment": {
+        "soc": "Ascend 910B1",
+        "cann": "9.0.0",
+        "torch": "2.10.0",
+        "torch_npu": "2.10.0",
+        "triton_ascend": "3.2.1",
+        "evaluator": "official auto_bench.py",
+        "timing": "warmup=200 repeat=500 median, sync per sample"
+      },
+      "source_files": [
+        {
+          "path": "platforms/ascend910b/task01_grouped_topk/solution.py",
+          "lines": "8-89",
+          "url": "https://github.com/mantuoluozk/kernelswift-2026-triton-kernels/blob/ac937591f5517b0dfc7c172252f0f27caf772d34/platforms/ascend910b/task01_grouped_topk/solution.py#L8-L89",
+          "sha256": "69261f900b091b2f40e2741f5b45a4f52b06374ec6610fecf351b388816cd227",
+          "local_cache": "repository-research-cache/mantuoluozk_kernelswift-2026-triton-kernels/platforms/ascend910b/task01_grouped_topk/solution.py"
+        },
+        {
+          "path": "platforms/ascend910b/task01_grouped_topk/reference.py",
+          "lines": "24-65",
+          "url": "https://github.com/mantuoluozk/kernelswift-2026-triton-kernels/blob/ac937591f5517b0dfc7c172252f0f27caf772d34/platforms/ascend910b/task01_grouped_topk/reference.py#L24-L65",
+          "sha256": "0965f570db9ed5fff317eca95d06846feca44883a17bc7ea0e941af0331b0fd6",
+          "local_cache": "repository-research-cache/mantuoluozk_kernelswift-2026-triton-kernels/platforms/ascend910b/task01_grouped_topk/reference.py"
+        }
+      ],
+      "symbol": "_grouped_topk_kernel",
+      "mechanism": "利用 softmax 单调性直接在 logits 上选组/选专家；Top-K 重新归一化时 256 路公共分母抵消，只对 8 个 logits 做 exp+归一化；一个 kernel 完成选择/归一化/写回。",
+      "work_model": "每行从 256 次 exp+sum 降到 8 次 exp+8 路归一化；代价是 4 次组 argmax + 8 次专家 argmax（12 次 256/8 宽选择）。",
+      "evidence": [
+        {
+          "type": "author-official-evaluator",
+          "value": "0.701666 ms -> 0.283144 ms, 2.478x, PASS",
+          "source": "platforms/ascend910b/task01_grouped_topk/README.md"
+        },
+        {
+          "type": "static-source",
+          "value": "单调性/分母抵消/单 kernel 可定位",
+          "source": "source_files"
+        }
+      ],
+      "conditions": [
+        "softmax 或单调 scoring",
+        "renormalize=True",
+        "E/K 固定且不大",
+        "输出顺序/tie 与参考一致"
+      ],
+      "negative_cases": [
+        "renormalize=False 时分母不抵消",
+        "E 大时 O(E*K) 选择链可能变慢",
+        "tying/输出顺序需验证",
+        "无本机复现"
+      ],
+      "reuse_decision": "优先复用单调性+分母抵消；选择链按 E/K 重设计。",
+      "report": "competition/kernelswift-2026/README.md",
+      "verification": "locally-validated on Ascend 910B3; see local_validation",
+      "tier": "competition",
+      "entry_path": "competition/kernelswift-2026",
+      "local_status": "pass",
+      "local_validation": {
+        "status": "pass",
+        "environment": "Ascend 910B3 / CANN 9.1.0 / torch 2.10.0 / torch_npu 2.10.0 / triton-ascend 3.2.0",
+        "reference_ms": 0.5935,
+        "candidate_ms": 0.222255,
+        "speedup": 2.67,
+        "protocol": "warmup=200 repeat=500 median, per-sample sync",
+        "log": "competition/kernelswift-2026/evidence/grouped_topk_official.log",
+        "log_sha256": "3187b334c43aab0b3797335e624cb8e11fa1d173d5bf7c795ed6c93f35ba521a",
+        "summary": "方向一致；作者 2.478x，本机 2.670x；设备/版本不同，不是严格复现。"
+      }
+    },
+    {
+      "id": "KS2026-ASC910B-FUSEDMOE",
+      "repository_id": "mantuoluozk-kernelswift-2026-triton-kernels",
+      "source_commit": "ac937591f5517b0dfc7c172252f0f27caf772d34",
+      "operator": "FusedMoE",
+      "operator_family": "moe-expert-compute",
+      "semantics": "8 专家 MoE 前向，每 token Top-2 路由；gate/up 投影 + SiLU*up + down 投影 + 两专家加权。",
+      "shape_dtype": "hidden_states[83,128] FP16; router_logits[83,8] FP32; w1[8,128,128] FP32; w2[8,128,64] FP32; topk=2.",
+      "environment": {
+        "soc": "Ascend 910B1",
+        "cann": "9.0.0",
+        "torch": "2.10.0",
+        "torch_npu": "2.10.0",
+        "triton_ascend": "3.2.1",
+        "evaluator": "official auto_bench.py",
+        "timing": "warmup=200 repeat=500 median, sync per sample"
+      },
+      "source_files": [
+        {
+          "path": "platforms/ascend910b/task02_fused_moe/solution.py",
+          "lines": "8-87",
+          "url": "https://github.com/mantuoluozk/kernelswift-2026-triton-kernels/blob/ac937591f5517b0dfc7c172252f0f27caf772d34/platforms/ascend910b/task02_fused_moe/solution.py#L8-L87",
+          "sha256": "8dc46f0ac534fb1d203dac7681245264f71d66fab680c6c00b03fa966d403021",
+          "local_cache": "repository-research-cache/mantuoluozk_kernelswift-2026-triton-kernels/platforms/ascend910b/task02_fused_moe/solution.py"
+        },
+        {
+          "path": "platforms/ascend910b/task02_fused_moe/reference.py",
+          "lines": "42-75",
+          "url": "https://github.com/mantuoluozk/kernelswift-2026-triton-kernels/blob/ac937591f5517b0dfc7c172252f0f27caf772d34/platforms/ascend910b/task02_fused_moe/reference.py#L42-L75",
+          "sha256": "b5d49c9e517264d20dbc227de49128e8a52d9fb3eed5d4a61e5fc1d3bcff7cbc",
+          "local_cache": "repository-research-cache/mantuoluozk_kernelswift-2026-triton-kernels/platforms/ascend910b/task02_fused_moe/reference.py"
+        }
+      ],
+      "symbol": "_gate_up_kernel / _down_kernel / _route_kernel",
+      "mechanism": "不按 Top-2 动态分发，而是用三个规则 kernel 计算所有 8 个专家：gate/up+SiLU*up、down、Top-2 加权；权重按 tile FP32->FP16，避免完整转换副本。",
+      "work_model": "纯 MAC 约 3*E*T*H*I vs 参考 3*topk*T*H*I；E=8,topk=2 时约 4x 计算，但去掉 Python 循环/布尔 mask/8 次小 GEMM/完整权重 cast。",
+      "evidence": [
+        {
+          "type": "author-official-evaluator",
+          "value": "6.942960 ms -> 0.606584 ms, 11.446x, PASS",
+          "source": "platforms/ascend910b/task02_fused_moe/README.md"
+        },
+        {
+          "type": "static-source",
+          "value": "三阶段规则 kernel/权重按 tile cast 可定位",
+          "source": "source_files"
+        }
+      ],
+      "conditions": [
+        "E 小（8）",
+        "T 小（83）",
+        "H/I 小（128/64）",
+        "topk 固定 2",
+        "允许计算未选中专家"
+      ],
+      "negative_cases": [
+        "E 大时 4x 浪费线性放大（E=64 约 32x）",
+        "T 大时 [E,T,I] 中间缓冲/计算反噬",
+        "route 只对 softmax+renormalize 成立",
+        "硬编码 83/128/64",
+        "无本机复现"
+      ],
+      "reuse_decision": "在 E/T/H/I 小的固定 shape 下优先验证稠密全专家+三阶段规则 kernel；E/T 大时不用。",
+      "report": "competition/kernelswift-2026/README.md",
+      "verification": "local compile failed on Ascend 910B3; author number not reproduced",
+      "tier": "competition",
+      "entry_path": "competition/kernelswift-2026",
+      "local_status": "fail",
+      "local_validation": {
+        "status": "compile-failed",
+        "environment": "Ascend 910B3 / CANN 9.1.0 / triton-ascend 3.2.0",
+        "error": "UB overflow: requires 2359296 bits while 1572864 bits available",
+        "attempts": [
+          "num_warps=4 BLOCK_M=32",
+          "num_warps=1 BLOCK_M=32",
+          "num_warps=4 BLOCK_M=16 local copy"
+        ],
+        "log": "competition/kernelswift-2026/evidence/fused_moe_compile_fail.log",
+        "log_sha256": "b29f637da0d81d34d72761e3a7a8e83aab55eb8cba11d17d815b1d3792974d7b",
+        "summary": "作者 11.446x 未能复现；当前 TA/CANN 编译失败，不是正确性或性能结果。"
+      }
+    },
+    {
+      "id": "KS2026-ASC910B-SINKHORN",
+      "repository_id": "mantuoluozk-kernelswift-2026-triton-kernels",
+      "source_commit": "ac937591f5517b0dfc7c172252f0f27caf772d34",
+      "operator": "hc_split_sinkhorn",
+      "operator_family": "normalization",
+      "semantics": "每个 (b,s) 的 4x4 组合矩阵做 20 轮 Sinkhorn 行列归一化，同时生成 pre/post 门控。",
+      "shape_dtype": "mixes[2,8,24] FP32; hc_scale[3] FP32; hc_base[24] FP32; hc_mult=4; 20 iterations; eps=1e-6.",
+      "environment": {
+        "soc": "Ascend 910B1",
+        "cann": "9.0.0",
+        "torch": "2.10.0",
+        "torch_npu": "2.10.0",
+        "triton_ascend": "3.2.1",
+        "evaluator": "official auto_bench.py",
+        "timing": "warmup=200 repeat=500 median, sync per sample"
+      },
+      "source_files": [
+        {
+          "path": "platforms/ascend910b/task08_hc_split_sinkhorn/solution.py",
+          "lines": "19-89",
+          "url": "https://github.com/mantuoluozk/kernelswift-2026-triton-kernels/blob/ac937591f5517b0dfc7c172252f0f27caf772d34/platforms/ascend910b/task08_hc_split_sinkhorn/solution.py#L19-L89",
+          "sha256": "79bc380ac1a6dd40036ab57ee83a34b85c4202f5479e9b8bb6686f0767c96f2a",
+          "local_cache": "repository-research-cache/mantuoluozk_kernelswift-2026-triton-kernels/platforms/ascend910b/task08_hc_split_sinkhorn/solution.py"
+        },
+        {
+          "path": "platforms/ascend910b/task08_hc_split_sinkhorn/reference.py",
+          "lines": "26-52",
+          "url": "https://github.com/mantuoluozk/kernelswift-2026-triton-kernels/blob/ac937591f5517b0dfc7c172252f0f27caf772d34/platforms/ascend910b/task08_hc_split_sinkhorn/reference.py#L26-L52",
+          "sha256": "47f8308e1f4181cd56fda53ac53a42ed3122ffabb75d9cce28ef5720830763ba",
+          "local_cache": "repository-research-cache/mantuoluozk_kernelswift-2026-triton-kernels/platforms/ascend910b/task08_hc_split_sinkhorn/reference.py"
+        }
+      ],
+      "symbol": "_hc_split_sinkhorn_kernel",
+      "mechanism": "每个 program 处理一个 (b,s) 行；4x4 的 16 个元素显式标量化常驻寄存器；pre/post/20 轮 row/col 归一化/三个输出全部融合在一个 kernel。",
+      "work_model": "算术量近似不变；消除 20 轮 x 多个小 kernel 和中间 tensor 写回。",
+      "evidence": [
+        {
+          "type": "author-official-evaluator",
+          "value": "3.032301 ms -> 0.329475 ms, 9.203x, PASS; max abs err 1.19209290e-07",
+          "source": "platforms/ascend910b/task08_hc_split_sinkhorn/README.md"
+        },
+        {
+          "type": "static-source",
+          "value": "16 标量/20 轮/单 kernel 可定位",
+          "source": "source_files"
+        }
+      ],
+      "conditions": [
+        "固定 4x4",
+        "固定 20 轮",
+        "每行独立",
+        "行数不太少"
+      ],
+      "negative_cases": [
+        "hc_mult=8/16 时标量爆炸",
+        "行数很大时 1 program/行、1 warp 可能填不满",
+        "eps/初始归一化顺序需与参考一致",
+        "无本机复现"
+      ],
+      "reuse_decision": "固定 4x4 小矩阵 Sinkhorn 优先复用标量化+单 kernel+寄存器驻留；矩阵变大改用二维 tile。",
+      "report": "competition/kernelswift-2026/README.md",
+      "verification": "locally-validated on Ascend 910B3; see local_validation",
+      "tier": "competition",
+      "entry_path": "competition/kernelswift-2026",
+      "local_status": "pass",
+      "local_validation": {
+        "status": "pass",
+        "environment": "Ascend 910B3 / CANN 9.1.0 / torch 2.10.0 / torch_npu 2.10.0 / triton-ascend 3.2.0",
+        "reference_ms": 3.61623,
+        "candidate_ms": 0.27342,
+        "speedup": 13.226,
+        "max_abs_diff": 6.76512718e-06,
+        "protocol": "warmup=200 repeat=500 median, per-sample sync",
+        "log": "competition/kernelswift-2026/evidence/sinkhorn_official.log",
+        "log_sha256": "fe30332c8346e9fc4705e80549ced3bdcfe788be841c90c9bf10cd50c5cc0325",
+        "summary": "方向一致；作者 9.203x，本机 13.226x；误差 6.765e-06 仍过 1e-2 容差。"
+      }
+    },
+    {
+      "id": "GITCODE-RECOMPUTE-WU",
+      "repository_id": "gitcode-cann-ops-competitions",
+      "source_commit": "5126fead3327c7544ed4becff93775505071334c",
+      "operator": "recompute_w_u (GDN chunked attention)",
+      "operator_family": "attention-recompute-gemm",
+      "semantics": "u=(A*diag(beta))@v; w=(A*diag(beta)*exp(g))@k; A[B,H,T,BT], k[B,T,Hg,D], v[B,T,H,D], beta[B,H,T] BF16, g[B,H,T] FP32, chunk_offsets int32; outputs w/u [B,H,T,D] BF16.",
+      "shape_dtype": "B=1; T variable 1k..256k; H 1..128; Hg 1..32; D 32..256; BT=64; BF16 inputs (g FP32); BF16 outputs; GQA H%Hg==0.",
+      "environment": {
+        "soc": "Ascend 910B3",
+        "cann": "8.5.0 (author)",
+        "dsl": "Ascend C / MIX AIC+AIV",
+        "timing": "CANNJudge device-side Task Duration, us",
+        "local": "CANN 9.1.0, gcc 11.4.0, cmake 3.22.1"
+      },
+      "source_files": [
+        {
+          "path": "01_official/cann-ops-ladder-2026/July/recompute_w_u/submissions/Delicate02/code/op_kernel/recompute_wu.h",
+          "lines": "19-83,143-199,228-268,591-700,1025-1105,1313-1395",
+          "url": "https://gitcode.com/cann/cann-ops-competitions/blob/5126fead3327c7544ed4becff93775505071334c/01_official/cann-ops-ladder-2026/July/recompute_w_u/submissions/Delicate02/code/op_kernel/recompute_wu.h",
+          "sha256": "49954f374ae8c1bb01cfd4c0f7497bec337ef7d573b109f9a3c8a463e78eafe9",
+          "local_cache": "repository-research-cache/gitcode-selected/ops/01_official/cann-ops-ladder-2026/July/recompute_w_u/submissions/Delicate02/code/op_kernel/recompute_wu.h"
+        },
+        {
+          "path": "01_official/cann-ops-ladder-2026/July/recompute_w_u/submissions/Delicate02/code/op_host/recompute_wu_tiling.cpp",
+          "lines": "46-67,204-345,346-390,408-441",
+          "url": "https://gitcode.com/cann/cann-ops-competitions/blob/5126fead3327c7544ed4becff93775505071334c/01_official/cann-ops-ladder-2026/July/recompute_w_u/submissions/Delicate02/code/op_host/recompute_wu_tiling.cpp",
+          "sha256": "519b3b027b4eebb24b1e7515237c25f988bd25f379969ce503c94a632c5796b1",
+          "local_cache": "repository-research-cache/gitcode-selected/ops/01_official/cann-ops-ladder-2026/July/recompute_w_u/submissions/Delicate02/code/op_host/recompute_wu_tiling.cpp"
+        },
+        {
+          "path": "01_official/cann-ops-ladder-2026/July/recompute_w_u/submissions/Delicate02/README.md",
+          "lines": "60-76",
+          "url": "https://gitcode.com/cann/cann-ops-competitions/blob/5126fead3327c7544ed4becff93775505071334c/01_official/cann-ops-ladder-2026/July/recompute_w_u/submissions/Delicate02/README.md#L60-L76",
+          "sha256": "070b35f7818d2822e1f1cb89d0ca6cc368a1d168fa132e528d54979639c48204",
+          "local_cache": "repository-research-cache/gitcode-selected/ops/01_official/cann-ops-ladder-2026/July/recompute_w_u/submissions/Delicate02/README.md"
+        }
+      ],
+      "symbol": "RecomputeWuVector / RecomputeWuCubeMmad / ProcessBatchChunks / ProcessD128GroupPipeline",
+      "mechanism": "MIX kernel: AIV preprocesses A/beta/g and packs right matrices, AIC does Matmul or hand-written Mmad+Fixpipe. Group head/chunk tasks (up to 4 heads x 4 chunks), reuse GQA K in L0B, multi-slot workspace (depth 5/3), D128 four-slot path, staged output for non-16-aligned K/V, 10 tiling keys selected by shape/task waves/UB.",
+      "work_model": "Reduces repeated K packing/GM reads, task launch, Vector/Cube stalls and tail copies; GEMM MAC unchanged. Workspace grows with pipeline depth x chunks x heads.",
+      "evidence": [
+        {
+          "type": "author-platform-record",
+          "value": "CANNJudge submission 119991: 22/22 Pass; resubmit 121028: 22/22 Pass; 2026-07-31 snapshot rank #1; per-case Task Duration 18.00..2884.56 us",
+          "source": "README.md:60-76"
+        },
+        {
+          "type": "static-source",
+          "value": "head/chunk batching, GQA K reuse, Mmad+Fixpipe, 10 tiling keys locateable",
+          "source": "source_files"
+        },
+        {
+          "type": "local-build",
+          "value": "CANN 9.1.0 build succeeded; custom OPP package generated",
+          "source": "competition/cann-ops-competitions/evidence/gitcode_recompute_build.log"
+        },
+        {
+          "type": "local-npu-run",
+          "value": "5 shapes all failed 507057 (AI Core kernel execution failed) on CANN 9.1.0; explicit KERNEL_TASK_TYPE patch also failed",
+          "source": "competition/cann-ops-competitions/evidence/gitcode_recompute_run3.log"
+        }
+      ],
+      "conditions": [
+        "B=1",
+        "BT=64",
+        "K/V<=256",
+        "GQA H%Hg==0",
+        "CANN close to author 8.5.0",
+        "all tiling keys regression-tested"
+      ],
+      "negative_cases": [
+        "compile success != runnable: 507057 on CANN 9.1.0 for 5 shapes",
+        "B!=1 rejected by host",
+        "BT!=64 rejected",
+        "K/V>256 rejected",
+        "10 tiling keys, each with different workspace/flag; high regression cost",
+        "rank #1 is a 2026-07-31 snapshot, not permanent"
+      ],
+      "reuse_decision": "Prioritize head/chunk task merge + GQA K L0B reuse + multi-slot pipeline; do not use as 910C/CANN 9.1 template until runtime failure is isolated.",
+      "report": "competition/cann-ops-competitions/README.md",
+      "verification": "locally compiled but runtime failed on Ascend 910B3/CANN 9.1.0; author number not reproduced",
+      "tier": "competition",
+      "entry_path": "competition/cann-ops-competitions",
+      "local_status": "fail",
+      "local_validation": {
+        "status": "compile-ok-runtime-failed",
+        "environment": "Ascend 910B3 / CANN 9.1.0 / gcc 11.4.0 / cmake 3.22.1",
+        "shapes": [
+          "T=256,H=8,Hg=8,D=128",
+          "T=256,H=8,Hg=2,D=128",
+          "T=256,H=8,Hg=2,D=256",
+          "T=10016,H=8,Hg=8,D=128",
+          "T=10016,H=8,Hg=2,D=128"
+        ],
+        "error": "aclrtSynchronizeStream 507057; AI Core kernel execution failed; fault kernel RecomputeWu_..._7",
+        "log": "competition/cann-ops-competitions/evidence/gitcode_recompute_run3.log",
+        "log_sha256": "c7c299c97ae19e9406589c9cfa057dff6bc5bd3a570fb3c07dd56e33c4490a9d",
+        "build_log": "competition/cann-ops-competitions/evidence/gitcode_recompute_build.log",
+        "build_log_sha256": "eefeb19d99d9cb2545945bb5e20ff285c924fcc74bba89b10cac7d8531c0e671",
+        "summary": "CANN 9.1.0 编译成功，但 5 个 shape 全部运行失败；显式 KERNEL_TASK_TYPE 也未修复。作者 22/22/第 1 名不是本机复现。"
+      }
+    },
+    {
+      "id": "GITCODE-CONCAT",
+      "repository_id": "gitcode-cann-ops-competitions",
+      "source_commit": "5126fead3327c7544ed4becff93775505071334c",
+      "operator": "S9 Concat (dynamic tensor list)",
+      "operator_family": "concat-layout",
+      "semantics": "Concatenate a dynamic list of tensors along dim, equivalent to torch.cat; supports negative dim, empty shards, float16/float32/int8/int32, up to 256 inputs.",
+      "shape_dtype": "dynamic inputs; rows=prod(shape[:dim]), n_i=prod(shape_i[dim:]), nOut=sum(n_i); dtype 1/2/4/8 bytes; max 256 inputs (ACLNN dynamic list limit).",
+      "environment": {
+        "soc": "Ascend 910B (author 910B4/910B1 measurements)",
+        "cann": "8.5.0",
+        "dsl": "Ascend C / AIV + optional AIC mix",
+        "timing": "final leaderboard five-case total, us; no per-case raw logs",
+        "local": "CPU-only offline tests"
+      },
+      "source_files": [
+        {
+          "path": "01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/op_host/concat.cpp",
+          "lines": "55-75,240-330,440-532,625-680",
+          "url": "https://gitcode.com/cann/cann-ops-competitions/blob/5126fead3327c7544ed4becff93775505071334c/01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/op_host/concat.cpp",
+          "sha256": "8c51610aeee84cfb1e7c4c2dac8b3f82d7e7294cd72072752a772065a0f00224",
+          "local_cache": "repository-research-cache/gitcode-selected/ops/01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/op_host/concat.cpp"
+        },
+        {
+          "path": "01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/op_kernel/concat.cpp",
+          "lines": "264-630,909-1071,1075-1445",
+          "url": "https://gitcode.com/cann/cann-ops-competitions/blob/5126fead3327c7544ed4becff93775505071334c/01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/op_kernel/concat.cpp",
+          "sha256": "58e308ccff10c36d7428841e5786ce994c69707f236c391e6038b589e15eb3bb",
+          "local_cache": "repository-research-cache/gitcode-selected/ops/01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/op_kernel/concat.cpp"
+        },
+        {
+          "path": "01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/op_host/s9_concat_layout.h",
+          "lines": "96-117,163-241,355-435,603-696",
+          "url": "https://gitcode.com/cann/cann-ops-competitions/blob/5126fead3327c7544ed4becff93775505071334c/01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/op_host/s9_concat_layout.h",
+          "sha256": "0228a138666f45586a4eb4162b8bed5950d0ec733bf2767189a2c3f067c01e65",
+          "local_cache": "repository-research-cache/gitcode-selected/ops/01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/op_host/s9_concat_layout.h"
+        },
+        {
+          "path": "01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/README.md",
+          "lines": "1-52",
+          "url": "https://gitcode.com/cann/cann-ops-competitions/blob/5126fead3327c7544ed4becff93775505071334c/01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/README.md#L1-L52",
+          "sha256": "a3e0402ab1e0ec89b5afcd3d31f1720c02277c7edff39aa345c700fb43da1c40",
+          "local_cache": "repository-research-cache/gitcode-selected/ops/01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/README.md"
+        }
+      ],
+      "symbol": "ConcatMulti / GatherAssembled / DirectBanded / MapConcatCore / PlanConcatStage / CheckConcatFinal",
+      "mechanism": "Host normalizes dynamic inputs to rows x n_i, then chooses row/column split, DMA/Gather assembly, input split or output linear split. Gather path packs contiguous rows per input, builds a byte-offset table, gathers into a full row, writes once. Column bands reduce per-core width and increase read burst; single-input narrow rows use exact contiguous copy; AIC+AIV mix for rows==1; shared C++ layout header keeps host/kernel UB accounting identical.",
+      "work_model": "Reduces many small DMAs and fragmented writes; column bands trade larger reads for fragmented writes; Gather adds UB staging/offset table. Arithmetic unchanged (copy only).",
+      "evidence": [
+        {
+          "type": "author-leaderboard",
+          "value": "S9 final rank 10; five-case total 348.33 us; 64 submissions; from final leaderboard screenshot, hidden cases not rerun",
+          "source": "README.md:3-9"
+        },
+        {
+          "type": "static-source",
+          "value": "host/kernel strategy selection, Gather assembly, band/layout accounting locateable",
+          "source": "source_files"
+        },
+        {
+          "type": "local-offline-tests",
+          "value": "215242 source-map + 32681 layout/alignment + 8247 of 18000 randomized feasible layouts passed",
+          "source": "competition/cann-ops-competitions/evidence/gitcode_concat_offline_tests.log"
+        }
+      ],
+      "conditions": [
+        "dynamic tensor list <=256",
+        "CANN 8.5.0 target",
+        "UB budget/alignment satisfied",
+        "Gather path needs 16/32-bit dtype and nOut limit"
+      ],
+      "negative_cases": [
+        "balanced column bands slower 1.35% on G16 246-input case",
+        "edge trimming slower 8.0%/7.9%/1.0% on three shapes",
+        "bulk TilingData header fetch slower 8%",
+        "strategy 5 (per-route x row segment + big DMA) 4.33x slower, code removed",
+        "contiguous copy only for rows <=128B; >=256B rows 11-19% slower",
+        "no NPU build/run locally; 348.33 us not reproduced"
+      ],
+      "reuse_decision": "Prioritize shared host/kernel layout header, rows x n_i normalization, Gather assembly with offset-table row expansion, and final config validation; do not default to trimming/balanced bands/wide-row contiguous copy.",
+      "report": "competition/cann-ops-competitions/README.md",
+      "verification": "offline layout/address tests passed locally; no NPU build/run",
+      "tier": "competition",
+      "entry_path": "competition/cann-ops-competitions",
+      "local_status": "offline-only",
+      "local_validation": {
+        "status": "offline-tests-pass",
+        "environment": "CPU-only; no CANN/NPU",
+        "checks": {
+          "source_mapping": 215242,
+          "layout_alignment": 32681,
+          "random_staging": "8247 of 18000 feasible"
+        },
+        "log": "competition/cann-ops-competitions/evidence/gitcode_concat_offline_tests.log",
+        "log_sha256": "9ddd39c53e75d81ad37b1ca97c0dbf85528ec899bc99d6d3bd04d37b30e4ec19",
+        "summary": "地址/布局/UB 账离线测试通过；未构建 NPU 包，未做设备精度/性能。"
+      }
+    },
+    {
+      "id": "GITCODE-LINALG-LSTSQ",
+      "repository_id": "gitcode-elec-ops-inspection",
+      "source_commit": "dfe55921db351f71cfb8c96f795fd4472bd6bd47",
+      "operator": "LinalgLstsq (batched least squares, driver=gels)",
+      "operator_family": "batched-least-squares",
+      "semantics": "Solve A X = B for full-column-rank M>=N; A[...,M,N] FP32, B[...,M,K] FP32, X[...,N,K] FP32; residuals [...,K] when M>N, empty for square.",
+      "shape_dtype": "1<=M<=1024; 1<=N<=min(M,512); 1<=K<=64; leading dims 1..32; FP32 only; driver=gels.",
+      "environment": {
+        "soc": "Ascend 910B (competition target)",
+        "cann": "not pinned in README",
+        "dsl": "Ascend C",
+        "timing": "no per-case timing in repo",
+        "local": "CANN 9.1.0, gcc 11.4.0, cmake 3.22.1"
+      },
+      "source_files": [
+        {
+          "path": "2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_host/linalg_lstsq.cpp",
+          "lines": "24-91",
+          "url": "https://gitcode.com/cann/elec-ops-inspection/blob/dfe55921db351f71cfb8c96f795fd4472bd6bd47/2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_host/linalg_lstsq.cpp#L24-L91",
+          "sha256": "149214f4f490adbc1234325dbaca00499bc0ee2b4eca59eeb0cf29f56a790ccd",
+          "local_cache": "repository-research-cache/gitcode-selected/elec/2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_host/linalg_lstsq.cpp"
+        },
+        {
+          "path": "2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_kernel/linalg_lstsq.cpp",
+          "lines": "25-90,160-335",
+          "url": "https://gitcode.com/cann/elec-ops-inspection/blob/dfe55921db351f71cfb8c96f795fd4472bd6bd47/2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_kernel/linalg_lstsq.cpp",
+          "sha256": "734a8ca03b2bfbf6fc64cf146fa39497e6d2d2f5a16384e93cd52bdfd0f105d0",
+          "local_cache": "repository-research-cache/gitcode-selected/elec/2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_kernel/linalg_lstsq.cpp"
+        },
+        {
+          "path": "2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_kernel/lstsq_compensated_tile_product.h",
+          "lines": "17-40",
+          "url": "https://gitcode.com/cann/elec-ops-inspection/blob/dfe55921db351f71cfb8c96f795fd4472bd6bd47/2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_kernel/lstsq_compensated_tile_product.h#L17-L40",
+          "sha256": "1c1005c0ac9cec44ffe0ef7659e56daa6487478406f0a09b5026a53aca2ba26b",
+          "local_cache": "repository-research-cache/gitcode-selected/elec/2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_kernel/lstsq_compensated_tile_product.h"
+        },
+        {
+          "path": "2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_kernel/lstsq_shared_refinement.h",
+          "lines": "19-112",
+          "url": "https://gitcode.com/cann/elec-ops-inspection/blob/dfe55921db351f71cfb8c96f795fd4472bd6bd47/2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_kernel/lstsq_shared_refinement.h#L19-L112",
+          "sha256": "97eb3b40a610771a4fc1e3c350239bf5f4440f7faff3964c03b89330e4d5a0f5",
+          "local_cache": "repository-research-cache/gitcode-selected/elec/2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_kernel/lstsq_shared_refinement.h"
+        },
+        {
+          "path": "2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/README.md",
+          "lines": "1-13",
+          "url": "https://gitcode.com/cann/elec-ops-inspection/blob/dfe55921db351f71cfb8c96f795fd4472bd6bd47/2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/README.md#L1-L13",
+          "sha256": "77dad527a235da16fbfdb52c6854a3bd38a26319b133c8228eb6e671a6f1c501",
+          "local_cache": "repository-research-cache/gitcode-selected/elec/2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/README.md"
+        }
+      ],
+      "symbol": "LinalgLstsq / CompensatedArithmetic / CompensatedTileProduct / RefinementOperations / ResidualOperations / Cube<...>::FactorPipelined256",
+      "mechanism": "Shape-specific tiling keys (tiny15/16, packed50/64, shared QR 200/256, generic square/rectangular). FP32 TwoSum/TwoProduct split high/low, compensated tile products and residual reductions; iterative refinement using the original equation; pivot/rank/finite guards with fallback; workspace/output layout driven by final consumer.",
+      "work_model": "Reduces generic-solver fixed overhead and FP32 cancellation; adds compensated vector instructions, workspace and per-key code. No author performance numbers.",
+      "evidence": [
+        {
+          "type": "static-source",
+          "value": "shape dispatch, compensated arithmetic, refinement, pivot guards, workspace locateable",
+          "source": "source_files"
+        },
+        {
+          "type": "author-description",
+          "value": "5 optimization points in README; no per-case latency/baseline",
+          "source": "README.md:1-13"
+        },
+        {
+          "type": "local-build",
+          "value": "initial CANN 9.1.0 build failed on two dependent template names; 2-line local patch then build succeeded",
+          "source": "competition/elec-ops-inspection/evidence/gitcode_lstsq_build2.log"
+        },
+        {
+          "type": "local-npu-run",
+          "value": "16x16 K1 b1 PASS 0.0265 ms max_abs 1.19e-07; 50x50 K2 b1 PASS 0.0301 ms; 64x64 K2 b1 PASS 0.0395 ms; batch>1/rectangular/200/256 failed 507035/507057",
+          "source": "competition/elec-ops-inspection/evidence/gitcode_lstsq_M16_N16_K1_B1.log"
+        }
+      ],
+      "conditions": [
+        "FP32",
+        "column full rank",
+        "M>=N",
+        "M<=1024",
+        "N<=min(M,512)",
+        "K<=64",
+        "driver=gels",
+        "CANN 9.1 needs two template keywords"
+      ],
+      "negative_cases": [
+        "no author per-case timing/baseline",
+        "CANN 9.1 direct build fails on two ReinterpretCast dependent template names",
+        "multi-batch (16x16 b2, 50x50 b4) fails 507035",
+        "rectangular 64x32/64x50/100x64 fails 507035",
+        "200/256 shared-QR fails 507057",
+        "small single-batch PASS cannot be extrapolated"
+      ],
+      "reuse_decision": "Prioritize compensated arithmetic, residual-based refinement and shape-specific solver layering; validate every shape key and residual layout before reuse.",
+      "report": "competition/elec-ops-inspection/README.md",
+      "verification": "locally validated on small single-batch square cases; larger/batched cases failed; see local_validation",
+      "tier": "competition",
+      "entry_path": "competition/elec-ops-inspection",
+      "local_status": "partial",
+      "local_validation": {
+        "status": "pass-partial",
+        "environment": "Ascend 910B3 / CANN 9.1.0 / gcc 11.4.0 / cmake 3.22.1",
+        "patch": "local copy only: op_kernel/qr/lstsq_qr_vector_common.h lines 67/72 add .template before Zq6<int32_t>",
+        "passes": [
+          {
+            "shape": "16x16,K=1,b=1",
+            "best_ms": 0.0265,
+            "max_abs": 1.192093e-07,
+            "log": "competition/elec-ops-inspection/evidence/gitcode_lstsq_M16_N16_K1_B1.log",
+            "log_sha256": "887022d8612c82b1c0c33588b65fc3f0e828e2f8d93426a18e6768b7bf9300fa"
+          },
+          {
+            "shape": "50x50,K=2,b=1",
+            "best_ms": 0.0301,
+            "max_abs": 3.576279e-07,
+            "log": "competition/elec-ops-inspection/evidence/gitcode_lstsq_M50_N50_K2_B1_r.log",
+            "log_sha256": "b4d0e3b28d6a60e2a7769ebb4af5856ef68e8a94c044deee9b60d7ecf21596a6"
+          },
+          {
+            "shape": "64x64,K=2,b=1",
+            "best_ms": 0.0395,
+            "max_abs": 3.576279e-07,
+            "log": "competition/elec-ops-inspection/evidence/gitcode_lstsq_M64_N64_K2_B1_f.log",
+            "log_sha256": "48d2d387b20b064fc3747008ea115e4fe617d664dc4016fe11b5431045779c20"
+          }
+        ],
+        "failures": [
+          "16x16,b=2 -> 507035",
+          "50x50,b=4 -> 507035",
+          "64x32 -> 507035",
+          "64x50 -> 507035",
+          "100x64 -> 507035",
+          "200x200 -> 507057",
+          "256x256 -> 507057"
+        ],
+        "log": "competition/elec-ops-inspection/evidence/gitcode_lstsq_M64_N32_K2_B1_r.log",
+        "log_sha256": "87cd7da34642167250904393e6c0fc4fe240ea7a4673b517f804ea0459bbb562",
+        "summary": "小尺寸单 batch 方阵 PASS；多 batch/矩形/200/256 失败；不能外推。"
+      }
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "schema_version": 2,
+  "entry": "general/equivariant/parity-ictc-o3",
+  "tier": "general",
+  "repository": {
+    "id": "parity-lrx-ictc-o3-hp-ascend",
+    "url": "https://github.com/Parity-LRX/ICTC-O3-HP-Ascend",
+    "commit": "ca9ccc4ea9e2e9d21e48daeb45925f2bc4382be8",
+    "default_branch": "main",
+    "license": "MIT",
+    "status": "deep-read",
+    "local_cache": "repository-research-cache/Parity-LRX_ICTC-O3-HP-Ascend"
+  },
+  "implementations": [
+    {
+      "id": "PARITY-O3-PACKED-TP",
+      "operator": "Packed path-preserving O(3) tensor product",
+      "operator_family": "equivariant-tensor-product",
+      "source_files": [
+        {
+          "path": "ictc_o3/backends/ascend/packed_tensor_product.py",
+          "lines": "1-165",
+          "url": "https://github.com/Parity-LRX/ICTC-O3-HP-Ascend/blob/ca9ccc4ea9e2e9d21e48daeb45925f2bc4382be8/ictc_o3/backends/ascend/packed_tensor_product.py#L1-L165",
+          "sha256": "6239902413e319d8d0481629da4da66912c39e61635e491e10bc0e29487a5ba1",
+          "local_cache": "repository-research-cache/Parity-LRX_ICTC-O3-HP-Ascend/ictc_o3/backends/ascend/packed_tensor_product.py"
+        },
+        {
+          "path": "docs/PERFORMANCE.md",
+          "lines": "5-31,47-66",
+          "url": "https://github.com/Parity-LRX/ICTC-O3-HP-Ascend/blob/ca9ccc4ea9e2e9d21e48daeb45925f2bc4382be8/docs/PERFORMANCE.md",
+          "sha256": "e6141358a1942fd7db3b1d63f1f23ff48d09f4d121264fc226f065714ca56797",
+          "local_cache": "repository-research-cache/Parity-LRX_ICTC-O3-HP-Ascend/docs/PERFORMANCE.md"
+        },
+        {
+          "path": "docs/USAGE.md",
+          "lines": "792-861",
+          "url": "https://github.com/Parity-LRX/ICTC-O3-HP-Ascend/blob/ca9ccc4ea9e2e9d21e48daeb45925f2bc4382be8/docs/USAGE.md#L792-L861",
+          "sha256": "698797645fa7dd450f5ac8033b9305c3a4be9b7c7ecec7a0f67cd13bf88eb53b",
+          "local_cache": "repository-research-cache/Parity-LRX_ICTC-O3-HP-Ascend/docs/USAGE.md"
+        }
+      ],
+      "local_status": "not-run",
+      "local_validation": {}
+    },
+    {
+      "id": "PARITY-MESH-ELECTROSTATICS",
+      "operator": "Bounded mesh assignment for reciprocal electrostatics",
+      "operator_family": "long-range-electrostatics",
+      "source_files": [
+        {
+          "path": "ictc_o3/ascendc/op_kernel/electrostatics.cpp",
+          "lines": "22-119",
+          "url": "https://github.com/Parity-LRX/ICTC-O3-HP-Ascend/blob/ca9ccc4ea9e2e9d21e48daeb45925f2bc4382be8/ictc_o3/ascendc/op_kernel/electrostatics.cpp#L22-L119",
+          "sha256": "b8379188434cef69b28de59753ae47ef9ac8e41333b70d68eb2af69c86ffa423",
+          "local_cache": "repository-research-cache/Parity-LRX_ICTC-O3-HP-Ascend/ictc_o3/ascendc/op_kernel/electrostatics.cpp"
+        },
+        {
+          "path": "ictc_o3/backends/ascend/electrostatics.py",
+          "lines": "22-85",
+          "url": "https://github.com/Parity-LRX/ICTC-O3-HP-Ascend/blob/ca9ccc4ea9e2e9d21e48daeb45925f2bc4382be8/ictc_o3/backends/ascend/electrostatics.py#L22-L85",
+          "sha256": "334c7e2db84289e74eeea4dfb2ad539e7fb279ddb988245c295b3bd531455d00",
+          "local_cache": "repository-research-cache/Parity-LRX_ICTC-O3-HP-Ascend/ictc_o3/backends/ascend/electrostatics.py"
+        },
+        {
+          "path": "docs/ELECTROSTATICS.md",
+          "lines": "245-327,366-455",
+          "url": "https://github.com/Parity-LRX/ICTC-O3-HP-Ascend/blob/ca9ccc4ea9e2e9d21e48daeb45925f2bc4382be8/docs/ELECTROSTATICS.md",
+          "sha256": "a7064ac0ef95ad184aecdb8549bb79e30bc130e013924c602d72c9529cfcb2d7",
+          "local_cache": "repository-research-cache/Parity-LRX_ICTC-O3-HP-Ascend/docs/ELECTROSTATICS.md"
+        }
+      ],
+      "local_status": "not-run",
+      "local_validation": {}
+    },
+    {
+      "id": "PARITY-CAPACITY-CHUNK",
+      "operator": "Capacity-mode chunked message recomputation",
+      "operator_family": "memory-scheduled-graph-message",
+      "source_files": [
+        {
+          "path": "ictc_o3/backends/ascend/capacity_message.py",
+          "lines": "7-80,83-179",
+          "url": "https://github.com/Parity-LRX/ICTC-O3-HP-Ascend/blob/ca9ccc4ea9e2e9d21e48daeb45925f2bc4382be8/ictc_o3/backends/ascend/capacity_message.py",
+          "sha256": "7abb5d959bc8056094d1c19137ad4ce8d07de0b47e235ee2813c3570f2681efc",
+          "local_cache": "repository-research-cache/Parity-LRX_ICTC-O3-HP-Ascend/ictc_o3/backends/ascend/capacity_message.py"
+        },
+        {
+          "path": "docs/HP_API.md",
+          "lines": "67-101",
+          "url": "https://github.com/Parity-LRX/ICTC-O3-HP-Ascend/blob/ca9ccc4ea9e2e9d21e48daeb45925f2bc4382be8/docs/HP_API.md#L67-L101",
+          "sha256": "d3d128c52b2ba31f4f355de9dfc60609e4b100a4ce7197d99dc3017093c395d3",
+          "local_cache": "repository-research-cache/Parity-LRX_ICTC-O3-HP-Ascend/docs/HP_API.md"
+        },
+        {
+          "path": "docs/PERFORMANCE.md",
+          "lines": "47-66",
+          "url": "https://github.com/Parity-LRX/ICTC-O3-HP-Ascend/blob/ca9ccc4ea9e2e9d21e48daeb45925f2bc4382be8/docs/PERFORMANCE.md#L47-L66",
+          "sha256": "e6141358a1942fd7db3b1d63f1f23ff48d09f4d121264fc226f065714ca56797",
+          "local_cache": "repository-research-cache/Parity-LRX_ICTC-O3-HP-Ascend/docs/PERFORMANCE.md"
+        }
+      ],
+      "local_status": "not-run",
+      "local_validation": {}
+    }
+  ],
+  "local_validation": {
+    "status": "not-run",
+    "notes": "910B3/CANN 9.0.0 上 3.90× forward、3.85× fwd+VJP、4.76× training、1.90× MD 等作者数据；MIT。深读 packed TP、mesh electrostatics、capacity chunk 三份实现；仓库只有文档/图，无逐点原始日志；本机未构建。"
+  },
+  "generated_from": "index/catalog.json"
+}

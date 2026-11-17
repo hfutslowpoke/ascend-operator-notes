@@ -1,0 +1,20 @@
+{
+  "schema_version": 2,
+  "entry": "general/benchmarks/triton-operator-benchmarks",
+  "tier": "general",
+  "repository": {
+    "id": "elstainniles-triton-operator-benchmarks",
+    "url": "https://github.com/elstainniles/triton-operator-benchmarks",
+    "commit": "e6cf7c979f4b09968c59f25a15a542d282c9c7f2",
+    "default_branch": "main",
+    "license": "Apache-2.0",
+    "status": "candidate",
+    "local_cache": "repository-research-cache/elstainniles_triton-operator-benchmarks"
+  },
+  "implementations": [],
+  "local_validation": {
+    "status": "not-run",
+    "notes": "61 个条目，FlagGems/Liger/FLA 导入；历史环境 Ascend950PR，不是 910B。"
+  },
+  "generated_from": "index/catalog.json"
+}

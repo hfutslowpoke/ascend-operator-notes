@@ -4,7 +4,7 @@
 
 历史目标为 Ascend 910C 单 die，arch22 / `dav-2201`，20 AIC、40 AIV；常用记录频率 1650 MHz。L1 512 KiB、L0A/B 各 64 KiB、L0C 128 KiB、UB 192 KiB。具体 CANN、驱动和编译器版本应由原构建日志核对；不要把后来的技能库版本反写为比赛当时环境。
 
-Ascend C/CANN SDK 提供 `ascendc_library`、ACL runtime、tiling API 和 platform 查询。arch35 的 L0C→UB、Reg/VF 能力不能直接移植到 arch22。官方模板接口/设备约束见 [题目](../third_party/official/03_university/CANN-ops-challenge-2026-shanghe/final/problems/GroupedMatmulGelu.md)。
+Ascend C/CANN SDK 提供 `ascendc_library`、ACL runtime、tiling API 和 platform 查询。arch35 的 L0C→UB、Reg/VF 能力不能直接移植到 arch22。官方模板接口/设备约束见 [题目](../competition/grouped-matmul-gelu/official/03_university/CANN-ops-challenge-2026-shanghe/final/problems/GroupedMatmulGelu.md)。
 
 ## 实际使用的工具
 
@@ -12,7 +12,7 @@ Ascend C/CANN SDK 提供 `ascendc_library`、ACL runtime、tiling API 和 platfo
 |---|---|---|
 | 环境检查 | `tools/competition/tools/check_env.sh` | CANN、Python、设备依赖；版本需现场保存 |
 | NPU 互斥 | `tools/competition/tools/npu_lock.sh` | `flock /tmp/cann-npu.lock`，独立工作区仍共享设备锁 |
-| 构建/调用 | `our_work/final_submission/CMakeLists.txt`、`main.asc`、`bench.asc` | 完整 Task 驱动，需先适配相对路径和 CANN 安装 |
+| 构建/调用 | `competition/grouped-matmul-gelu/our-submission/CMakeLists.txt`、`main.asc`、`bench.asc` | 完整 Task 驱动，需先适配相对路径和 CANN 安装 |
 | 数值/边界 | `acc_suite.py`、`regress.py`、`verify_case.py`、`verify_batch.asc`、`reference.py` | 实际 GL、输出毒化/guard、输入只读、不同数值分布 |
 | 普通计时 | `bench_all.py`、`bench_gen.py` | 完整 kernel、多组输入和配对，脚本可能引用原工作区 |
 | 深采集 | `prof_op.py`、msprof / msopprof | Task、AIC/AIV Pipe、UB、Memory、Cache，采集超时清理 |

@@ -23,14 +23,14 @@ def check_file(rel, sha256, blob=None):
         errors.append(f"Git blob mismatch: {rel}")
 
 
-catalog = json.loads((ROOT / "catalog/public-final-sources.json").read_text())
+catalog = json.loads((ROOT / "competition/grouped-matmul-gelu/catalog/public-final-sources.json").read_text())
 for record in catalog["records"]:
     for item in record["files"]:
         check_file(item["local_path"], item["sha256"], item["git_blob_sha1"])
         counts["public_files"] += 1
 if catalog.get("errors") or counts["public_files"] != catalog["file_count"]:
     errors.append("public source acquisition is incomplete")
-own = json.loads((ROOT / "catalog/our-work.json").read_text())
+own = json.loads((ROOT / "competition/grouped-matmul-gelu/catalog/our-work.json").read_text())
 for item in own["copied_files"]:
     check_file(item["path"], item["sha256"])
     counts["own_copied_files"] += 1
@@ -65,11 +65,24 @@ for path in ROOT.rglob("*"):
         except SyntaxError as exc:
             errors.append(f"Python syntax {rel}:{exc.lineno}")
 
-# Newly written navigation/docs only. Historical reports may reference old workspaces.
-docs = [ROOT / "README.md", ROOT / "THIRD_PARTY.md", ROOT / "catalog/INDEX.md"]
-docs += list((ROOT / "docs").glob("*.md"))
+# Check links in all current Markdown. Historical evidence files were cleaned of
+# references to unarchived /mnt workspaces.
+docs = [ROOT / "README.md", ROOT / "THIRD_PARTY.md"]
+for sub in ("competition", "general", "index", "skills", "docs"):
+    for path in sorted((ROOT / sub).rglob("*.md")):
+        rel = path.relative_to(ROOT).as_posix()
+        # Third-party snapshots keep their original bytes; their links are not ours to fix.
+        if rel.startswith(("competition/grouped-matmul-gelu/prs/",
+                           "competition/grouped-matmul-gelu/official/",
+                           "competition/grouped-matmul-gelu/our-submission/",
+                           "competition/grouped-matmul-gelu/components/")):
+            continue
+        docs.append(path)
 for path in docs:
-    for target in re.findall(r"\]\(([^)]+)\)", path.read_text()):
+    text = path.read_text()
+    text = re.sub(r"```.*?```", "", text, flags=re.S)
+    text = re.sub(r"`[^`]*`", "", text)
+    for target in re.findall(r"\]\(([^)]+)\)", text):
         if re.match(r"[a-zA-Z][a-zA-Z0-9+.-]*:", target) or target.startswith("#"):
             continue
         target = unquote(target.split("#", 1)[0])

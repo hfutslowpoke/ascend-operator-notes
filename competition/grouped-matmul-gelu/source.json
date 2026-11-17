@@ -1,0 +1,46 @@
+{
+  "schema_version": 2,
+  "entry": "competition/grouped-matmul-gelu",
+  "tier": "competition",
+  "repository": {
+    "id": "grouped-matmul-gelu-archive",
+    "url": "https://gitcode.com/cann/cann-ops-competitions",
+    "commit": "776f2e552a125d3c210b497385f8b57292ebdc92",
+    "default_branch": "master",
+    "license": "Apache-2.0",
+    "status": "deep-read",
+    "local_cache": "competition/grouped-matmul-gelu/prs"
+  },
+  "implementations": [
+    {
+      "id": "GROUPED-MATMUL-GELU-26PR",
+      "operator": "GroupedMatmulGelu (26 public final PRs)",
+      "operator_family": "grouped-gemm",
+      "source_files": [],
+      "archive_catalog": "catalog/public-final-sources.json",
+      "pr_count": 26,
+      "file_count": 248,
+      "local_status": "platform-only"
+    },
+    {
+      "id": "GROUPED-MATMUL-GELU-OURS",
+      "operator": "GroupedMatmulGelu (our final submission)",
+      "operator_family": "grouped-gemm",
+      "source_files": [
+        {
+          "path": "our-submission/kernel.asc",
+          "lines": "whole-file",
+          "sha256": "161ac0ff2ab1920ca3de3e4f5d8b1b4d19a9a720c2781dcbc5c065f989b0b887"
+        }
+      ],
+      "local_status": "platform-only",
+      "platform": {
+        "sid": "6af7d84c6bd0f9be3716f4c6",
+        "status": "Pass",
+        "score_observed_20261116": 58.54,
+        "rank_observed_20261116": 11
+      }
+    }
+  ],
+  "generated_from": "competition/grouped-matmul-gelu/catalog/public-final-sources.json"
+}

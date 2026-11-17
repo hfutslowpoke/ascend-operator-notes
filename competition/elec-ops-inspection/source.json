@@ -1,0 +1,104 @@
+{
+  "schema_version": 2,
+  "entry": "competition/elec-ops-inspection",
+  "tier": "competition",
+  "repository": {
+    "id": "gitcode-elec-ops-inspection",
+    "url": "https://gitcode.com/cann/elec-ops-inspection",
+    "commit": "dfe55921db351f71cfb8c96f795fd4472bd6bd47",
+    "default_branch": "master",
+    "license": "Apache-2.0",
+    "status": "deep-read",
+    "local_cache": "repository-research-cache/gitcode-selected/elec"
+  },
+  "implementations": [
+    {
+      "id": "GITCODE-LINALG-LSTSQ",
+      "operator": "LinalgLstsq (batched least squares, driver=gels)",
+      "operator_family": "batched-least-squares",
+      "source_files": [
+        {
+          "path": "2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_host/linalg_lstsq.cpp",
+          "lines": "24-91",
+          "url": "https://gitcode.com/cann/elec-ops-inspection/blob/dfe55921db351f71cfb8c96f795fd4472bd6bd47/2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_host/linalg_lstsq.cpp#L24-L91",
+          "sha256": "149214f4f490adbc1234325dbaca00499bc0ee2b4eca59eeb0cf29f56a790ccd",
+          "local_cache": "repository-research-cache/gitcode-selected/elec/2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_host/linalg_lstsq.cpp"
+        },
+        {
+          "path": "2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_kernel/linalg_lstsq.cpp",
+          "lines": "25-90,160-335",
+          "url": "https://gitcode.com/cann/elec-ops-inspection/blob/dfe55921db351f71cfb8c96f795fd4472bd6bd47/2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_kernel/linalg_lstsq.cpp",
+          "sha256": "734a8ca03b2bfbf6fc64cf146fa39497e6d2d2f5a16384e93cd52bdfd0f105d0",
+          "local_cache": "repository-research-cache/gitcode-selected/elec/2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_kernel/linalg_lstsq.cpp"
+        },
+        {
+          "path": "2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_kernel/lstsq_compensated_tile_product.h",
+          "lines": "17-40",
+          "url": "https://gitcode.com/cann/elec-ops-inspection/blob/dfe55921db351f71cfb8c96f795fd4472bd6bd47/2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_kernel/lstsq_compensated_tile_product.h#L17-L40",
+          "sha256": "1c1005c0ac9cec44ffe0ef7659e56daa6487478406f0a09b5026a53aca2ba26b",
+          "local_cache": "repository-research-cache/gitcode-selected/elec/2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_kernel/lstsq_compensated_tile_product.h"
+        },
+        {
+          "path": "2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_kernel/lstsq_shared_refinement.h",
+          "lines": "19-112",
+          "url": "https://gitcode.com/cann/elec-ops-inspection/blob/dfe55921db351f71cfb8c96f795fd4472bd6bd47/2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_kernel/lstsq_shared_refinement.h#L19-L112",
+          "sha256": "97eb3b40a610771a4fc1e3c350239bf5f4440f7faff3964c03b89330e4d5a0f5",
+          "local_cache": "repository-research-cache/gitcode-selected/elec/2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_kernel/lstsq_shared_refinement.h"
+        },
+        {
+          "path": "2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/README.md",
+          "lines": "1-13",
+          "url": "https://gitcode.com/cann/elec-ops-inspection/blob/dfe55921db351f71cfb8c96f795fd4472bd6bd47/2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/README.md#L1-L13",
+          "sha256": "77dad527a235da16fbfdb52c6854a3bd38a26319b133c8228eb6e671a6f1c501",
+          "local_cache": "repository-research-cache/gitcode-selected/elec/2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/README.md"
+        }
+      ],
+      "local_status": "partial",
+      "local_validation": {
+        "status": "pass-partial",
+        "environment": "Ascend 910B3 / CANN 9.1.0 / gcc 11.4.0 / cmake 3.22.1",
+        "patch": "local copy only: op_kernel/qr/lstsq_qr_vector_common.h lines 67/72 add .template before Zq6<int32_t>",
+        "passes": [
+          {
+            "shape": "16x16,K=1,b=1",
+            "best_ms": 0.0265,
+            "max_abs": 1.192093e-07,
+            "log": "competition/elec-ops-inspection/evidence/gitcode_lstsq_M16_N16_K1_B1.log",
+            "log_sha256": "887022d8612c82b1c0c33588b65fc3f0e828e2f8d93426a18e6768b7bf9300fa"
+          },
+          {
+            "shape": "50x50,K=2,b=1",
+            "best_ms": 0.0301,
+            "max_abs": 3.576279e-07,
+            "log": "competition/elec-ops-inspection/evidence/gitcode_lstsq_M50_N50_K2_B1_r.log",
+            "log_sha256": "b4d0e3b28d6a60e2a7769ebb4af5856ef68e8a94c044deee9b60d7ecf21596a6"
+          },
+          {
+            "shape": "64x64,K=2,b=1",
+            "best_ms": 0.0395,
+            "max_abs": 3.576279e-07,
+            "log": "competition/elec-ops-inspection/evidence/gitcode_lstsq_M64_N64_K2_B1_f.log",
+            "log_sha256": "48d2d387b20b064fc3747008ea115e4fe617d664dc4016fe11b5431045779c20"
+          }
+        ],
+        "failures": [
+          "16x16,b=2 -> 507035",
+          "50x50,b=4 -> 507035",
+          "64x32 -> 507035",
+          "64x50 -> 507035",
+          "100x64 -> 507035",
+          "200x200 -> 507057",
+          "256x256 -> 507057"
+        ],
+        "log": "competition/elec-ops-inspection/evidence/gitcode_lstsq_M64_N32_K2_B1_r.log",
+        "log_sha256": "87cd7da34642167250904393e6c0fc4fe240ea7a4673b517f804ea0459bbb562",
+        "summary": "小尺寸单 batch 方阵 PASS；多 batch/矩形/200/256 失败；不能外推。"
+      }
+    }
+  ],
+  "local_validation": {
+    "status": "partial",
+    "notes": "固定 commit dfe55921；深读 XDU_XDU-BTD LinalgLstsq。作者 README 无逐 case 时延；本机 CANN 9.1.0 加两处 template 兼容性关键字后编译成功，16/50/64 单 batch PASS，多 batch/矩形/200/256 失败。"
+  },
+  "generated_from": "index/catalog.json"
+}

@@ -1,68 +1,83 @@
-# 昇腾算子比赛源码与经验库
+# 昇腾算子知识库（ACW 外部知识层）
 
-最初整理 2026 CANN 挑战赛上合赛区决赛 GroupedMatmulGelu。整理日期：2026-11-16。用于以后算子开发、设计对照和实验复现；后续已扩展到公开比赛与高性能算子仓库调研。
+本库把公开竞赛实现、生产算子库和 CANNBot 知识整理成两层结构，供 ACW 做算子设计、复用判断和本机验证：
 
-本库保存 **26 份公开最终提交 PR、248 个原始文件**，每个文件有 SHA256、Git blob ID 和固定提交来源。公开 PR 下载时仍为 open；公开提交、平台 Pass 与人工核验是不同证据，本文不把它们等同。
+- **[competition/](competition/README.md)**：竞赛高性能 PR/实现，按赛事组织；
+- **[general/](general/README.md)**：CANNBot 及其它非竞赛来源，按算子族组织。
 
-我们的实际榜单代表源码是 [`our_work/final_submission/kernel.asc`](our_work/final_submission/kernel.asc)，SHA256 `161ac0ff2ab1920ca3de3e4f5d8b1b4d19a9a720c2781dcbc5c065f989b0b887`，SID `6af7d84c6bd0f9be3716f4c6`。11 月 16 日只读查询为 **58.54 分、第 11，整包 Pass**。这份代码与部分较早交接文件所指的“最新母包”不同。
+每个准入条目都有：`README.md`（语义、机制、作者证据、适用条件、负例、复用判断）、`source.json`（固定 commit、源码路径/行号/哈希）、`evidence/`（本机 910B3 日志或明确的未验证说明）。
 
-## 先看什么
+## 快速入口
 
-换环境或交接给新开发会话时，先读 [私仓迁移与继续提交说明](docs/PRIVATE_REPO_HANDOVER.md)，其中包含现有内容、授权克隆、后续归档与 Git 提交流程。
-
-1. [公开源码技术分析](docs/OPEN_SOURCE_REVIEW.md)：领先方案的运行时有限值域查表、窄输出归约、实际分组调度、生产消费流水。
-2. [比赛复盘](docs/RETROSPECTIVE.md)：取得收益的结构、没有兑现的方向、时间和证据管理教训。
-3. [可迁移设计手册](docs/PATTERN_COOKBOOK.md)：如何从语义、代价、存储层次和最后消费者推导设计。
-4. [工具与复现](docs/TOOLS_AND_REPRODUCIBILITY.md)：构建、测试、PMU、提交、协作工具及其适用边界。
-5. [平台成绩和源码对应关系](docs/PLATFORM_EVIDENCE.md)：当前快照、缺失字段、历史最低值与当前集成的区别。
-6. [数学顺序与赛事约束](docs/RULES_AND_MATH.md)：保留完整计算、单 kernel 和 Host/Device 边界。
-7. [GitHub 使用说明](docs/GITHUB_QUICKSTART.md)：浏览、下载、以后追加资料的方法。
-
-## 2026-11-16 新增：公开算子仓库调研
-
-- [总览：范围、方法、14 个仓库记录、12 个独立来源、深读 18 份实现、11 项待验证机制](docs/research/OPEN_SOURCE_REPOSITORY_SURVEY_20261116.md)
-- [GitCode 补充调研：2 个官方仓、3 份新实现、代理绕过与去重](docs/research/GITCODE_SOURCE_SURVEY_20261116.md)
-- [本机 Ascend 910B3 复测记录](docs/research/LOCAL_910B_VALIDATION_20261116.md)：GroupedTopk/Sinkhorn/Be4ver/GitCode Lstsq 小尺寸通过，FusedMoE 编译失败，52Xayah 负例复现
-- [机器可读来源登记](catalog/external-repositories.json)：固定 commit、源码路径/行号、环境、证据、负例、复用判断
-- 深读报告：
-  - [Hansen 2026 电力行业算子归档](docs/repositories/Hansenwuwuwu__ascend-c-competition-archive.md)
-  - [KernelSwift 2026 Ascend 910B](docs/repositories/mantuoluozk__kernelswift-2026-triton-kernels.md)
-  - [Mamba-2 AscendC](docs/repositories/So-cean__mamba-ascendc.md)
-  - [vLLM-HUST Linear+SwiGLU](docs/repositories/vLLM-HUST__vllm-hust-opset.md)
-  - [52Xayah Triton 负例](docs/repositories/52Xayah__triton-ascend-kernels.md)
-  - [Be4ver 批量 Jacobi SVD 与 QDWH+SDC](docs/repositories/Be4ver__svd.md)
-  - [Parity O(3) TP、mesh 静电与 capacity](docs/repositories/Parity-LRX__ICTC-O3-HP-Ascend.md)
-  - [GitCode CANN 竞赛仓：GDN recompute_w_u 与 S9 Concat](docs/repositories/GitCode__cann-ops-competitions.md)
-  - [GitCode 电力行业仓：批量 LinalgLstsq](docs/repositories/GitCode__elec-ops-inspection.md)
-- 跨实现经验：
-  - [工作量与固定开销](docs/experiences/work_reduction_vs_fixed_overhead.md)
-  - [布局与缓冲生命周期](docs/experiences/layout_and_buffer_lifecycle.md)
-  - [数值与选择性精度](docs/experiences/numerical_selective_precision.md)
-  - [形状专用化与回退](docs/experiences/shape_specialization_and_fallbacks.md)
-  - [迭代线性代数与融合](docs/experiences/iterative_linear_algebra_and_fusion.md)
-  - [等变张量积与 mesh](docs/experiences/equivariant_and_mesh_operators.md)
-  - [GitCode 三类机制](docs/experiences/gitcode_operator_mechanisms.md)
-- 纯 Triton 任务、Be4ver 的两个 Ascend C 算子和 GitCode Lstsq 小尺寸已在本机 910B3 复测；GitCode recompute_w_u 编译成功但运行失败，Concat 只做离线测试；Parity 未在本机构建；未提交比赛平台。作者数字与本机数字分别标注，不能横比。
-
-## 文件布局
-
-| 目录 | 内容 |
+| 入口 | 用途 |
 |---|---|
-| `third_party/shanghe_final/pr-*` | 公开参赛队提交的源码、README、附带文档及逐文件来源 |
-| `third_party/official` | 固定版本的题目、提交规则、原始 LICENSE |
-| `catalog` | 全部 PR 索引、文件哈希、我们最终版及候选的来源；`external-repositories.json` 为外部调研登记 |
-| `docs/research` | 公开仓库调研总览、方法、证据局限与下一批建议 |
-| `docs/repositories` | 逐个外部仓库的源码深读报告 |
-| `docs/experiences` | 跨实现的可迁移机制、适用条件与负例 |
-| `our_work/final_submission` | 我们实际最终提交代码及当时的构建/验证驱动 |
-| `our_work/components` | 选中组件与未晋升候选，状态详见索引和分析 |
-| `our_work/evidence` | 精选 PMU、对照结果、负实验、最终提交凭据 |
-| `tools/competition` | 当时的提交、排名快照、日志协调、NPU 串行锁工具 |
-| `tools/analysis` | 性能、数值、ELF、组件提取、分层模型工具 |
+| [competition/README.md](competition/README.md) | 竞赛库：GroupedMatmulGelu、CANN 竞赛仓、电力行业、Hansen、KernelSwift |
+| [general/README.md](general/README.md) | 通用库：SVD/eigh、Mamba-2、vLLM-HUST、O(3)/mesh、Triton 基准、CANNBot |
+| [index/README.md](index/README.md) | 统一索引、按算子族/按证据检索 |
+| [index/catalog.json](index/catalog.json) | ACW 直接读取的机器索引（14 仓库记录、18 份实现） |
+| [index/cards.md](index/cards.md) | 18 张阅读卡：一句话机制、源码入口、本机状态、边界 |
+| [docs/AGENT_READING_GUIDE.md](docs/AGENT_READING_GUIDE.md) | 给后续 agent 的十分钟地图 + 7 条阅读路线 |
+| [skills/README.md](skills/README.md) | 给 ACW/agent 的检索、入库、本机验证工作流 |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | 两层架构、条目契约、证据等级、验证协议 |
+| [docs/MIGRATION_20261117.md](docs/MIGRATION_20261117.md) | 旧结构到新结构的迁移记录 |
 
-## 验证与使用
+## 当前规模
 
-先运行 `python3 tools/verify_archive.py` 检查来源和完整性。源码收集阶段没有重新运行第三方代码；工具为历史快照，部分路径需要迁移。完整比赛环境、SDK/驱动、输入数据与二进制未打包，不能保证在任意环境直接重现平台耗时。
+| 项 | 数量 |
+|---|---:|
+| 仓库记录 | 14（12 个独立算法来源） |
+| 深读仓库 | 9（含 1 个负例） |
+| 实现条目 | 18 |
+| 竞赛条目 | 5 个赛事/基线 + 1 个淘汰记录 |
+| 通用条目 | 8 个算子/基准 + CANNBot 接入位 + 1 个淘汰记录 |
+| 本机 910B3 有证据的实现 | 10 / 18：4 通过、2 负例通过、1 部分通过、2 失败、1 仅离线 |
 
-本库不包含账号密码、访问令牌、浏览器 Cookie、旧输出缓存、NPU 构建产物或大体积 profiler 原始目录。第三方源码保留原作者和提交信息，使用前查看 [第三方来源与许可说明](THIRD_PARTY.md)。
+> 去重口径：GitCode `cann/cann-ops-competitions` 与既有 26 份 GroupedMatmulGelu 官方基线同仓不同赛事；`cann/elec-ops-inspection` 是 Hansen 归档的上游官方仓。两者都登记并深读，但不重复增加“独立算法来源”数。
 
+## 本机验证摘要
+
+设备：Ascend 910B3（物理 NPU 2，容器内 ACL logical 0）；CANN 9.1.0；gcc 11.4.0；cmake 3.22.1；所有设备运行经 `bin/npu-lock`。
+
+| 实现 | 结果 | 关键数字 |
+|---|---|---|
+| KernelSwift GroupedTopk | PASS | 0.5935→0.2223 ms，2.670× |
+| KernelSwift Sinkhorn | PASS | 3.6162→0.2734 ms，13.226× |
+| KernelSwift FusedMoE | 编译失败 | UB 2359296 bits > 1572864 |
+| Be4ver PACO 32×32×512 | PASS | 6.174 ms，512/512 |
+| Be4ver QDWH 128/512/1024 | PASS | 4.288/20.698/48.475 ms |
+| GitCode Lstsq 16/50/64 单 batch | 部分 PASS | best 0.0265/0.0301/0.0395 ms；多 batch/矩形/200/256 失败 |
+| GitCode recompute_w_u | 编译成功、运行失败 | 5 个 shape 全部 `507057` |
+| GitCode Concat | 仅离线测试 | 215,242+32,681+8,247 项通过 |
+| 52Xayah Softmax/Matmul | 负例通过 | 0.288×/0.242× |
+
+完整命令、日志和失败码见 [docs/validation/LOCAL_910B_VALIDATION_20261116.md](docs/validation/LOCAL_910B_VALIDATION_20261116.md)。
+
+## 证据规则
+
+- `S+L`：固定源码路径/行号；`A`：作者说明；`O`：官方榜单/平台；`V`：本机 910B3；`N`：未验证。
+- **`O+A` 不是 `V`**：作者/平台成绩不等于本机复现。
+- **编译成功不等于可运行**：recompute_w_u 是明确反例。
+- **小 shape 通过不等于全 shape 通过**：Lstsq 是明确反例。
+- **910B3 结果不外推 910C**：没有 910C 数据就保持 `N`。
+- 负例、失败码和未披露字段必须保留，不补造。
+
+## 历史基线
+
+`competition/grouped-matmul-gelu/` 保存 2026 CANN 挑战赛上合赛区决赛的 26 份公开 PR、248 个原始文件、官方题面/规则，以及我们的实际参赛源码：
+
+- 源码：[competition/grouped-matmul-gelu/our-submission/kernel.asc](competition/grouped-matmul-gelu/our-submission/kernel.asc)
+- SHA256：`161ac0ff2ab1920ca3de3e4f5d8b1b4d19a9a720c2781dcbc5c065f989b0b887`
+- SID：`6af7d84c6bd0f9be3716f4c6`
+- 2026-11-16 只读榜单观察：58.54 分、第 11、整包 Pass
+
+这组数字是历史快照，不是当前通用算子性能。分析入口：[公开源码分析](competition/grouped-matmul-gelu/analysis/OPEN_SOURCE_REVIEW.md)、[比赛复盘](competition/grouped-matmul-gelu/analysis/RETROSPECTIVE.md)、[平台证据](competition/grouped-matmul-gelu/analysis/PLATFORM_EVIDENCE.md)。
+
+## 维护
+
+```bash
+python3 tools/build_index.py      # 生成层索引、source.json、by-family/by-evidence
+python3 tools/verify_archive.py   # 哈希、JSON、Python、链接、敏感模式
+git diff --check
+```
+
+新增条目的步骤见 [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) 和 [skills/competition-repo-intake/SKILL.md](skills/competition-repo-intake/SKILL.md)。本库只做研究和本地验证，不自动向竞赛平台提交，也不修改 ACW 框架或当前算子工程。

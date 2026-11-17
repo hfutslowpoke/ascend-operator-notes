@@ -1,9 +1,0 @@
-/workspace/acw/var/private/repository-research-cache/52Xayah_triton-ascend-kernels/src/softmax.py:34: UserWarning: Cannot create tensor with interal format while allow_internel_format=False, tensor will be created with base format. (Triggered internally at ../torch_npu/csrc/aten/common/TensorFactories.cpp:340.)
-  output = torch.empty_like(x)
---- 精度测试 ---
-✅ 极速版测试通过！
-
---- 性能测试 ---
-Triton 极速版耗时: 0.155 ms
-PyTorch 耗时: 0.035 ms
-性能对比: 0.23x

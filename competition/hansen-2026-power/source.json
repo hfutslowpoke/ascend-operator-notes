@@ -1,0 +1,111 @@
+{
+  "schema_version": 2,
+  "entry": "competition/hansen-2026-power",
+  "tier": "competition",
+  "repository": {
+    "id": "hansen-ascend-c-competition-archive",
+    "url": "https://github.com/Hansenwuwuwu/ascend-c-competition-archive",
+    "commit": "37e07aba5273e280d2d227d8764c5e49b7eb3eae",
+    "default_branch": "main",
+    "license": "none-declared",
+    "status": "deep-read",
+    "local_cache": "repository-research-cache/Hansenwuwuwu_ascend-c-competition-archive"
+  },
+  "implementations": [
+    {
+      "id": "HANSEN-2026POWER-FIRE-R2",
+      "operator": "FireCandidateDecodeFusion (rank2)",
+      "operator_family": "candidate-decode-fusion",
+      "source_files": [
+        {
+          "path": "archives/2026-electric-power/extracted/FireCandidateDecodeFusion/rank2_submission_1176342/code/op_host/fire_host_plan.h",
+          "lines": "10-120",
+          "url": "https://github.com/Hansenwuwuwu/ascend-c-competition-archive/blob/37e07aba5273e280d2d227d8764c5e49b7eb3eae/archives/2026-electric-power/extracted/FireCandidateDecodeFusion/rank2_submission_1176342/code/op_host/fire_host_plan.h#L10-L120",
+          "sha256": "f4612e6bfe1bfdcff44a79067bdd16ef6daee8cd11972cfa617b8c113ad85f45",
+          "local_cache": "repository-research-cache/Hansenwuwuwu_ascend-c-competition-archive/archives/2026-electric-power/extracted/FireCandidateDecodeFusion/rank2_submission_1176342/code/op_host/fire_host_plan.h"
+        },
+        {
+          "path": "archives/2026-electric-power/extracted/FireCandidateDecodeFusion/rank2_submission_1176342/code/op_kernel/fire_candidate_decode_fusion.cpp",
+          "lines": "77-195",
+          "url": "https://github.com/Hansenwuwuwu/ascend-c-competition-archive/blob/37e07aba5273e280d2d227d8764c5e49b7eb3eae/archives/2026-electric-power/extracted/FireCandidateDecodeFusion/rank2_submission_1176342/code/op_kernel/fire_candidate_decode_fusion.cpp#L77-L195",
+          "sha256": "e5c444ea25a0b5a9fb751bae2e102409b31c304867f649413868b9f431e1bcdd",
+          "local_cache": "repository-research-cache/Hansenwuwuwu_ascend-c-competition-archive/archives/2026-electric-power/extracted/FireCandidateDecodeFusion/rank2_submission_1176342/code/op_kernel/fire_candidate_decode_fusion.cpp"
+        },
+        {
+          "path": "archives/2026-electric-power/extracted/FireCandidateDecodeFusion/rank2_submission_1176342/code/op_kernel/device_fire.h",
+          "lines": "105-143,272-365",
+          "url": "https://github.com/Hansenwuwuwu/ascend-c-competition-archive/blob/37e07aba5273e280d2d227d8764c5e49b7eb3eae/archives/2026-electric-power/extracted/FireCandidateDecodeFusion/rank2_submission_1176342/code/op_kernel/device_fire.h",
+          "sha256": "7d201791e790ba54a88f6ef3911179e8c177fd7fb4ed55fd7404245f4ab79fe2",
+          "local_cache": "repository-research-cache/Hansenwuwuwu_ascend-c-competition-archive/archives/2026-electric-power/extracted/FireCandidateDecodeFusion/rank2_submission_1176342/code/op_kernel/device_fire.h"
+        },
+        {
+          "path": "archives/2026-electric-power/extracted/FireCandidateDecodeFusion/rank2_submission_1176342/code/op_kernel/fire_static_metadata.h",
+          "lines": "whole-file",
+          "url": "https://github.com/Hansenwuwuwu/ascend-c-competition-archive/blob/37e07aba5273e280d2d227d8764c5e49b7eb3eae/archives/2026-electric-power/extracted/FireCandidateDecodeFusion/rank2_submission_1176342/code/op_kernel/fire_static_metadata.h",
+          "sha256": "9c58bd934b0838fc05b6514d614ed560c27f34b17a02c71a6674c9b6874020c3",
+          "local_cache": "repository-research-cache/Hansenwuwuwu_ascend-c-competition-archive/archives/2026-electric-power/extracted/FireCandidateDecodeFusion/rank2_submission_1176342/code/op_kernel/fire_static_metadata.h"
+        }
+      ],
+      "local_status": "not-run",
+      "local_validation": {}
+    },
+    {
+      "id": "HANSEN-2026POWER-SPLINE-R1",
+      "operator": "SplineConv (rank1)",
+      "operator_family": "graph-spline-conv",
+      "source_files": [
+        {
+          "path": "archives/2026-electric-power/extracted/SplineConv/rank1_submission_1174398/code/op_host/spline_conv.cpp",
+          "lines": "14-145",
+          "url": "https://github.com/Hansenwuwuwu/ascend-c-competition-archive/blob/37e07aba5273e280d2d227d8764c5e49b7eb3eae/archives/2026-electric-power/extracted/SplineConv/rank1_submission_1174398/code/op_host/spline_conv.cpp#L14-L145",
+          "sha256": "677b9e8d032f66bd4c7d51e052df6a133d444f78d2215f220803cf69681d38d8",
+          "local_cache": "repository-research-cache/Hansenwuwuwu_ascend-c-competition-archive/archives/2026-electric-power/extracted/SplineConv/rank1_submission_1174398/code/op_host/spline_conv.cpp"
+        },
+        {
+          "path": "archives/2026-electric-power/extracted/SplineConv/rank1_submission_1174398/code/op_kernel/spline_conv_compact.h",
+          "lines": "51-94,183-225",
+          "url": "https://github.com/Hansenwuwuwu/ascend-c-competition-archive/blob/37e07aba5273e280d2d227d8764c5e49b7eb3eae/archives/2026-electric-power/extracted/SplineConv/rank1_submission_1174398/code/op_kernel/spline_conv_compact.h",
+          "sha256": "e5919e0ee59371d454076e0c1866be35f189b9973981aeadf8d383115fefb176",
+          "local_cache": "repository-research-cache/Hansenwuwuwu_ascend-c-competition-archive/archives/2026-electric-power/extracted/SplineConv/rank1_submission_1174398/code/op_kernel/spline_conv_compact.h"
+        }
+      ],
+      "local_status": "not-run",
+      "local_validation": {}
+    },
+    {
+      "id": "HANSEN-2026POWER-TREE-R1",
+      "operator": "TreeLineMinDistance (rank1)",
+      "operator_family": "geometric-argmin",
+      "source_files": [
+        {
+          "path": "archives/2026-electric-power/extracted/TreeLineMinDistance/rank1_submission_1175341/code/op_host/tree_line_min_distance.cpp",
+          "lines": "438-496",
+          "url": "https://github.com/Hansenwuwuwu/ascend-c-competition-archive/blob/37e07aba5273e280d2d227d8764c5e49b7eb3eae/archives/2026-electric-power/extracted/TreeLineMinDistance/rank1_submission_1175341/code/op_host/tree_line_min_distance.cpp#L438-L496",
+          "sha256": "ea4886ab0fe481e36c9bef93c005aa1b204df34efa5486aa7bc8da66a0685d5b",
+          "local_cache": "repository-research-cache/Hansenwuwuwu_ascend-c-competition-archive/archives/2026-electric-power/extracted/TreeLineMinDistance/rank1_submission_1175341/code/op_host/tree_line_min_distance.cpp"
+        },
+        {
+          "path": "archives/2026-electric-power/extracted/TreeLineMinDistance/rank1_submission_1175341/code/op_kernel/tree_line_min_distance.cpp",
+          "lines": "550-659",
+          "url": "https://github.com/Hansenwuwuwu/ascend-c-competition-archive/blob/37e07aba5273e280d2d227d8764c5e49b7eb3eae/archives/2026-electric-power/extracted/TreeLineMinDistance/rank1_submission_1175341/code/op_kernel/tree_line_min_distance.cpp#L550-L659",
+          "sha256": "ad652b92592fe84acbbe28f16f1ff18e27b7c30c19072d846a09dbf6fa6dcff6",
+          "local_cache": "repository-research-cache/Hansenwuwuwu_ascend-c-competition-archive/archives/2026-electric-power/extracted/TreeLineMinDistance/rank1_submission_1175341/code/op_kernel/tree_line_min_distance.cpp"
+        },
+        {
+          "path": "archives/2026-electric-power/extracted/TreeLineMinDistance/rank1_submission_1175341/code/op_kernel/tree_pairs.h",
+          "lines": "221-515,752-854",
+          "url": "https://github.com/Hansenwuwuwu/ascend-c-competition-archive/blob/37e07aba5273e280d2d227d8764c5e49b7eb3eae/archives/2026-electric-power/extracted/TreeLineMinDistance/rank1_submission_1175341/code/op_kernel/tree_pairs.h",
+          "sha256": "3bb699614c775f2900bf17401f7e232854cd6df8adddf5772a9f6829911664cf",
+          "local_cache": "repository-research-cache/Hansenwuwuwu_ascend-c-competition-archive/archives/2026-electric-power/extracted/TreeLineMinDistance/rank1_submission_1175341/code/op_kernel/tree_pairs.h"
+        }
+      ],
+      "local_status": "not-run",
+      "local_validation": {}
+    }
+  ],
+  "local_validation": {
+    "status": "not-run",
+    "notes": "9 题 27 份公开提交 + SwiGLU 3 份本地补充；官方公示分数，无逐 case 时延；源码未在本机编译/运行。"
+  },
+  "generated_from": "index/catalog.json"
+}

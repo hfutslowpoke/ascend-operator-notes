@@ -1,0 +1,168 @@
+{
+  "schema_version": 2,
+  "entry": "general/linear-algebra/be4ver-svd",
+  "tier": "general",
+  "repository": {
+    "id": "be4ver-svd",
+    "url": "https://github.com/Be4ver/svd",
+    "commit": "b02796511ea62861c647a56b880da15b6a07b3a0",
+    "default_branch": "main",
+    "license": "none-declared",
+    "status": "deep-read",
+    "local_cache": "repository-research-cache/Be4ver_svd"
+  },
+  "implementations": [
+    {
+      "id": "BE4VER-PACO-BATCHED-JACOBI",
+      "operator": "PACO batched one-sided Jacobi SVD",
+      "operator_family": "svd",
+      "source_files": [
+        {
+          "path": "paco-jacobi-svd/jacobi_svd_custom.cpp",
+          "lines": "130-170,215-303,435-538",
+          "url": "https://github.com/Be4ver/svd/blob/b02796511ea62861c647a56b880da15b6a07b3a0/paco-jacobi-svd/jacobi_svd_custom.cpp",
+          "sha256": "c9ca7615ced974caec1085e5da3ddd060b4759f1c87c03c8836256fc92bf2a1c",
+          "local_cache": "repository-research-cache/Be4ver_svd/paco-jacobi-svd/jacobi_svd_custom.cpp"
+        },
+        {
+          "path": "paco-jacobi-svd/docs/64x64-optimization-study-2026-11-12.md",
+          "lines": "1-18,62-100",
+          "url": "https://github.com/Be4ver/svd/blob/b02796511ea62861c647a56b880da15b6a07b3a0/paco-jacobi-svd/docs/64x64-optimization-study-2026-11-12.md",
+          "sha256": "d963b05aeaddd8c7551faf1b43fcf964c2f4b55fa67cedd36a11c5b247e6bd25",
+          "local_cache": "repository-research-cache/Be4ver_svd/paco-jacobi-svd/docs/64x64-optimization-study-2026-11-12.md"
+        }
+      ],
+      "local_status": "pass",
+      "local_validation": {
+        "status": "pass",
+        "environment": "Ascend 910B3 / CANN 9.1.0 / gcc 11.4.0 / cmake 3.22.1",
+        "candidate_ms": 6.174,
+        "author_ms": 7.061,
+        "local_vs_author": 1.144,
+        "protocol": "host launch+sync；不含 H2D/D2H；单次 run",
+        "correctness": {
+          "pass": "512/512",
+          "max_sigma_abs": 3.242e-05,
+          "worst_B_row_orth": 9.345e-07,
+          "worst_Vt_row_orth": 1.025e-06,
+          "worst_recon_rel": 1.65e-06
+        },
+        "log": "general/linear-algebra/be4ver-svd/evidence/paco_32x32_b512_run.log",
+        "log_sha256": "ef8bb2ff5d0c64e8a3394ec830b55e78fb444e126a6aba48aef5bc5579df2a66",
+        "verify_log": "general/linear-algebra/be4ver-svd/evidence/paco_32x32_b512_verify.log",
+        "verify_log_sha256": "76f1ffde7a89600c53f528bc91eeff6d6357c1ae5e607b599e5a279b668a302c",
+        "summary": "当前通用路径 6.174 ms，作者 7.061 ms；512/512 PASS；不是 64x64 tournament 4.26x。"
+      }
+    },
+    {
+      "id": "BE4VER-QDWH-SDC-FUSED",
+      "operator": "Fused QDWH polar decomposition + device SDC + leaf Jacobi",
+      "operator_family": "polar-eigendecomposition",
+      "source_files": [
+        {
+          "path": "qdwh_sdc_fused_jacobi/fused_qdwh_sdc.hpp",
+          "lines": "89-188,386-500,733-825",
+          "url": "https://github.com/Be4ver/svd/blob/b02796511ea62861c647a56b880da15b6a07b3a0/qdwh_sdc_fused_jacobi/fused_qdwh_sdc.hpp",
+          "sha256": "8326fbad62acaf8c2bca93f11ef3c8af96a24710f889acc839233ad258edba40",
+          "local_cache": "repository-research-cache/Be4ver_svd/qdwh_sdc_fused_jacobi/fused_qdwh_sdc.hpp"
+        },
+        {
+          "path": "qdwh_sdc_fused_jacobi/sdc_node.hpp",
+          "lines": "331-397",
+          "url": "https://github.com/Be4ver/svd/blob/b02796511ea62861c647a56b880da15b6a07b3a0/qdwh_sdc_fused_jacobi/sdc_node.hpp#L331-L397",
+          "sha256": "6609010fc88662090866024144af737a6e91733f558aa6483bddd8ba603d39e7",
+          "local_cache": "repository-research-cache/Be4ver_svd/qdwh_sdc_fused_jacobi/sdc_node.hpp"
+        },
+        {
+          "path": "qdwh_sdc_fused_jacobi/vec.hpp",
+          "lines": "397-453",
+          "url": "https://github.com/Be4ver/svd/blob/b02796511ea62861c647a56b880da15b6a07b3a0/qdwh_sdc_fused_jacobi/vec.hpp#L397-L453",
+          "sha256": "984a7c51f42e949cd01f185d18eec8aeecb9dd5bb56ca08d3d8f2b63faf024c5",
+          "local_cache": "repository-research-cache/Be4ver_svd/qdwh_sdc_fused_jacobi/vec.hpp"
+        },
+        {
+          "path": "qdwh_sdc_fused_jacobi/qr_custom.cpp",
+          "lines": "215-300",
+          "url": "https://github.com/Be4ver/svd/blob/b02796511ea62861c647a56b880da15b6a07b3a0/qdwh_sdc_fused_jacobi/qr_custom.cpp#L215-L300",
+          "sha256": "62b2b5b689511ca42665742f797ed056208c328377ecfedb65106cb17a201a13",
+          "local_cache": "repository-research-cache/Be4ver_svd/qdwh_sdc_fused_jacobi/qr_custom.cpp"
+        },
+        {
+          "path": "qdwh_sdc_fused_jacobi/fused_batch_cfg.hpp",
+          "lines": "17-83",
+          "url": "https://github.com/Be4ver/svd/blob/b02796511ea62861c647a56b880da15b6a07b3a0/qdwh_sdc_fused_jacobi/fused_batch_cfg.hpp#L17-L83",
+          "sha256": "05733d49e81edaecd4d99948307fbb0632d01f798289f4a599bfa428131a750e",
+          "local_cache": "repository-research-cache/Be4ver_svd/qdwh_sdc_fused_jacobi/fused_batch_cfg.hpp"
+        },
+        {
+          "path": "qdwh_sdc_fused_jacobi/fused_main.cpp",
+          "lines": "280-354,435-436",
+          "url": "https://github.com/Be4ver/svd/blob/b02796511ea62861c647a56b880da15b6a07b3a0/qdwh_sdc_fused_jacobi/fused_main.cpp",
+          "sha256": "cdc5bd17e0458ef140be5c16adf24e477db3fc94b67b495a45654d7b3e456db7",
+          "local_cache": "repository-research-cache/Be4ver_svd/qdwh_sdc_fused_jacobi/fused_main.cpp"
+        }
+      ],
+      "local_status": "pass",
+      "local_validation": {
+        "status": "pass",
+        "environment": "Ascend 910B3 / CANN 9.1.0 / gcc 11.4.0 / cmake 3.22.1",
+        "protocol": "ACL event kernel_event + host_wait；单 launch；不含 setup/H2D/D2H",
+        "runs": [
+          {
+            "shape": "128x128",
+            "candidate_ms": 4.288,
+            "host_wait_ms": 4.442,
+            "author_ms": 4.392,
+            "u_err": 7.119e-07,
+            "eig_err": 5.819e-08,
+            "sigma_max_abs": 9.538e-07,
+            "log": "general/linear-algebra/be4ver-svd/evidence/qdwh_128x128_run.log",
+            "log_sha256": "a369d6aa6c5ed3a6c9f2b88cbc1a73d9c7555b03ac2ea75c62a365eadee4f81f"
+          },
+          {
+            "shape": "512x512",
+            "candidate_ms": 20.698,
+            "host_wait_ms": 21.313,
+            "author_ms": 20.54,
+            "u_err": 8.422e-07,
+            "eig_err": 1.839e-07,
+            "sigma_max_abs": 1.004e-06,
+            "log": "general/linear-algebra/be4ver-svd/evidence/qdwh_512x512_run.log",
+            "log_sha256": "98ffbb147a6e85fe3cb7906c43bc11d95ac50c27679568fe09650faa7f0d76df"
+          },
+          {
+            "shape": "1024x1024",
+            "candidate_ms": 48.475,
+            "host_wait_ms": 48.647,
+            "author_ms": 46.839,
+            "u_err": 8.967e-07,
+            "eig_err": 1.942e-07,
+            "sigma_max_abs": 1.543e-06,
+            "log": "general/linear-algebra/be4ver-svd/evidence/qdwh_1024x1024_run.log",
+            "log_sha256": "2d881fbcd196bd1ffb9d1871e0c0ef5a90419712dca36a12ad8c471fcd770924"
+          }
+        ],
+        "log": "general/linear-algebra/be4ver-svd/evidence/qdwh_1024x1024_run.log",
+        "log_sha256": "2d881fbcd196bd1ffb9d1871e0c0ef5a90419712dca36a12ad8c471fcd770924",
+        "repeat_1000x800": {
+          "runs_ms": [
+            36.812,
+            38.104,
+            36.953
+          ],
+          "sigma_sha256_identical": true,
+          "correctness": "QDWH/SDC/sigma PASS",
+          "author_claim": "author saw nondeterminism 1.5e-5~3.1e-4 on 910B3/CANN 8.2.RC1",
+          "local_result": "not triggered in 3 runs on CANN 9.1.0",
+          "log": "general/linear-algebra/be4ver-svd/evidence/qdwh_1000x800_run1.log"
+        },
+        "summary": "128/512/1024 = 4.288/20.698/48.475 ms，全部 QDWH/SDC/sigma PASS；与作者 4.392/20.540/46.839 接近。1000x800 seed=42 三次 sigma 相同，作者 atomic 非确定性未触发。"
+      }
+    }
+  ],
+  "local_validation": {
+    "status": "pass",
+    "notes": "PACO 批量 Jacobi + QDWH/SDC 融合两份实现；有 910B3 设备日志和精度验证；根目录无 LICENSE。本机 CANN 9.1.0 重新构建，PACO 32x32x512 6.174 ms/512 PASS，QDWH 128/512/1024 4.288/20.698/48.475 ms 全 PASS。"
+  },
+  "generated_from": "index/catalog.json"
+}

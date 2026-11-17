@@ -1,0 +1,73 @@
+{
+  "schema_version": 2,
+  "entry": "general/elementwise/52xayah-triton-kernels",
+  "tier": "general",
+  "repository": {
+    "id": "52xayah-triton-ascend-kernels",
+    "url": "https://github.com/52Xayah/triton-ascend-kernels",
+    "commit": "6785cbbaf470dbc126102dcdedb1c9e028d7dd63",
+    "default_branch": "main",
+    "license": "none-declared",
+    "status": "deep-read-negative",
+    "local_cache": "repository-research-cache/52Xayah_triton-ascend-kernels"
+  },
+  "implementations": [
+    {
+      "id": "XAYAH-ASC910B-SOFTMAX-NEG",
+      "operator": "Softmax (negative)",
+      "operator_family": "softmax",
+      "source_files": [
+        {
+          "path": "src/softmax.py",
+          "lines": "8-41",
+          "url": "https://github.com/52Xayah/triton-ascend-kernels/blob/6785cbbaf470dbc126102dcdedb1c9e028d7dd63/src/softmax.py#L8-L41",
+          "sha256": "39f201281dc34522055c1f5e38fdd5bbc40006ae21d763750e2f4c9e70ed7c01",
+          "local_cache": "repository-research-cache/52Xayah_triton-ascend-kernels/src/softmax.py"
+        }
+      ],
+      "local_status": "pass-negative",
+      "local_validation": {
+        "status": "pass-negative",
+        "environment": "Ascend 910B3 / CANN 9.1.0 / triton-ascend 3.2.0",
+        "triton_ms": 0.334385,
+        "torch_ms": 0.09643,
+        "speedup": 0.288,
+        "protocol": "warmup=200 repeat=500 median, per-sample sync",
+        "log": "general/elementwise/52xayah-triton-kernels/evidence/xayah_persample.log",
+        "log_sha256": "23bd5260408630965decd71bb854aa857d075fe07647d3fed9c89f701c8b86f9",
+        "summary": "负例复现；作者批量协议 0.25x，本机逐 sample 0.288x。"
+      }
+    },
+    {
+      "id": "XAYAH-ASC910B-MATMUL-NEG",
+      "operator": "Matmul (negative)",
+      "operator_family": "gemm",
+      "source_files": [
+        {
+          "path": "src/matmul.py",
+          "lines": "8-89",
+          "url": "https://github.com/52Xayah/triton-ascend-kernels/blob/6785cbbaf470dbc126102dcdedb1c9e028d7dd63/src/matmul.py#L8-L89",
+          "sha256": "e2ee77338f419b60b540187e4b0049d60685f5cd979501fb39a11371cce0e459",
+          "local_cache": "repository-research-cache/52Xayah_triton-ascend-kernels/src/matmul.py"
+        }
+      ],
+      "local_status": "pass-negative",
+      "local_validation": {
+        "status": "pass-negative",
+        "environment": "Ascend 910B3 / CANN 9.1.0 / triton-ascend 3.2.0",
+        "triton_ms": 0.90287,
+        "torch_ms": 0.21879,
+        "speedup": 0.242,
+        "protocol": "warmup=20 repeat=50 median, per-sample sync",
+        "log": "general/elementwise/52xayah-triton-kernels/evidence/xayah_persample.log",
+        "log_sha256": "23bd5260408630965decd71bb854aa857d075fe07647d3fed9c89f701c8b86f9",
+        "summary": "负例复现；作者批量协议 0.23x，本机逐 sample 0.242x。"
+      }
+    }
+  ],
+  "local_validation": {
+    "status": "pass-negative",
+    "notes": "Softmax/Matmul 均慢于 PyTorch；作者粗略计时；本机 910B3 负例复现。用于校准“手写 Triton 不一定快”。"
+  },
+  "generated_from": "index/catalog.json"
+}

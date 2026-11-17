@@ -15,7 +15,7 @@
   - `Parity-LRX/ICTC-O3-HP-Ascend`：Ascend 910B3/CANN 9.0.0，packed O(3) TP、mesh 静电、capacity chunk；MIT，性能协议完整，但仓库只有文档/图、无逐点原始日志。
   - GitCode `cann/cann-ops-competitions`：Delicate02 `recompute_w_u` CANNJudge 22/22、2026-07-31 第 1 名；BatchLions S9 `Concat` 最终第十名、五档 348.33 µs。
   - GitCode `cann/elec-ops-inspection`：XDU_XDU-BTD `LinalgLstsq`，补偿算术+迭代精化；作者无逐 case 性能数字，本机小尺寸单 batch 通过。
-- **本机 910B3 复测**：GroupedTopk PASS 2.670×（作者 2.478×）、Sinkhorn PASS 13.226×（作者 9.203×）、52Xayah Softmax/Matmul 负例 0.288×/0.242×稳定复现；Be4ver PACO 32×32×512 为 6.174 ms（作者 7.061 ms，512/512 PASS），QDWH+SDC 128/512/1024 为 4.288/20.698/48.475 ms（作者 4.392/20.540/46.839 ms，全 PASS）；GitCode Lstsq 16/50/64 单 batch PASS（best 0.0265/0.0301/0.0395 ms），但 batch>1/矩形/200/256 失败；GitCode recompute_w_u 编译成功但运行 507057；FusedMoE 在当前 TA 3.2.0/CANN 9.1.0 上 UB 溢出，作者 11.446× 未复现。详见 [本机复测记录](LOCAL_910B_VALIDATION_20261116.md)。
+- **本机 910B3 复测**：GroupedTopk PASS 2.670×（作者 2.478×）、Sinkhorn PASS 13.226×（作者 9.203×）、52Xayah Softmax/Matmul 负例 0.288×/0.242×稳定复现；Be4ver PACO 32×32×512 为 6.174 ms（作者 7.061 ms，512/512 PASS），QDWH+SDC 128/512/1024 为 4.288/20.698/48.475 ms（作者 4.392/20.540/46.839 ms，全 PASS）；GitCode Lstsq 16/50/64 单 batch PASS（best 0.0265/0.0301/0.0395 ms），但 batch>1/矩形/200/256 失败；GitCode recompute_w_u 编译成功但运行 507057；FusedMoE 在当前 TA 3.2.0/CANN 9.1.0 上 UB 溢出，作者 11.446× 未复现。详见 [本机复测记录](../validation/LOCAL_910B_VALIDATION_20261116.md)。
 - 证据最弱的深读项是 `Hansenwuwuwu/ascend-c-competition-archive` 的三份 2026 电力行业算子：有官方公示分数和名次，但没有逐 case 时延，也没有本机编译/运行；因此只把它当作“获奖源码的结构证据”，不把分数换算成加速比。
 - `52Xayah/triton-ascend-kernels` 的 Softmax/Matmul 是明确负例：原作者批量计时约 0.140 ms vs PyTorch 0.035 ms、0.699 ms vs 0.163 ms；本机逐 sample 协议为 0.288×/0.242×。它提醒我们，手写 Triton 不会自动超过厂商库，必须先把 tile、数据布局、融合和启动开销算清楚。
 
@@ -61,7 +61,7 @@
 /workspace/acw/var/private/repository-research-cache/
 ```
 
-缓存只用于阅读和行号定位，不进入 Git，不包含账号、令牌、构建产物或 profiler 原始目录。固定 commit 和关键文件 SHA256 见 [来源登记](../../catalog/external-repositories.json)。
+缓存只用于阅读和行号定位，不进入 Git，不包含账号、令牌、构建产物或 profiler 原始目录。固定 commit 和关键文件 SHA256 见 [来源登记](../../index/catalog.json)。
 
 ## 3. 去重、筛选与淘汰
 
@@ -105,8 +105,8 @@
 
 | 基线 | 固定版本 | 说明 |
 |---|---|---|
-| `cann/cann-ops-competitions` | `776f2e552a125d3c210b497385f8b57292ebdc92`（既有归档） | 26 份 GroupedMatmulGelu 公开 PR 已在本库 `third_party/shanghe_final`；本轮不重复抓取 |
-| 本库 GroupedMatmulGelu 最终源码 | 见 `our_work/final_submission` 与 `catalog/our-work.json` | 历史成绩 58.54 分、第 11、整包 Pass；不是本轮新证据 |
+| `cann/cann-ops-competitions` | `776f2e552a125d3c210b497385f8b57292ebdc92`（既有归档） | 26 份 GroupedMatmulGelu 公开 PR 已在本库 `competition/grouped-matmul-gelu/prs`；本轮不重复抓取 |
+| 本库 GroupedMatmulGelu 最终源码 | 见 `competition/grouped-matmul-gelu/our-submission` 与 `competition/grouped-matmul-gelu/catalog/our-work.json` | 历史成绩 58.54 分、第 11、整包 Pass；不是本轮新证据 |
 
 ## 4. 仓库对比
 
@@ -131,24 +131,24 @@
 
 | ID | 来源 | 算子 | 关键源码（固定 commit） | 环境 | 原始证据 | 报告 |
 |---|---|---|---|---|---|---|
-| `HANSEN-2026POWER-FIRE-R2` | Hansen archive | FireCandidateDecodeFusion (rank2) | `.../FireCandidateDecodeFusion/rank2_submission_1176342/code/op_kernel/device_fire.h:105-143,272-365` | 910B4 / CANN 9.0.0.0 / 20 AIC（比赛环境） | 公示分 83.26；无逐 case 时延 | [Hansen 报告](../repositories/Hansenwuwuwu__ascend-c-competition-archive.md) |
+| `HANSEN-2026POWER-FIRE-R2` | Hansen archive | FireCandidateDecodeFusion (rank2) | `.../FireCandidateDecodeFusion/rank2_submission_1176342/code/op_kernel/device_fire.h:105-143,272-365` | 910B4 / CANN 9.0.0.0 / 20 AIC（比赛环境） | 公示分 83.26；无逐 case 时延 | [Hansen 报告](../../competition/hansen-2026-power/README.md) |
 | `HANSEN-2026POWER-SPLINE-R1` | Hansen archive | SplineConv (rank1) | `.../SplineConv/rank1_submission_1174398/code/op_kernel/spline_conv_compact.h:86-94,200-225` | 同上 | 公示分 89.16；无逐 case 时延 | 同上 |
 | `HANSEN-2026POWER-TREE-R1` | Hansen archive | TreeLineMinDistance (rank1) | `.../TreeLineMinDistance/rank1_submission_1175341/code/op_kernel/tree_pairs.h:323-515,752-854` | 同上 | 公示分 91.85；无逐 case 时延 | 同上 |
-| `KS2026-ASC910B-GROUPEDTOPK` | mantuo | GroupedTopk | `platforms/ascend910b/task01_grouped_topk/solution.py:8-89` | 910B1 / CANN 9.0.0 / TA 3.2.1 | 作者 0.701666→0.283144 ms，2.478×；本机 2.670× PASS | [KernelSwift 报告](../repositories/mantuoluozk__kernelswift-2026-triton-kernels.md) |
+| `KS2026-ASC910B-GROUPEDTOPK` | mantuo | GroupedTopk | `platforms/ascend910b/task01_grouped_topk/solution.py:8-89` | 910B1 / CANN 9.0.0 / TA 3.2.1 | 作者 0.701666→0.283144 ms，2.478×；本机 2.670× PASS | [KernelSwift 报告](../../competition/kernelswift-2026/README.md) |
 | `KS2026-ASC910B-FUSEDMOE` | mantuo | FusedMoE | `.../task02_fused_moe/solution.py:8-87` | 同上 | 作者 6.942960→0.606584 ms，11.446×；本机编译失败（UB） | 同上 |
 | `KS2026-ASC910B-SINKHORN` | mantuo | hc_split_sinkhorn | `.../task08_hc_split_sinkhorn/solution.py:67-89` | 同上 | 作者 3.032301→0.329475 ms，9.203×；本机 13.226× PASS | 同上 |
-| `MAMBA2-ASCENDC-CHUNKMIX` | So-cean | Mamba-2 SSD ChunkMix | `mamba_ascendc_ops/mamba2_ssd_chunk_mix/op_kernel/mamba2_ssd_chunk_mix.cpp:1016-1211` | 910B3 / CANN 8.2.RC1 / TA 3.2.0 | 作者 0.632 ms vs 6.287/4.305；H256 31.888 ms；本机未构建 | [Mamba 报告](../repositories/So-cean__mamba-ascendc.md) |
-| `VLLMHUST-LINEAR-SWIGLU` | vLLM-HUST | Linear+SwiGLU | `.../linear_swiglu_kernel.py:35-66` | 910B2 / CANN 9.0.0（报告）/ 9.1.0-beta.3（兼容清单） | 作者算子 −15.93~17.92%；e2e TPOT −3.82%；本机未搭建 | [OPset 报告](../repositories/vLLM-HUST__vllm-hust-opset.md) |
-| `XAYAH-ASC910B-SOFTMAX-NEG` | 52Xayah | Softmax | `src/softmax.py:8-41` | A2 / CANN 9.2.0 / TA 3.2.2 | 作者 0.140 vs 0.035 ms；本机逐 sample 0.288× | [52Xayah 报告](../repositories/52Xayah__triton-ascend-kernels.md) |
+| `MAMBA2-ASCENDC-CHUNKMIX` | So-cean | Mamba-2 SSD ChunkMix | `mamba_ascendc_ops/mamba2_ssd_chunk_mix/op_kernel/mamba2_ssd_chunk_mix.cpp:1016-1211` | 910B3 / CANN 8.2.RC1 / TA 3.2.0 | 作者 0.632 ms vs 6.287/4.305；H256 31.888 ms；本机未构建 | [Mamba 报告](../../general/attention/mamba-ascendc/README.md) |
+| `VLLMHUST-LINEAR-SWIGLU` | vLLM-HUST | Linear+SwiGLU | `.../linear_swiglu_kernel.py:35-66` | 910B2 / CANN 9.0.0（报告）/ 9.1.0-beta.3（兼容清单） | 作者算子 −15.93~17.92%；e2e TPOT −3.82%；本机未搭建 | [OPset 报告](../../general/transformer/vllm-hust-opset/README.md) |
+| `XAYAH-ASC910B-SOFTMAX-NEG` | 52Xayah | Softmax | `src/softmax.py:8-41` | A2 / CANN 9.2.0 / TA 3.2.2 | 作者 0.140 vs 0.035 ms；本机逐 sample 0.288× | [52Xayah 报告](../../general/elementwise/52xayah-triton-kernels/README.md) |
 | `XAYAH-ASC910B-MATMUL-NEG` | 52Xayah | Matmul | `src/matmul.py:8-89` | 同上 | 作者 0.699 vs 0.163 ms；本机逐 sample 0.242× | 同上 |
-| `BE4VER-PACO-BATCHED-JACOBI` | Be4ver | 批量单边 Jacobi SVD | `paco-jacobi-svd/jacobi_svd_custom.cpp:130-170,215-303,435-538` | 910B3 / CANN 未固定（QDWH 文档记 8.2.RC1） | 作者 7.061 ms；本机 6.174 ms，512/512 PASS | [Be4ver 报告](../repositories/Be4ver__svd.md) |
+| `BE4VER-PACO-BATCHED-JACOBI` | Be4ver | 批量单边 Jacobi SVD | `paco-jacobi-svd/jacobi_svd_custom.cpp:130-170,215-303,435-538` | 910B3 / CANN 未固定（QDWH 文档记 8.2.RC1） | 作者 7.061 ms；本机 6.174 ms，512/512 PASS | [Be4ver 报告](../../general/linear-algebra/be4ver-svd/README.md) |
 | `BE4VER-QDWH-SDC-FUSED` | Be4ver | QDWH+SDC 融合 | `qdwh_sdc_fused_jacobi/fused_qdwh_sdc.hpp:89-188,386-500` | 同上 | 作者 128/512/1024=4.392/20.540/46.839 ms；本机 4.288/20.698/48.475 ms，全 PASS | 同上 |
-| `PARITY-O3-PACKED-TP` | Parity | packed O(3) TP | `ictc_o3/backends/ascend/packed_tensor_product.py:60-165` | 910B3 / CANN 9.0.0 / torch 2.7.1 | 作者 3.90× forward、3.85× fwd+VJP；本机未构建 | [Parity 报告](../repositories/Parity-LRX__ICTC-O3-HP-Ascend.md) |
+| `PARITY-O3-PACKED-TP` | Parity | packed O(3) TP | `ictc_o3/backends/ascend/packed_tensor_product.py:60-165` | 910B3 / CANN 9.0.0 / torch 2.7.1 | 作者 3.90× forward、3.85× fwd+VJP；本机未构建 | [Parity 报告](../../general/equivariant/parity-ictc-o3/README.md) |
 | `PARITY-MESH-ELECTROSTATICS` | Parity | mesh 静电 assignment | `ictc_o3/ascendc/op_kernel/electrostatics.cpp:22-119` | 同上 | 作者 q+μ+Q +6.8%/+10.7%；particle −40.6%/−51.2%；1.90× MD | 同上 |
 | `PARITY-CAPACITY-CHUNK` | Parity | capacity chunk | `ictc_o3/backends/ascend/capacity_message.py:7-80` | 同上 | 作者 196,608 atoms 2.43×、52.68→43.55 GiB | 同上 |
-| `GITCODE-RECOMPUTE-WU` | GitCode `cann/cann-ops-competitions` / Delicate02 | GDN 注意力重算 | `.../recompute_wu.h:143-199,591-792,1025-1395` | 910B3 / CANN 8.5.0 | 作者 CANNJudge 22/22、7 月第 1 名；本机编译成功但运行 507057 | [CANN 竞赛仓报告](../repositories/GitCode__cann-ops-competitions.md) |
+| `GITCODE-RECOMPUTE-WU` | GitCode `cann/cann-ops-competitions` / Delicate02 | GDN 注意力重算 | `.../recompute_wu.h:143-199,591-792,1025-1395` | 910B3 / CANN 8.5.0 | 作者 CANNJudge 22/22、7 月第 1 名；本机编译成功但运行 507057 | [CANN 竞赛仓报告](../../competition/cann-ops-competitions/README.md) |
 | `GITCODE-CONCAT` | GitCode `cann/cann-ops-competitions` / BatchLions | S9 多输入 Concat | `.../Concat/BatchLions/op_kernel/concat.cpp:909-1445` | 910B / CANN 8.5.0 | 作者最终第十名、五档 348.33 µs；本机离线 215,242+32,681+8,247 项通过，未上 NPU | 同上 |
-| `GITCODE-LINALG-LSTSQ` | GitCode `cann/elec-ops-inspection` / XDU_XDU-BTD | 批量最小二乘 | `.../lstsq/op_host/linalg_lstsq.cpp:24-91` | 910B / CANN 未固定 | 作者无性能数字；本机 16/50/64 单 batch PASS，多 batch/矩形/200/256 失败 | [电力仓报告](../repositories/GitCode__elec-ops-inspection.md) |
+| `GITCODE-LINALG-LSTSQ` | GitCode `cann/elec-ops-inspection` / XDU_XDU-BTD | 批量最小二乘 | `.../lstsq/op_host/linalg_lstsq.cpp:24-91` | 910B / CANN 未固定 | 作者无性能数字；本机 16/50/64 单 batch PASS，多 batch/矩形/200/256 失败 | [电力仓报告](../../competition/elec-ops-inspection/README.md) |
 
 ### 5.1 本机 910B3 复测摘要
 
@@ -172,7 +172,7 @@
 | GitCode recompute_w_u | 编译成功，运行失败 | 507057；5 个 shape 全失败 | 22/22、第 1 名 | 编译≠可运行 |
 | GitCode Concat | 离线 PASS | 215,242+32,681+8,247 项 | 第十名、348.33 µs | 未上 NPU |
 
-完整命令、原始输出和兼容性 workaround 见 [本机 910B3 复测记录](LOCAL_910B_VALIDATION_20261116.md) 与 [GitCode 补充调研](GITCODE_SOURCE_SURVEY_20261116.md)。
+完整命令、原始输出和兼容性 workaround 见 [本机 910B3 复测记录](../validation/LOCAL_910B_VALIDATION_20261116.md) 与 [GitCode 补充调研](GITCODE_SOURCE_SURVEY_20261116.md)。
 
 ## 6. 最值得后续验证的 11 项机制
 
@@ -308,19 +308,19 @@
 
 ## 9. 文件入口
 
-- 来源登记：[`catalog/external-repositories.json`](../../catalog/external-repositories.json)
-- 本机复测：[`docs/research/LOCAL_910B_VALIDATION_20261116.md`](LOCAL_910B_VALIDATION_20261116.md)
+- 来源登记：[`index/catalog.json`](../../index/catalog.json)
+- 本机复测：[`docs/research/LOCAL_910B_VALIDATION_20261116.md`](../validation/LOCAL_910B_VALIDATION_20261116.md)
 - GitCode 补充：[`docs/research/GITCODE_SOURCE_SURVEY_20261116.md`](GITCODE_SOURCE_SURVEY_20261116.md)
-- 机器摘要：[`our_work/evidence/local-910b-validation-20261116.json`](../../our_work/evidence/local-910b-validation-20261116.json)
-- 仓库报告：[`docs/repositories/README.md`](../repositories/README.md)
+- 机器摘要：[`docs/validation/local-910b-validation-20261116.json`](../validation/local-910b-validation-20261116.json)
+- 仓库报告：[`index/README.md`](../../index/README.md)
 - 跨实现经验：[`docs/experiences/README.md`](../experiences/README.md)
 - 重点仓库：
-  - [Hansen 2026 电力行业算子归档](../repositories/Hansenwuwuwu__ascend-c-competition-archive.md)
-  - [KernelSwift 2026 Ascend 910B](../repositories/mantuoluozk__kernelswift-2026-triton-kernels.md)
-  - [Mamba-2 AscendC](../repositories/So-cean__mamba-ascendc.md)
-  - [vLLM-HUST OPset](../repositories/vLLM-HUST__vllm-hust-opset.md)
-  - [52Xayah 负例](../repositories/52Xayah__triton-ascend-kernels.md)
-  - [Be4ver SVD](../repositories/Be4ver__svd.md)
-  - [Parity ICTC-O3](../repositories/Parity-LRX__ICTC-O3-HP-Ascend.md)
-  - [GitCode CANN 竞赛仓](../repositories/GitCode__cann-ops-competitions.md)
-  - [GitCode 电力行业仓](../repositories/GitCode__elec-ops-inspection.md)
+  - [Hansen 2026 电力行业算子归档](../../competition/hansen-2026-power/README.md)
+  - [KernelSwift 2026 Ascend 910B](../../competition/kernelswift-2026/README.md)
+  - [Mamba-2 AscendC](../../general/attention/mamba-ascendc/README.md)
+  - [vLLM-HUST OPset](../../general/transformer/vllm-hust-opset/README.md)
+  - [52Xayah 负例](../../general/elementwise/52xayah-triton-kernels/README.md)
+  - [Be4ver SVD](../../general/linear-algebra/be4ver-svd/README.md)
+  - [Parity ICTC-O3](../../general/equivariant/parity-ictc-o3/README.md)
+  - [GitCode CANN 竞赛仓](../../competition/cann-ops-competitions/README.md)
+  - [GitCode 电力行业仓](../../competition/elec-ops-inspection/README.md)

@@ -73,7 +73,7 @@ GitCode 的网页搜索/目录页可读，但代码固定 commit 以 `git ls-rem
 | 独立算法来源 | **12**（GitCode 2 个记录分别与既有官方基线/Hansen 上游重叠，不新增独立来源） |
 | 深读仓库记录 | **9**（原 7 + GitCode 2），其中独立深读来源仍为 7 |
 | 深读实现 | **18**（原 15 + 3） |
-| 本机运行/失败/构建记录 | 见 `our_work/evidence/local-910b-validation-20261116.json`（新增 3 个 PASS、2 类失败、2 个构建） |
+| 本机运行/失败/构建记录 | 见 `docs/validation/local-910b-validation-20261116.json`（新增 3 个 PASS、2 类失败、2 个构建） |
 
 这样既记录了 GitCode 的实际内容，也避免把同一官方仓/同一赛事归档重复算成“新独立来源”。
 
@@ -110,11 +110,11 @@ GitCode 的网页搜索/目录页可读，但代码固定 commit 以 `git ls-rem
 
 新增文档：
 
-- [GitCode `cann/cann-ops-competitions` 报告](../repositories/GitCode__cann-ops-competitions.md)
-- [GitCode `cann/elec-ops-inspection` 报告](../repositories/GitCode__elec-ops-inspection.md)
+- [GitCode `cann/cann-ops-competitions` 报告](../../competition/cann-ops-competitions/README.md)
+- [GitCode `cann/elec-ops-inspection` 报告](../../competition/elec-ops-inspection/README.md)
 - [GitCode 机制经验](../experiences/gitcode_operator_mechanisms.md)
 
-新增机器登记：`catalog/external-repositories.json` 增加 2 个 repository 记录、3 个 implementation 记录、对应性能/本机验证字段。
+新增机器登记：`index/catalog.json` 增加 2 个 repository 记录、3 个 implementation 记录、对应性能/本机验证字段。
 
 ## 7. 仍未验证 / 下一轮
 

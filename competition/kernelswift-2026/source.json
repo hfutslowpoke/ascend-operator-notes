@@ -1,0 +1,123 @@
+{
+  "schema_version": 2,
+  "entry": "competition/kernelswift-2026",
+  "tier": "competition",
+  "repository": {
+    "id": "mantuoluozk-kernelswift-2026-triton-kernels",
+    "url": "https://github.com/mantuoluozk/kernelswift-2026-triton-kernels",
+    "commit": "ac937591f5517b0dfc7c172252f0f27caf772d34",
+    "default_branch": "main",
+    "license": "none-declared",
+    "status": "deep-read",
+    "local_cache": "repository-research-cache/mantuoluozk_kernelswift-2026-triton-kernels"
+  },
+  "implementations": [
+    {
+      "id": "KS2026-ASC910B-GROUPEDTOPK",
+      "operator": "GroupedTopk",
+      "operator_family": "moe-routing",
+      "source_files": [
+        {
+          "path": "platforms/ascend910b/task01_grouped_topk/solution.py",
+          "lines": "8-89",
+          "url": "https://github.com/mantuoluozk/kernelswift-2026-triton-kernels/blob/ac937591f5517b0dfc7c172252f0f27caf772d34/platforms/ascend910b/task01_grouped_topk/solution.py#L8-L89",
+          "sha256": "69261f900b091b2f40e2741f5b45a4f52b06374ec6610fecf351b388816cd227",
+          "local_cache": "repository-research-cache/mantuoluozk_kernelswift-2026-triton-kernels/platforms/ascend910b/task01_grouped_topk/solution.py"
+        },
+        {
+          "path": "platforms/ascend910b/task01_grouped_topk/reference.py",
+          "lines": "24-65",
+          "url": "https://github.com/mantuoluozk/kernelswift-2026-triton-kernels/blob/ac937591f5517b0dfc7c172252f0f27caf772d34/platforms/ascend910b/task01_grouped_topk/reference.py#L24-L65",
+          "sha256": "0965f570db9ed5fff317eca95d06846feca44883a17bc7ea0e941af0331b0fd6",
+          "local_cache": "repository-research-cache/mantuoluozk_kernelswift-2026-triton-kernels/platforms/ascend910b/task01_grouped_topk/reference.py"
+        }
+      ],
+      "local_status": "pass",
+      "local_validation": {
+        "status": "pass",
+        "environment": "Ascend 910B3 / CANN 9.1.0 / torch 2.10.0 / torch_npu 2.10.0 / triton-ascend 3.2.0",
+        "reference_ms": 0.5935,
+        "candidate_ms": 0.222255,
+        "speedup": 2.67,
+        "protocol": "warmup=200 repeat=500 median, per-sample sync",
+        "log": "competition/kernelswift-2026/evidence/grouped_topk_official.log",
+        "log_sha256": "3187b334c43aab0b3797335e624cb8e11fa1d173d5bf7c795ed6c93f35ba521a",
+        "summary": "方向一致；作者 2.478x，本机 2.670x；设备/版本不同，不是严格复现。"
+      }
+    },
+    {
+      "id": "KS2026-ASC910B-FUSEDMOE",
+      "operator": "FusedMoE",
+      "operator_family": "moe-expert-compute",
+      "source_files": [
+        {
+          "path": "platforms/ascend910b/task02_fused_moe/solution.py",
+          "lines": "8-87",
+          "url": "https://github.com/mantuoluozk/kernelswift-2026-triton-kernels/blob/ac937591f5517b0dfc7c172252f0f27caf772d34/platforms/ascend910b/task02_fused_moe/solution.py#L8-L87",
+          "sha256": "8dc46f0ac534fb1d203dac7681245264f71d66fab680c6c00b03fa966d403021",
+          "local_cache": "repository-research-cache/mantuoluozk_kernelswift-2026-triton-kernels/platforms/ascend910b/task02_fused_moe/solution.py"
+        },
+        {
+          "path": "platforms/ascend910b/task02_fused_moe/reference.py",
+          "lines": "42-75",
+          "url": "https://github.com/mantuoluozk/kernelswift-2026-triton-kernels/blob/ac937591f5517b0dfc7c172252f0f27caf772d34/platforms/ascend910b/task02_fused_moe/reference.py#L42-L75",
+          "sha256": "b5d49c9e517264d20dbc227de49128e8a52d9fb3eed5d4a61e5fc1d3bcff7cbc",
+          "local_cache": "repository-research-cache/mantuoluozk_kernelswift-2026-triton-kernels/platforms/ascend910b/task02_fused_moe/reference.py"
+        }
+      ],
+      "local_status": "fail",
+      "local_validation": {
+        "status": "compile-failed",
+        "environment": "Ascend 910B3 / CANN 9.1.0 / triton-ascend 3.2.0",
+        "error": "UB overflow: requires 2359296 bits while 1572864 bits available",
+        "attempts": [
+          "num_warps=4 BLOCK_M=32",
+          "num_warps=1 BLOCK_M=32",
+          "num_warps=4 BLOCK_M=16 local copy"
+        ],
+        "log": "competition/kernelswift-2026/evidence/fused_moe_compile_fail.log",
+        "log_sha256": "b29f637da0d81d34d72761e3a7a8e83aab55eb8cba11d17d815b1d3792974d7b",
+        "summary": "作者 11.446x 未能复现；当前 TA/CANN 编译失败，不是正确性或性能结果。"
+      }
+    },
+    {
+      "id": "KS2026-ASC910B-SINKHORN",
+      "operator": "hc_split_sinkhorn",
+      "operator_family": "normalization",
+      "source_files": [
+        {
+          "path": "platforms/ascend910b/task08_hc_split_sinkhorn/solution.py",
+          "lines": "19-89",
+          "url": "https://github.com/mantuoluozk/kernelswift-2026-triton-kernels/blob/ac937591f5517b0dfc7c172252f0f27caf772d34/platforms/ascend910b/task08_hc_split_sinkhorn/solution.py#L19-L89",
+          "sha256": "79bc380ac1a6dd40036ab57ee83a34b85c4202f5479e9b8bb6686f0767c96f2a",
+          "local_cache": "repository-research-cache/mantuoluozk_kernelswift-2026-triton-kernels/platforms/ascend910b/task08_hc_split_sinkhorn/solution.py"
+        },
+        {
+          "path": "platforms/ascend910b/task08_hc_split_sinkhorn/reference.py",
+          "lines": "26-52",
+          "url": "https://github.com/mantuoluozk/kernelswift-2026-triton-kernels/blob/ac937591f5517b0dfc7c172252f0f27caf772d34/platforms/ascend910b/task08_hc_split_sinkhorn/reference.py#L26-L52",
+          "sha256": "47f8308e1f4181cd56fda53ac53a42ed3122ffabb75d9cce28ef5720830763ba",
+          "local_cache": "repository-research-cache/mantuoluozk_kernelswift-2026-triton-kernels/platforms/ascend910b/task08_hc_split_sinkhorn/reference.py"
+        }
+      ],
+      "local_status": "pass",
+      "local_validation": {
+        "status": "pass",
+        "environment": "Ascend 910B3 / CANN 9.1.0 / torch 2.10.0 / torch_npu 2.10.0 / triton-ascend 3.2.0",
+        "reference_ms": 3.61623,
+        "candidate_ms": 0.27342,
+        "speedup": 13.226,
+        "max_abs_diff": 6.76512718e-06,
+        "protocol": "warmup=200 repeat=500 median, per-sample sync",
+        "log": "competition/kernelswift-2026/evidence/sinkhorn_official.log",
+        "log_sha256": "fe30332c8346e9fc4705e80549ced3bdcfe788be841c90c9bf10cd50c5cc0325",
+        "summary": "方向一致；作者 9.203x，本机 13.226x；误差 6.765e-06 仍过 1e-2 容差。"
+      }
+    }
+  ],
+  "local_validation": {
+    "status": "partial",
+    "notes": "四平台 10 题；本报告只用 Ascend 910B1 三题。官方评测器 warmup=200/repeat=500/中位数，每次 sample 同步；作者数字 + 本机 910B3 部分复测（GroupedTopk/Sinkhorn 通过，FusedMoE 编译失败）。"
+  },
+  "generated_from": "index/catalog.json"
+}

@@ -26,7 +26,7 @@ cd ascend-operator-notes
 git pull --ff-only
 # 在文件夹中新增、修改资料
 git status
-git add README.md docs our_work tools catalog
+git add README.md competition general index skills docs tools THIRD_PARTY.md MANIFEST-SHA256.json
 git commit -m "补充新的算子实验记录"
 git push
 ```

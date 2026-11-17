@@ -1,0 +1,87 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Ascend operator knowledge entry source metadata",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "entry",
+    "tier",
+    "repository",
+    "implementations",
+    "generated_from"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 2
+    },
+    "entry": {
+      "type": "string",
+      "description": "Repository-relative entry directory, e.g. competition/cann-ops-competitions"
+    },
+    "tier": {
+      "type": "string",
+      "enum": ["competition", "general"]
+    },
+    "repository": {
+      "type": "object",
+      "required": ["id", "url", "commit"],
+      "properties": {
+        "id": {"type": "string"},
+        "url": {"type": "string"},
+        "commit": {"type": "string"},
+        "default_branch": {"type": "string"},
+        "license": {"type": "string"},
+        "status": {"type": "string"},
+        "local_cache": {"type": "string"}
+      }
+    },
+    "implementations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "operator", "operator_family", "source_files", "local_status"],
+        "properties": {
+          "id": {"type": "string"},
+          "operator": {"type": "string"},
+          "operator_family": {"type": "string"},
+          "source_files": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["path", "lines", "sha256"],
+              "properties": {
+                "path": {"type": "string"},
+                "lines": {"type": "string"},
+                "sha256": {"type": "string"},
+                "url": {"type": "string"}
+              }
+            }
+          },
+          "local_status": {
+            "type": "string",
+            "enum": [
+              "pass",
+              "pass-negative",
+              "partial",
+              "fail",
+              "offline-only",
+              "platform-only",
+              "not-run",
+              "pending"
+            ]
+          },
+          "local_validation": {"type": "object"}
+        }
+      }
+    },
+    "local_validation": {
+      "type": "object",
+      "description": "Entry-level summary; implementation-level details live in implementations[].local_validation"
+    },
+    "generated_from": {
+      "type": "string",
+      "description": "Usually index/catalog.json; the GroupedMatmulGelu baseline uses its own 26-PR catalog."
+    }
+  }
+}

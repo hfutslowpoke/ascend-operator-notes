@@ -1,0 +1,627 @@
+{
+  "schema_version": 2,
+  "generated_from": "index/catalog.json",
+  "cards": [
+    {
+      "id": "HANSEN-2026POWER-FIRE-R2",
+      "title": "FireCandidateDecodeFusion (rank2)",
+      "tier": "competition",
+      "entry": "competition/hansen-2026-power",
+      "family": "candidate-decode-fusion",
+      "readme": "competition/hansen-2026-power/README.md",
+      "source_json": "competition/hansen-2026-power/source.json",
+      "one_line": "Host 按 B*N/核数选 tile；设备把 AoS 6 字段转 SoA 平面，一次 sigmoid 后完成 5 字段解码；对中心坐标抵消的少数 lane 用软件 53 位 exp + 正确舍入倒数修复；静态地址/索引表减少 scalar",
+      "local_status": "not-run",
+      "verification": "not-reproduced; static source and public score only",
+      "conditions": [
+        "小字段 AoS 逐元素变换",
+        "敏感 lane 比例低",
+        "UB 能容纳多个平面/静态表",
+        "目标 SoC 支持 vgather/scatter 内建"
+      ],
+      "negative_cases": [
+        "敏感 lane 多时标量修复反噬",
+        "N/B 很小时平面化/静态表准备不划算",
+        "私有内建/静态表与 CANN/SoC 绑定",
+        "无逐 case 时延/本机复现"
+      ],
+      "reuse_decision": "优先复用 AoS→SoA→AoS 与选择性高精度设计；不复制私有内建/静态表。",
+      "source_files": [
+        "archives/2026-electric-power/extracted/FireCandidateDecodeFusion/rank2_submission_1176342/code/op_host/fire_host_plan.h:10-120",
+        "archives/2026-electric-power/extracted/FireCandidateDecodeFusion/rank2_submission_1176342/code/op_kernel/fire_candidate_decode_fusion.cpp:77-195",
+        "archives/2026-electric-power/extracted/FireCandidateDecodeFusion/rank2_submission_1176342/code/op_kernel/device_fire.h:105-143,272-365",
+        "archives/2026-electric-power/extracted/FireCandidateDecodeFusion/rank2_submission_1176342/code/op_kernel/fire_static_metadata.h:whole-file"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "HANSEN-2026POWER-SPLINE-R1",
+      "title": "SplineConv (rank1)",
+      "tier": "competition",
+      "entry": "competition/hansen-2026-power",
+      "family": "graph-spline-conv",
+      "readme": "competition/hansen-2026-power/README.md",
+      "source_json": "competition/hansen-2026-power/source.json",
+      "one_line": "把逐边 x@W[wi] 重排为按离散 wi 先聚合 x*basis，再对 4 个权重矩阵做一次 4C×16 向量乘；目标节点链表遍历；Host 按 UB/稀疏族选 single/sparse/generic",
+      "local_status": "not-run",
+      "verification": "not-reproduced; static source and public score only",
+      "conditions": [
+        "权重索引只由离散 cell 决定",
+        "basis 对边线性",
+        "目标节点入度较高（d>=2，d>=4 更稳）",
+        "4C 聚合与权重能驻留 UB"
+      ],
+      "negative_cases": [
+        "d=1 时聚合开销大于收益",
+        "basis 依赖非离散属性或索引随边变化时代数不成立",
+        "浮点求和顺序改变",
+        "聚合专用路径主要是 ci=32/128,co=16,dim=2,degree=1,kernel=2；compact 另有 ci=8 single 特化",
+        "Host 条件/kernel key 可能漂移"
+      ],
+      "reuse_decision": "优先复用离散索引先聚合的代数重排；不复制固定 ci/co/key 常量。",
+      "source_files": [
+        "archives/2026-electric-power/extracted/SplineConv/rank1_submission_1174398/code/op_host/spline_conv.cpp:14-145",
+        "archives/2026-electric-power/extracted/SplineConv/rank1_submission_1174398/code/op_kernel/spline_conv_compact.h:51-94,183-225"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "HANSEN-2026POWER-TREE-R1",
+      "title": "TreeLineMinDistance (rank1)",
+      "tier": "competition",
+      "entry": "competition/hansen-2026-power",
+      "family": "geometric-argmin",
+      "readme": "competition/hansen-2026-power/README.md",
+      "source_json": "competition/hansen-2026-power/source.json",
+      "one_line": "Host 按 M/N 退化维度选 PATH；线段 AoS→SoA，D/L/1/L 按 batch 外提；点 tile 向量化平方距离，64 段 chunk 归约 + 跨 chunk 成对归约，sqrt 后置；M=1024 路径用 half Top-2 粗筛 + FP32 重算 16 候选",
+      "local_status": "not-run",
+      "verification": "not-reproduced; static source and public score only",
+      "conditions": [
+        "存在 M=1/N=1 等退化维度",
+        "线段不变量可在 batch 内复用",
+        "tie 需最小索引",
+        "尾块非 32 对齐"
+      ],
+      "negative_cases": [
+        "half Top-2 无 no-miss 证明，不能用于精确 argmin",
+        "max(L,FLT_MIN) 不等价 L==0",
+        "大量固定 PATH/UB 绝对偏移",
+        "未本机验证"
+      ],
+      "reuse_decision": "复用退化维度换轴 + 不变量外提 + sqrt 后置 + 成对归约；不复制固定 Top-2 粗筛。",
+      "source_files": [
+        "archives/2026-electric-power/extracted/TreeLineMinDistance/rank1_submission_1175341/code/op_host/tree_line_min_distance.cpp:438-496",
+        "archives/2026-electric-power/extracted/TreeLineMinDistance/rank1_submission_1175341/code/op_kernel/tree_line_min_distance.cpp:550-659",
+        "archives/2026-electric-power/extracted/TreeLineMinDistance/rank1_submission_1175341/code/op_kernel/tree_pairs.h:221-515,752-854"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "KS2026-ASC910B-GROUPEDTOPK",
+      "title": "GroupedTopk",
+      "tier": "competition",
+      "entry": "competition/kernelswift-2026",
+      "family": "moe-routing",
+      "readme": "competition/kernelswift-2026/README.md",
+      "source_json": "competition/kernelswift-2026/source.json",
+      "one_line": "利用 softmax 单调性直接在 logits 上选组/选专家；Top-K 重新归一化时 256 路公共分母抵消，只对 8 个 logits 做 exp+归一化；一个 kernel 完成选择/归一化/写回",
+      "local_status": "pass",
+      "verification": "locally-validated on Ascend 910B3; see local_validation",
+      "conditions": [
+        "softmax 或单调 scoring",
+        "renormalize=True",
+        "E/K 固定且不大",
+        "输出顺序/tie 与参考一致"
+      ],
+      "negative_cases": [
+        "renormalize=False 时分母不抵消",
+        "E 大时 O(E*K) 选择链可能变慢",
+        "tying/输出顺序需验证",
+        "无本机复现"
+      ],
+      "reuse_decision": "优先复用单调性+分母抵消；选择链按 E/K 重设计。",
+      "source_files": [
+        "platforms/ascend910b/task01_grouped_topk/solution.py:8-89",
+        "platforms/ascend910b/task01_grouped_topk/reference.py:24-65"
+      ],
+      "evidence": [
+        "competition/kernelswift-2026/evidence/grouped_topk_official.log"
+      ]
+    },
+    {
+      "id": "KS2026-ASC910B-FUSEDMOE",
+      "title": "FusedMoE",
+      "tier": "competition",
+      "entry": "competition/kernelswift-2026",
+      "family": "moe-expert-compute",
+      "readme": "competition/kernelswift-2026/README.md",
+      "source_json": "competition/kernelswift-2026/source.json",
+      "one_line": "不按 Top-2 动态分发，而是用三个规则 kernel 计算所有 8 个专家：gate/up+SiLU*up、down、Top-2 加权；权重按 tile FP32->FP16，避免完整转换副本",
+      "local_status": "fail",
+      "verification": "local compile failed on Ascend 910B3; author number not reproduced",
+      "conditions": [
+        "E 小（8）",
+        "T 小（83）",
+        "H/I 小（128/64）",
+        "topk 固定 2",
+        "允许计算未选中专家"
+      ],
+      "negative_cases": [
+        "E 大时 4x 浪费线性放大（E=64 约 32x）",
+        "T 大时 [E,T,I] 中间缓冲/计算反噬",
+        "route 只对 softmax+renormalize 成立",
+        "硬编码 83/128/64",
+        "无本机复现"
+      ],
+      "reuse_decision": "在 E/T/H/I 小的固定 shape 下优先验证稠密全专家+三阶段规则 kernel；E/T 大时不用。",
+      "source_files": [
+        "platforms/ascend910b/task02_fused_moe/solution.py:8-87",
+        "platforms/ascend910b/task02_fused_moe/reference.py:42-75"
+      ],
+      "evidence": [
+        "competition/kernelswift-2026/evidence/fused_moe_compile_fail.log"
+      ]
+    },
+    {
+      "id": "KS2026-ASC910B-SINKHORN",
+      "title": "hc_split_sinkhorn",
+      "tier": "competition",
+      "entry": "competition/kernelswift-2026",
+      "family": "normalization",
+      "readme": "competition/kernelswift-2026/README.md",
+      "source_json": "competition/kernelswift-2026/source.json",
+      "one_line": "每个 program 处理一个 (b,s) 行；4x4 的 16 个元素显式标量化常驻寄存器；pre/post/20 轮 row/col 归一化/三个输出全部融合在一个 kernel",
+      "local_status": "pass",
+      "verification": "locally-validated on Ascend 910B3; see local_validation",
+      "conditions": [
+        "固定 4x4",
+        "固定 20 轮",
+        "每行独立",
+        "行数不太少"
+      ],
+      "negative_cases": [
+        "hc_mult=8/16 时标量爆炸",
+        "行数很大时 1 program/行、1 warp 可能填不满",
+        "eps/初始归一化顺序需与参考一致",
+        "无本机复现"
+      ],
+      "reuse_decision": "固定 4x4 小矩阵 Sinkhorn 优先复用标量化+单 kernel+寄存器驻留；矩阵变大改用二维 tile。",
+      "source_files": [
+        "platforms/ascend910b/task08_hc_split_sinkhorn/solution.py:19-89",
+        "platforms/ascend910b/task08_hc_split_sinkhorn/reference.py:26-52"
+      ],
+      "evidence": [
+        "competition/kernelswift-2026/evidence/sinkhorn_official.log"
+      ]
+    },
+    {
+      "id": "MAMBA2-ASCENDC-CHUNKMIX",
+      "title": "Mamba2SsdChunkMix",
+      "tier": "general",
+      "entry": "general/attention/mamba-ascendc",
+      "family": "ssm-chunked-scan",
+      "readme": "general/attention/mamba-ascendc/README.md",
+      "source_json": "general/attention/mamba-ascendc/source.json",
+      "one_line": "chunked scan 把长序列扫描拆成 chunk 内三个 GEMM + chunk 间状态；MIX_AIC_1_2 两个 AIV 各一半 rows；B 转置共享；状态 [N,P] 消费者原生；双槽 workspace + 跨核 flag；一套 L1/L0/L0C 服务多种 GEMM",
+      "local_status": "not-run",
+      "verification": "not-reproduced; author device event/profiler",
+      "conditions": [
+        "序列/head 足够大",
+        "P=N=chunk 在支持集合",
+        "H%G==0",
+        "Cube/Vector 能并行",
+        "UB 能容纳 chunk",
+        "下游接受 [N,P] 或保留 legacy"
+      ],
+      "negative_cases": [
+        "H256 只有 A100 70.82%",
+        "StateEpilogue memory-bound (98.3% Cube active, 2.9% AIC MAC)",
+        "12.06 GiB 中间物化",
+        "T128 UB 182.8/192 KiB",
+        "950PR 当前 HEAD grouped fast-path 回归",
+        "backward 只覆盖 P=N=chunk=64"
+      ],
+      "reuse_decision": "优先复用 chunked scan 分解、消费者原生布局、双槽/跨核流水；按目标 SoC 重算 UB/key。",
+      "source_files": [
+        "mamba_ascendc_ops/mamba2_ssd_chunk_mix/design.md:1-69",
+        "mamba_ascendc_ops/mamba2_ssd_chunk_mix/op_kernel/mamba2_ssd_chunk_mix.cpp:37-231,1016-1211,1293-1339",
+        "mamba_ascendc_ops/mamba2_ssd_chunk_mix/op_kernel/mamba2_dynamic_matmul.h:6-26,195-254",
+        "docs/performance.md:47-191"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "VLLMHUST-LINEAR-SWIGLU",
+      "title": "Linear + SwiGLU Graph fusion",
+      "tier": "general",
+      "entry": "general/transformer/vllm-hust-opset",
+      "family": "linear-activation-fusion",
+      "readme": "general/transformer/vllm-hust-opset/README.md",
+      "source_json": "general/transformer/vllm-hust-opset/source.json",
+      "one_line": "同一 kernel 保留 gate/up 两个 FP32 accumulator，A 每个 K block 只加载一次；最后 gate*sigmoid(gate)*up，只写 [M,N]；M<=128 融合，否则 native GEMM+npu_swiglu",
+      "local_status": "not-run",
+      "verification": "not-reproduced; external report only",
+      "conditions": [
+        "M<=128",
+        "unquantized",
+        "BF16/FP16",
+        "Graph/Triton path",
+        "CBUF 能放两个 FP32 accumulator",
+        "上游模块结构匹配"
+      ],
+      "negative_cases": [
+        "M=256 fused tile 超 CBUF",
+        "大 M 多 tile 出现错误值，必须回退",
+        "冷启动 JIT 可能为负",
+        "e2e 收益远小于算子收益",
+        "CANN 9.0.0 vs 9.1.0-beta.3 不一致",
+        "source commit 33d7813 vs 当前 58acc93 未逐行比对"
+      ],
+      "reuse_decision": "decode/small batch 优先复用双 accumulator+只写 [M,N]；M 大时 fail-closed 回退。",
+      "source_files": [
+        "src/vllm_hust_operator_optimizations/optimizations/linear_swiglu_kernel.py:35-107",
+        "src/vllm_hust_operator_optimizations/optimizations/linear_swiglu_graph.py:34-124",
+        "src/vllm_hust_operator_optimizations/optimizations/linear_swiglu_fusion_pass.py:12-48",
+        "docs/optimizations/linear-swiglu-graph.md:1-27"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "XAYAH-ASC910B-SOFTMAX-NEG",
+      "title": "Softmax (negative)",
+      "tier": "general",
+      "entry": "general/elementwise/52xayah-triton-kernels",
+      "family": "softmax",
+      "readme": "general/elementwise/52xayah-triton-kernels/README.md",
+      "source_json": "general/elementwise/52xayah-triton-kernels/source.json",
+      "one_line": "行内 max/exp/sum/div 融合，一个 program 一行；固定 1024，无 mask/autotune",
+      "local_status": "pass-negative",
+      "verification": "locally-validated negative on Ascend 910B3; see local_validation",
+      "conditions": [
+        "N=1024 规则 shape",
+        "FP32",
+        "只需单行 softmax"
+      ],
+      "negative_cases": [
+        "N!=1024 越界/错误",
+        "无 mask/autotune",
+        "朴素 Triton 比厂商库慢 4x",
+        "计时很粗，不能当精确数字"
+      ],
+      "reuse_decision": "作为负例；标准 shape 优先厂商库或做融合/分块归约。",
+      "source_files": [
+        "src/softmax.py:8-41"
+      ],
+      "evidence": [
+        "general/elementwise/52xayah-triton-kernels/evidence/xayah_persample.log"
+      ]
+    },
+    {
+      "id": "XAYAH-ASC910B-MATMUL-NEG",
+      "title": "Matmul (negative)",
+      "tier": "general",
+      "entry": "general/elementwise/52xayah-triton-kernels",
+      "family": "gemm",
+      "readme": "general/elementwise/52xayah-triton-kernels/README.md",
+      "source_json": "general/elementwise/52xayah-triton-kernels/source.json",
+      "one_line": "1D grid + 四组 autotune tile + K 循环 tl.dot；无 split-K/L2 swizzle/Ascend 专用流水",
+      "local_status": "pass-negative",
+      "verification": "locally-validated negative on Ascend 910B3; see local_validation",
+      "conditions": [
+        "规则大 shape",
+        "FP16",
+        "只用教学 tile"
+      ],
+      "negative_cases": [
+        "K 大时单 program 串行",
+        "无 split-K/L2 swizzle",
+        "厂商 matmul 更强",
+        "计时很粗"
+      ],
+      "reuse_decision": "作为负例；规则大 GEMM 优先厂商库或做 Cube 友好 tile/流水。",
+      "source_files": [
+        "src/matmul.py:8-89"
+      ],
+      "evidence": [
+        "general/elementwise/52xayah-triton-kernels/evidence/xayah_persample.log"
+      ]
+    },
+    {
+      "id": "BE4VER-PACO-BATCHED-JACOBI",
+      "title": "PACO batched one-sided Jacobi SVD",
+      "tier": "general",
+      "entry": "general/linear-algebra/be4ver-svd",
+      "family": "svd",
+      "readme": "general/linear-algebra/be4ver-svd/README.md",
+      "source_json": "general/linear-algebra/be4ver-svd/source.json",
+      "one_line": "小 batch 一矩阵一核；大 batch 按 K 个矩阵行交错到 UB，合并 Mul/WholeReduceSum；旋转用 Muls/Axpy，避免多次 Adds 拷回；AIC 只做 Gram",
+      "local_status": "pass",
+      "verification": "locally-validated on Ascend 910B3; see local_validation",
+      "conditions": [
+        "FP32",
+        "rows<=128/cols<=256",
+        "batch 大到 perCore>1 才走 K 合并",
+        "UB 能容纳 K 个矩阵",
+        "sweep 自适应停止+maxSweeps 兜底"
+      ],
+      "negative_cases": [
+        "K 合并的矢量角度链只在 count=64 时正确，代码仍用标量角度",
+        "列 pad 到 64 会比 32 慢",
+        "UB>192KB 直接 507015/输出全 0",
+        "只常驻 UB 仅 3.2-3.4%",
+        "单独向量化角度链在小 batch 更慢",
+        "4.26x 是未合入研究补丁，不是当前代码成绩"
+      ],
+      "reuse_decision": "优先复用跨矩阵交错+合并归约；tournament 需先合入并做 cond=1e2/1e4/1e6 回归。",
+      "source_files": [
+        "paco-jacobi-svd/jacobi_svd_custom.cpp:130-170,215-303,435-538",
+        "paco-jacobi-svd/docs/64x64-optimization-study-2026-11-12.md:1-18,62-100"
+      ],
+      "evidence": [
+        "general/linear-algebra/be4ver-svd/evidence/paco_32x32_b512_run.log"
+      ]
+    },
+    {
+      "id": "BE4VER-QDWH-SDC-FUSED",
+      "title": "Fused QDWH polar decomposition + device SDC + leaf Jacobi",
+      "tier": "general",
+      "entry": "general/linear-algebra/be4ver-svd",
+      "family": "polar-eigendecomposition",
+      "readme": "general/linear-algebra/be4ver-svd/README.md",
+      "source_json": "general/linear-algebra/be4ver-svd/source.json",
+      "one_line": "一次 host malloc/launch；H 直接写 SDC arena slot0；Phase1 QDWH + Phase2 SDC 在 kernel 内用 PhaseBarrier 衔接；同层节点 batch QDWH（kSdcBatchMax 由 UB 预算 static_assert 推导）；H±=Q^T H Q 一次 GEMM；跳过数学冗余对称化；lambda 跨 AIV 分布式归约",
+      "local_status": "pass",
+      "verification": "locally-validated on Ascend 910B3; see local_validation",
+      "conditions": [
+        "FP32",
+        "mPad+nPad<=6144",
+        "threshold 16..64",
+        "blockDim 16..64 even",
+        "n>=2816 时 maxIter>=6",
+        "UB 192KiB 且 kSdcBatchMax=15",
+        "能接受 atomic 非确定性"
+      ],
+      "negative_cases": [
+        "1000x800 seed42 奇异值误差 1.5e-5~3.1e-4 且逐次不同（atomic + 特征值间隙放大）",
+        "cond=1e6 小奇异值相对误差约1.5%",
+        "3072^2 batch 8->15 无收益，已计算受限",
+        "硬截断 sweep 伤小奇异值",
+        "batch 已到 UB 天花板 195840/196608 B",
+        "4.26x 属 PACO tournament，不属本实现"
+      ],
+      "reuse_decision": "优先复用一个 launch 的多阶段融合、UB 驱动的 batch 上限、跳过冗余对称化；atomic 路径需先确定性化再用于 golden 敏感任务。",
+      "source_files": [
+        "qdwh_sdc_fused_jacobi/fused_qdwh_sdc.hpp:89-188,386-500,733-825",
+        "qdwh_sdc_fused_jacobi/sdc_node.hpp:331-397",
+        "qdwh_sdc_fused_jacobi/vec.hpp:397-453",
+        "qdwh_sdc_fused_jacobi/qr_custom.cpp:215-300",
+        "qdwh_sdc_fused_jacobi/fused_batch_cfg.hpp:17-83",
+        "qdwh_sdc_fused_jacobi/fused_main.cpp:280-354,435-436"
+      ],
+      "evidence": [
+        "general/linear-algebra/be4ver-svd/evidence/qdwh_1024x1024_run.log",
+        "general/linear-algebra/be4ver-svd/evidence/qdwh_128x128_run.log",
+        "general/linear-algebra/be4ver-svd/evidence/qdwh_512x512_run.log",
+        "general/linear-algebra/be4ver-svd/evidence/qdwh_1024x1024_run.log"
+      ]
+    },
+    {
+      "id": "PARITY-O3-PACKED-TP",
+      "title": "Packed path-preserving O(3) tensor product",
+      "tier": "general",
+      "entry": "general/equivariant/parity-ictc-o3",
+      "family": "equivariant-tensor-product",
+      "readme": "general/equivariant/parity-ictc-o3/README.md",
+      "source_json": "general/equivariant/parity-ictc-o3/source.json",
+      "one_line": "按输入角阶 l_in 分组多个 path，每组一次 batched GEMM；channels contiguous inside GEMM；直接写 packed 输出的 path 偏移；gate adjoint 重算 base 而不是保存全部 path 输出；CANN vector BMM 仅在 E>=16384,C>=64 等条件启用，否则 torch.bmm",
+      "local_status": "not-run",
+      "verification": "not-reproduced; author report and docs only",
+      "conditions": [
+        "path-preserving ICTC basis",
+        "FP32",
+        "E large and C>=64 for CANN BMM",
+        "consumer accepts packed output/unpack_output",
+        "gate adjoint can afford recompute"
+      ],
+      "negative_cases": [
+        "not an arbitrary e3nn TP adapter; components need basis maps",
+        "E<16384 or C<64 falls back to torch.bmm",
+        "native mode not automatically faster than vendor GEMM",
+        "output path multiplicity/order easy to misread",
+        "gate base recompute adds backward FLOPs"
+      ],
+      "reuse_decision": "优先复用按输入角阶分组+直接写消费者布局；小 E/小 C 和 e3nn 互操作需单独验证。",
+      "source_files": [
+        "ictc_o3/backends/ascend/packed_tensor_product.py:1-165",
+        "docs/PERFORMANCE.md:5-31,47-66",
+        "docs/USAGE.md:792-861"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "PARITY-MESH-ELECTROSTATICS",
+      "title": "Bounded mesh assignment for reciprocal electrostatics",
+      "tier": "general",
+      "entry": "general/equivariant/parity-ictc-o3",
+      "family": "long-range-electrostatics",
+      "readme": "general/equivariant/parity-ictc-o3/README.md",
+      "source_json": "general/equivariant/parity-ictc-o3/source.json",
+      "one_line": "每 atom x channel tile 一个 task；Spline 权重/一阶/二阶导数只存寄存器/UB；order^3 stencil 循环内做 Muls/Add/atomic mesh 写；gather/coordinate VJP 同循环；按 N/channel/adjoint 目标选 native/vectorized/particle/CANN",
+      "local_status": "not-run",
+      "verification": "not-reproduced; author report and docs only",
+      "conditions": [
+        "reciprocal-only Gaussian-screened functional",
+        "PCS/CIC/TSC and mesh fixed while positions/cell live",
+        "channel tile fits UB",
+        "multi-NPU needs HCCL + slab FFT"
+      ],
+      "negative_cases": [
+        "not full Ewald: no real-space/self/neutralizing background",
+        "floating atomic scatter nondeterministic",
+        "N>65536 single-channel auto falls back to CANN",
+        "channels>4 uses native; capacity/native always bounded",
+        "small N particle tile not worthwhile",
+        "mesh/sigma change potential",
+        "multi-NPU result not transferable from single NPU"
+      ],
+      "reuse_decision": "优先复用有界 stencil+channel tile+按规模选 schedule；atomic 非确定和 Ewald 语义边界必须先处理。",
+      "source_files": [
+        "ictc_o3/ascendc/op_kernel/electrostatics.cpp:22-119",
+        "ictc_o3/backends/ascend/electrostatics.py:22-85",
+        "docs/ELECTROSTATICS.md:245-327,366-455"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "PARITY-CAPACITY-CHUNK",
+      "title": "Capacity-mode chunked message recomputation",
+      "tier": "general",
+      "entry": "general/equivariant/parity-ictc-o3",
+      "family": "memory-scheduled-graph-message",
+      "readme": "general/equivariant/parity-ictc-o3/README.md",
+      "source_json": "general/equivariant/parity-ictc-o3/source.json",
+      "one_line": "forward fast_graph(capacity_stream) 只留紧凑 node 输出；backward 若高阶走原图，否则按 chunk 重算边中间并累加；自动 chunk 由设备内存/已分配/node 输出/per-edge 工作估算；大 frozen radial 最后 Linear 流式放入 chunk",
+      "local_status": "not-run",
+      "verification": "not-reproduced; author report and docs only",
+      "conditions": [
+        "inference/frozen params",
+        "ordinary first-order adjoint",
+        "large atom count and edge intermediates dominate memory",
+        "dynamic graph",
+        "chunk 128-aligned and memory budget sufficient"
+      ],
+      "negative_cases": [
+        "not training/higher-order; falls back to original graph",
+        "small graphs not worth chunk loop",
+        "chunk depends on live memory/allocator state",
+        "weight/projection replacement between fwd/bwd raises",
+        "radial streaming only for eligible Sequential last Linear",
+        "chunk boundaries change reduction order"
+      ],
+      "reuse_decision": "优先复用大图推理的 chunk 重算+紧凑 node 输出；不要把它当训练加速或小图优化。",
+      "source_files": [
+        "ictc_o3/backends/ascend/capacity_message.py:7-80,83-179",
+        "docs/HP_API.md:67-101",
+        "docs/PERFORMANCE.md:47-66"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "GITCODE-RECOMPUTE-WU",
+      "title": "recompute_w_u (GDN chunked attention)",
+      "tier": "competition",
+      "entry": "competition/cann-ops-competitions",
+      "family": "attention-recompute-gemm",
+      "readme": "competition/cann-ops-competitions/README.md",
+      "source_json": "competition/cann-ops-competitions/source.json",
+      "one_line": "MIX kernel: AIV preprocesses A/beta/g and packs right matrices, AIC does Matmul or hand-written Mmad+Fixpipe. Group head/chunk tasks (up to 4 heads x 4 chunks), reuse GQA K in L0B, multi-slot workspace (depth 5/3), D128 four-slot path, staged output for non-16",
+      "local_status": "fail",
+      "verification": "locally compiled but runtime failed on Ascend 910B3/CANN 9.1.0; author number not reproduced",
+      "conditions": [
+        "B=1",
+        "BT=64",
+        "K/V<=256",
+        "GQA H%Hg==0",
+        "CANN close to author 8.5.0",
+        "all tiling keys regression-tested"
+      ],
+      "negative_cases": [
+        "compile success != runnable: 507057 on CANN 9.1.0 for 5 shapes",
+        "B!=1 rejected by host",
+        "BT!=64 rejected",
+        "K/V>256 rejected",
+        "10 tiling keys, each with different workspace/flag; high regression cost",
+        "rank #1 is a 2026-07-31 snapshot, not permanent"
+      ],
+      "reuse_decision": "Prioritize head/chunk task merge + GQA K L0B reuse + multi-slot pipeline; do not use as 910C/CANN 9.1 template until runtime failure is isolated.",
+      "source_files": [
+        "01_official/cann-ops-ladder-2026/July/recompute_w_u/submissions/Delicate02/code/op_kernel/recompute_wu.h:19-83,143-199,228-268,591-700,1025-1105,1313-1395",
+        "01_official/cann-ops-ladder-2026/July/recompute_w_u/submissions/Delicate02/code/op_host/recompute_wu_tiling.cpp:46-67,204-345,346-390,408-441",
+        "01_official/cann-ops-ladder-2026/July/recompute_w_u/submissions/Delicate02/README.md:60-76"
+      ],
+      "evidence": [
+        "competition/cann-ops-competitions/evidence/gitcode_recompute_run3.log"
+      ]
+    },
+    {
+      "id": "GITCODE-CONCAT",
+      "title": "S9 Concat (dynamic tensor list)",
+      "tier": "competition",
+      "entry": "competition/cann-ops-competitions",
+      "family": "concat-layout",
+      "readme": "competition/cann-ops-competitions/README.md",
+      "source_json": "competition/cann-ops-competitions/source.json",
+      "one_line": "Host normalizes dynamic inputs to rows x n_i, then chooses row/column split, DMA/Gather assembly, input split or output linear split. Gather path packs contiguous rows per input, builds a byte-offset table, gathers into a full row, writes once. Column bands re",
+      "local_status": "offline-only",
+      "verification": "offline layout/address tests passed locally; no NPU build/run",
+      "conditions": [
+        "dynamic tensor list <=256",
+        "CANN 8.5.0 target",
+        "UB budget/alignment satisfied",
+        "Gather path needs 16/32-bit dtype and nOut limit"
+      ],
+      "negative_cases": [
+        "balanced column bands slower 1.35% on G16 246-input case",
+        "edge trimming slower 8.0%/7.9%/1.0% on three shapes",
+        "bulk TilingData header fetch slower 8%",
+        "strategy 5 (per-route x row segment + big DMA) 4.33x slower, code removed",
+        "contiguous copy only for rows <=128B; >=256B rows 11-19% slower",
+        "no NPU build/run locally; 348.33 us not reproduced"
+      ],
+      "reuse_decision": "Prioritize shared host/kernel layout header, rows x n_i normalization, Gather assembly with offset-table row expansion, and final config validation; do not default to trimming/balanced bands/wide-row contiguous copy.",
+      "source_files": [
+        "01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/op_host/concat.cpp:55-75,240-330,440-532,625-680",
+        "01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/op_kernel/concat.cpp:264-630,909-1071,1075-1445",
+        "01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/op_host/s9_concat_layout.h:96-117,163-241,355-435,603-696",
+        "01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/README.md:1-52"
+      ],
+      "evidence": [
+        "competition/cann-ops-competitions/evidence/gitcode_concat_offline_tests.log"
+      ]
+    },
+    {
+      "id": "GITCODE-LINALG-LSTSQ",
+      "title": "LinalgLstsq (batched least squares, driver=gels)",
+      "tier": "competition",
+      "entry": "competition/elec-ops-inspection",
+      "family": "batched-least-squares",
+      "readme": "competition/elec-ops-inspection/README.md",
+      "source_json": "competition/elec-ops-inspection/source.json",
+      "one_line": "Shape-specific tiling keys (tiny15/16, packed50/64, shared QR 200/256, generic square/rectangular). FP32 TwoSum/TwoProduct split high/low, compensated tile products and residual reductions; iterative refinement using the original equation; pivot/rank/finite gu",
+      "local_status": "partial",
+      "verification": "locally validated on small single-batch square cases; larger/batched cases failed; see local_validation",
+      "conditions": [
+        "FP32",
+        "column full rank",
+        "M>=N",
+        "M<=1024",
+        "N<=min(M,512)",
+        "K<=64",
+        "driver=gels",
+        "CANN 9.1 needs two template keywords"
+      ],
+      "negative_cases": [
+        "no author per-case timing/baseline",
+        "CANN 9.1 direct build fails on two ReinterpretCast dependent template names",
+        "multi-batch (16x16 b2, 50x50 b4) fails 507035",
+        "rectangular 64x32/64x50/100x64 fails 507035",
+        "200/256 shared-QR fails 507057",
+        "small single-batch PASS cannot be extrapolated"
+      ],
+      "reuse_decision": "Prioritize compensated arithmetic, residual-based refinement and shape-specific solver layering; validate every shape key and residual layout before reuse.",
+      "source_files": [
+        "2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_host/linalg_lstsq.cpp:24-91",
+        "2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_kernel/linalg_lstsq.cpp:25-90,160-335",
+        "2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_kernel/lstsq_compensated_tile_product.h:17-40",
+        "2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/op_kernel/lstsq_shared_refinement.h:19-112",
+        "2026_elec_operator_competition/preliminary/submissioins/XDU_XDU-BTD/code/lstsq/README.md:1-13"
+      ],
+      "evidence": [
+        "competition/elec-ops-inspection/evidence/gitcode_lstsq_M64_N32_K2_B1_r.log",
+        "competition/elec-ops-inspection/evidence/gitcode_lstsq_M16_N16_K1_B1.log",
+        "competition/elec-ops-inspection/evidence/gitcode_lstsq_M50_N50_K2_B1_r.log",
+        "competition/elec-ops-inspection/evidence/gitcode_lstsq_M64_N64_K2_B1_f.log"
+      ]
+    }
+  ]
+}

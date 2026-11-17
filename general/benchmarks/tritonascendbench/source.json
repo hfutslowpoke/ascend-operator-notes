@@ -1,0 +1,20 @@
+{
+  "schema_version": 2,
+  "entry": "general/benchmarks/tritonascendbench",
+  "tier": "general",
+  "repository": {
+    "id": "gxj230958-tritonascendbench",
+    "url": "https://github.com/Gxj230958/TritonAscendBench",
+    "commit": "8a395c87f60a5e0e97f4a48cb16dcc6129e7e850",
+    "default_branch": "main",
+    "license": "Apache-2.0",
+    "status": "candidate",
+    "local_cache": "repository-research-cache/Gxj230958_TritonAscendBench"
+  },
+  "implementations": [],
+  "local_validation": {
+    "status": "not-run",
+    "notes": "101 个 vLLM/SGLang kernel，83 verified + 18 ceiling-accepted；作者明确 910B 性能尚未接通，不能当性能证据。"
+  },
+  "generated_from": "index/catalog.json"
+}

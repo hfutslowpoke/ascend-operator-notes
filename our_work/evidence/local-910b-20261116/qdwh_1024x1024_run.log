@@ -1,8 +1,0 @@
-[fused] shapes: ../input/shapes.txt -> 1024 x 1024（pad 到 1024 x 1024，H 边长 1024）
-[fused] workspace: 291.5 MB (A=4.0 H=4.0 Q=118.4 arena=24.0 leaf=8.0 MB)
-[fused] matrix: ../input/matrix.bin (1048576 float)
-[fused] 写出 output/h.bin（1048576 float）、output/u.bin（1048576 float）
-[fused] device 端完成: leaves=23 overflow=0, kernel_event=48.475 ms, host_wait=48.647 ms, sdc_groups=6 (batch<=15)
-[fused] 写出 sigma.bin (1024 float) + sigma_meta.txt
-[fused] 写出 ../output/leaf_h.bin (47502 float) + ../output/leaf_meta.txt
-[fused] 汇总: leaves=23 max_leaf=63 threshold=64 | host 传输: h2d 18 次/20.6 MB, d2h 35 次/16.0 MB（全部在计算前后）

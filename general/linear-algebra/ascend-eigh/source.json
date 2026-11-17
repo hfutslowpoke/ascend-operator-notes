@@ -1,0 +1,20 @@
+{
+  "schema_version": 2,
+  "entry": "general/linear-algebra/ascend-eigh",
+  "tier": "general",
+  "repository": {
+    "id": "u-illll-ascend-eigh-operator",
+    "url": "https://github.com/U-Illll/ascend-eigh-operator",
+    "commit": "fa2275fa4b2cee005e6868ce23266686eafa7a1b",
+    "default_branch": "main",
+    "license": "MIT",
+    "status": "candidate",
+    "local_cache": "repository-research-cache/U-Illll_ascend-eigh-operator"
+  },
+  "implementations": [],
+  "local_validation": {
+    "status": "not-run",
+    "notes": "单算子 eigh，tridiagonal reduction + QL/QR + back-transform；README 有实现说明，但无性能数据。"
+  },
+  "generated_from": "index/catalog.json"
+}

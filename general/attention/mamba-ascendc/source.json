@@ -1,0 +1,58 @@
+{
+  "schema_version": 2,
+  "entry": "general/attention/mamba-ascendc",
+  "tier": "general",
+  "repository": {
+    "id": "so-cean-mamba-ascendc",
+    "url": "https://github.com/So-cean/mamba-ascendc",
+    "commit": "445a5c001dc3cc09fcec649824f2330634d753f9",
+    "default_branch": "main",
+    "license": "Apache-2.0",
+    "status": "deep-read",
+    "local_cache": "repository-research-cache/So-cean_mamba-ascendc"
+  },
+  "implementations": [
+    {
+      "id": "MAMBA2-ASCENDC-CHUNKMIX",
+      "operator": "Mamba2SsdChunkMix",
+      "operator_family": "ssm-chunked-scan",
+      "source_files": [
+        {
+          "path": "mamba_ascendc_ops/mamba2_ssd_chunk_mix/design.md",
+          "lines": "1-69",
+          "url": "https://github.com/So-cean/mamba-ascendc/blob/445a5c001dc3cc09fcec649824f2330634d753f9/mamba_ascendc_ops/mamba2_ssd_chunk_mix/design.md#L1-L69",
+          "sha256": "41cf64f09c21c6aae4581f61a357232902345d03a56af3101e121052397c9570",
+          "local_cache": "repository-research-cache/So-cean_mamba-ascendc/mamba_ascendc_ops/mamba2_ssd_chunk_mix/design.md"
+        },
+        {
+          "path": "mamba_ascendc_ops/mamba2_ssd_chunk_mix/op_kernel/mamba2_ssd_chunk_mix.cpp",
+          "lines": "37-231,1016-1211,1293-1339",
+          "url": "https://github.com/So-cean/mamba-ascendc/blob/445a5c001dc3cc09fcec649824f2330634d753f9/mamba_ascendc_ops/mamba2_ssd_chunk_mix/op_kernel/mamba2_ssd_chunk_mix.cpp",
+          "sha256": "406dcb786054cbcbaf1659bcd2a21939a74a435730bf85e5e4d299719ba34d6b",
+          "local_cache": "repository-research-cache/So-cean_mamba-ascendc/mamba_ascendc_ops/mamba2_ssd_chunk_mix/op_kernel/mamba2_ssd_chunk_mix.cpp"
+        },
+        {
+          "path": "mamba_ascendc_ops/mamba2_ssd_chunk_mix/op_kernel/mamba2_dynamic_matmul.h",
+          "lines": "6-26,195-254",
+          "url": "https://github.com/So-cean/mamba-ascendc/blob/445a5c001dc3cc09fcec649824f2330634d753f9/mamba_ascendc_ops/mamba2_ssd_chunk_mix/op_kernel/mamba2_dynamic_matmul.h",
+          "sha256": "c4528ab4af94a8f78715de5c5c618a5aa953eaf36edc8babc7919e7729894b80",
+          "local_cache": "repository-research-cache/So-cean_mamba-ascendc/mamba_ascendc_ops/mamba2_ssd_chunk_mix/op_kernel/mamba2_dynamic_matmul.h"
+        },
+        {
+          "path": "docs/performance.md",
+          "lines": "47-191",
+          "url": "https://github.com/So-cean/mamba-ascendc/blob/445a5c001dc3cc09fcec649824f2330634d753f9/docs/performance.md#L47-L191",
+          "sha256": "a55543e1e8783aba2aa0e1928c63d05a83917dc291ceb46c3126fbf097d30b8b",
+          "local_cache": "repository-research-cache/So-cean_mamba-ascendc/docs/performance.md"
+        }
+      ],
+      "local_status": "not-run",
+      "local_validation": {}
+    }
+  ],
+  "local_validation": {
+    "status": "not-run",
+    "notes": "910B3 原生前向/反向，Triton-Ascend/A100 对照，msprof 阶段分解；本报告深读 ChunkMix。"
+  },
+  "generated_from": "index/catalog.json"
+}

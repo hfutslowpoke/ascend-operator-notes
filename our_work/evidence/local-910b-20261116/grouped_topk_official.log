@@ -1,7 +1,0 @@
-/workspace/acw/var/private/repository-research-cache/mantuoluozk_kernelswift-2026-triton-kernels/platforms/ascend910b/task01_grouped_topk/reference.py:48: UserWarning: Cannot create tensor with interal format while allow_internel_format=False, tensor will be created with base format. (Triggered internally at ../torch_npu/csrc/aten/common/TensorFactories.cpp:340.)
-  group_mask = torch.zeros_like(group_scores)
-[WARNING] Please DO NOT tune args ['num_warps']!
-correctness: PASS (num_warps=1)
-reference: 0.593500 ms
-optimized: 0.222255 ms
-speedup:   2.670x

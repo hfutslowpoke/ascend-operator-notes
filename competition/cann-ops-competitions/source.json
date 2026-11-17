@@ -1,0 +1,115 @@
+{
+  "schema_version": 2,
+  "entry": "competition/cann-ops-competitions",
+  "tier": "competition",
+  "repository": {
+    "id": "gitcode-cann-ops-competitions",
+    "url": "https://gitcode.com/cann/cann-ops-competitions",
+    "commit": "5126fead3327c7544ed4becff93775505071334c",
+    "default_branch": "master",
+    "license": "MIT",
+    "status": "deep-read",
+    "local_cache": "repository-research-cache/gitcode-selected/ops"
+  },
+  "implementations": [
+    {
+      "id": "GITCODE-RECOMPUTE-WU",
+      "operator": "recompute_w_u (GDN chunked attention)",
+      "operator_family": "attention-recompute-gemm",
+      "source_files": [
+        {
+          "path": "01_official/cann-ops-ladder-2026/July/recompute_w_u/submissions/Delicate02/code/op_kernel/recompute_wu.h",
+          "lines": "19-83,143-199,228-268,591-700,1025-1105,1313-1395",
+          "url": "https://gitcode.com/cann/cann-ops-competitions/blob/5126fead3327c7544ed4becff93775505071334c/01_official/cann-ops-ladder-2026/July/recompute_w_u/submissions/Delicate02/code/op_kernel/recompute_wu.h",
+          "sha256": "49954f374ae8c1bb01cfd4c0f7497bec337ef7d573b109f9a3c8a463e78eafe9",
+          "local_cache": "repository-research-cache/gitcode-selected/ops/01_official/cann-ops-ladder-2026/July/recompute_w_u/submissions/Delicate02/code/op_kernel/recompute_wu.h"
+        },
+        {
+          "path": "01_official/cann-ops-ladder-2026/July/recompute_w_u/submissions/Delicate02/code/op_host/recompute_wu_tiling.cpp",
+          "lines": "46-67,204-345,346-390,408-441",
+          "url": "https://gitcode.com/cann/cann-ops-competitions/blob/5126fead3327c7544ed4becff93775505071334c/01_official/cann-ops-ladder-2026/July/recompute_w_u/submissions/Delicate02/code/op_host/recompute_wu_tiling.cpp",
+          "sha256": "519b3b027b4eebb24b1e7515237c25f988bd25f379969ce503c94a632c5796b1",
+          "local_cache": "repository-research-cache/gitcode-selected/ops/01_official/cann-ops-ladder-2026/July/recompute_w_u/submissions/Delicate02/code/op_host/recompute_wu_tiling.cpp"
+        },
+        {
+          "path": "01_official/cann-ops-ladder-2026/July/recompute_w_u/submissions/Delicate02/README.md",
+          "lines": "60-76",
+          "url": "https://gitcode.com/cann/cann-ops-competitions/blob/5126fead3327c7544ed4becff93775505071334c/01_official/cann-ops-ladder-2026/July/recompute_w_u/submissions/Delicate02/README.md#L60-L76",
+          "sha256": "070b35f7818d2822e1f1cb89d0ca6cc368a1d168fa132e528d54979639c48204",
+          "local_cache": "repository-research-cache/gitcode-selected/ops/01_official/cann-ops-ladder-2026/July/recompute_w_u/submissions/Delicate02/README.md"
+        }
+      ],
+      "local_status": "fail",
+      "local_validation": {
+        "status": "compile-ok-runtime-failed",
+        "environment": "Ascend 910B3 / CANN 9.1.0 / gcc 11.4.0 / cmake 3.22.1",
+        "shapes": [
+          "T=256,H=8,Hg=8,D=128",
+          "T=256,H=8,Hg=2,D=128",
+          "T=256,H=8,Hg=2,D=256",
+          "T=10016,H=8,Hg=8,D=128",
+          "T=10016,H=8,Hg=2,D=128"
+        ],
+        "error": "aclrtSynchronizeStream 507057; AI Core kernel execution failed; fault kernel RecomputeWu_..._7",
+        "log": "competition/cann-ops-competitions/evidence/gitcode_recompute_run3.log",
+        "log_sha256": "c7c299c97ae19e9406589c9cfa057dff6bc5bd3a570fb3c07dd56e33c4490a9d",
+        "build_log": "competition/cann-ops-competitions/evidence/gitcode_recompute_build.log",
+        "build_log_sha256": "eefeb19d99d9cb2545945bb5e20ff285c924fcc74bba89b10cac7d8531c0e671",
+        "summary": "CANN 9.1.0 编译成功，但 5 个 shape 全部运行失败；显式 KERNEL_TASK_TYPE 也未修复。作者 22/22/第 1 名不是本机复现。"
+      }
+    },
+    {
+      "id": "GITCODE-CONCAT",
+      "operator": "S9 Concat (dynamic tensor list)",
+      "operator_family": "concat-layout",
+      "source_files": [
+        {
+          "path": "01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/op_host/concat.cpp",
+          "lines": "55-75,240-330,440-532,625-680",
+          "url": "https://gitcode.com/cann/cann-ops-competitions/blob/5126fead3327c7544ed4becff93775505071334c/01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/op_host/concat.cpp",
+          "sha256": "8c51610aeee84cfb1e7c4c2dac8b3f82d7e7294cd72072752a772065a0f00224",
+          "local_cache": "repository-research-cache/gitcode-selected/ops/01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/op_host/concat.cpp"
+        },
+        {
+          "path": "01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/op_kernel/concat.cpp",
+          "lines": "264-630,909-1071,1075-1445",
+          "url": "https://gitcode.com/cann/cann-ops-competitions/blob/5126fead3327c7544ed4becff93775505071334c/01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/op_kernel/concat.cpp",
+          "sha256": "58e308ccff10c36d7428841e5786ce994c69707f236c391e6038b589e15eb3bb",
+          "local_cache": "repository-research-cache/gitcode-selected/ops/01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/op_kernel/concat.cpp"
+        },
+        {
+          "path": "01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/op_host/s9_concat_layout.h",
+          "lines": "96-117,163-241,355-435,603-696",
+          "url": "https://gitcode.com/cann/cann-ops-competitions/blob/5126fead3327c7544ed4becff93775505071334c/01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/op_host/s9_concat_layout.h",
+          "sha256": "0228a138666f45586a4eb4162b8bed5950d0ec733bf2767189a2c3f067c01e65",
+          "local_cache": "repository-research-cache/gitcode-selected/ops/01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/op_host/s9_concat_layout.h"
+        },
+        {
+          "path": "01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/README.md",
+          "lines": "1-52",
+          "url": "https://gitcode.com/cann/cann-ops-competitions/blob/5126fead3327c7544ed4becff93775505071334c/01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/README.md#L1-L52",
+          "sha256": "a3e0402ab1e0ec89b5afcd3d31f1720c02277c7edff39aa345c700fb43da1c40",
+          "local_cache": "repository-research-cache/gitcode-selected/ops/01_official/operator-challenge/cann-ops-challenge-S9/submissions/Concat/BatchLions/README.md"
+        }
+      ],
+      "local_status": "offline-only",
+      "local_validation": {
+        "status": "offline-tests-pass",
+        "environment": "CPU-only; no CANN/NPU",
+        "checks": {
+          "source_mapping": 215242,
+          "layout_alignment": 32681,
+          "random_staging": "8247 of 18000 feasible"
+        },
+        "log": "competition/cann-ops-competitions/evidence/gitcode_concat_offline_tests.log",
+        "log_sha256": "9ddd39c53e75d81ad37b1ca97c0dbf85528ec899bc99d6d3bd04d37b30e4ec19",
+        "summary": "地址/布局/UB 账离线测试通过；未构建 NPU 包，未做设备精度/性能。"
+      }
+    }
+  ],
+  "local_validation": {
+    "status": "partial",
+    "notes": "GitCode 直连成功（代理会超时）；固定 commit 5126fead；深读 Delicate02 recompute_w_u（CANNJudge 22/22、7 月第 1 名）与 BatchLions S9 Concat（最终第十名、五档 348.33 µs）。本机 recompute 编译成功但运行 507057；Concat 离线测试 215242+32681+8247 项通过，未上 NPU。"
+  },
+  "generated_from": "index/catalog.json"
+}

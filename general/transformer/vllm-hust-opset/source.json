@@ -1,0 +1,58 @@
+{
+  "schema_version": 2,
+  "entry": "general/transformer/vllm-hust-opset",
+  "tier": "general",
+  "repository": {
+    "id": "vllm-hust-vllm-hust-opset",
+    "url": "https://github.com/vLLM-HUST/vllm-hust-opset",
+    "commit": "58acc93cfb39838b1ef66c42fb4279db6e7040ba",
+    "default_branch": "main",
+    "license": "MIT",
+    "status": "deep-read",
+    "local_cache": "repository-research-cache/vLLM-HUST_vllm-hust-opset"
+  },
+  "implementations": [
+    {
+      "id": "VLLMHUST-LINEAR-SWIGLU",
+      "operator": "Linear + SwiGLU Graph fusion",
+      "operator_family": "linear-activation-fusion",
+      "source_files": [
+        {
+          "path": "src/vllm_hust_operator_optimizations/optimizations/linear_swiglu_kernel.py",
+          "lines": "35-107",
+          "url": "https://github.com/vLLM-HUST/vllm-hust-opset/blob/58acc93cfb39838b1ef66c42fb4279db6e7040ba/src/vllm_hust_operator_optimizations/optimizations/linear_swiglu_kernel.py#L35-L107",
+          "sha256": "2d49147c0efc91e438e926efe75c94c335206348803fb9eeda2323c474fc5932",
+          "local_cache": "repository-research-cache/vLLM-HUST_vllm-hust-opset/src/vllm_hust_operator_optimizations/optimizations/linear_swiglu_kernel.py"
+        },
+        {
+          "path": "src/vllm_hust_operator_optimizations/optimizations/linear_swiglu_graph.py",
+          "lines": "34-124",
+          "url": "https://github.com/vLLM-HUST/vllm-hust-opset/blob/58acc93cfb39838b1ef66c42fb4279db6e7040ba/src/vllm_hust_operator_optimizations/optimizations/linear_swiglu_graph.py#L34-L124",
+          "sha256": "4b82b6da4d1df79fc0ccbaffb67a3cd0c73d4b538bebc346d75faf340940be72",
+          "local_cache": "repository-research-cache/vLLM-HUST_vllm-hust-opset/src/vllm_hust_operator_optimizations/optimizations/linear_swiglu_graph.py"
+        },
+        {
+          "path": "src/vllm_hust_operator_optimizations/optimizations/linear_swiglu_fusion_pass.py",
+          "lines": "12-48",
+          "url": "https://github.com/vLLM-HUST/vllm-hust-opset/blob/58acc93cfb39838b1ef66c42fb4279db6e7040ba/src/vllm_hust_operator_optimizations/optimizations/linear_swiglu_fusion_pass.py#L12-L48",
+          "sha256": "fb97ccbf2dee6d4efe9750f634353aadd4ce98e059a1e14002cfcd92549342be",
+          "local_cache": "repository-research-cache/vLLM-HUST_vllm-hust-opset/src/vllm_hust_operator_optimizations/optimizations/linear_swiglu_fusion_pass.py"
+        },
+        {
+          "path": "docs/optimizations/linear-swiglu-graph.md",
+          "lines": "1-27",
+          "url": "https://github.com/vLLM-HUST/vllm-hust-opset/blob/58acc93cfb39838b1ef66c42fb4279db6e7040ba/docs/optimizations/linear-swiglu-graph.md#L1-L27",
+          "sha256": "439668ab1aa94fc6ee3789aec478c4f61b61055da76926ae296c4b17ac3838c7",
+          "local_cache": "repository-research-cache/vLLM-HUST_vllm-hust-opset/docs/optimizations/linear-swiglu-graph.md"
+        }
+      ],
+      "local_status": "not-run",
+      "local_validation": {}
+    }
+  ],
+  "local_validation": {
+    "status": "not-run",
+    "notes": "代码固定 58acc93；原始证据绑定 benchmark commit 819b197 与 source commit 33d7813；环境记录 9.0.0 与 9.1.0-beta.3 不完全一致。"
+  },
+  "generated_from": "index/catalog.json"
+}
