@@ -140,7 +140,7 @@ git diff --check: pass
 ### 8.2 制造专场增量与清理（2026-11-17）
 
 ```text
-提交：c1f6283c6f5f5b551a3b0b92778d44d0d32e11d6（批次）；17e3be0586d0fac3e3cdbbf6cec412a28583884f（evidence 日志跟踪修复）
+提交：c1f6283c6f5f5b551a3b0b92778d44d0d32e11d6（批次）；17e3be0586d0fac3e3cdbbf6cec412a28583884f（evidence 日志跟踪修复）；fd1b4942e057e87f8caffe45fc44e3d9c727de98（36 个唯一源码快照/39 条引用）
 范围：2026 制造行业算子专场 6 个官方/生产仓、15 份实现映射
 python3 tools/build_index.py --check: pass
 python3 tools/verify_archive.py:

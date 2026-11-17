@@ -36,7 +36,7 @@
 
 ## 2026-11-17 制造专场补充
 
-- [2026 制造行业算子专场：15 题源码地图](competition/mfg-2026/README.md)：6 个官方/生产仓、15 份实现映射；搜索/去重/缺口见 [制造专场源码调研](docs/research/MFG2026_SOURCE_SURVEY_20261117.md)；
+- [2026 制造行业算子专场：15 题源码地图](competition/mfg-2026/README.md)：6 个官方/生产仓、15 份实现映射、36 份选中源码快照；搜索/去重/缺口见 [制造专场源码调研](docs/research/MFG2026_SOURCE_SURVEY_20261117.md)；
 - 8 题有 A2/910B 目标源码（FourierTransform2D、SegmentMinCsr、SpmmSum、Spspmm、Radius、FPS、StackBallQuery、CylinderQuery）；
 - 5 题只有 950/arch35 参考或部分覆盖（ComplexAbs、ComplexDiv、GatherCoo、RandomWalk、GridCluster）；
 - 2 题未找到公开源码（ComplexExp、FusedPropStep）；
