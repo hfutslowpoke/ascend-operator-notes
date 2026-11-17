@@ -140,7 +140,7 @@ git diff --check: pass
 ### 8.2 制造专场增量与清理（2026-11-17）
 
 ```text
-提交：c1f6283c6f5f5b551a3b0b92778d44d0d32e11d6
+提交：c1f6283c6f5f5b551a3b0b92778d44d0d32e11d6（批次）；17e3be0586d0fac3e3cdbbf6cec412a28583884f（evidence 日志跟踪修复）
 范围：2026 制造行业算子专场 6 个官方/生产仓、15 份实现映射
 python3 tools/build_index.py --check: pass
 python3 tools/verify_archive.py:
@@ -168,6 +168,7 @@ review_ops-cv, review_ops-solver, review_DrivingSDK,
 review_mat-chem-sim-pred, mfg-2026, local-validation-20261117,
 kb-restructure-20261117, mfg/competition/tree HTML, add_mfg_catalog.py
 释放：约 21 MiB；仓库内证据/哈希/驱动保留
+注：首次提交时 `*.log` 忽略规则使两份 FFT 日志未入 Git；已为 `competition/mfg-2026/evidence/` 加例外并在 17e3be0 跟踪，当前远端 `main` 可检出日志。
 ```
 
 更早批次的 `local-validation-20261116/` 与来源缓存未删除；它们不是本批临时产物，保留供对照。清理后 `verify_archive.py` 仍为 `ok: true`。

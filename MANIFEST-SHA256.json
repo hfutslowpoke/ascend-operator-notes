@@ -1,6 +1,6 @@
 {
   "created_utc": "2026-11-16T07:14:48.960951+00:00",
-  "updated_utc": "2026-11-17T15:20:00+00:00",
+  "updated_utc": "2026-11-17T15:24:00+00:00",
   "algorithm": "sha256",
   "files": {
     ".git": "d6cfc619345ab3a6dfeeaa547291b5ed5a725a8862d31adc879c5348e08cea12",
@@ -374,7 +374,7 @@
     "docs/AGENT_READING_GUIDE.md": "0ad951dc5295e226467a02d3dd1b1204d1aca1b04ebe62f8098badd581484c2f",
     "docs/ARCHITECTURE.md": "61615e56b6b432960f864b6ed9f7e2655d4453bf87af21eb810a90d8cb09dd06",
     "docs/GITHUB_QUICKSTART.md": "77988f78e95385ce7f8530684f1cbe5a146e984f0845ec20daa281bddd8ea62e",
-    "docs/MIGRATION_20261117.md": "c517ec05395bee530c3a6380f2c2bdfda6757bc8e0bd4004ebf0412e2f8be5b4",
+    "docs/MIGRATION_20261117.md": "992e0ff3e82ac8f260ff98a9f5a7e34492747e080739be3e582d14801251e1c0",
     "docs/PATTERN_COOKBOOK.md": "c9ad93278d3b695d023c6c2e7a009e9b3c9edb4d36d7aab10530cadd749f90ad",
     "docs/PRIVATE_REPO_HANDOVER.md": "d9aacdeceeb1598948da0936c1483544d3b88aea9e0c0006561ac8188b6ee9ff",
     "docs/TOOLS_AND_REPRODUCIBILITY.md": "3ab837b23b7cb9c5c5b033a3af14f4077d23ed08a417735a284d257a7d20d2f4",
