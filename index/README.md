@@ -6,25 +6,26 @@
 
 | 文件 | 用途 |
 |---|---|
-| [catalog.json](catalog.json) | 20 个仓库记录、33 份实现、2 个淘汰记录；含 `tier`、`entry_path`、固定 commit、源码路径/行号/哈希、作者证据、适用条件、负例、复用判断、本机验证 |
+| [catalog.json](catalog.json) | 20 个仓库记录、35 份实现、2 个淘汰记录；含 `tier`、`entry_path`、固定 commit、源码路径/行号/哈希、作者证据、适用条件、负例、复用判断、本机验证、制造题官方规格/`source_match` |
 | [entry-schema.json](entry-schema.json) | 条目/来源字段契约；新增字段先改 schema |
 | [by-family.md](by-family.md) | 按算子族检索（生成） |
 | [by-evidence.md](by-evidence.md) | 按本机证据状态检索（生成） |
-| [cards.md](cards.md) | 33 张人读阅读卡（生成） |
-| [cards.json](cards.json) | 33 张机器可读阅读卡（生成） |
+| [cards.md](cards.md) | 35 张人读阅读卡（生成） |
+| [cards.json](cards.json) | 35 张机器可读阅读卡（生成） |
 | `../competition/catalog.json` | 竞赛层过滤视图（生成） |
 | `../general/catalog.json` | 通用层过滤视图（生成） |
 | 各条目 `source.json` | 单条目的固定来源与实现清单（生成） |
+| `../competition/mfg-2026/official/specs.json` | 2026 制造专场 15 题官方规格（shape/dtype/属性/约束/容差） |
 
 ## 当前规模
 
 | 层 | 仓库记录 | 深读 | 实现 | 淘汰 |
 |---|---:|---:|---:|---:|
-| `competition` | 11 | 10 | 24 | 1 |
+| `competition` | 11 | 10 | 26 | 1 |
 | `general` | 9 | 5 | 9 | 1 |
-| 合计 | 20 | 15 | 33 | 2 |
+| 合计 | 20 | 15 | 35 | 2 |
 
-> `competition/grouped-matmul-gelu` 是 26 份公开 PR 的历史基线，不计入 33 份新深读实现；它的源码/哈希索引在 `competition/grouped-matmul-gelu/catalog/`。
+> `competition/grouped-matmul-gelu` 是 26 份公开 PR 的历史基线，不计入 35 份新深读实现；它的源码/哈希索引在 `competition/grouped-matmul-gelu/catalog/`。
 
 ## 证据状态
 

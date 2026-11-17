@@ -68,7 +68,9 @@ def impl_view(impl: dict) -> dict:
         "semantics", "shape_dtype", "environment", "source_files", "symbol",
         "mechanism", "work_model", "evidence", "conditions", "negative_cases",
         "reuse_decision", "report", "verification", "tier", "entry_path",
-        "local_status", "local_validation",
+        "local_status", "local_validation", "source_match", "official_problem",
+        "official_semantics", "official_shape_dtype", "official_conditions",
+        "official_negative_cases", "supporting_sources",
     ]
     return {k: impl[k] for k in keys if k in impl}
 
@@ -213,6 +215,9 @@ def card_view(impl: dict) -> dict:
     source_files = []
     for item in impl.get("source_files", [])[:6]:
         source_files.append(f"{item.get('local_path') or item.get('path')}:{item.get('lines')}")
+    supporting = []
+    for item in impl.get("supporting_sources", [])[:6]:
+        supporting.append(f"{item.get('local_path') or item.get('path')}:{item.get('lines')}")
     logs = []
     lv = impl.get("local_validation", {})
     if isinstance(lv, dict):
@@ -236,11 +241,14 @@ def card_view(impl: dict) -> dict:
         "source_json": f"{impl['entry_path']}/source.json",
         "one_line": one_line,
         "local_status": impl.get("local_status", "not-run"),
+        "source_match": impl.get("source_match", ""),
+        "official_problem": impl.get("official_problem", {}),
         "verification": impl.get("verification", ""),
         "conditions": impl.get("conditions", []),
         "negative_cases": impl.get("negative_cases", []),
         "reuse_decision": impl.get("reuse_decision", ""),
         "source_files": source_files,
+        "supporting_sources": supporting,
         "evidence": logs,
     }
 
@@ -274,12 +282,14 @@ def build_cards_md(data: dict) -> str:
             lines += [
                 f"### `{c['id']}`",
                 "",
-                f"- **{c['title']}** · `{c['family']}` · 本机 `{c['local_status']}`",
+                f"- **{c['title']}** · `{c['family']}` · 本机 `{c['local_status']}`" + (f" · 官方匹配 `{c['source_match']}`" if c.get('source_match') else ""),
                 f"- 一句话：{c['one_line'] or '见条目 README'}",
                 f"- 先读：[README]({readme}) · [source.json]({source})",
             ]
             if c["source_files"]:
                 lines.append("- 源码入口：" + "；".join(f"`{x}`" for x in c["source_files"][:3]))
+            if c.get("supporting_sources"):
+                lines.append("- 补充源码：" + "；".join(f"`{x}`" for x in c["supporting_sources"][:3]))
             if c["conditions"]:
                 lines.append("- 适用条件：" + "；".join(str(x) for x in c["conditions"][:4]))
             if c["negative_cases"]:
@@ -326,7 +336,10 @@ def main() -> int:
                     "operator": i["operator"],
                     "operator_family": i["operator_family"],
                     "source_files": i.get("source_files", []),
+                    **({"supporting_sources": i["supporting_sources"]} if i.get("supporting_sources") else {}),
                     "local_status": i.get("local_status", "not-run"),
+                    **({"source_match": i["source_match"]} if i.get("source_match") else {}),
+                    **({"official_problem": i["official_problem"]} if i.get("official_problem") else {}),
                     "local_validation": i.get("local_validation", {}),
                 }
                 for i in impls

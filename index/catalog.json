@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "generated_utc": "2026-11-17T15:30:00Z",
-  "scope": "两层知识库：competition（竞赛高性能 PR/实现）与 general（CANNBot 及其它非竞赛来源）；新增 2026 制造行业算子专场 6 个官方/生产仓与 15 份实现映射；含本机 910B3 复测。",
+  "scope": "两层知识库：competition（竞赛高性能 PR/实现）与 general（CANNBot 及其它非竞赛来源）；新增 2026 制造行业算子专场 6 个官方/生产仓、15 份实现映射、2 个 910B 基础件与 15 份官方公开题面；含本机 910B3 复测。",
   "evidence_levels": {
     "S": "静态源码观察（固定 commit 路径/行号/符号）",
     "M": "数学或布局推导",
@@ -33,10 +33,14 @@
       "site:gitcode.com 2026 制造行业算子专场 15 赛题",
       "gitcode ComplexAbs ComplexDiv FusedPropStep FourierTransform2D",
       "gitcode GatherCoo SegmentMinCsr RandomWalk SpmmSum Spspmm",
-      "gitcode Radius GridCluster FurthestPointSample BallQuery CylinderQuery"
+      "gitcode Radius GridCluster FurthestPointSample BallQuery CylinderQuery",
+      "CANN Judge gcc_2026_mfg problem API",
+      "api.atomgit.com search repo grid_cluster",
+      "api.atomgit.com search repo spgemm",
+      "api.atomgit.com search repo complexexp"
     ],
     "gitcode_status": "Direct connection works (proxy times out). Fixed commits cann/cann-ops-competitions@5126fead and cann/elec-ops-inspection@dfe55921. Found qualifying official repos and submissions; added 2 repo records, 3 implementations.",
-    "selection": "20 repository records (14 prior + 6 manufacturing), 18 independent algorithm sources, 15 deep-read repository records, 33 implementations, 2 excluded. GroupedMatmulGelu 26-PR archive is a competition baseline entry. Manufacturing batch maps all 15 problems: 8 have A2/910B-targeted source, 5 are 950/arch35 reference or partial, 2 have no public source found."
+    "selection": "20 repository records (14 prior + 6 manufacturing), 18 independent algorithm sources, 15 deep-read repository records, 35 implementations (18 prior + 15 manufacturing problem mappings + 2 manufacturing building blocks), 2 excluded. GroupedMatmulGelu 26-PR archive is a competition baseline entry. Manufacturing batch maps all 15 problems and archives their public CANN Judge statements. By official semantics: 2 direct (SegmentMinCsr, FurthestPointSample), 6 adapt (FourierTransform2D, SpmmSum, Spspmm, Radius, BallQuery, CylinderQuery), 5 reference (ComplexAbs, ComplexDiv, GatherCoo, RandomWalk, GridCluster), 2 none (ComplexExp, FusedPropStep)."
   },
   "repositories": [
     {
@@ -505,7 +509,7 @@
         "fft2d"
       ],
       "competition_or_context": "昇腾AI行业创新大赛——2026制造行业算子专场（15 赛题源码补充）",
-      "local_cache": "repository-research-cache/mfg-2026/ops-fft",
+      "local_cache": "competition/mfg-2026/ops-fft/source",
       "relationship_to_existing": "new; 制造专场官方/生产算子库来源",
       "status": "deep-read",
       "tier": "competition",
@@ -536,7 +540,7 @@
         "robotics"
       ],
       "competition_or_context": "昇腾AI行业创新大赛——2026制造行业算子专场（15 赛题源码补充）",
-      "local_cache": "repository-research-cache/mfg-2026/driving-sdk",
+      "local_cache": "competition/mfg-2026/driving-sdk/source",
       "relationship_to_existing": "new; 制造专场官方/生产算子库来源",
       "status": "deep-read",
       "tier": "competition",
@@ -569,7 +573,7 @@
         "point-cloud-clustering"
       ],
       "competition_or_context": "昇腾AI行业创新大赛——2026制造行业算子专场（15 赛题源码补充）",
-      "local_cache": "repository-research-cache/mfg-2026/ops-gnn",
+      "local_cache": "competition/mfg-2026/ops-gnn/source",
       "relationship_to_existing": "new; 制造专场官方/生产算子库来源",
       "status": "deep-read",
       "tier": "competition",
@@ -600,7 +604,7 @@
         "graph-gather"
       ],
       "competition_or_context": "昇腾AI行业创新大赛——2026制造行业算子专场（15 赛题源码补充）",
-      "local_cache": "repository-research-cache/mfg-2026/ops-sparse",
+      "local_cache": "competition/mfg-2026/ops-sparse/source",
       "relationship_to_existing": "new; 制造专场官方/生产算子库来源",
       "status": "deep-read",
       "tier": "competition",
@@ -630,7 +634,7 @@
         "point-cloud-query"
       ],
       "competition_or_context": "昇腾AI行业创新大赛——2026制造行业算子专场（15 赛题源码补充）",
-      "local_cache": "repository-research-cache/mfg-2026/ops-math",
+      "local_cache": "competition/mfg-2026/ops-math/source",
       "relationship_to_existing": "new; 制造专场官方/生产算子库来源",
       "status": "deep-read",
       "tier": "competition",
@@ -660,7 +664,7 @@
         "linear-algebra"
       ],
       "competition_or_context": "昇腾AI行业创新大赛——2026制造行业算子专场（15 赛题源码补充）",
-      "local_cache": "repository-research-cache/mfg-2026/ops-solver",
+      "local_cache": "competition/mfg-2026/ops-solver/source",
       "relationship_to_existing": "new; 制造专场官方/生产算子库来源",
       "status": "deep-read",
       "tier": "competition",
@@ -2613,7 +2617,8 @@
             "log": "competition/mfg-2026/evidence/ops-fft_fft2d_32x32_run_20261117.log",
             "log_sha256": "a2ccf18320bc632ef81ef98530921ddffe5096fcf06de9d0e960bd5af59c7338"
           }
-        ]
+        ],
+        "scope": "32x32 batch=1 C2C forward subset; official requires B 1..256, N,M 2..8192 powers of two, inverse"
       },
       "performance_evidence": {
         "baseline": "no author baseline in the files read; local check uses an analytic impulse DFT",
@@ -2625,7 +2630,154 @@
         "full_call_or_kernel": "aclfftExecC2C (plan + single 2D C2C exec)",
         "original_location": "competition/mfg-2026/ops-fft/README.md",
         "reproduced": true
-      }
+      },
+      "source_match": "adapt",
+      "official_problem": {
+        "id": "fouriertransform2d",
+        "canonical_name": "fouriertransform2d",
+        "title": "仿真计算：FourierTransform2D",
+        "url": "https://cannjudge.cn/public/gcc_2026_mfg/fouriertransform2d",
+        "spec": "competition/mfg-2026/official/specs.json",
+        "description": "competition/mfg-2026/official/descriptions/fouriertransform2d.md",
+        "tolerance": "atol=rtol=1e-3",
+        "source_match": "adapt"
+      },
+      "official_semantics": "正变换 exp(-2πi(kn/N+lm/M))；inverse=True 时 exp(+...) 并乘 1/(N·M)",
+      "official_shape_dtype": "x [B,N,M] complex64；→；y [B,N,M] complex64",
+      "official_conditions": [
+        "B ∈ [1,256]",
+        "N,M ∈ [2,8192] 且均为 2 的幂",
+        "输入分量有限，取值 [-1,1]"
+      ],
+      "official_negative_cases": [
+        "ops-fft/fft2_d 只接受 32/64/128 的 C2C，官方要求 2..8192 的 2 的幂",
+        "fft2_d 的方向参数可做 forward/backward，但需核对 1/(N·M) 归一化",
+        "源码只支持 complex64，官方也是 complex64，这一点匹配",
+        "fft2_d 本身只到 32/64/128；fft1_d 可作为行/列 1D 组合的基础件，但 2D 组合/逆变换归一化仍需实现"
+      ]
+    },
+    {
+      "id": "MFG2026-FFT1D",
+      "repository_id": "gitcode-mfg-ops-fft",
+      "source_commit": "65f5ff1dee32802562a9412789b0c7719ef99269",
+      "operator": "FFT1D (C2C 1D building block)",
+      "operator_family": "fourier-transform",
+      "semantics": "一维复数到复数 FFT；arch32 910B 路径按长度分派：n≤256 DFT、512..16384 FFTB、更大 FFTN；可作为 2D FFT/FusedPropStep 的行/列基础件。",
+      "shape_dtype": "complex64 (float32 interleaved); 1D C2C; n 为 2 的幂；官方 2D 需要 N,M∈[2,8192]",
+      "environment": {
+        "soc": "Ascend 910B (arch32)",
+        "cann": "9.1.0 local; README verified 9.0.0-beta.2",
+        "dsl": "Ascend C"
+      },
+      "source_files": [
+        {
+          "path": "src/fft1_d/arch32/fft1_d_exec_api.cpp",
+          "lines": "1-154",
+          "sha256": "99f987911004516ef57155869dfd290dee9456c7b5781620cc521b63b4d0b1d7",
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/fft1_d/arch32/fft1_d_exec_api.cpp",
+          "local_path": "competition/mfg-2026/ops-fft/source/src/fft1_d/arch32/fft1_d_exec_api.cpp",
+          "role": "1D C2C 尺寸分派：n≤256 走 DFT，512..16384 走 FFTB，更大走 FFTN；910B arch32"
+        },
+        {
+          "path": "src/fft1_d/arch32/dft/fft1_d_dft.cpp",
+          "lines": "1-180",
+          "sha256": "6590c21b892dadaa76fdaf7b3856f4518f0b84961ed58b78373eeb7ca3495ca9",
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/fft1_d/arch32/dft/fft1_d_dft.cpp",
+          "local_path": "competition/mfg-2026/ops-fft/source/src/fft1_d/arch32/dft/fft1_d_dft.cpp",
+          "role": "小尺寸 n≤256 的 DFT 路径，可覆盖官方 2/4/8/16/32/64/128/256"
+        },
+        {
+          "path": "src/fft1_d/arch32/fft_b/fft1_d_b.cpp",
+          "lines": "1-255",
+          "sha256": "c5bfea0f8df4ede06091b0694dbd7809dde30cda94e97a8dafbb92446818d427",
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/fft1_d/arch32/fft_b/fft1_d_b.cpp",
+          "local_path": "competition/mfg-2026/ops-fft/source/src/fft1_d/arch32/fft_b/fft1_d_b.cpp",
+          "role": "FFTB 路径，覆盖 512..16384，可用于官方 512/1024/2048/4096/8192"
+        },
+        {
+          "path": "src/fft1_d/arch32/fft_n/fft1_d_n.cpp",
+          "lines": "1-343",
+          "sha256": "e2a4fafe406af093222dca1cfbf92dca4919b9b4fdd1c29077c2a28c0059dd39",
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/fft1_d/arch32/fft_n/fft1_d_n.cpp",
+          "local_path": "competition/mfg-2026/ops-fft/source/src/fft1_d/arch32/fft_n/fft1_d_n.cpp",
+          "role": "FFTN 路径，覆盖更大 n；官方 8192 可由 FFTB/FFTN 覆盖"
+        },
+        {
+          "path": "docs/zh/API_Reference/FFT_1D.md",
+          "lines": "1-490",
+          "sha256": "74250d0475e915fb8920f1091c60d7198d68c2ee5f92769f40d8de102a48b4be",
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/docs/zh/API_Reference/FFT_1D.md",
+          "local_path": "competition/mfg-2026/ops-fft/source/docs/zh/API_Reference/FFT_1D.md",
+          "role": "FFT_1D 官方接口/支持范围/归一化说明"
+        }
+      ],
+      "symbol": "aclfftPlan1d / aclfftExecC2C_1D / aclfftFft1DDft / aclfftFft1DB / aclfftFft1DN",
+      "mechanism": "按 batch/长度选 DFT、FFTB、FFTN 路径；1D FFT 可沿行/列调用，组合成 2D FFT；也可作为 FusedPropStep 的正/逆变换基础件。",
+      "work_model": "用现成 1D FFT 基础件覆盖官方 2..8192 的单维长度；代价是 2D 组合、布局转置、逆变换归一化和逐点乘仍需实现。",
+      "evidence": [
+        {
+          "type": "official-doc",
+          "value": "ops-fft FFT_1D 文档明确 910B √；arch32 尺寸分派覆盖 n≤256/512..16384/更大。",
+          "source": "source/docs/zh/API_Reference/FFT_1D.md"
+        },
+        {
+          "type": "static-source",
+          "value": "exec API 尺寸分派与 DFT/FFTB/FFTN 路径可定位。",
+          "source": "source_files"
+        },
+        {
+          "type": "local-validation",
+          "value": "not-run; building block only.",
+          "source": "competition/mfg-2026/evidence/README.md"
+        }
+      ],
+      "conditions": [
+        "Ascend 910B arch32",
+        "1D C2C complex64",
+        "n 为 2 的幂；2..8192 可由 DFT/FFTB/FFTN 覆盖",
+        "需要行/列组合才能得到 2D FFT"
+      ],
+      "negative_cases": [
+        "不是 2D FFT；官方 2D 需要行/列组合与转置/布局处理",
+        "inverse 的 1/(N·M) 归一化不在 1D 基础件里",
+        "FusedPropStep 的逐点乘/融合/实数 dtype 未覆盖"
+      ],
+      "reuse_decision": "作为 05/04 的 910B 单维 FFT 基础件；先写行/列组合与 inverse 归一化，再和 torch.fft 对照。",
+      "report": "competition/mfg-2026/ops-fft/README.md",
+      "verification": "building block only; not an end-to-end official-problem run",
+      "tier": "competition",
+      "entry_path": "competition/mfg-2026/ops-fft",
+      "local_status": "not-run",
+      "local_validation": {
+        "status": "not-run",
+        "notes": "仅登记为 910B 1D 基础件；未构建/运行。",
+        "log": "competition/mfg-2026/evidence/README.md"
+      },
+      "source_match": "building-block",
+      "official_problem": {
+        "id": "fouriertransform2d",
+        "canonical_name": "fouriertransform2d",
+        "title": "仿真计算：FourierTransform2D",
+        "url": "https://cannjudge.cn/public/gcc_2026_mfg/fouriertransform2d",
+        "spec": "competition/mfg-2026/official/specs.json",
+        "description": "competition/mfg-2026/official/descriptions/fouriertransform2d.md",
+        "tolerance": "atol=rtol=1e-3",
+        "source_match": "building-block",
+        "also_relevant_to": [
+          "fusedpropstep"
+        ]
+      },
+      "official_semantics": "1D C2C FFT 是 2D FFT 的行/列基础件；官方 2D 正变换 exp(-2πi(...))，inverse 含 1/(N·M)",
+      "official_shape_dtype": "complex64；1D n 为 2 的幂；官方 2D N,M∈[2,8192]",
+      "official_conditions": [
+        "N,M∈[2,8192] 的 2 的幂",
+        "B∈[1,256]",
+        "inverse 含 1/(N·M)"
+      ],
+      "official_negative_cases": [
+        "不是 2D 完整实现",
+        "需要 2D 组合/布局/归一化"
+      ]
     },
     {
       "id": "MFG2026-CYLINDER-QUERY",
@@ -2712,7 +2864,33 @@
         "full_call_or_kernel": "CylinderQuery",
         "original_location": "competition/mfg-2026/driving-sdk/README.md",
         "reproduced": false
-      }
+      },
+      "source_match": "adapt",
+      "official_problem": {
+        "id": "cylinderquery",
+        "canonical_name": "cylinderquery",
+        "title": "机器人抓取：CylinderQuery",
+        "url": "https://cannjudge.cn/public/gcc_2026_mfg/cylinderquery",
+        "spec": "competition/mfg-2026/official/specs.json",
+        "description": "competition/mfg-2026/official/descriptions/cylinderquery.md",
+        "tolerance": "int32 索引逐元素一致",
+        "source_match": "adapt"
+      },
+      "official_semantics": "Δ=xyz[b,k]-new_xyz[b,j]；[x_l,y_l,z_l]^T=rot[b,j]^T·Δ；命中条件 y_l²+z_l²<radius² 且 hmin<x_l<hmax",
+      "official_shape_dtype": "xyz [B,N,3] float32/float16；new_xyz [B,M,3] 与 xyz 同 dtype；rot [B,M,3,3] 与 xyz 同 dtype；→；idx [B,M,nsample] int32",
+      "official_conditions": [
+        "B,N,M 正整数；N≥1",
+        "rot row-major，一般有限 3×3，不要求正交",
+        "局部坐标 = rot^T @ delta（不是 rot @ delta）",
+        "严格比较：y_l²+z_l²<radius² 且 hmin<x_l<hmax",
+        "按 xyz 输入索引升序 first-K；不足重复首个命中；零命中全 0",
+        "float16 输入必须先转 float32 再变换/比较"
+      ],
+      "official_negative_cases": [
+        "DrivingSDK kernel 的旋转方向是 rot^T·Δ，与官方一致；但 Python 层 `sortRes` 会排序后截断，官方要求扫描序 first-K",
+        "DrivingSDK 输出全量候选，再由 Python 排序；官方直接输出 [B,M,nsample]",
+        "float16 输入需确认 host/kernel 是否先转 float32"
+      ]
     },
     {
       "id": "MFG2026-FPS",
@@ -2804,7 +2982,32 @@
         "full_call_or_kernel": "FurthestPointSampling",
         "original_location": "competition/mfg-2026/driving-sdk/README.md",
         "reproduced": false
-      }
+      },
+      "source_match": "direct",
+      "official_problem": {
+        "id": "furthestpointsample",
+        "canonical_name": "furthestpointsample",
+        "title": "点云计算：FurthestPointSample",
+        "url": "https://cannjudge.cn/public/gcc_2026_mfg/furthestpointsample",
+        "spec": "competition/mfg-2026/official/specs.json",
+        "description": "competition/mfg-2026/official/descriptions/furthestpointsample.md",
+        "tolerance": "索引逐位一致",
+        "source_match": "direct"
+      },
+      "official_semantics": "首点索引 0；每轮更新到已选集合的最小平方距离，选最大者；并列取最小索引",
+      "official_shape_dtype": "points [B,N,3] float32/float16；→；idx [B,npoint] int32",
+      "official_conditions": [
+        "points 最后一维 3，取值 [-1,1]",
+        "B,N,npoint 为正整数",
+        "输入有限，不支持 NaN/Inf",
+        "float16 必须保持 half 精度，不得提升到 float32",
+        "并列距离取最小输入索引；不额外排除已选点"
+      ],
+      "official_negative_cases": [
+        "DrivingSDK 文档还支持 bfloat16，官方只要求 float32/float16",
+        "源码有总元素 B*N*3≤383166 的约束；官方测试规模远小于此",
+        "需本机确认 half 路径与并列 tie-break 逐位一致"
+      ]
     },
     {
       "id": "MFG2026-RADIUS",
@@ -2896,7 +3099,32 @@
         "full_call_or_kernel": "Radius",
         "original_location": "competition/mfg-2026/driving-sdk/README.md",
         "reproduced": false
-      }
+      },
+      "source_match": "adapt",
+      "official_problem": {
+        "id": "radius",
+        "canonical_name": "radius",
+        "title": "点云计算：Radius",
+        "url": "https://cannjudge.cn/public/gcc_2026_mfg/radius",
+        "spec": "competition/mfg-2026/official/specs.json",
+        "description": "competition/mfg-2026/official/descriptions/radius.md",
+        "tolerance": "索引逐位一致",
+        "source_match": "adapt"
+      },
+      "official_semantics": "d2=||x[j]-y[i]||²；d2≤r² 且未被 ignore_same_index 剔除则收集 (i,j)，first-K 截断",
+      "official_shape_dtype": "x (N,D) float32/float16；y (M,D) 与 x 同 dtype；ptr_x (Rx) int64；ptr_y (Ry) int64；→；out (2,E) int64，E=M×max_num_neighbors",
+      "official_conditions": [
+        "N,M ∈ [1,1000000]",
+        "M×max_num_neighbors ≤ 4000000",
+        "D ∈ {2,3}",
+        "固定槽位：查询 i 写 [i·K,(i+1)·K)，未命中 (-1,-1)",
+        "按 x 扫描序 first-K，不排序；禁止跨 batch"
+      ],
+      "official_negative_cases": [
+        "DrivingSDK radius 输出动态 [2,E]，官方要求定槽位 [2,M×K] 且未命中 (-1,-1)",
+        "源码约束 Ndim<9、batch≤1024、单 batch 点数≤512；官方 D∈{2,3}、N/M≤1e6",
+        "官方有 ignore_same_index；源码需核对该属性"
+      ]
     },
     {
       "id": "MFG2026-GNN-GATHER-COO",
@@ -2981,7 +3209,31 @@
         "full_call_or_kernel": "GatherCoo",
         "original_location": "competition/mfg-2026/ops-gnn/README.md",
         "reproduced": false
-      }
+      },
+      "source_match": "reference",
+      "official_problem": {
+        "id": "gathercoo",
+        "canonical_name": "gathercoo",
+        "title": "图计算：GatherCoo",
+        "url": "https://cannjudge.cn/public/gcc_2026_mfg/gathercoo",
+        "spec": "competition/mfg-2026/official/specs.json",
+        "description": "competition/mfg-2026/official/descriptions/gathercoo.md",
+        "tolerance": "索引/拷贝精确；dtype 原样",
+        "source_match": "reference"
+      },
+      "official_semantics": "out[i,:] = src[index[i],:]",
+      "official_shape_dtype": "src (M,K) float32/float16/int32/int8；index (E) int32，取值 [0,M)；→；out (E,K) 与 src 同 dtype",
+      "official_conditions": [
+        "M ∈ [1,1000000]",
+        "K ∈ [1,4096]",
+        "E ∈ [1,4000000]",
+        "允许重复 index；越界行为未定义；无需越界检查"
+      ],
+      "official_negative_cases": [
+        "ops-gnn gather_coo 仅 arch35（950），910B 无 arch22",
+        "源码 index 为 int64、支持 rank 1–8；官方 index 为 int32、2D [M,K]",
+        "ops-sparse gather 是 dense gather，不是 COO 行扩展"
+      ]
     },
     {
       "id": "MFG2026-GNN-SEGMENT-MIN-CSR",
@@ -3073,7 +3325,31 @@
         "full_call_or_kernel": "SegmentMinCsr",
         "original_location": "competition/mfg-2026/ops-gnn/README.md",
         "reproduced": false
-      }
+      },
+      "source_match": "direct",
+      "official_problem": {
+        "id": "segmentmincsr",
+        "canonical_name": "segmentmincsr",
+        "title": "图计算：SegmentMinCsr",
+        "url": "https://cannjudge.cn/public/gcc_2026_mfg/segmentmincsr",
+        "spec": "competition/mfg-2026/official/specs.json",
+        "description": "competition/mfg-2026/official/descriptions/segmentmincsr.md",
+        "tolerance": "values 按题面 atol/rtol；arg_out 逐位一致",
+        "source_match": "direct"
+      },
+      "official_semantics": "out[r,c]=min(src[indptr[r]:indptr[r+1],c])；arg_out 为全局 src 行号",
+      "official_shape_dtype": "src (E,K) float32/float16；indptr (R) int64，R=N+1，单调不减，indptr[N]=E；→；out (N,K) 与 src 同 dtype；arg_out (N,K) int64，段内全局行号",
+      "official_conditions": [
+        "N ∈ [1,1000000]",
+        "E ∈ [0,5000000]",
+        "K ∈ [1,4096]",
+        "允许空段/连续空段/全空段；tie-break 首遇（严格小于才更新）",
+        "空段 out=0，arg_out=E（哨兵）"
+      ],
+      "official_negative_cases": [
+        "需确认 Python 入口返回 (values, indices) 与官方两个输出张量的绑定方式",
+        "源码还支持 sum/max/mean 等，官方只要求 min"
+      ]
     },
     {
       "id": "MFG2026-GNN-RANDOM-WALK",
@@ -3158,7 +3434,32 @@
         "full_call_or_kernel": "RandomWalk",
         "original_location": "competition/mfg-2026/ops-gnn/README.md",
         "reproduced": false
-      }
+      },
+      "source_match": "reference",
+      "official_problem": {
+        "id": "randomwalk",
+        "canonical_name": "randomwalk",
+        "title": "图计算：RandomWalk",
+        "url": "https://cannjudge.cn/public/gcc_2026_mfg/randomwalk",
+        "spec": "competition/mfg-2026/official/specs.json",
+        "description": "competition/mfg-2026/official/descriptions/randomwalk.md",
+        "tolerance": "轨迹逐位一致",
+        "source_match": "reference"
+      },
+      "official_semantics": "out[i,0]=seed[i]；每步按 rowptr/col 与 rand 选下一节点；孤立点停留",
+      "official_shape_dtype": "rowptr (R) int64；col (E) int64；seed (B) int64；rand (B,walk_length) float32，必选；→；out (B,L) int64，L=walk_length+1",
+      "official_conditions": [
+        "N ∈ [1,10000000]",
+        "E ∈ [0,20000000]",
+        "B ∈ [1,100000]",
+        "孤立点停留且每步仍消费 rand",
+        "p=q=1 为均匀；p/q≠1 为 node2vec 扩展"
+      ],
+      "official_negative_cases": [
+        "ops-gnn random_walk 仅 arch35（950），910B 无 arch22",
+        "源码用 Philox 计数器 RNG；官方要求外部 rand 输入，保证逐位可比",
+        "官方 p/q 为非 1 的 node2vec 扩展，源码接口也需核对"
+      ]
     },
     {
       "id": "MFG2026-GNN-SPMM",
@@ -3243,7 +3544,32 @@
         "full_call_or_kernel": "SpmmSum (CSR aggregation)",
         "original_location": "competition/mfg-2026/ops-gnn/README.md",
         "reproduced": false
-      }
+      },
+      "source_match": "adapt",
+      "official_problem": {
+        "id": "spmmsum",
+        "canonical_name": "spmmsum",
+        "title": "图计算：SpmmSum",
+        "url": "https://cannjudge.cn/public/gcc_2026_mfg/spmmsum",
+        "spec": "competition/mfg-2026/official/specs.json",
+        "description": "competition/mfg-2026/official/descriptions/spmmsum.md",
+        "tolerance": "float32: atol=rtol=1e-4；float16: atol=rtol=1e-2",
+        "source_match": "adapt"
+      },
+      "official_semantics": "out[r,:] = sum_{k∈[rowptr[r],rowptr[r+1])} value[k] * mat[col[k],:]",
+      "official_shape_dtype": "rowptr (R) int64；col (E) int32，行内升序；value (E) float32/float16；mat (N,K) 与 value 同 dtype；→；out (M,K) 与 value 同 dtype",
+      "official_conditions": [
+        "M,N ∈ [1,10000000]",
+        "E ∈ [1,20000000]",
+        "K ∈ [1,4096]",
+        "允许空行，空行输出 0",
+        "按 col 升序确定性累加"
+      ],
+      "official_negative_cases": [
+        "ops-sparse SpMM 是通用 alpha·A·B+beta·C，需要 alpha=1/beta=0 并构造 CSR 描述符",
+        "ops-gnn spmm 是 PyTorch 层聚合接口，需把 value/mat 映射到 op/reduce",
+        "官方 col 为 int32，源码部分路径为 int64"
+      ]
     },
     {
       "id": "MFG2026-GNN-GRID-CLUSTER",
@@ -3321,7 +3647,32 @@
         "full_call_or_kernel": "GridCluster",
         "original_location": "competition/mfg-2026/ops-gnn/README.md",
         "reproduced": false
-      }
+      },
+      "source_match": "reference",
+      "official_problem": {
+        "id": "gridcluster",
+        "canonical_name": "gridcluster",
+        "title": "点云计算：GridCluster",
+        "url": "https://cannjudge.cn/public/gcc_2026_mfg/gridcluster",
+        "spec": "competition/mfg-2026/official/specs.json",
+        "description": "competition/mfg-2026/official/descriptions/gridcluster.md",
+        "tolerance": "int64 逐位一致",
+        "source_match": "reference"
+      },
+      "official_semantics": "cluster[i]=Σ_d trunc((pos[i,d]-start[d])/size[d])·stride[d]；stride[0]=1，stride[d]=prod(num_voxels[0:d])",
+      "official_shape_dtype": "pos (N,D) float32/float16；size (D)；start (D)；end (D)；→；out (N) int64",
+      "official_conditions": [
+        "N ∈ [1,10000000]",
+        "D ∈ {2,3}",
+        "size 各维 >0；end≥start；pos-start≥0",
+        "prod(num_voxels)<2^28",
+        "stride[0]=1，第 0 维变化最快"
+      ],
+      "official_negative_cases": [
+        "ops-gnn grid_cluster 仅 arch35（950），910B 无 arch22",
+        "源码 stride 顺序与官方一致（dim0 最快），但 SIMT 路径需重写",
+        "个人仓 flying_whj/CANN_grid_cluster 也是 arch35，但有设计文档/golden 可读"
+      ]
     },
     {
       "id": "MFG2026-SPARSE-SPGEMM",
@@ -3420,7 +3771,32 @@
         "full_call_or_kernel": "Spspmm (CSR × CSR)",
         "original_location": "competition/mfg-2026/ops-sparse/README.md",
         "reproduced": false
-      }
+      },
+      "source_match": "adapt",
+      "official_problem": {
+        "id": "spspmm",
+        "canonical_name": "spspmm",
+        "title": "图计算：Spspmm",
+        "url": "https://cannjudge.cn/public/gcc_2026_mfg/spspmm",
+        "spec": "competition/mfg-2026/official/specs.json",
+        "description": "competition/mfg-2026/official/descriptions/spspmm.md",
+        "tolerance": "float32: atol=rtol=1e-4；float16: atol=rtol=1e-2；indexC 逐位一致",
+        "source_match": "adapt"
+      },
+      "official_semantics": "C[i,n]=sum_k A[i,k]·B[k,n]；输出模式交集，行主序",
+      "official_shape_dtype": "indexA (2,E1) int64；valueA (E1) float32/float16；indexB (2,E2) int64；valueB (E2) 与 valueA 同 dtype；→；indexC (2,U) int64，U=m·n；valueC (U) 与 valueA 同 dtype",
+      "official_conditions": [
+        "M,N,K ∈ [1,10000000]",
+        "E1,E2 ∈ [1,5000000]",
+        "U=m·n ≤ 250000",
+        "COO 行主序、无重复；输出前 E3 个真实条目，其余 (-1,-1)/0",
+        "累加和为 0 的坐标保留"
+      ],
+      "official_negative_cases": [
+        "ops-sparse SpGEMM 输入/输出为 CSR、动态 nnz；官方为 COO + 固定槽位 U=m·n",
+        "官方要求未命中槽位 (-1,-1)/0，且保留零和坐标；源码输出 CSR 排序去重",
+        "官方维度属性 m/k/n 可大于 index 上限"
+      ]
     },
     {
       "id": "MFG2026-SPARSE-SPMM",
@@ -3512,7 +3888,32 @@
         "full_call_or_kernel": "SpmmSum (aclsparse SpMM)",
         "original_location": "competition/mfg-2026/ops-sparse/README.md",
         "reproduced": false
-      }
+      },
+      "source_match": "adapt",
+      "official_problem": {
+        "id": "spmmsum",
+        "canonical_name": "spmmsum",
+        "title": "图计算：SpmmSum",
+        "url": "https://cannjudge.cn/public/gcc_2026_mfg/spmmsum",
+        "spec": "competition/mfg-2026/official/specs.json",
+        "description": "competition/mfg-2026/official/descriptions/spmmsum.md",
+        "tolerance": "float32: atol=rtol=1e-4；float16: atol=rtol=1e-2",
+        "source_match": "adapt"
+      },
+      "official_semantics": "out[r,:] = sum_{k∈[rowptr[r],rowptr[r+1])} value[k] * mat[col[k],:]",
+      "official_shape_dtype": "rowptr (R) int64；col (E) int32，行内升序；value (E) float32/float16；mat (N,K) 与 value 同 dtype；→；out (M,K) 与 value 同 dtype",
+      "official_conditions": [
+        "M,N ∈ [1,10000000]",
+        "E ∈ [1,20000000]",
+        "K ∈ [1,4096]",
+        "允许空行，空行输出 0",
+        "按 col 升序确定性累加"
+      ],
+      "official_negative_cases": [
+        "ops-sparse SpMM 是通用 alpha·A·B+beta·C，需要 alpha=1/beta=0 并构造 CSR 描述符",
+        "ops-gnn spmm 是 PyTorch 层聚合接口，需把 value/mat 映射到 op/reduce",
+        "官方 col 为 int32，源码部分路径为 int64"
+      ]
     },
     {
       "id": "MFG2026-SPARSE-GATHER",
@@ -3597,7 +3998,30 @@
         "full_call_or_kernel": "Gather (dense gather)",
         "original_location": "competition/mfg-2026/ops-sparse/README.md",
         "reproduced": false
-      }
+      },
+      "source_match": "not-applicable",
+      "official_problem": {
+        "id": "gathercoo",
+        "canonical_name": "gathercoo",
+        "title": "图计算：GatherCoo",
+        "url": "https://cannjudge.cn/public/gcc_2026_mfg/gathercoo",
+        "spec": "competition/mfg-2026/official/specs.json",
+        "description": "competition/mfg-2026/official/descriptions/gathercoo.md",
+        "tolerance": "索引/拷贝精确；dtype 原样",
+        "source_match": "not-applicable",
+        "note": "dense gather only; not COO row expansion"
+      },
+      "official_semantics": "out[i,:] = src[index[i],:]",
+      "official_shape_dtype": "src (M,K) float32/float16/int32/int8；index (E) int32，取值 [0,M)；→；out (E,K) 与 src 同 dtype",
+      "official_conditions": [
+        "M ∈ [1,1000000]",
+        "K ∈ [1,4096]",
+        "E ∈ [1,4000000]",
+        "允许重复 index；越界行为未定义；无需越界检查"
+      ],
+      "official_negative_cases": [
+        "dense gather is not GatherCoo"
+      ]
     },
     {
       "id": "MFG2026-MATH-COMPLEX-ABS",
@@ -3682,7 +4106,157 @@
         "full_call_or_kernel": "ComplexAbs",
         "original_location": "competition/mfg-2026/ops-math/README.md",
         "reproduced": false
-      }
+      },
+      "source_match": "reference",
+      "official_problem": {
+        "id": "complexabs",
+        "canonical_name": "complexabs",
+        "title": "仿真计算：ComplexAbs",
+        "url": "https://cannjudge.cn/public/gcc_2026_mfg/complexabs",
+        "spec": "competition/mfg-2026/official/specs.json",
+        "description": "competition/mfg-2026/official/descriptions/complexabs.md",
+        "tolerance": "atol=rtol=1e-4",
+        "source_match": "reference"
+      },
+      "official_semantics": "out = sqrt(re² + im²)",
+      "official_shape_dtype": "src [N,M] complex64；→；out [N,M] float32",
+      "official_conditions": [
+        "N,M ∈ [1,65536]",
+        "输入分量有限，不支持 NaN/Inf；分量绝对值 ≤ 10"
+      ],
+      "official_negative_cases": [
+        "ops-math complex_abs 仅 arch35（950/A3），A2 明确不支持",
+        "官方输入仅 complex64，源码支持 complex32/64/128，属于更宽的实现",
+        "ComplexExp 无单 kernel 实现；exp/sin/cos + ComplexV3 是 4 个算子的组合，需额外 GM 往返与精度验证"
+      ]
+    },
+    {
+      "id": "MFG2026-MATH-COMPLEX-EXP-BLOCKS",
+      "repository_id": "gitcode-mfg-ops-math",
+      "source_commit": "3b2baac63624c32e03781bd9f0290f1a4584f0c7",
+      "operator": "ComplexExp building blocks (Exp/Sin/Cos + ComplexV3)",
+      "operator_family": "complex-elementwise",
+      "semantics": "用 910B 的实数 exp/sin/cos 与 ComplexV3（real/imag→complex，支持广播）组合 e^(a+bi)=e^a·cos b + i·e^a·sin b；不是单 kernel。",
+      "shape_dtype": "x [N,M] float16/float32/complex64；exp/sin/cos 为实数 dtype；ComplexV3 float16/float32→complex32/64",
+      "environment": {
+        "soc": "Ascend 910B (arch22 for ComplexV3/exp; sin/cos 910B)",
+        "cann": "9.1.0 local",
+        "dsl": "Ascend C"
+      },
+      "source_files": [
+        {
+          "path": "experimental/math/complex_v3/README.md",
+          "lines": "1-125",
+          "sha256": "21c4851d45bc73af97ad2e53b80206a8ff11c53f6b29f108ce1da587789856af",
+          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/experimental/math/complex_v3/README.md",
+          "local_path": "competition/mfg-2026/ops-math/source/experimental/math/complex_v3/README.md",
+          "role": "ComplexV3：910B arch22，real/imag float16/float32 → complex32/64，支持广播"
+        },
+        {
+          "path": "experimental/math/complex_v3/op_host/complex_v3_def.cpp",
+          "lines": "1-59",
+          "sha256": "1b02aab26e9e28272adfc2c0064dcfc2b54314f96f2c01ac955a39e337223324",
+          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/experimental/math/complex_v3/op_host/complex_v3_def.cpp",
+          "local_path": "competition/mfg-2026/ops-math/source/experimental/math/complex_v3/op_host/complex_v3_def.cpp",
+          "role": "ComplexV3 算子注册：ascend910b + ascend950，输出 complex32/64"
+        },
+        {
+          "path": "experimental/math/complex_v3/op_kernel/complex_v3.h",
+          "lines": "1-535",
+          "sha256": "dd9cea834ccaa0569654792d93efcac72fb54ac27e463db6a8cc61db5806dfc0",
+          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/experimental/math/complex_v3/op_kernel/complex_v3.h",
+          "local_path": "competition/mfg-2026/ops-math/source/experimental/math/complex_v3/op_kernel/complex_v3.h",
+          "role": "ComplexV3 arch22 kernel：无广播/广播路径，实虚交错输出"
+        },
+        {
+          "path": "experimental/math/exp/README.md",
+          "lines": "1-88",
+          "sha256": "80ab1dbae808cc7541c0954bf2e7c419e3cab10554144aebc64cbba8fb745474",
+          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/experimental/math/exp/README.md",
+          "local_path": "competition/mfg-2026/ops-math/source/experimental/math/exp/README.md",
+          "role": "Exp：910B（experimental arch22），float16/float32/bfloat16"
+        },
+        {
+          "path": "experimental/math/sin/README.md",
+          "lines": "1-67",
+          "sha256": "66480be90546ca06439ef8726ec37bc6f34e245f6acdab359c94ca4ebf9e9ca9",
+          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/experimental/math/sin/README.md",
+          "local_path": "competition/mfg-2026/ops-math/source/experimental/math/sin/README.md",
+          "role": "Sin：910B，float16/float32/bfloat16"
+        },
+        {
+          "path": "experimental/math/cos/README.md",
+          "lines": "1-50",
+          "sha256": "986e0b95a24a66ac6a01f7a095fe60723826ade890980eef47dbbdcdd531c050",
+          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/experimental/math/cos/README.md",
+          "local_path": "competition/mfg-2026/ops-math/source/experimental/math/cos/README.md",
+          "role": "Cos：910B，float16/float32/bfloat16"
+        }
+      ],
+      "symbol": "aclnnExp / aclnnSin / aclnnCos / aclnnComplexV3",
+      "mechanism": "分别计算 exp(a)、cos(b)、sin(b)；再算 real=exp(a)*cos(b)、imag=exp(a)*sin(b)；ComplexV3 把两平面拼成复数输出。4 个算子，额外 GM 读写。",
+      "work_model": "复用 910B 实数基础件，避免从零写复数 exp；代价是 4 个 kernel、额外内存往返和 fp16 中间精度。",
+      "evidence": [
+        {
+          "type": "official-doc",
+          "value": "exp/sin/cos README 标明 910B；ComplexV3 README/def 标明 910B arch22、broadcast、complex32/64。",
+          "source": "source_files"
+        },
+        {
+          "type": "static-source",
+          "value": "ComplexV3 def/kernel 与 exp/sin/cos README 可定位。",
+          "source": "source_files"
+        },
+        {
+          "type": "local-validation",
+          "value": "not-run; composition only.",
+          "source": "competition/mfg-2026/evidence/README.md"
+        }
+      ],
+      "conditions": [
+        "910B arch22/A2 基础件",
+        "float16/float32 实数中间量；complex64 输出",
+        "同 shape（ComplexExp 不要求广播；ComplexV3 支持广播）"
+      ],
+      "negative_cases": [
+        "不是单 kernel；4 个算子 + 额外 GM 往返",
+        "fp16 极值/精度需验证；官方 atol/rtol=1e-3",
+        "complex64 输入需拆 real/imag；complex32/128 不在官方范围"
+      ],
+      "reuse_decision": "作为 03 的 910B 组合路径；先 float32/complex64 跑通，再评估 fp16 与单 kernel 融合。",
+      "report": "competition/mfg-2026/ops-math/README.md",
+      "verification": "building block composition; no end-to-end official-problem run",
+      "tier": "competition",
+      "entry_path": "competition/mfg-2026/ops-math",
+      "local_status": "not-run",
+      "local_validation": {
+        "status": "not-run",
+        "notes": "仅登记为 910B 组合基础件；未构建/运行。",
+        "log": "competition/mfg-2026/evidence/README.md"
+      },
+      "source_match": "building-block",
+      "official_problem": {
+        "id": "complexexp",
+        "canonical_name": "complexexp",
+        "title": "仿真计算：ComplexExp",
+        "url": "https://cannjudge.cn/public/gcc_2026_mfg/complexexp",
+        "spec": "competition/mfg-2026/official/specs.json",
+        "description": "competition/mfg-2026/official/descriptions/complexexp.md",
+        "tolerance": "float32/complex64: atol=rtol=1e-4；float16: 1e-3",
+        "source_match": "building-block"
+      },
+      "official_semantics": "实数: exp(a)；复数: exp(a)·(cos b + i·sin b)",
+      "official_shape_dtype": "x [N,M] float16/float32/complex64 → out 同 dtype",
+      "official_conditions": [
+        "N,M∈[1,65536]",
+        "实部/虚部∈[-10,10]",
+        "输入有限"
+      ],
+      "official_negative_cases": [
+        "不是单 kernel",
+        "4 个算子组合，额外 GM",
+        "fp16 中间精度需验证"
+      ]
     },
     {
       "id": "MFG2026-MATH-STACK-BALL-QUERY",
@@ -3775,7 +4349,32 @@
         "full_call_or_kernel": "StackBallQuery",
         "original_location": "competition/mfg-2026/ops-math/README.md",
         "reproduced": false
-      }
+      },
+      "source_match": "adapt",
+      "official_problem": {
+        "id": "ballquery",
+        "canonical_name": "ballquery",
+        "title": "点云计算：BallQuery",
+        "url": "https://cannjudge.cn/public/gcc_2026_mfg/ballquery",
+        "spec": "competition/mfg-2026/official/specs.json",
+        "description": "competition/mfg-2026/official/descriptions/ballquery.md",
+        "tolerance": "int32 索引逐元素一致",
+        "source_match": "adapt"
+      },
+      "official_semantics": "d²=(x_k-x_q)²+(y_k-y_q)²+(z_k-z_q)²；d²<radius² 命中；按 k 升序取前 nsample",
+      "official_shape_dtype": "xyz [B,N,3] float32/float16；new_xyz [B,M,3] 与 xyz 同 dtype；→；idx [B,M,nsample] int32",
+      "official_conditions": [
+        "B,N,M 正整数；N≥1",
+        "xyz/new_xyz 最后一维 3，常规 [-1,1]",
+        "d² < radius² 严格小于；first-K 扫描序",
+        "命中不足 nsample 时尾部重复首个命中；零命中全 0",
+        "float16 输入必须先转 float32 再算距离和阈值"
+      ],
+      "official_negative_cases": [
+        "stack_ball_query 输入是 2D 堆叠布局 + batch counts，官方是 [B,N,3]/[B,M,3]",
+        "stack_ball_query 在 float16 路径把 radius² 先转 half，官方要求 float32 阈值语义",
+        "ops-math 直接版 ball_query 有 min_radius/max_radius 语义，官方只有单 radius；且直接版只有 arch35"
+      ]
     },
     {
       "id": "MFG2026-SOLVER-COMPLEX-DIV",
@@ -3860,7 +4459,29 @@
         "full_call_or_kernel": "ComplexDiv (reference)",
         "original_location": "competition/mfg-2026/ops-solver/README.md",
         "reproduced": false
-      }
+      },
+      "source_match": "reference",
+      "official_problem": {
+        "id": "complexdiv",
+        "canonical_name": "complexdiv",
+        "title": "仿真计算：ComplexDiv",
+        "url": "https://cannjudge.cn/public/gcc_2026_mfg/complexdiv",
+        "spec": "competition/mfg-2026/official/specs.json",
+        "description": "competition/mfg-2026/official/descriptions/complexdiv.md",
+        "tolerance": "float32/complex64: atol=rtol=1e-4；float16: atol=rtol=1e-3",
+        "source_match": "reference"
+      },
+      "official_semantics": "(a+bi)/(c+di) = (a+bi)(c-di)/(c²+d²)",
+      "official_shape_dtype": "dividend [N,M] float16/float32/complex64；divisor [N,M] 与 dividend 同 dtype；→；out [N,M] 与 dividend 同 dtype",
+      "official_conditions": [
+        "N,M ∈ [1,65536]",
+        "分量绝对值 ≤ 10；除数非零；除零行为未定义",
+        "支持 NumPy/torch 广播；不做隐式类型提升"
+      ],
+      "official_negative_cases": [
+        "ops-solver 只有 complex64 的 LU/SIMT 内部 helper，不是独立 elementwise 算子",
+        "不覆盖 float16/float32 与广播；SIMT 仅 950 可编译"
+      ]
     }
   ],
   "excluded_candidates": [

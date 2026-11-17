@@ -1,138 +1,212 @@
-# 15 道赛题逐题说明与源码缺口
+# 15 道赛题：官方规格与源码匹配
 
-本页只写“能从公开源码/文档确认的语义”和“下一步要验证什么”。没有官方题面的题，明确写“未知”，不补造 shape/容差。
+> 官方题面抓取于 2026-11-17：`https://cannjudge.cn/public/gcc_2026_mfg/<problem>`。完整题面在 [`official/descriptions/`](official/descriptions/)，机器可读摘要在 [`official/specs.json`](official/specs.json)。
 
-## 01 ComplexAbs（仿真）
+本页不再用“公开源码存在”推断“可直接解决赛题”。每题的 `direct` / `adapt` / `reference` / `none` 见 [official/README.md](official/README.md)。
 
-- **语义**：复数逐元素模长，`y = sqrt(re² + im²)`。
-- **dtype**：COMPLEX32→FLOAT16、COMPLEX64→FLOAT、COMPLEX128→DOUBLE；输出类型由输入推导，`Tout` 属性保留但不用。
-- **约束**：ND，秩≤8，不支持空 Tensor；A2 不支持，950/A3 支持。
-- **源码**：[`ops-math/math/complex_abs`](ops-math/README.md)；`op_kernel/arch35/complex_abs_dag.h`、`op_host/arch35/complex_abs_tiling_arch35.cpp`。
-- **910B 结论**：官方实现不能直接上 910B；可参考“先平方和再 sqrt”的 DAG 写法，但需要自己写 arch22/Vector 版本。
-- **下一步**：确认题面是否要求 COMPLEX128（910B 可能无 FP64 向量支持）、空 Tensor/特殊值语义。
+## 01 仿真计算：ComplexAbs
 
-## 02 ComplexDiv（仿真）
+- **官方题面**：[complexabs](official/descriptions/complexabs.md) · [CANN Judge](https://cannjudge.cn/public/gcc_2026_mfg/complexabs)
+- **源码级别**：`reference`；候选：`MFG2026-MATH-COMPLEX-ABS` · [条目说明](ops-math/README.md)
+- **公式**：out = sqrt(re² + im²)
+- **输入**：src [N,M] complex64
+- **输出**：out [N,M] float32
+- **属性**：无
+- **约束**：N,M ∈ [1,65536]；输入分量有限，不支持 NaN/Inf；分量绝对值 ≤ 10
+- **容差**：atol=rtol=1e-4
+- **源码差异**：ops-math complex_abs 仅 arch35（950/A3），A2 明确不支持；官方输入仅 complex64，源码支持 complex32/64/128，属于更宽的实现
+- **复用判断**：只复用平方和/sqrt/缩放算法；910B 需另写 Vector 版本，不能直接构建 arch35 代码。
 
-- **语义**：复数逐元素除法，`(a+bi)/(c+di)`；题面可能还要求特殊值/极值处理。
-- **源码参考**：`ops-solver/src/utils/complex_solver_kernel.hpp:49-80` 的 `Quotient/Divide`：按 `max(|c|,|d|)` 缩放，FMA 计算分子/分母误差，两次补偿商。
-- **约束**：该函数在 `__NPU_ARCH__ == 3510`（950）守卫内，且是 LU/QR 的内部 helper，不是独立 elementwise 算子；910B 不能直接编译。
-- **910B 结论**：算法可迁移，代码不可直接复用；需要写 910B Vector 版本并确认 `float`/`complex64` 布局。
-- **下一步**：问题面是否要求 COMPLEX32/128、NaN/Inf/0 除、是否允许 Newton 修正。
+## 02 仿真计算：ComplexDiv
 
-## 03 ComplexExp（仿真）
+- **官方题面**：[complexdiv](official/descriptions/complexdiv.md) · [CANN Judge](https://cannjudge.cn/public/gcc_2026_mfg/complexdiv)
+- **源码级别**：`reference`；候选：`MFG2026-SOLVER-COMPLEX-DIV` · [条目说明](ops-solver/README.md)
+- **公式**：(a+bi)/(c+di) = (a+bi)(c-di)/(c²+d²)
+- **输入**：dividend [N,M] float16/float32/complex64；divisor [N,M] 与 dividend 同 dtype
+- **输出**：out [N,M] 与 dividend 同 dtype
+- **属性**：无
+- **约束**：N,M ∈ [1,65536]；分量绝对值 ≤ 10；除数非零；除零行为未定义；支持 NumPy/torch 广播；不做隐式类型提升
+- **容差**：float32/complex64: atol=rtol=1e-4；float16: atol=rtol=1e-3
+- **源码差异**：ops-solver 只有 complex64 的 LU/SIMT 内部 helper，不是独立 elementwise 算子；不覆盖 float16/float32 与广播；SIMT 仅 950 可编译
+- **复用判断**：复用缩放 + FMA 补偿商算法；910B 需写 Vector 版并补 float16/float32/广播。
 
-- **语义（推测，需题面）**：`exp(a+bi) = exp(a)·(cos b + i·sin b)`。
-- **公开源码**：**未找到**专门的 Ascend C ComplexExp 实现。
-- **可组合的官方件**：`ops-math` 的 `exp`、`sin`、`cos`（math 类）与 `experimental/math/complex_v2` 的实虚交错布局；需要确认这些算子在 910B 的 dtype/精度。
-- **风险**：极值 `exp(a)` 溢出、`b` 的范围规约、复数内存布局（实虚交错 vs 分离平面）都会改变结果；没有题面不能定。
-- **下一步**：拿到题面后，决定是“一个融合 kernel”还是“exp + sincos + ComplexV2 组合”，再写 910B 版本。
+## 03 仿真计算：ComplexExp
 
-## 04 FusedPropStep（仿真）
+- **官方题面**：[complexexp](official/descriptions/complexexp.md) · [CANN Judge](https://cannjudge.cn/public/gcc_2026_mfg/complexexp)
+- **源码级别**：`none`；候选：`—`
+- **公式**：实数: exp(a)；复数: exp(a)·(cos b + i·sin b)
+- **输入**：x [N,M] float16/float32/complex64
+- **输出**：out [N,M] 与 x 同 dtype
+- **属性**：无
+- **约束**：N,M ∈ [1,65536]；实部、虚部均在 [-10,10]；输入有限，不支持 NaN/Inf
+- **容差**：float32/complex64: atol=rtol=1e-4；float16: atol=rtol=1e-3
+- **源码差异**：未找到公开的 Ascend C ComplexExp 实现；GitCode 全站搜索 ComplexExp 仅命中无关词法分析仓库；已有 910B 基础件可组合，但没有官方/公开的单 kernel ComplexExp 实现
+- **复用判断**：没有单 kernel ComplexExp；可用 910B 的 exp/sin/cos + ComplexV3 组合出 e^a·cos b / e^a·sin b 再拼成复数。代价是 4 个算子、额外 GM 往返，需验证 fp16 精度与极值。
+- **补充基础件**：experimental/math/exp（910B arch22）；experimental/math/sin（910B）；experimental/math/cos（910B）；experimental/math/complex_v3（910B arch22，real/imag→complex，支持广播）
 
-- **语义**：**未知**。名称指向“融合传播步”（propagation step），但没有公开公式、输入输出或测试。
-- **公开源码**：**未找到**。`ops-fft`、`ops-math`、`ops-solver`、`mat-chem-sim-pred` 都没有同名算子；`mat-chem-sim-pred` 的 FNO/PINN 是 PDE 推理，不是本题。
-- **风险**：不能根据名字猜“传播”是图传播、物理场传播还是数值积分；猜错会直接改变数学语义。
-- **下一步**：必须拿到官方题面/参考实现；在此之前只保留缺口，不写虚假候选。
+## 04 仿真计算：FusedPropStep
 
-## 05 FourierTransform2D（仿真）
+- **官方题面**：[fusedpropstep](official/descriptions/fusedpropstep.md) · [CANN Judge](https://cannjudge.cn/public/gcc_2026_mfg/fusedpropstep)
+- **源码级别**：`none`；候选：`—`
+- **公式**：S=FFT2(field); P=S·h; out=IFFT2(P)；norm=True 时逆变换含 1/(N·M)，False 时归一化因子预乘入 h
+- **输入**：field [B,N,M] float16/float32/complex64；h [Bh,N,M] 与 field 同 dtype
+- **输出**：out [B,N,M] 与 field 同 dtype
+- **属性**：norm bool 默认 False
+- **约束**：B ∈ [1,256]；N,M ∈ [2,8192] 且均为 2 的幂；取值 [-1,1]，输入有限；Bh = 1 或 Bh = B；h 的 N,M 与 field 相同
+- **容差**：complex64: atol=rtol=1e-4；float32/float16: atol=rtol=1e-3
+- **源码差异**：未找到公开的 Ascend C FusedPropStep 实现；ops-fft/fft2_d 只覆盖 complex64、32/64/128，且不融合逐点乘，无法覆盖 2..8192 与实数 dtype；已有 910B 的 1D/2D FFT 基础件，但需要组合/融合，且 fft2_d 仅 32/64/128
+- **复用判断**：没有公开 FusedPropStep；可用 fft1_d 的行/列 1D FFT 组合 2D FFT，再做逐点乘与逆变换。仍缺单 kernel 融合、2..8192 全尺寸、实数 dtype 和 norm 归一化。
+- **补充基础件**：ops-fft/fft1_d（910B C2C 1D，n≤256 DFT / 512..16384 FFTB）；ops-fft/fft2_d（910B C2C 2D，仅 32/64/128）
 
-- **语义**：二维 C2C DFT，输入/输出复数按行主序、实虚交错；`aclfftPlan2d(batch,nx,ny,ACLFFT_C2C)` + `aclfftExecC2C`。
-- **约束**：文档明确仅 Ascend 910B 支持，950 不支持；`nx,ny` 只能取 {32,64,128} 的组合；batch>0；C2C，不含 R2C/C2R。
-- **源码**：[`ops-fft/src/fft2_d`](ops-fft/README.md)；`arch32/dd/fft2_d_dd.cpp:17-29` 尺寸表、`:31-62` P/Q 矩阵、`:64-112` 入口；`arch32/fft2_d_exec_api.cpp:18-60` 校验/分派。
-- **机制**：2D DFT 拆成 P·X·Q 两次矩阵乘（Cube），P/Q 由 Host 生成；复数实虚分离用 `vreducev2`；batch 循环 + 多核切分 + L1/L0 双缓冲。
-- **910B 结论**：**本机 PASS（32×32）**。CANN 9.1.0 构建成功；32×32 batch=1、冲激输入与解析 DFT 对照，5 次 best 0.1537 ms、max_abs=9.086799e-08、bad=0；64/128、batch>1、backward 未跑。
-- **负例**：不支持任意 N/质数尺寸；不支持 950；Host 端 P/Q 是 O(N²) 内存；作者没有性能数据；本机只覆盖 32×32 单 batch forward。
+## 05 仿真计算：FourierTransform2D
 
-## 06 GatherCoo（图）
+- **官方题面**：[fouriertransform2d](official/descriptions/fouriertransform2d.md) · [CANN Judge](https://cannjudge.cn/public/gcc_2026_mfg/fouriertransform2d)
+- **源码级别**：`adapt`；候选：`MFG2026-FFT2D` · [条目说明](ops-fft/README.md)
+- **公式**：正变换 exp(-2πi(kn/N+lm/M))；inverse=True 时 exp(+...) 并乘 1/(N·M)
+- **输入**：x [B,N,M] complex64
+- **输出**：y [B,N,M] complex64
+- **属性**：inverse bool 默认 False
+- **约束**：B ∈ [1,256]；N,M ∈ [2,8192] 且均为 2 的幂；输入分量有限，取值 [-1,1]
+- **容差**：atol=rtol=1e-3
+- **源码差异**：ops-fft/fft2_d 只接受 32/64/128 的 C2C，官方要求 2..8192 的 2 的幂；fft2_d 的方向参数可做 forward/backward，但需核对 1/(N·M) 归一化；源码只支持 complex64，官方也是 complex64，这一点匹配；fft1_d 可作为行/列 1D FFT 基础件覆盖 2..8192 的单维；但 2D 组合、inverse 归一化和数据布局仍需实现
+- **复用判断**：fft2_d 只覆盖 32/64/128；fft1_d 提供 910B 1D 基础件（n≤256 DFT、512..16384 FFTB、更大 FFTN），可按行/列组合覆盖官方 2..8192。仍缺 2D 组合/逆变换归一化/大 batch 的实现与验证。
+- **补充基础件**：ops-fft/fft1_d（910B C2C 1D，n≤256 DFT / 512..16384 FFTB / 更大 FFTN）
 
-- **语义**：按有序 COO 索引扩展源行，`out[..., e, ...] = src[..., index[..., e], ...]`；index 必须 int64、非降序。
-- **源码**：`ops-gnn/csrc/npu/gather_coo/op_kernel/arch35/gather_coo_kernel.h:24-110`（slab 快路径/通用 tile/输出缓存）。
-- **约束**：`ops-gnn` 的 `gather_coo` 仅 arch35（950）；910B 没有 arch22 实现。
-- **替代**：`ops-sparse/sparse/gather` 有 arch22，但它是“dense vector 按稀疏索引 gather”，不是 COO 行扩展；不能直接替代。
-- **910B 结论**：参考算法（重复行 slab、按 tile 输出），但需自己写 arch22；`ops-sparse` 的 gather 只覆盖部分语义。
-- **下一步**：问题面是否要求重复索引、空行、rank 1–8、非连续输入；这些决定能否复用 slab 优化。
+## 06 图计算：GatherCoo
 
-## 07 SegmentMinCsr（图）
+- **官方题面**：[gathercoo](official/descriptions/gathercoo.md) · [CANN Judge](https://cannjudge.cn/public/gcc_2026_mfg/gathercoo)
+- **源码级别**：`reference`；候选：`MFG2026-GNN-GATHER-COO` · [条目说明](ops-gnn/README.md)
+- **公式**：out[i,:] = src[index[i],:]
+- **输入**：src (M,K) float32/float16/int32/int8；index (E) int32，取值 [0,M)
+- **输出**：out (E,K) 与 src 同 dtype
+- **属性**：无
+- **约束**：M ∈ [1,1000000]；K ∈ [1,4096]；E ∈ [1,4000000]；允许重复 index；越界行为未定义；无需越界检查
+- **容差**：索引/拷贝精确；dtype 原样
+- **源码差异**：ops-gnn gather_coo 仅 arch35（950），910B 无 arch22；源码 index 为 int64、支持 rank 1–8；官方 index 为 int32、2D [M,K]；ops-sparse gather 是 dense gather，不是 COO 行扩展
+- **复用判断**：只复用重复行 slab / tile 写出思路；910B 需按官方 int32 2D 契约重写。
 
-- **语义**：沿 CSR `indptr` 指定的分段做最小值归约；空段填充 dtype 最小值（省略 `out` 时）。
-- **源码**：`ops-gnn/csrc/npu/segment_csr/op_kernel/arch22/segment_csr.cpp:22-61`；同一 `SegmentReduceDevice<T, SegmentReduce, HasArg>` 覆盖 min/max/sum；`segment_csr_common.h:35-61` 的 int64 行拷贝。
-- **支持**：`ops-gnn` 明确 A2/A3（arch22）与 950；segment 系列在 910B 可用。
-- **机制**：按 `tileRows × tileK` 流式读 CSR 行，`tileK` 由 UB/容量规划决定；多 AIV 按 unit 切分；min/max 极值路径与 sum 的有序浮点路径分开；空段填充。
-- **负例**：`indptr` 必须非降序 int64；极值类型/NaN 语义要按题面确认；不要假设 `tileK` 对所有 shape 最优。
-- **下一步**：在 910B3 构建 `ops-gnn` 的 segment 测试，跑 min/max/sum 与空段。
+## 07 图计算：SegmentMinCsr
 
-## 08 RandomWalk（图）
+- **官方题面**：[segmentmincsr](official/descriptions/segmentmincsr.md) · [CANN Judge](https://cannjudge.cn/public/gcc_2026_mfg/segmentmincsr)
+- **源码级别**：`direct`；候选：`MFG2026-GNN-SEGMENT-MIN-CSR` · [条目说明](ops-gnn/README.md)
+- **公式**：out[r,c]=min(src[indptr[r]:indptr[r+1],c])；arg_out 为全局 src 行号
+- **输入**：src (E,K) float32/float16；indptr (R) int64，R=N+1，单调不减，indptr[N]=E
+- **输出**：out (N,K) 与 src 同 dtype；arg_out (N,K) int64，段内全局行号
+- **属性**：无
+- **约束**：N ∈ [1,1000000]；E ∈ [0,5000000]；K ∈ [1,4096]；允许空段/连续空段/全空段；tie-break 首遇（严格小于才更新）；空段 out=0，arg_out=E（哨兵）
+- **容差**：values 按题面 atol/rtol；arg_out 逐位一致
+- **源码差异**：需确认 Python 入口返回 (values, indices) 与官方两个输出张量的绑定方式；源码还支持 sum/max/mean 等，官方只要求 min
+- **复用判断**：ops-gnn `segment_min_csr` 在 A2/A3 arch22 上已实现 arg_out、空段 0/哨兵、首遇 tie-break，语义高度匹配；优先本机构建验证。
 
-- **语义**：COO 图上的均匀或 node2vec 偏置随机游走；输入 row/col/start，输出 `[S, walk_length+1]` 节点序列，可选边序列。
-- **源码**：`ops-gnn/csrc/npu/random_walk/op_kernel/arch35/random_walk.cpp`（本次 raw 拉取 403，路径已由 tree 确认）、`random_walk.h:18-33`、`common/philox.h`。
-- **支持**：arch35（950）only；910B 没有 arch22 实现。
-- **机制**：Philox 计数器 RNG；按源节点分组/排序；node2vec 的 p/q 权重；边序列可选。
-- **负例**：随机性必须固定种子；自环/重复边/未排序输入的语义要按题面；不能把 950 实现直接搬 910B。
-- **下一步**：拿到题面确认 p/q、coalesced、return_edge_indices；再决定是否移植 Philox + 分组采样。
+## 08 图计算：RandomWalk
 
-## 09 SpmmSum（图）
+- **官方题面**：[randomwalk](official/descriptions/randomwalk.md) · [CANN Judge](https://cannjudge.cn/public/gcc_2026_mfg/randomwalk)
+- **源码级别**：`reference`；候选：`MFG2026-GNN-RANDOM-WALK` · [条目说明](ops-gnn/README.md)
+- **公式**：out[i,0]=seed[i]；每步按 rowptr/col 与 rand 选下一节点；孤立点停留
+- **输入**：rowptr (R) int64；col (E) int64；seed (B) int64；rand (B,walk_length) float32，必选
+- **输出**：out (B,L) int64，L=walk_length+1
+- **属性**：walk_length int 默认 16，范围 [1,64]；p float 默认 1.0；q float 默认 1.0
+- **约束**：N ∈ [1,10000000]；E ∈ [0,20000000]；B ∈ [1,100000]；孤立点停留且每步仍消费 rand；p=q=1 为均匀；p/q≠1 为 node2vec 扩展
+- **容差**：轨迹逐位一致
+- **源码差异**：ops-gnn random_walk 仅 arch35（950），910B 无 arch22；源码用 Philox 计数器 RNG；官方要求外部 rand 输入，保证逐位可比；官方 p/q 为非 1 的 node2vec 扩展，源码接口也需核对
+- **复用判断**：只参考 Philox/分组采样/孤立点处理；官方确定性 rand 契约必须重写。
 
-- **语义**：CSR 稀疏矩阵 × 稠密矩阵，`C = alpha·A·B + beta·C`；本题只关心 sum 聚合，但库支持 sum/max/min/mean。
-- **源码**：
-  - `ops-gnn/csrc/npu/common/spmm/spmm_utils.h:210-241` 的 `SpmmReduce`/`SpmmReducer`；`spmm`/`bspmm` 在 A2/A3 可用。
-  - `ops-sparse/sparse/spmm/arch22/spmm_host.cpp:201-330` 的 dtype/行分块；`kernels/spmm_kernel_group_axpy.h` 的 group axpy；fp32 Kahan 路径。
-- **支持**：`ops-gnn` 与 `ops-sparse` 都明确 A2/A3。
-- **机制**：CSR 行分块 + 按行组 axpy；稠密 B 的 N/K 布局决定快路径；fp32 高精度用 Kahan 补偿；complex64 有单独路径。
-- **负例**：A2 的 dtype 组合比 950 少；`CSR_ALG3` 只支持非转置；零维/空行语义要按 README；不要假设所有 alg 都快。
-- **下一步**：在 910B3 构建 `ops-sparse` SpMM 测试，先 fp32 再 fp16/bf16；记录 `nnz`/N/K 对行分块的影响。
+## 09 图计算：SpmmSum
 
-## 10 Spspmm（图）
+- **官方题面**：[spmmsum](official/descriptions/spmmsum.md) · [CANN Judge](https://cannjudge.cn/public/gcc_2026_mfg/spmmsum)
+- **源码级别**：`adapt`；候选：`MFG2026-SPARSE-SPMM / MFG2026-GNN-SPMM`
+- **公式**：out[r,:] = sum_{k∈[rowptr[r],rowptr[r+1])} value[k] * mat[col[k],:]
+- **输入**：rowptr (R) int64；col (E) int32，行内升序；value (E) float32/float16；mat (N,K) 与 value 同 dtype
+- **输出**：out (M,K) 与 value 同 dtype
+- **属性**：无
+- **约束**：M,N ∈ [1,10000000]；E ∈ [1,20000000]；K ∈ [1,4096]；允许空行，空行输出 0；按 col 升序确定性累加
+- **容差**：float32: atol=rtol=1e-4；float16: atol=rtol=1e-2
+- **源码差异**：ops-sparse SpMM 是通用 alpha·A·B+beta·C，需要 alpha=1/beta=0 并构造 CSR 描述符；ops-gnn spmm 是 PyTorch 层聚合接口，需把 value/mat 映射到 op/reduce；官方 col 为 int32，源码部分路径为 int64
+- **复用判断**：复用 A2/arch22 的行分块/group axpy/确定性累加；写薄适配层并验证空行与 dtype。
 
-- **语义**：CSR × CSR，`C' = alpha·A·B + beta·C`；输出 CSR 列索引严格升序、无重复坐标；数值抵消的显式零保留。
-- **源码**：`ops-sparse/sparse/spgemm/README.md:1-40`（多阶段 API）；`arch22/spgemm_host.cpp:654-...`（symbolic）、`:1066-...`（compute）；`spgemm_symbolic_kernel.cpp`、`spgemm_numeric_kernel.cpp`；`spgemm_merge_row_fastpaths.h`。
-- **支持**：A2/A3/950；本库对 A2 的 `spgemm` 有 arch22 实现。
-- **机制**：WorkEstimation 统计中间乘积 → EstimateMemory 规划 workspace → Compute 做 symbolic（rowOffsets）+ numeric（merge/去重）→ Copy 写输出；输出按行合并，重复坐标相加。
-- **负例**：`numProds` 不是最终 `nnz(C)`；输出 CSR 需要调用方分配/动态更新；大 `nnz` 可能超 INT32；多阶段状态机不能跳步。
-- **下一步**：先用小图（对角/链/随机）验证输出结构，再跑 910B3；记录 `numProds/nnz/workspace`。
+## 10 图计算：Spspmm
 
-## 11 Radius（点云）
+- **官方题面**：[spspmm](official/descriptions/spspmm.md) · [CANN Judge](https://cannjudge.cn/public/gcc_2026_mfg/spspmm)
+- **源码级别**：`adapt`；候选：`MFG2026-SPARSE-SPGEMM` · [条目说明](ops-sparse/README.md)
+- **公式**：C[i,n]=sum_k A[i,k]·B[k,n]；输出模式交集，行主序
+- **输入**：indexA (2,E1) int64；valueA (E1) float32/float16；indexB (2,E2) int64；valueB (E2) 与 valueA 同 dtype
+- **输出**：indexC (2,U) int64，U=m·n；valueC (U) 与 valueA 同 dtype
+- **属性**：m int 默认 64；k int 默认 64；n int 默认 64
+- **约束**：M,N,K ∈ [1,10000000]；E1,E2 ∈ [1,5000000]；U=m·n ≤ 250000；COO 行主序、无重复；输出前 E3 个真实条目，其余 (-1,-1)/0；累加和为 0 的坐标保留
+- **容差**：float32: atol=rtol=1e-4；float16: atol=rtol=1e-2；indexC 逐位一致
+- **源码差异**：ops-sparse SpGEMM 输入/输出为 CSR、动态 nnz；官方为 COO + 固定槽位 U=m·n；官方要求未命中槽位 (-1,-1)/0，且保留零和坐标；源码输出 CSR 排序去重；官方维度属性 m/k/n 可大于 index 上限
+- **复用判断**：复用 symbolic/numeric/merge 多阶段 SpGEMM 内核；需加 COO↔CSR 转换与固定槽位输出层。
 
-- **语义**：对 Y 中每个点，找同 batch 内 X 中距离 ≤ r 的点；超过 `max_num_neighbors` 时保留扫描顺序前 K 个；输出 `[2,E]` int64。
-- **源码**：`DrivingSDK/kernels/radius/op_host/radius.cpp:1-100`、`op_kernel/radius.cpp`、`docs/zh/api/context/radius.md`。
-- **支持**：文档明确 A2/A3/950；Ndim<9、batch≤1024、单 batch 点数≤512。
-- **机制**：按 batch 分核；半径平方比较；每 batch 限 512 点以便 UB 驻留；输出邻居对；超过 K 截断。
-- **负例**：不支持任意大 batch/点数；Ndim≥9 不行；输出 E 动态、需要 workspace；排序/去重语义按文档。
-- **下一步**：910B3 构建/调用 `mx_driving.radius`，与 CPU 暴力搜索对照。
+## 11 点云计算：Radius
 
-## 12 GridCluster（点云）
+- **官方题面**：[radius](official/descriptions/radius.md) · [CANN Judge](https://cannjudge.cn/public/gcc_2026_mfg/radius)
+- **源码级别**：`adapt`；候选：`MFG2026-RADIUS` · [条目说明](driving-sdk/README.md)
+- **公式**：d2=||x[j]-y[i]||²；d2≤r² 且未被 ignore_same_index 剔除则收集 (i,j)，first-K 截断
+- **输入**：x (N,D) float32/float16；y (M,D) 与 x 同 dtype；ptr_x (Rx) int64；ptr_y (Ry) int64
+- **输出**：out (2,E) int64，E=M×max_num_neighbors
+- **属性**：r float 默认 1.0，≥0；max_num_neighbors int 默认 32；ignore_same_index bool 默认 False
+- **约束**：N,M ∈ [1,1000000]；M×max_num_neighbors ≤ 4000000；D ∈ {2,3}；固定槽位：查询 i 写 [i·K,(i+1)·K)，未命中 (-1,-1)；按 x 扫描序 first-K，不排序；禁止跨 batch
+- **容差**：索引逐位一致
+- **源码差异**：DrivingSDK radius 输出动态 [2,E]，官方要求定槽位 [2,M×K] 且未命中 (-1,-1)；源码约束 Ndim<9、batch≤1024、单 batch 点数≤512；官方 D∈{2,3}、N/M≤1e6；官方有 ignore_same_index；源码需核对该属性
+- **复用判断**：复用 batch 分核、平方距离、扫描序截断；需重写定槽位输出、2/3D 与更大 shape。
 
-- **语义**：把点坐标量化到规则网格，输出线性 int64 网格 ID（torch_cluster 兼容）。
-- **源码**：`ops-gnn/csrc/npu/grid_cluster/op_kernel/arch35/grid_cluster.cpp:15-120`（subnormal/缩放/索引）、`:135-221`（3D SIMT/宽维）；`grid_cluster.h`。
-- **支持**：arch35（950）only；910B 没有 arch22。
-- **机制**：按 `floor((x-origin)/size)` 计算每维索引，再按各维 radix 组合成线性 ID；对 subnormal/极小 size 做缩放和倒数快路径；多核按点切分。
-- **负例**：size 极小/非均匀、负坐标、int64 溢出、空点集；950-only，不能直接上 910B。
-- **下一步**：题面确认网格定义/顺序；再决定是否移植到 arch22。
+## 12 点云计算：GridCluster
 
-## 13 FurthestPointSample（点云）
+- **官方题面**：[gridcluster](official/descriptions/gridcluster.md) · [CANN Judge](https://cannjudge.cn/public/gcc_2026_mfg/gridcluster)
+- **源码级别**：`reference`；候选：`MFG2026-GNN-GRID-CLUSTER` · [条目说明](ops-gnn/README.md)
+- **公式**：cluster[i]=Σ_d trunc((pos[i,d]-start[d])/size[d])·stride[d]；stride[0]=1，stride[d]=prod(num_voxels[0:d])
+- **输入**：pos (N,D) float32/float16；size (D)；start (D)；end (D)
+- **输出**：out (N) int64
+- **属性**：无
+- **约束**：N ∈ [1,10000000]；D ∈ {2,3}；size 各维 >0；end≥start；pos-start≥0；prod(num_voxels)<2^28；stride[0]=1，第 0 维变化最快
+- **容差**：int64 逐位一致
+- **源码差异**：ops-gnn grid_cluster 仅 arch35（950），910B 无 arch22；源码 stride 顺序与官方一致（dim0 最快），但 SIMT 路径需重写；个人仓 flying_whj/CANN_grid_cluster 也是 arch35，但有设计文档/golden 可读
+- **复用判断**：复用网格量化、stride 组合、subnormal/倒数快路径；910B 需写 Vector/SIMT 版本，不能直接构建 arch35。
 
-- **语义**：从 `[B,N,3]` 点云中迭代选 `num_points` 个最远点，输出 `[B,num_points]` int32 索引。
-- **源码**：`DrivingSDK/kernels/furthest_point_sampling/op_kernel/furthest_point_sampling.cpp:115-208`（初始化/迭代/距离更新）；`op_host/furthest_point_sampling.cpp:1-100`（tiling/UB）；`docs/zh/api/context/furthest_point_sampling.md`。
-- **支持**：文档明确 A2/A3/950；总元素 `B*N*3 ≤ 383166`。
-- **机制**：首个采样点固定（索引 0）；维护每个点到已选集合的最近距离；每轮计算到新选中点的距离、取 min、reduce max 选下一个；点云大于 UB 时按 `pieces` 分片；fp16/bf16 先转 fp32 算距离；多核按 batch。
-- **负例**：总元素上限；首点约定（0）会影响结果；分片会多次读；没有作者性能数据。
-- **下一步**：910B3 构建/调用，和 CPU 参考逐索引对照。
+## 13 点云计算：FurthestPointSample
 
-## 14 BallQuery（点云）
+- **官方题面**：[furthestpointsample](official/descriptions/furthestpointsample.md) · [CANN Judge](https://cannjudge.cn/public/gcc_2026_mfg/furthestpointsample)
+- **源码级别**：`direct`；候选：`MFG2026-FPS` · [条目说明](driving-sdk/README.md)
+- **公式**：首点索引 0；每轮更新到已选集合的最小平方距离，选最大者；并列取最小索引
+- **输入**：points [B,N,3] float32/float16
+- **输出**：idx [B,npoint] int32
+- **属性**：npoint int 默认 128，1≤npoint≤N
+- **约束**：points 最后一维 3，取值 [-1,1]；B,N,npoint 为正整数；输入有限，不支持 NaN/Inf；float16 必须保持 half 精度，不得提升到 float32；并列距离取最小输入索引；不额外排除已选点
+- **容差**：索引逐位一致
+- **源码差异**：DrivingSDK 文档还支持 bfloat16，官方只要求 float32/float16；源码有总元素 B*N*3≤383166 的约束；官方测试规模远小于此；需本机确认 half 路径与并列 tie-break 逐位一致
+- **复用判断**：官方题面明确以 mx_driving Ascend `furthest_point_sampling` 为参考，DrivingSDK 源码应为主候选；优先构建并跑官方 18 组 shape。
 
-- **语义**：对每个 query center，在球壳 `[min_radius, max_radius)`（或 d²=0）内按点序取前 `sample_num` 个索引；不足用首个命中填充；零命中全 0。
-- **源码**：
-  - 直接版：`ops-math/conversion/ball_query/op_kernel/arch35/ball_query_simt.h`（SIMT grid-stride）；`op_host/arch35/ball_query_tiling.cpp`；README 声称 A2 √，但代码/config 只有 arch35，存在冲突。
-  - 910B 可用版：`ops-math/conversion/stack_ball_query`，`op_kernel/stack_ball_query.cpp:17-40`、`stack_ball_query.h:28-140`、`op_host/config/ascend910b/`。
-- **支持**：`stack_ball_query` 明确 A2/A3；直接 `ball_query` 的 A2 支持需本机构建确认。
-- **机制**：Stack 版用 2D 堆叠布局 + batch counts，按 center 分核，流式读 xyz 片段，计算距离并收集索引；直接版用 SIMT 每线程多 query，距离平方比较，首命中填充，无 atomic。
-- **负例**：零命中输出全 0 与“命中第 0 点”不可区分；`ball_query` README/代码支持矩阵冲突；`stack_ball_query` 输入是堆叠 2D + batch counts，不是 `[B,3,N]`。
-- **下一步**：优先构建 `stack_ball_query`（有 910B 配置）；再核对直接 `ball_query` 是否真的能编 A2。
+## 14 点云计算：BallQuery
 
-## 15 CylinderQuery（机器人抓取）
+- **官方题面**：[ballquery](official/descriptions/ballquery.md) · [CANN Judge](https://cannjudge.cn/public/gcc_2026_mfg/ballquery)
+- **源码级别**：`adapt`；候选：`MFG2026-MATH-STACK-BALL-QUERY` · [条目说明](ops-math/README.md)
+- **公式**：d²=(x_k-x_q)²+(y_k-y_q)²+(z_k-z_q)²；d²<radius² 命中；按 k 升序取前 nsample
+- **输入**：xyz [B,N,3] float32/float16；new_xyz [B,M,3] 与 xyz 同 dtype
+- **输出**：idx [B,M,nsample] int32
+- **属性**：radius float 默认 0.4，>0；nsample int 默认 16，>0
+- **约束**：B,N,M 正整数；N≥1；xyz/new_xyz 最后一维 3，常规 [-1,1]；d² < radius² 严格小于；first-K 扫描序；命中不足 nsample 时尾部重复首个命中；零命中全 0；float16 输入必须先转 float32 再算距离和阈值
+- **容差**：int32 索引逐元素一致
+- **源码差异**：stack_ball_query 输入是 2D 堆叠布局 + batch counts，官方是 [B,N,3]/[B,M,3]；stack_ball_query 在 float16 路径把 radius² 先转 half，官方要求 float32 阈值语义；ops-math 直接版 ball_query 有 min_radius/max_radius 语义，官方只有单 radius；且直接版只有 arch35
+- **复用判断**：复用按 center 分段、流式点云、提前停；需改 [B,*,3] 布局、float32 阈值，并确认单半径语义。
 
-- **语义**：对每个 query point，用 3×3 旋转把点云变到局部坐标，在圆柱 `radius`、高度 `[hmin,hmax]` 内取前 `nsample` 个点；Python 层排序并截断，未命中用首索引填充。
-- **源码**：`DrivingSDK/kernels/cylinder_query/op_host/cylinder_query.cpp:1-120`（tiling/UB/属性）、`op_kernel/cylinder_query.cpp:60-102`（任务/分块/流水）、`:300-350`（旋转/距离/compare/select）、`mx_driving/ops/cylinder_query.py:29-50`（sort/truncate/fill）。
-- **支持**：DrivingSDK 面向 A2/A3/950；CylinderQuery 没有 arch35-only 分支，host/kernel 走通用路径；文档未单独列支持表，**A2 需本机构建确认**。
-- **机制**：每核处理若干 query；点云按 UB 分块（双缓冲）；`x' = R·(p-center)`，用 `y'²+z'² < r²` 与 `hmin < x' < hmax` 生成 mask；`Select` 写候选索引；输出后 Python `sort` + 取前 nsample + 用首索引填充 miss。
-- **负例**：`nsample` 受 UB 限制；rot 必须是 9 元素 3×3；输出先给全量候选再由 Python 截断，端到端包含排序开销；没有作者性能数据。
-- **下一步**：910B3 构建 `cylinder_query`，与 CPU/文档公式对照；确认输出 `[B,M,N]` 的语义和 Python 截断行为。
+## 15 机器人抓取：CylinderQuery
+
+- **官方题面**：[cylinderquery](official/descriptions/cylinderquery.md) · [CANN Judge](https://cannjudge.cn/public/gcc_2026_mfg/cylinderquery)
+- **源码级别**：`adapt`；候选：`MFG2026-CYLINDER-QUERY` · [条目说明](driving-sdk/README.md)
+- **公式**：Δ=xyz[b,k]-new_xyz[b,j]；[x_l,y_l,z_l]^T=rot[b,j]^T·Δ；命中条件 y_l²+z_l²<radius² 且 hmin<x_l<hmax
+- **输入**：xyz [B,N,3] float32/float16；new_xyz [B,M,3] 与 xyz 同 dtype；rot [B,M,3,3] 与 xyz 同 dtype
+- **输出**：idx [B,M,nsample] int32
+- **属性**：radius float 默认 0.05，>0；hmin float 默认 -0.02；hmax float 默认 0.04，>hmin；nsample int 默认 32，1≤nsample≤N
+- **约束**：B,N,M 正整数；N≥1；rot row-major，一般有限 3×3，不要求正交；局部坐标 = rot^T @ delta（不是 rot @ delta）；严格比较：y_l²+z_l²<radius² 且 hmin<x_l<hmax；按 xyz 输入索引升序 first-K；不足重复首个命中；零命中全 0；float16 输入必须先转 float32 再变换/比较
+- **容差**：int32 索引逐元素一致
+- **源码差异**：DrivingSDK kernel 的旋转方向是 rot^T·Δ，与官方一致；但 Python 层 `sortRes` 会排序后截断，官方要求扫描序 first-K；DrivingSDK 输出全量候选，再由 Python 排序；官方直接输出 [B,M,nsample]；float16 输入需确认 host/kernel 是否先转 float32
+- **复用判断**：复用旋转、双 mask、严格比较；必须去掉排序，改为扫描序 first-K + 填充规则。
+
+## 结论
+
+- **2 题**有语义高度匹配的 A2/910B 实现：`SegmentMinCsr`、`FurthestPointSample`（后者仍待本机逐位验证）；
+- **6 题**有 A2/910B 目标源码但需适配：`FourierTransform2D`、`SpmmSum`、`Spspmm`、`Radius`、`BallQuery`、`CylinderQuery`；
+- **5 题**只有 950/arch35 或算法 helper：`ComplexAbs`、`ComplexDiv`、`GatherCoo`、`RandomWalk`、`GridCluster`；
+- **2 题**未找到公开单 kernel 实现：`ComplexExp`、`FusedPropStep`，但已有 910B 基础件可组合（exp/sin/cos + ComplexV3；fft1_d/fft2_d）。
+
+“有 A2 路径”不等于“可直接提交”：例如 FFT 源码只覆盖 32/64/128，官方要求到 8192；Spspmm 源码是 CSR 动态输出，官方是 COO 固定槽位；CylinderQuery 源码 Python 层会排序，官方要求扫描序 first-K。

@@ -1,12 +1,13 @@
 # 2026 制造行业算子专场（15 题）源码地图
 
-> 层级：`competition` · 赛事：昇腾 AI 行业创新大赛——2026 制造行业算子专场 · 访问日期：2026-11-17
+> 层级：`competition` · 赛事：昇腾 AI 行业创新大赛——2026 制造行业算子专场 · 官方题面抓取：2026-11-17
 
 ## 1. 赛事概况
 
 | 项 | 值 |
 |---|---|
 | 赛事主页 | https://cann-mfg.gccorg.com/ |
+| 官方题面 | https://cannjudge.cn/public/gcc_2026_mfg/<problem>（15 题） |
 | 赛题数 | 15（仿真计算 5、图计算 5、点云 4、机器人抓取 1） |
 | 预赛 | 2026-11-09 至 2026-12-07 12:00（北京时间） |
 | 决赛 | 2026-12-20，广州 |
@@ -14,44 +15,62 @@
 | 评测 | CANN Judge 精度校验 + 运行性能/耗时排名 |
 | 开源要求 | 获奖者须在指定 AtomGit 仓开源并合入 PR，同时发布技术总结 |
 
-本条目不是“参赛提交”，而是把公开可用的官方/生产源码映射到 15 道题，记录哪些能直接参考、哪些只能看算法、哪些还没有公开实现。
+本条目不是“参赛提交”，而是把公开官方/生产源码映射到 15 道题，并用官方题面校正“源码能做什么、不能做什么”。完整公开题面已保存到 [official/descriptions/](official/descriptions/)，机器可读摘要在 [official/specs.json](official/specs.json)。
 
 ## 2. 15 题与源码覆盖
 
-| # | 赛题 | 类别 | 本库候选源 | 910B 状态 | 关键说明 |
+匹配级别定义：
+
+- `direct`：源码语义与官方一致，且存在 A2/910B 路径；只需调用/薄适配；
+- `adapt`：有 A2/910B 目标源码，但接口、layout、shape 或后处理需改；
+- `reference`：只有 950/arch35 或算法 helper，可读但不可直接构建到 910B；
+- `none`：未找到公开完整实现；
+- `building-block`：可组合的 910B 基础件，不是完整题解（不计入 15 题分级）。
+
+| # | 赛题 | 官方题面 | 本库候选源 | 级别 | 关键校正 |
 |---:|---|---|---|---|---|
-| 01 | `ComplexAbs` | 仿真 | [ops-math/math/complex_abs](ops-math/README.md) | 参考（950/350） | A2 明确不支持；公式 `sqrt(re²+im²)`，dtype 映射固定 |
-| 02 | `ComplexDiv` | 仿真 | [ops-solver/complex_solver_kernel.hpp](ops-solver/README.md) | 参考（950 SIMT） | 不是独立 elementwise 算子；有缩放 + FMA 补偿的复数除法 |
-| 03 | `ComplexExp` | 仿真 | **未找到公开实现** | 缺口 | 可用 `exp(a)*(cos b + i sin b)` 组合；需官方题面确认 dtype/范围 |
-| 04 | `FusedPropStep` | 仿真 | **未找到公开实现** | 缺口 | 名称指向融合传播步；没有题面/公式，不能猜实现 |
-| 05 | `FourierTransform2D` | 仿真 | [ops-fft/fft2_d](ops-fft/README.md) | **PASS（本机 910B3，32×32）** | 仅 C2C、尺寸 {32,64,128}²；950 不支持；64/128/batch>1 未跑 |
-| 06 | `GatherCoo` | 图 | [ops-gnn/gather_coo](ops-gnn/README.md) + [ops-sparse/gather](ops-sparse/README.md) | 部分 | gnn 版 arch35-only；sparse 版是 dense gather，不是 COO 行扩展 |
-| 07 | `SegmentMinCsr` | 图 | [ops-gnn/segment_csr arch22](ops-gnn/README.md) | **强（A2/A3）** | 同一模板覆盖 min/max/sum；int64 indptr；空段填充语义 |
-| 08 | `RandomWalk` | 图 | [ops-gnn/random_walk](ops-gnn/README.md) | 参考（950） | Philox RNG + node2vec；arch35-only |
-| 09 | `SpmmSum` | 图 | [ops-gnn/spmm](ops-gnn/README.md)、[ops-sparse/spmm](ops-sparse/README.md) | **强（A2/A3）** | CSR × dense，sum/max/min/mean；fp32 Kahan 路径 |
-| 10 | `Spspmm` | 图 | [ops-sparse/spgemm](ops-sparse/README.md) | **强（A2/A3）** | CSR × CSR；多阶段 symbolic/numeric/merge |
-| 11 | `Radius` | 点云 | [DrivingSDK/radius](driving-sdk/README.md) | **强（A2/A3/950）** | `Ndim<9`、batch≤1024、单 batch 点数≤512 |
-| 12 | `GridCluster` | 点云 | [ops-gnn/grid_cluster](ops-gnn/README.md) | 参考（950） | 网格量化 + int64 线性 ID；arch35-only |
-| 13 | `FurthestPointSample` | 点云 | [DrivingSDK/furthest_point_sampling](driving-sdk/README.md) | **强（A2/A3/950）** | 迭代最远点；总元素数≤383166 |
-| 14 | `BallQuery` | 点云 | [ops-math/stack_ball_query](ops-math/README.md)（A2）/ `ball_query`（950） | 部分/强 | 直接 `ball_query` 代码 arch35-only，README 却写 A2 √；`stack_ball_query` 有 910B 配置 |
-| 15 | `CylinderQuery` | 机器人 | [DrivingSDK/cylinder_query](driving-sdk/README.md) | **强（A2-targeted，待构建）** | 3×3 旋转 + 半径/高度筛选；输出后 Python 排序截断 |
+| 01 | `ComplexAbs` | [题面](official/descriptions/complexabs.md) | [ops-math](ops-math/README.md) | `reference` | 源码 arch35（950/A3），A2 明确不支持；官方只需 complex64→float32 |
+| 02 | `ComplexDiv` | [题面](official/descriptions/complexdiv.md) | [ops-solver](ops-solver/README.md) | `reference` | 源码是 950 SIMT 的 complex64 LU helper，不覆盖 float16/float32/广播 |
+| 03 | `ComplexExp` | [题面](official/descriptions/complexexp.md) | 未找到单 kernel；[ops-math](ops-math/README.md) 有 910B 基础件 | `none` | 官方公式/dtype 已明确；可用 exp/sin/cos + ComplexV3 组合，非单 kernel |
+| 04 | `FusedPropStep` | [题面](official/descriptions/fusedpropstep.md) | 未找到单 kernel；[ops-fft](ops-fft/README.md) 有 1D/2D FFT 基础件 | `none` | 官方是 `IFFT2(FFT2(field)·h)`；fft1_d/fft2_d 可组合，但融合/实数/8192 未实现 |
+| 05 | `FourierTransform2D` | [题面](official/descriptions/fouriertransform2d.md) | [ops-fft](ops-fft/README.md) | `adapt` | fft2_d 只支持 32/64/128；fft1_d 提供单维 2..8192 基础件；官方 2D+inverse 仍需组合 |
+| 06 | `GatherCoo` | [题面](official/descriptions/gathercoo.md) | [ops-gnn](ops-gnn/README.md)、[ops-sparse](ops-sparse/README.md) | `reference` | gnn 版 arch35、int64、rank1–8；官方 int32、`[M,K]→[E,K]`；sparse gather 不是 COO 行扩展 |
+| 07 | `SegmentMinCsr` | [题面](official/descriptions/segmentmincsr.md) | [ops-gnn](ops-gnn/README.md) | `direct` | arch22 `segment_min_csr` 已覆盖 arg_out、空段 `0/E`、首遇 tie-break |
+| 08 | `RandomWalk` | [题面](official/descriptions/randomwalk.md) | [ops-gnn](ops-gnn/README.md) | `reference` | 源码 arch35 用 Philox；官方要求外部 `rand` 输入、p/q、孤立点停留 |
+| 09 | `SpmmSum` | [题面](official/descriptions/spmmsum.md) | [ops-sparse](ops-sparse/README.md)、[ops-gnn](ops-gnn/README.md) | `adapt` | A2/arch22 有 CSR SpMM；官方接口是 rowptr/col/value/mat/out，需薄适配 |
+| 10 | `Spspmm` | [题面](official/descriptions/spspmm.md) | [ops-sparse](ops-sparse/README.md) | `adapt` | 源码 CSR + 动态 nnz；官方 COO + 固定槽位 `U=m·n`，需转换层 |
+| 11 | `Radius` | [题面](official/descriptions/radius.md) | [DrivingSDK](driving-sdk/README.md) | `adapt` | 源码动态输出、单 batch≤512；官方定槽位、`(-1,-1)`、`D∈{2,3}`、`ignore_same_index` |
+| 12 | `GridCluster` | [题面](official/descriptions/gridcluster.md) | [ops-gnn](ops-gnn/README.md) | `reference` | 源码 arch35；stride 顺序与官方一致（dim0 最快），但无 A2 |
+| 13 | `FurthestPointSample` | [题面](official/descriptions/furthestpointsample.md) | [DrivingSDK](driving-sdk/README.md) | `direct` | 官方题面明确以 `mx_driving` Ascend FPS 为参考；仍需本机逐位验证 |
+| 14 | `BallQuery` | [题面](official/descriptions/ballquery.md) | [ops-math](ops-math/README.md) | `adapt` | 官方单 `radius`、严格 `<`、fp16→fp32 阈值；`stack_ball_query` 是堆叠布局，fp16 把 `radius²` 转 half |
+| 15 | `CylinderQuery` | [题面](official/descriptions/cylinderquery.md) | [DrivingSDK](driving-sdk/README.md) | `adapt` | kernel 的 `rot^T·Δ` 与官方一致；Python 层排序后截断，官方要求扫描序 first-K |
 
 覆盖口径：
 
-- **8 题有 910B/A2 目标实现**：05（已本机 PASS 32×32）、07、09、10、11、13、14（经 StackBallQuery）、15；
-- **5 题只有 950/arch35 参考或部分覆盖**：01、02、06、08、12；
+- **2 题有语义高度匹配的 A2/910B 实现**：07 `SegmentMinCsr`、13 `FurthestPointSample`（13 仍待本机逐位验证）；
+- **6 题有 A2/910B 目标源码但需适配**：05、09、10、11、14、15；
+- **5 题只有 950/arch35 或算法 helper**：01、02、06、08、12；
 - **2 题未找到公开源码**：03、04。
 
-“强”只表示源码/文档明确面向 A2 或存在 A2 构建路径，**不等于本机已跑通**；截至 2026-11-17，仅 05 `fft2_d` 在本机 910B3 通过 32×32 C2C，其余 14 份仍 `local_status=not-run`，见第 5 节。
+“有 A2 路径”不等于“可直接提交”。例如 FFT 源码只覆盖 32/64/128，官方要求到 8192；Spspmm 源码是 CSR 动态输出，官方是 COO 固定槽位；CylinderQuery 源码 Python 层会排序，官方要求扫描序 first-K。
+
+### 2.1 910B 补充基础件（不计入 15 题分级）
+
+| 实现 | 基础件 | 用途 | 仍缺 |
+|---|---|---|---|
+| `MFG2026-FFT1D` | `ops-fft/fft1_d` | 910B 1D C2C：n≤256 DFT、512..16384 FFTB、更大 FFTN；可组合 2D FFT / FusedPropStep | 行/列 2D 组合、inverse `1/(N·M)`、大 batch |
+| `MFG2026-MATH-COMPLEX-EXP-BLOCKS` | `exp/sin/cos + ComplexV3` | 910B 实数基础件 + real/imag→complex；可组合 ComplexExp | 单 kernel 融合、fp16 极值/精度、4 个算子的 GM 往返 |
+
+这两项在 `index/catalog.json` 中标记为 `source_match=building-block`，不计入 15 题的 `direct/adapt/reference/none` 数量。
 
 ## 3. 子条目
 
 | 子条目 | 仓库 | 覆盖赛题 | 说明 |
 |---|---|---|---|
-| [ops-fft](ops-fft/README.md) | `cann/ops-fft@65f5ff1` | 05 | 910B 的 2D C2C FFT；P/Q 矩阵 + Cube |
-| [driving-sdk](driving-sdk/README.md) | `Ascend/DrivingSDK@d10b13c` | 11、13、15 | 点云 Radius/FPS/CylinderQuery；A2 文档齐全 |
-| [ops-gnn](ops-gnn/README.md) | `cann/ops-gnn@ea0b18a` | 06、07、08、09、12 | A2/A3 与 950 分架构；segment/spmm 可上 910B |
-| [ops-sparse](ops-sparse/README.md) | `cann/ops-sparse@8fae00b` | 06、09、10 | A2/A3 的 SpMM/SpGEMM/Gather |
+| [ops-fft](ops-fft/README.md) | `cann/ops-fft@65f5ff1` | 05、04 的基础件 | 910B 2D C2C FFT（32/64/128）+ 1D FFT（n≤256 DFT、512..16384 FFTB） |
+| [driving-sdk](driving-sdk/README.md) | `Ascend/DrivingSDK@d10b13c` | 11、13、15 | Radius/FPS/CylinderQuery；A2 文档齐全，但接口需适配 |
+| [ops-gnn](ops-gnn/README.md) | `cann/ops-gnn@ea0b18a` | 06、07、08、09、12 | Segment/Spmm 有 arch22；Gather/RandomWalk/GridCluster 仅 arch35 |
+| [ops-sparse](ops-sparse/README.md) | `cann/ops-sparse@8fae00b` | 06、09、10 | A2/A3 SpMM/SpGEMM/Gather；SpGEMM 是 CSR 而非官方 COO |
 | [ops-math](ops-math/README.md) | `cann/ops-math@3b2baac` | 01、14 | ComplexAbs/BallQuery/StackBallQuery；有 README/代码冲突 |
 | [ops-solver](ops-solver/README.md) | `cann/ops-solver@739775a` | 02 | 复数除法算法参考；950 SIMT only |
 
@@ -60,39 +79,45 @@
 ## 4. 为什么先做“源码地图”而不是直接改算子
 
 - 赛事仍在进行（截止 2026-12-07），公开参赛 PR 可能后续才出现；先固定官方/生产源码，后续可增量补充。
-- 部分赛题（03、04）没有公开公式；没有题面就实现，容易把语义做错。
-- 官方仓的 README 与代码架构可能不一致（例如 `ball_query` 的 A2 支持）；必须用源码/配置/本机构建交叉验证。
+- 官方题面已抓到，但隐藏测试数据和参考实现不公开；不能把公开题面里的示例当成 golden。
+- 官方仓的 README 与代码架构可能不一致（例如 `ball_query` 的 A2 支持、`fft2_d` 的尺寸限制）；必须用源码/配置/本机构建交叉验证。
 - 竞赛目标是 910B 性能，但本库不能把 950/arch35 实现直接标成 910B 可复用；硬件分支要单独写清。
+- 同一数学对象不等于同一接口：Spspmm 的 COO 固定槽位、Radius 的定槽位输出、CylinderQuery 的 first-K 都会改变实现方案。
 
 ## 5. 本机验证状态
 
-本批 15 份实现中，**1 份本机 PASS、14 份未跑**：
+本批 15 题映射 + 2 个 910B 基础件。15 题中 **1 份有本机 PASS（仅 32×32 子集）、14 份未跑**；两个基础件也未跑：
 
 | 实现 | 状态 | 证据 |
 |---|---|---|
-| 05 `FourierTransform2D` / `ops-fft/fft2_d` | **PASS**：CANN 9.1.0 构建成功；32×32 batch=1 C2C，best 0.1537 ms，max_abs=9.086799e-08，bad=0 | [构建日志](evidence/ops-fft_fft2d_build_20261117.log)、[运行日志](evidence/ops-fft_fft2d_32x32_run_20261117.log)、[驱动](evidence/fft2d_verify.cpp) |
+| 05 `FourierTransform2D` / `ops-fft/fft2_d` | **PASS（子集）**：CANN 9.1.0 构建成功；32×32 batch=1 C2C，best 0.1537 ms，max_abs=9.086799e-08，bad=0 | [构建日志](evidence/ops-fft_fft2d_build_20261117.log)、[运行日志](evidence/ops-fft_fft2d_32x32_run_20261117.log)、[驱动](evidence/fft2d_verify.cpp) |
 | 其余 14 份 | `not-run` | [evidence/README.md](evidence/README.md) |
+
+注意：官方 `FourierTransform2D` 要求 `B∈[1,256]`、`N,M∈[2,8192]` 的 2 的幂和 `inverse` 属性；当前 PASS 只证明 32×32 forward 可运行，**不能代表官方 18 组 shape 通过**。
 
 后续优先级：
 
-1. `ops-fft/fft2_d` 扩到 64×64、128×128、batch>1、backward；
-2. `DrivingSDK/radius`、`furthest_point_sampling`、`cylinder_query`：文档明确 A2，需确认单算子构建方式；
-3. `ops-gnn/segment_csr`、`ops-sparse/spmm`/`spgemm`：arch22 路径存在，但仓库构建较重；
-4. `ops-math/stack_ball_query`：有 `ascend910b` 配置，可直接验证；
-5. 950-only 的 01/02/06/08/12 只做算法参考，不在 910B 上强构建。
+1. `ops-fft/fft2_d` 扩到 64/128/256/512/1024/2048/4096/8192、batch>1、inverse；
+2. `DrivingSDK/furthest_point_sampling`：官方 18 组 shape、float16 half 精度、并列 tie-break；
+3. `ops-gnn/segment_min_csr`：官方 arg_out/空段/首遇 tie-break 的 910B3 对照；
+4. `DrivingSDK/radius`、`cylinder_query`、`ops-math/stack_ball_query`：按官方定槽位/first-K/float32 阈值改适配层；
+5. `ops-sparse/spmm`、`spgemm`：SpmmSum 薄适配、Spspmm 的 COO/固定槽位转换；
+6. 950-only 的 01/02/06/08/12 只做算法参考，不在 910B 上强构建。
 
 验证协议见 [skills/ascend-910b-local-validation/SKILL.md](../../skills/ascend-910b-local-validation/SKILL.md)。构建/运行日志统一放 `competition/mfg-2026/evidence/`。
 
 ## 6. 证据与许可
 
-- 作者/官方文档：`A`；源码路径/行号/哈希：`S+L`；本机：`N`。
+- 官方题面/规格：`O`（CANN Judge 公开页面/API，2026-11-17）；源码路径/行号/哈希：`S+L`；本机：`N`。
 - `cann/ops-*` 为 CANN Open Software License Agreement Version 2.0；`Ascend/DrivingSDK` 为 Apache-2.0。
-- 本库把 36 个唯一选中源码文件（39 条引用）复制到各子条目的 `source/`，保留上游路径、固定 commit、URL 和 SHA256；未复制整仓，`source.json` 的 `local_path` 可直接打开。副本是上游原样快照，原文里的相对链接按整仓解析，本地不保证可点开。
+- 本库把 47 个唯一选中源码文件（50 条引用）复制到各子条目的 `source/`，保留上游路径、固定 commit、URL 和 SHA256；未复制整仓，`source.json` 的 `local_path` 可直接打开。副本是上游原样快照，原文里的相对链接按整仓解析，本地不保证可点开。
+- 官方题面只保存公开描述，不包含隐藏测试数据；`/api/testcases/<id>` 返回 403，未绕过。
 - 不把官方仓的“支持 A2”直接当成本机通过；不把 950-only 实现写成 910B 方案。
 
 ## 7. 后续增量
 
 - 跟踪 `cann/cann-ops-competitions` 的 `02_enterprise` 制造专场提交目录；
 - 跟踪 `cann/mfg-ops-cax`、`cann/mfg-ops-vision` 是否公开（2026-11-17 `git ls-remote` 无 HEAD）；
-- 找到 03/04 的官方题面/公式后，补 `ComplexExp` 与 `FusedPropStep` 的候选实现；
-- 05 已完成 32×32 C2C；继续对 07/09/10/11/13/14/15 做 910B3 构建/精度/计时，并扩展 05 的 shape/backward。
+- 03/04 官方题面已补；仍无公开单 kernel，但已加入 910B 基础件（exp/sin/cos + ComplexV3；fft1_d），可先做组合参考实现；
+- 对 07/09/10/11/13/14/15 做 910B3 构建/精度/计时，并扩展 05 到官方 shape/inverse；
+- 评估 GitCode 上的个人聚焦仓（如 `flying_whj/CANN_grid_cluster`）是否值得作为补充阅读材料，避免与官方仓重复。

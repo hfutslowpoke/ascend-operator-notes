@@ -21,40 +21,89 @@
     },
     "tier": {
       "type": "string",
-      "enum": ["competition", "general"]
+      "enum": [
+        "competition",
+        "general"
+      ]
     },
     "repository": {
       "type": "object",
-      "required": ["id", "url", "commit"],
+      "required": [
+        "id",
+        "url",
+        "commit"
+      ],
       "properties": {
-        "id": {"type": "string"},
-        "url": {"type": "string"},
-        "commit": {"type": "string"},
-        "default_branch": {"type": "string"},
-        "license": {"type": "string"},
-        "status": {"type": "string"},
-        "local_cache": {"type": "string"}
+        "id": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "commit": {
+          "type": "string"
+        },
+        "default_branch": {
+          "type": "string"
+        },
+        "license": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "local_cache": {
+          "type": "string"
+        }
       }
     },
     "implementations": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["id", "operator", "operator_family", "source_files", "local_status"],
+        "required": [
+          "id",
+          "operator",
+          "operator_family",
+          "source_files",
+          "local_status"
+        ],
         "properties": {
-          "id": {"type": "string"},
-          "operator": {"type": "string"},
-          "operator_family": {"type": "string"},
+          "id": {
+            "type": "string"
+          },
+          "operator": {
+            "type": "string"
+          },
+          "operator_family": {
+            "type": "string"
+          },
           "source_files": {
             "type": "array",
             "items": {
               "type": "object",
-              "required": ["path", "lines", "sha256"],
+              "required": [
+                "path",
+                "lines",
+                "sha256"
+              ],
               "properties": {
-                "path": {"type": "string"},
-                "lines": {"type": "string"},
-                "sha256": {"type": "string"},
-                "url": {"type": "string"}
+                "path": {
+                  "type": "string"
+                },
+                "lines": {
+                  "type": "string"
+                },
+                "sha256": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "local_path": {
+                  "type": "string",
+                  "description": "Entry-relative source snapshot, when copied into source/"
+                }
               }
             }
           },
@@ -71,7 +120,50 @@
               "pending"
             ]
           },
-          "local_validation": {"type": "object"}
+          "local_validation": {
+            "type": "object"
+          },
+          "source_match": {
+            "type": "string",
+            "enum": [
+              "direct",
+              "adapt",
+              "reference",
+              "none",
+              "building-block",
+              "not-applicable"
+            ],
+            "description": "Manufacturing problem: source-to-official-spec match level"
+          },
+          "official_problem": {
+            "type": "object",
+            "description": "Manufacturing problem metadata: id/name/title/url/spec/description/tolerance/source_match"
+          },
+          "official_semantics": {
+            "type": "string"
+          },
+          "official_shape_dtype": {
+            "type": "string"
+          },
+          "official_conditions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "official_negative_cases": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "supporting_sources": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "description": "Selected building-block source files with local_path/role/sha256"
+            }
+          }
         }
       }
     },

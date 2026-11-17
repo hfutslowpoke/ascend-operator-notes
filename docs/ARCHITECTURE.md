@@ -44,7 +44,7 @@
 │   ├── elec-ops-inspection/      # GitCode 电力行业仓
 │   ├── hansen-2026-power/        # 电力行业赛公开归档
 │   ├── kernelswift-2026/         # KernelSwift 2026
-│   └── mfg-2026/                 # 制造行业专场（15 题源码地图）
+│   └── mfg-2026/                 # 制造行业专场（15 题源码地图 + official/ 题面）
 ├── general/                      # 通用算子库
 │   ├── README.md
 │   ├── catalog.json              # 通用层机器索引（生成）
@@ -111,11 +111,13 @@
 由 `tools/build_index.py` 从 `index/catalog.json` 生成，避免手抄漂移。字段见 [index/entry-schema.json](../index/entry-schema.json)。核心字段：
 
 - `entry`、`tier`、`repository`、`commit`、`license`；
-- `implementations[]`：算子、族、源码文件（路径、行号、SHA256、原始 URL；复制到条目 `source/` 时附 `local_path`）；
+- `implementations[]`：算子、族、源码文件（路径、行号、SHA256、原始 URL；复制到条目 `source/` 时附 `local_path`）；制造专场另附 `source_match` 与 `official_problem`（官方 URL/题面/容差）；
 - `local_validation`：本机状态、环境、日志路径、结论；
 - `generated_from`：固定指向 `index/catalog.json`。
 
 没有外部仓库记录的 `competition/grouped-matmul-gelu` 使用手写 `source.json`，指向 `catalog/public-final-sources.json` 和 `catalog/our-work.json`。
+
+制造专场的官方公开题面单独放在 `competition/mfg-2026/official/`：`problems.json` 是公开 API 快照，`specs.json` 是 shape/dtype/属性/约束/容差摘要，`descriptions/` 是 15 份完整题面；`source_match` 用 `direct`/`adapt`/`reference`/`none` 表示完整题解与官方语义的距离；`building-block` 表示可组合的 910B 基础件，`not-applicable` 表示该实现不是对应题目候选。
 
 ### 3.3 evidence/
 
@@ -195,7 +197,7 @@ bin/npu-lock bash -lc '<命令>'
 `index/catalog.json` 是唯一机器可读主索引，包含：
 
 - `repositories[]`：20 个仓库记录，带 `tier`、`entry_path`、固定 commit、许可、状态、去重关系；
-- `implementations[]`：33 份实现，带算子族、源码文件/行号/哈希、作者证据、适用条件、负例、复用判断、本机验证；
+- `implementations[]`：35 份实现，带算子族、源码文件/行号/哈希、作者证据、适用条件、负例、复用判断、本机验证；
 - `excluded_candidates[]`：未计入的候选及原因。
 
 运行：

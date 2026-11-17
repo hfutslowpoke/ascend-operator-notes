@@ -34,7 +34,7 @@ CANNBot 适合补充：
 - Ascend C API 的可用性/限制；
 - 性能调优建议、常见错误和版本差异。
 
-但 CANNBot 的通用 API 页面、工具说明不算“高性能算子实现”，不计入 33 份实现的数量。接入规则见 [cannbot/INGESTION.md](cannbot/INGESTION.md)。
+但 CANNBot 的通用 API 页面、工具说明不算“高性能算子实现”，不计入 35 份实现的数量。接入规则见 [cannbot/INGESTION.md](cannbot/INGESTION.md)。
 
 ## 怎么读一个条目
 

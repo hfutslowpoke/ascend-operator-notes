@@ -34,16 +34,25 @@
 
 ### `MFG2026-MATH-COMPLEX-ABS`
 
-- **ComplexAbs** · `complex-elementwise` · 本机 `not-run`
+- **ComplexAbs** · `complex-elementwise` · 本机 `not-run` · 官方匹配 `reference`
 - 一句话：实虚平方和再 sqrt；超大值先 SCALE_UP/SCALE_DOWN；Compare/Select 处理 |re|/|im|；按 dtype pack 输出
 - 先读：[README](../competition/mfg-2026/ops-math/README.md) · [source.json](../competition/mfg-2026/ops-math/source.json)
 - 源码入口：`competition/mfg-2026/ops-math/source/math/complex_abs/README.md:1-60`；`competition/mfg-2026/ops-math/source/math/complex_abs/op_kernel/arch35/complex_abs_dag.h:23-178`
 - 适用条件：950/A3 only；complex32/64/128；no empty tensor；rank<=8
 - 负例/风险：A2 not supported；COMPLEX128 on 910B unclear；NaN/Inf semantics
 
+### `MFG2026-MATH-COMPLEX-EXP-BLOCKS`
+
+- **ComplexExp building blocks (Exp/Sin/Cos + ComplexV3)** · `complex-elementwise` · 本机 `not-run` · 官方匹配 `building-block`
+- 一句话：分别计算 exp(a)、cos(b)、sin(b)；再算 real=exp(a)*cos(b)、imag=exp(a)*sin(b)；ComplexV3 把两平面拼成复数输出
+- 先读：[README](../competition/mfg-2026/ops-math/README.md) · [source.json](../competition/mfg-2026/ops-math/source.json)
+- 源码入口：`competition/mfg-2026/ops-math/source/experimental/math/complex_v3/README.md:1-125`；`competition/mfg-2026/ops-math/source/experimental/math/complex_v3/op_host/complex_v3_def.cpp:1-59`；`competition/mfg-2026/ops-math/source/experimental/math/complex_v3/op_kernel/complex_v3.h:1-535`
+- 适用条件：910B arch22/A2 基础件；float16/float32 实数中间量；complex64 输出；同 shape（ComplexExp 不要求广播；ComplexV3 支持广播）
+- 负例/风险：不是单 kernel；4 个算子 + 额外 GM 往返；fp16 极值/精度需验证；官方 atol/rtol=1e-3；complex64 输入需拆 real/imag；complex32/128 不在官方范围
+
 ### `MFG2026-SOLVER-COMPLEX-DIV`
 
-- **ComplexDiv (reference)** · `complex-elementwise` · 本机 `not-run`
+- **ComplexDiv (reference)** · `complex-elementwise` · 本机 `not-run` · 官方匹配 `reference`
 - 一句话：按 max(|c|,|d|) 取 2 的幂缩放；归一化后算分母/分子；FMA 记录乘积/分母误差；remainder 修正商；虚部按 bc-ad
 - 先读：[README](../competition/mfg-2026/ops-solver/README.md) · [source.json](../competition/mfg-2026/ops-solver/source.json)
 - 源码入口：`competition/mfg-2026/ops-solver/source/src/utils/complex_solver_kernel.hpp:49-80`；`competition/mfg-2026/ops-solver/source/docs/zh/complex_solver_migration.md:1-20`
@@ -59,9 +68,18 @@
 - 适用条件：dynamic tensor list <=256；CANN 8.5.0 target；UB budget/alignment satisfied；Gather path needs 16/32-bit dtype and nOut limit
 - 负例/风险：balanced column bands slower 1.35% on G16 246-input case；edge trimming slower 8.0%/7.9%/1.0% on three shapes；bulk TilingData header fetch slower 8%
 
+### `MFG2026-FFT1D`
+
+- **FFT1D (C2C 1D building block)** · `fourier-transform` · 本机 `not-run` · 官方匹配 `building-block`
+- 一句话：按 batch/长度选 DFT、FFTB、FFTN 路径；1D FFT 可沿行/列调用，组合成 2D FFT；也可作为 FusedPropStep 的正/逆变换基础件
+- 先读：[README](../competition/mfg-2026/ops-fft/README.md) · [source.json](../competition/mfg-2026/ops-fft/source.json)
+- 源码入口：`competition/mfg-2026/ops-fft/source/src/fft1_d/arch32/fft1_d_exec_api.cpp:1-154`；`competition/mfg-2026/ops-fft/source/src/fft1_d/arch32/dft/fft1_d_dft.cpp:1-180`；`competition/mfg-2026/ops-fft/source/src/fft1_d/arch32/fft_b/fft1_d_b.cpp:1-255`
+- 适用条件：Ascend 910B arch32；1D C2C complex64；n 为 2 的幂；2..8192 可由 DFT/FFTB/FFTN 覆盖；需要行/列组合才能得到 2D FFT
+- 负例/风险：不是 2D FFT；官方 2D 需要行/列组合与转置/布局处理；inverse 的 1/(N·M) 归一化不在 1D 基础件里；FusedPropStep 的逐点乘/融合/实数 dtype 未覆盖
+
 ### `MFG2026-FFT2D`
 
-- **FourierTransform2D (fft2_d C2C)** · `fourier-transform` · 本机 `pass`
+- **FourierTransform2D (fft2_d C2C)** · `fourier-transform` · 本机 `pass` · 官方匹配 `adapt`
 - 一句话：Host 生成 P/Q DFT 矩阵；设备按 P·X·Q 做两次 Cube 矩阵乘；复数实虚用 vreducev2 分离，矩阵乘后合并写回；尺寸专用 batch 循环 + 多核/L1/L0C 双缓冲
 - 先读：[README](../competition/mfg-2026/ops-fft/README.md) · [source.json](../competition/mfg-2026/ops-fft/source.json)
 - 源码入口：`competition/mfg-2026/ops-fft/source/docs/zh/API_Reference/FFT_2D.md:1-70`；`competition/mfg-2026/ops-fft/source/src/fft2_d/arch32/fft2_d_exec_api.cpp:18-60`；`competition/mfg-2026/ops-fft/source/src/fft2_d/arch32/dd/fft2_d_dd.cpp:17-29,31-62,64-112`
@@ -79,7 +97,7 @@
 
 ### `MFG2026-GNN-GATHER-COO`
 
-- **GatherCoo** · `graph-gather` · 本机 `not-run`
+- **GatherCoo** · `graph-gather` · 本机 `not-run` · 官方匹配 `reference`
 - 一句话：slab 快路径处理连续重复行；通用 tile 逐行拷贝；输出 slab 缓存/批量写出；纯前向位拷贝
 - 先读：[README](../competition/mfg-2026/ops-gnn/README.md) · [source.json](../competition/mfg-2026/ops-gnn/source.json)
 - 源码入口：`competition/mfg-2026/ops-gnn/source/csrc/npu/gather_coo/op_kernel/arch35/gather_coo_kernel.h:24-110`；`competition/mfg-2026/ops-gnn/source/docs/zh/api_reference.md:533-563`
@@ -88,7 +106,7 @@
 
 ### `MFG2026-SPARSE-GATHER`
 
-- **Gather (dense gather)** · `graph-gather` · 本机 `not-run`
+- **Gather (dense gather)** · `graph-gather` · 本机 `not-run` · 官方匹配 `not-applicable`
 - 一句话：按索引从稠密向量取值写 sparse values；raw 快路径跳过描述符创建/销毁；idxBase 0/1
 - 先读：[README](../competition/mfg-2026/ops-sparse/README.md) · [source.json](../competition/mfg-2026/ops-sparse/source.json)
 - 源码入口：`competition/mfg-2026/ops-sparse/source/sparse/gather/README.md:1-60`；`competition/mfg-2026/ops-sparse/source/sparse/gather/arch22/gather_host.cpp:1-120`
@@ -97,7 +115,7 @@
 
 ### `MFG2026-GNN-RANDOM-WALK`
 
-- **RandomWalk** · `graph-random-walk` · 本机 `not-run`
+- **RandomWalk** · `graph-random-walk` · 本机 `not-run` · 官方匹配 `reference`
 - 一句话：Philox 计数器 RNG；按源节点分组/排序；node2vec p/q 权重；输出节点/边序列
 - 先读：[README](../competition/mfg-2026/ops-gnn/README.md) · [source.json](../competition/mfg-2026/ops-gnn/source.json)
 - 源码入口：`competition/mfg-2026/ops-gnn/source/csrc/npu/random_walk/op_kernel/arch35/random_walk.h:18-33`；`competition/mfg-2026/ops-gnn/source/docs/zh/api_reference.md:688-730`
@@ -106,7 +124,7 @@
 
 ### `MFG2026-GNN-SEGMENT-MIN-CSR`
 
-- **SegmentMinCsr** · `graph-segment-reduction` · 本机 `not-run`
+- **SegmentMinCsr** · `graph-segment-reduction` · 本机 `not-run` · 官方匹配 `direct`
 - 一句话：模板 SegmentReduce 同时覆盖 min/max/sum；按 tileRows×tileK 流式读 CSR 行；多 AIV 按 unit 切分；极值与有序浮点路径分开；空段填充
 - 先读：[README](../competition/mfg-2026/ops-gnn/README.md) · [source.json](../competition/mfg-2026/ops-gnn/source.json)
 - 源码入口：`competition/mfg-2026/ops-gnn/source/csrc/npu/segment_csr/op_kernel/arch22/segment_csr.cpp:22-61`；`competition/mfg-2026/ops-gnn/source/csrc/npu/segment_csr/op_kernel/arch22/segment_csr_common.h:35-61`；`competition/mfg-2026/ops-gnn/source/docs/zh/api_reference.md:73-140`
@@ -151,7 +169,7 @@
 
 ### `MFG2026-GNN-GRID-CLUSTER`
 
-- **GridCluster** · `point-cloud-clustering` · 本机 `not-run`
+- **GridCluster** · `point-cloud-clustering` · 本机 `not-run` · 官方匹配 `reference`
 - 一句话：每维 floor((x-origin)/size) 得索引；按 radix 组合成线性 ID；subnormal/极小 size 用缩放与倒数快路径；3D SIMT/宽维分支
 - 先读：[README](../competition/mfg-2026/ops-gnn/README.md) · [source.json](../competition/mfg-2026/ops-gnn/source.json)
 - 源码入口：`competition/mfg-2026/ops-gnn/source/csrc/npu/grid_cluster/op_kernel/arch35/grid_cluster.cpp:15-120,135-221`
@@ -160,7 +178,7 @@
 
 ### `MFG2026-CYLINDER-QUERY`
 
-- **CylinderQuery** · `point-cloud-query` · 本机 `not-run`
+- **CylinderQuery** · `point-cloud-query` · 本机 `not-run` · 官方匹配 `adapt`
 - 一句话：每核处理若干 query；点云 tile 进 UB 双缓冲；p-center 后用 R 旋转；CompareScalar 生成半径/高度 mask；Select 写候选；Python sort/truncate/fill
 - 先读：[README](../competition/mfg-2026/driving-sdk/README.md) · [source.json](../competition/mfg-2026/driving-sdk/source.json)
 - 源码入口：`competition/mfg-2026/driving-sdk/source/kernels/cylinder_query/op_host/cylinder_query.cpp:1-120`；`competition/mfg-2026/driving-sdk/source/kernels/cylinder_query/op_kernel/cylinder_query.cpp:60-102,300-350`；`competition/mfg-2026/driving-sdk/source/mx_driving/ops/cylinder_query.py:29-50`
@@ -169,7 +187,7 @@
 
 ### `MFG2026-MATH-STACK-BALL-QUERY`
 
-- **StackBallQuery** · `point-cloud-query` · 本机 `not-run`
+- **StackBallQuery** · `point-cloud-query` · 本机 `not-run` · 官方匹配 `adapt`
 - 一句话：按 center 分段；batch 的 xyz 片段流式搬 UB；距离平方与 maxRadius² 比较；命中写结果；达到 sample_num 提前停；不足用首索引补齐
 - 先读：[README](../competition/mfg-2026/ops-math/README.md) · [source.json](../competition/mfg-2026/ops-math/source.json)
 - 源码入口：`competition/mfg-2026/ops-math/source/conversion/stack_ball_query/README.md:1-58`；`competition/mfg-2026/ops-math/source/conversion/stack_ball_query/op_kernel/stack_ball_query.h:28-140,281-397`；`competition/mfg-2026/ops-math/source/conversion/stack_ball_query/op_kernel/stack_ball_query.cpp:17-40`
@@ -178,7 +196,7 @@
 
 ### `MFG2026-RADIUS`
 
-- **Radius** · `point-cloud-query` · 本机 `not-run`
+- **Radius** · `point-cloud-query` · 本机 `not-run` · 官方匹配 `adapt`
 - 一句话：按 batch 分核；每 batch 点数上限 512 以驻留 UB；半径平方比较；命中写邻居对；超过 max_num_neighbors 截断；输出动态 [2,E]
 - 先读：[README](../competition/mfg-2026/driving-sdk/README.md) · [source.json](../competition/mfg-2026/driving-sdk/source.json)
 - 源码入口：`competition/mfg-2026/driving-sdk/source/kernels/radius/op_host/radius.cpp:1-100`；`competition/mfg-2026/driving-sdk/source/kernels/radius/op_kernel/radius.cpp:1-120`；`competition/mfg-2026/driving-sdk/source/docs/zh/api/context/radius.md:1-50`
@@ -187,7 +205,7 @@
 
 ### `MFG2026-FPS`
 
-- **FurthestPointSampling** · `point-cloud-sampling` · 本机 `not-run`
+- **FurthestPointSampling** · `point-cloud-sampling` · 本机 `not-run` · 官方匹配 `direct`
 - 一句话：维护 nearestDist[N]；每轮计算到新选中点的距离、取 min、reduce max 选下一个；点云大于 UB 时按 pieces 分片；多核按 batch；fp16/bf16 cast fp32 算距离
 - 先读：[README](../competition/mfg-2026/driving-sdk/README.md) · [source.json](../competition/mfg-2026/driving-sdk/source.json)
 - 源码入口：`competition/mfg-2026/driving-sdk/source/kernels/furthest_point_sampling/op_kernel/furthest_point_sampling.cpp:115-208`；`competition/mfg-2026/driving-sdk/source/kernels/furthest_point_sampling/op_host/furthest_point_sampling.cpp:1-100`；`competition/mfg-2026/driving-sdk/source/docs/zh/api/context/furthest_point_sampling.md:1-39`
@@ -196,7 +214,7 @@
 
 ### `MFG2026-GNN-SPMM`
 
-- **SpmmSum (CSR aggregation)** · `sparse-dense-matmul` · 本机 `not-run`
+- **SpmmSum (CSR aggregation)** · `sparse-dense-matmul` · 本机 `not-run` · 官方匹配 `adapt`
 - 一句话：SpmmReduce 枚举 sum/max/min/mean；Reducer 给初值/apply；CSR 行分组 + copy_lhs；形状/索引校验
 - 先读：[README](../competition/mfg-2026/ops-gnn/README.md) · [source.json](../competition/mfg-2026/ops-gnn/source.json)
 - 源码入口：`competition/mfg-2026/ops-gnn/source/csrc/npu/common/spmm/spmm_utils.h:210-241`；`competition/mfg-2026/ops-gnn/source/docs/zh/api_reference.md:197-199`
@@ -205,7 +223,7 @@
 
 ### `MFG2026-SPARSE-SPMM`
 
-- **SpmmSum (aclsparse SpMM)** · `sparse-dense-matmul` · 本机 `not-run`
+- **SpmmSum (aclsparse SpMM)** · `sparse-dense-matmul` · 本机 `not-run` · 官方匹配 `adapt`
 - 一句话：按 dtype/布局/opA/opB 选行分块；行组 axpy；ALG1 通用/ALG2 行主序快路径/ALG3 确定性；fp32 Kahan
 - 先读：[README](../competition/mfg-2026/ops-sparse/README.md) · [source.json](../competition/mfg-2026/ops-sparse/source.json)
 - 源码入口：`competition/mfg-2026/ops-sparse/source/sparse/spmm/README.md:1-120`；`competition/mfg-2026/ops-sparse/source/sparse/spmm/arch22/spmm_host.cpp:201-330`；`competition/mfg-2026/ops-sparse/source/sparse/spmm/arch22/kernels/spmm_kernel_group_axpy.h:1-120`
@@ -214,7 +232,7 @@
 
 ### `MFG2026-SPARSE-SPGEMM`
 
-- **Spspmm (CSR × CSR)** · `sparse-sparse-matmul` · 本机 `not-run`
+- **Spspmm (CSR × CSR)** · `sparse-sparse-matmul` · 本机 `not-run` · 官方匹配 `adapt`
 - 一句话：WorkEstimation 统计中间乘积 → EstimateMemory 规划 workspace → Compute symbolic(rowOffsets)+numeric(merge/去重) → Copy 写输出 CSR
 - 先读：[README](../competition/mfg-2026/ops-sparse/README.md) · [source.json](../competition/mfg-2026/ops-sparse/source.json)
 - 源码入口：`competition/mfg-2026/ops-sparse/source/sparse/spgemm/README.md:1-40`；`competition/mfg-2026/ops-sparse/source/sparse/spgemm/arch22/spgemm_host.cpp:654-720,1066-1120`；`competition/mfg-2026/ops-sparse/source/sparse/spgemm/arch22/spgemm_symbolic_kernel.cpp:1-120`

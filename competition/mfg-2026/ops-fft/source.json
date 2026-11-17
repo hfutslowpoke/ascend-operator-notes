@@ -9,7 +9,7 @@
     "default_branch": "master",
     "license": "CANN-Open-Software-License-2.0",
     "status": "deep-read",
-    "local_cache": "repository-research-cache/mfg-2026/ops-fft"
+    "local_cache": "competition/mfg-2026/ops-fft/source"
   },
   "implementations": [
     {
@@ -47,6 +47,17 @@
         }
       ],
       "local_status": "pass",
+      "source_match": "adapt",
+      "official_problem": {
+        "id": "fouriertransform2d",
+        "canonical_name": "fouriertransform2d",
+        "title": "仿真计算：FourierTransform2D",
+        "url": "https://cannjudge.cn/public/gcc_2026_mfg/fouriertransform2d",
+        "spec": "competition/mfg-2026/official/specs.json",
+        "description": "competition/mfg-2026/official/descriptions/fouriertransform2d.md",
+        "tolerance": "atol=rtol=1e-3",
+        "source_match": "adapt"
+      },
       "local_validation": {
         "status": "pass",
         "notes": "本机 Ascend 910B3 / CANN 9.1.0 / gcc 11.4.0 / cmake 3.22.1 构建成功并生成 910B .run 包；32×32 batch=1 C2C 冲激输入与解析 DFT 对照 5 次，best 0.1537 ms，max_abs=9.086799e-08，bad=0。",
@@ -76,7 +87,75 @@
             "log": "competition/mfg-2026/evidence/ops-fft_fft2d_32x32_run_20261117.log",
             "log_sha256": "a2ccf18320bc632ef81ef98530921ddffe5096fcf06de9d0e960bd5af59c7338"
           }
+        ],
+        "scope": "32x32 batch=1 C2C forward subset; official requires B 1..256, N,M 2..8192 powers of two, inverse"
+      }
+    },
+    {
+      "id": "MFG2026-FFT1D",
+      "operator": "FFT1D (C2C 1D building block)",
+      "operator_family": "fourier-transform",
+      "source_files": [
+        {
+          "path": "src/fft1_d/arch32/fft1_d_exec_api.cpp",
+          "lines": "1-154",
+          "sha256": "99f987911004516ef57155869dfd290dee9456c7b5781620cc521b63b4d0b1d7",
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/fft1_d/arch32/fft1_d_exec_api.cpp",
+          "local_path": "competition/mfg-2026/ops-fft/source/src/fft1_d/arch32/fft1_d_exec_api.cpp",
+          "role": "1D C2C 尺寸分派：n≤256 走 DFT，512..16384 走 FFTB，更大走 FFTN；910B arch32"
+        },
+        {
+          "path": "src/fft1_d/arch32/dft/fft1_d_dft.cpp",
+          "lines": "1-180",
+          "sha256": "6590c21b892dadaa76fdaf7b3856f4518f0b84961ed58b78373eeb7ca3495ca9",
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/fft1_d/arch32/dft/fft1_d_dft.cpp",
+          "local_path": "competition/mfg-2026/ops-fft/source/src/fft1_d/arch32/dft/fft1_d_dft.cpp",
+          "role": "小尺寸 n≤256 的 DFT 路径，可覆盖官方 2/4/8/16/32/64/128/256"
+        },
+        {
+          "path": "src/fft1_d/arch32/fft_b/fft1_d_b.cpp",
+          "lines": "1-255",
+          "sha256": "c5bfea0f8df4ede06091b0694dbd7809dde30cda94e97a8dafbb92446818d427",
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/fft1_d/arch32/fft_b/fft1_d_b.cpp",
+          "local_path": "competition/mfg-2026/ops-fft/source/src/fft1_d/arch32/fft_b/fft1_d_b.cpp",
+          "role": "FFTB 路径，覆盖 512..16384，可用于官方 512/1024/2048/4096/8192"
+        },
+        {
+          "path": "src/fft1_d/arch32/fft_n/fft1_d_n.cpp",
+          "lines": "1-343",
+          "sha256": "e2a4fafe406af093222dca1cfbf92dca4919b9b4fdd1c29077c2a28c0059dd39",
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/fft1_d/arch32/fft_n/fft1_d_n.cpp",
+          "local_path": "competition/mfg-2026/ops-fft/source/src/fft1_d/arch32/fft_n/fft1_d_n.cpp",
+          "role": "FFTN 路径，覆盖更大 n；官方 8192 可由 FFTB/FFTN 覆盖"
+        },
+        {
+          "path": "docs/zh/API_Reference/FFT_1D.md",
+          "lines": "1-490",
+          "sha256": "74250d0475e915fb8920f1091c60d7198d68c2ee5f92769f40d8de102a48b4be",
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/docs/zh/API_Reference/FFT_1D.md",
+          "local_path": "competition/mfg-2026/ops-fft/source/docs/zh/API_Reference/FFT_1D.md",
+          "role": "FFT_1D 官方接口/支持范围/归一化说明"
+        }
+      ],
+      "local_status": "not-run",
+      "source_match": "building-block",
+      "official_problem": {
+        "id": "fouriertransform2d",
+        "canonical_name": "fouriertransform2d",
+        "title": "仿真计算：FourierTransform2D",
+        "url": "https://cannjudge.cn/public/gcc_2026_mfg/fouriertransform2d",
+        "spec": "competition/mfg-2026/official/specs.json",
+        "description": "competition/mfg-2026/official/descriptions/fouriertransform2d.md",
+        "tolerance": "atol=rtol=1e-3",
+        "source_match": "building-block",
+        "also_relevant_to": [
+          "fusedpropstep"
         ]
+      },
+      "local_validation": {
+        "status": "not-run",
+        "notes": "仅登记为 910B 1D 基础件；未构建/运行。",
+        "log": "competition/mfg-2026/evidence/README.md"
       }
     }
   ],

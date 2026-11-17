@@ -11,7 +11,7 @@
 | 固定 commit | `ea0b18a1d3e97f1ae2315df69338bb51c9f96466`（2026-11-17） |
 | 默认分支 | `master` |
 | 许可证 | CANN Open Software License Agreement Version 2.0 |
-| 本地缓存 | `repository-research-cache/mfg-2026/ops-gnn/` |
+| 本地源码 | `competition/mfg-2026/ops-gnn/source/` |
 | 去重 | 与 ops-sparse 的 SpMM/SpGEMM 不同：ops-gnn 是 PyTorch 图算子封装，含 segment/gather/random_walk |
 
 ## 2. 硬件支持矩阵（关键）
@@ -28,6 +28,16 @@
 - **能直接参考/构建**：`segment_csr`（07）、`spmm`（09）；
 - **只能看算法**：`gather_coo`（06）、`random_walk`（08）、`grid_cluster`（12）、`radius`/`fps`（11/13 的 950 版本）；
 - `ops-gnn` 的 `radius`/`fps` 与 DrivingSDK 重复时，优先 DrivingSDK（A2 文档更明确）。
+
+### 2.1 官方接口校正（2026-11-17）
+
+| 赛题 | 官方接口 | 源码差异 |
+|---|---|---|
+| 06 `GatherCoo` | `src (M,K)` fp32/fp16/int32/int8，`index (E) int32`，`out (E,K)`，允许重复 | `reference`：ops-gnn 是 int64、rank1–8、arch35；官方是 int32 2D，910B 无 arch22 |
+| 07 `SegmentMinCsr` | `src (E,K)`，`indptr int64`，`out/arg_out`，空段 `0/E`，首遇 tie-break | `direct`：arch22 `segment_min_csr` 已覆盖 arg_out/空段/tie-break |
+| 08 `RandomWalk` | `rowptr/col/seed int64`，`rand (B,L)` float32 必选，p/q，孤立点停留 | `reference`：源码 arch35 用 Philox，不接受外部 rand |
+| 09 `SpmmSum` | `rowptr int64`、`col int32`、`value/mat` fp32/fp16，空行 0 | `adapt`：源码是通用 CSR 聚合，需把 value/mat 映射到 op/reduce |
+| 12 `GridCluster` | `pos (N,D)`，`size/start/end (D)`，`D∈{2,3}`，`stride[0]=1` | `reference`：源码 stride 顺序一致，但仅 arch35 |
 
 ## 3. 源码定位
 
@@ -56,7 +66,7 @@
 - 模板 `SegmentReduceDevice<T, SegmentReduce, HasArg>` 同时覆盖 `SegmentMin/Max/Sum`；
 - 每个 unit 是一个 `(task, feature tile)`：`task` 是一个 CSR 行/分段，`tileK` 是特征列宽；
 - 流式读 `tileRows × tileK` 的源行，按 `indptr` 在 UB 中归约；
-- min/max 走极值路径，sum 走有序浮点路径；空段按 dtype 填最小值；
+- min/max 走极值路径，sum 走有序浮点路径；官方空段 `out=0`、`arg_out=E`；源码 `HasArg` 路径实现了 arg 输出与空段哨兵，需核对 `M=E`；
 - 多 AIV 按 unit 切分，`ProcessSingleUnit`/`ProcessOutputGroup` 处理单输出/输出分组。
 
 ### 4.2 SpmmSum（09，A2/A3）
@@ -93,17 +103,17 @@
 ## 6. 负例/风险
 
 - **架构错配**：`gather_coo`/`random_walk`/`grid_cluster` 只有 arch35；直接抄到 910B 会编译失败或语义不完整。
-- **GatherCoo 索引**：必须 int64、非降序；重复索引/空 Tensor/非连续输入要按文档。
-- **RandomWalk 随机性**：必须固定 seed；p/q、coalesced、自环/重复边语义要与题面一致。
-- **GridCluster**：极小 size/负坐标/int64 溢出/空点集；线性 ID 的维序必须与题面一致。
-- **Segment**：空段填充最小值；NaN/极值语义；`indptr` 非降序。
+- **GatherCoo 索引**：源码要求 int64、非降序、rank1–8；官方要求 int32 `[0,M)`、允许重复、2D `[M,K]`；两者不是同一契约。
+- **RandomWalk 随机性**：官方要求外部 `rand` 输入，保证逐位可比；源码 Philox 计数器 RNG 不满足该契约。
+- **GridCluster**：官方 `stride[0]=1`（dim0 最快），源码一致；但源码仅 arch35，910B 无实现。
+- **Segment**：官方空段 `out=0`、`arg_out=E`；源码 `HasArg` 路径实现，需核对 `E` 与 `M` 的对应；`indptr` 非降序。
 - **Spmm**：A2 dtype 组合比 950 少；`CSR_ALG3` 只支持非转置；行分块/布局影响性能。
 
 ## 7. 复用判断
 
-**优先复用**：Segment CSR 的模板化 min/max/sum、流式行 tile、空段填充；SpMM 的 reduce 枚举/行分组。
+**优先复用**：Segment CSR 的模板化 min/max/sum、arg_out、流式行 tile、空段 0/哨兵；SpMM 的 reduce 枚举/行分组。
 
-**需要验证**：910B3 上 `segment_csr`/`spmm` 的 arch22 构建与精度；`segment_min_csr` 的 NaN/空段语义。
+**需要验证**：910B3 上 `segment_min_csr`/`spmm` 的 arch22 构建与精度；官方 arg_out/空段/首遇 tie-break；SpmmSum 的 value/mat 映射。
 
 **暂不使用**：`gather_coo`/`random_walk`/`grid_cluster` 的 arch35 代码直接上 910B；只能作为算法参考，移植需重写 SIMT/Vector 路径。
 
@@ -112,4 +122,4 @@
 1. 构建 `ops-gnn` 的 A2 wheel（`CANN_TARGET=a2`），先跑 `test/segment_csr/arch22` 与 `test/spmm/arch22`；
 2. 用 PyTorch/scatter 参考对照 min/max/sum 与空段；
 3. 对 950-only 算子，记录“不可在 910B 构建”的负例，不强行移植；
-4. 若题面要求 GatherCoo/RandomWalk/GridCluster，另开 910B 实现，不复用 arch35 二进制。
+4. 官方已明确要求 GatherCoo/RandomWalk/GridCluster；需另写 910B 实现，不复用 arch35 二进制。

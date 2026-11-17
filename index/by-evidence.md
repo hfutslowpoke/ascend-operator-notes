@@ -49,6 +49,7 @@
 | `HANSEN-2026POWER-TREE-R1` | `competition` | [README](../competition/hansen-2026-power/README.md) | not-reproduced; static source and public score only |
 | `MAMBA2-ASCENDC-CHUNKMIX` | `general` | [README](../general/attention/mamba-ascendc/README.md) | not-reproduced; author device event/profiler |
 | `MFG2026-CYLINDER-QUERY` | `competition` | [README](../competition/mfg-2026/driving-sdk/README.md) | not-run; A2-targeted generic path; build pending |
+| `MFG2026-FFT1D` | `competition` | [README](../competition/mfg-2026/ops-fft/README.md) | building block only; not an end-to-end official-problem run |
 | `MFG2026-FPS` | `competition` | [README](../competition/mfg-2026/driving-sdk/README.md) | not-run; docs A2/A3/950 |
 | `MFG2026-GNN-GATHER-COO` | `competition` | [README](../competition/mfg-2026/ops-gnn/README.md) | not-run; 950-only reference |
 | `MFG2026-GNN-GRID-CLUSTER` | `competition` | [README](../competition/mfg-2026/ops-gnn/README.md) | not-run; 950-only reference |
@@ -56,6 +57,7 @@
 | `MFG2026-GNN-SEGMENT-MIN-CSR` | `competition` | [README](../competition/mfg-2026/ops-gnn/README.md) | not-run; A2/A3 arch22 exists |
 | `MFG2026-GNN-SPMM` | `competition` | [README](../competition/mfg-2026/ops-gnn/README.md) | not-run; A2/A3 arch22 exists |
 | `MFG2026-MATH-COMPLEX-ABS` | `competition` | [README](../competition/mfg-2026/ops-math/README.md) | not-run; 950-only reference |
+| `MFG2026-MATH-COMPLEX-EXP-BLOCKS` | `competition` | [README](../competition/mfg-2026/ops-math/README.md) | building block composition; no end-to-end official-problem run |
 | `MFG2026-MATH-STACK-BALL-QUERY` | `competition` | [README](../competition/mfg-2026/ops-math/README.md) | not-run; A2 config exists |
 | `MFG2026-RADIUS` | `competition` | [README](../competition/mfg-2026/driving-sdk/README.md) | not-run; docs A2/A3/950 |
 | `MFG2026-SOLVER-COMPLEX-DIV` | `competition` | [README](../competition/mfg-2026/ops-solver/README.md) | not-run; 950 SIMT reference |

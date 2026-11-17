@@ -11,10 +11,19 @@
 | 固定 commit | `8fae00b8832bf31f1ce26059680bce67c6026c4f`（2026-11-17） |
 | 默认分支 | `master` |
 | 许可证 | CANN Open Software License Agreement Version 2.0 |
-| 本地缓存 | `repository-research-cache/mfg-2026/ops-sparse/` |
+| 本地源码 | `competition/mfg-2026/ops-sparse/source/` |
 | 去重 | 与 ops-gnn 的 PyTorch 层不同：ops-sparse 是 aclsparse Generic API/C++ 库 |
 
 ## 2. 对应赛题
+
+### 2.0 官方题面校正（2026-11-17）
+
+| 赛题 | 官方接口 | 源码差异 |
+|---|---|---|
+| 09 `SpmmSum` | `rowptr int64`、`col int32`、`value/mat` fp32/fp16、`out (M,K)`、空行 0、col 升序 | `adapt`：`aclsparseSpMM` 是通用 `alpha·A·B+beta·C`，需 alpha=1/beta=0 与 CSR 描述符 |
+| 10 `Spspmm` | COO `indexA/valueA/indexB/valueB`，输出 COO 固定槽位 `U=m·n`，未命中 `(-1,-1)/0` | `adapt`：源码 `SpGEMM` 是 CSR 输入/输出 + 动态 nnz，需 COO↔CSR 与槽位层 |
+| 06 `GatherCoo` | `src (M,K)`、`index int32`、`out (E,K)` | 不可用：`aclsparseGather` 是 dense gather，不是 COO 行扩展 |
+
 
 ### 2.1 SpmmSum（09）
 
@@ -27,13 +36,14 @@ C = alpha * op(A) * op(B) + beta * C
 - A2/A3 支持 FP32、FP16、BF16、COMPLEX64；`FP32_HIGH_PRECISION` 用 Kahan 补偿；
 - 本题只关心 sum，但库支持 sum/max/min/mean（ops-gnn 层）与 SpMM 的通用乘法。
 
-### 2.2 Spspmm（10）
+### 2.2 Spspmm（10）的核心：CSR SpGEMM
 
 ```text
 C' = alpha * op(A) * op(B) + beta * C
 ```
 
-- A/B/C 均为 CSR；输出 CSR 列索引严格升序、无重复坐标；数值抵消的显式零保留；
+- 这里是 SpGEMM 核心的 CSR 实现：A/B/C 均为 CSR；输出 CSR 列索引严格升序、无重复坐标；数值抵消的显式零保留；
+- **官方 Spspmm 不是这个接口**：官方输入/输出是 COO，输出固定槽位 `U=m·n`，未命中槽位 `(-1,-1)/0`；必须加转换层；
 - 多阶段：WorkEstimation → EstimateMemory → Compute（symbolic + numeric）→ Copy；
 - A2/A3/950 支持。
 
@@ -75,7 +85,7 @@ C' = alpha * op(A) * op(B) + beta * C
 
 - WorkEstimation 统计每行/总中间乘积数 `numProds`；
 - EstimateMemory 规划 workspace（ALG2/ALG3 的 chunkFraction）；
-- Compute 先 symbolic 写 `rowOffsets`，再 numeric 做多路 merge、重复坐标相加、列索引排序；
+- Compute 先 symbolic 写 `rowOffsets`，再 numeric 做多路 merge、重复坐标相加、列索引排序；这是 CSR 输出语义，官方 COO 固定槽位需另写输出层；
 - Copy 把内部列索引/values 写入调用方 CSR；
 - 输出结构严格升序、无重复；显式零保留。
 
@@ -94,14 +104,14 @@ C' = alpha * op(A) * op(B) + beta * C
 ## 6. 负例/风险
 
 - **SpMM 算法选择**：CSR_ALG3 只支持非转置；不同布局/alg 的性能差异大；A2 dtype 组合比 950 少。
-- **SpGEMM**：`numProds` 不是最终 `nnz(C)`；输出 CSR 需要动态分配/更新；大 nnz 可能超 INT32；多阶段状态机不能跳步。
+- **SpGEMM**：`numProds` 不是最终 `nnz(C)`；输出 CSR 需要动态分配/更新；大 nnz 可能超 INT32；多阶段状态机不能跳步。官方 Spspmm 还要求 COO 定槽位 `U=m·n≤250000` 和未命中 `(-1,-1)/0`。
 - **Gather**：不是 `GatherCoo`；只有 dense gather，不处理 COO 行扩展/重复行 slab。
 - **零维/空行**：SpMM A2 允许 M/K/N=0、nnz=0；SpGEMM 的输出结构/显式零语义要按 README。
 - **构建成本**：全库较大，A2 测试可能依赖 CANN 版本；不要把编译成功当性能。
 
 ## 7. 复用判断
 
-**优先复用**：SpMM 的行分块/group axpy/Kahan；SpGEMM 的 symbolic+numeric+merge 多阶段；Gather 的 raw fast path（仅 dense gather）。
+**优先复用**：SpMM 的行分块/group axpy/Kahan；SpGEMM 的 symbolic+numeric+merge 多阶段（作为 Spspmm 的 CSR 核心）；Gather 的 raw fast path（仅 dense gather）。
 
 **需要验证**：910B3 上 A2 构建；SpMM 的 alg/布局 crossover；SpGEMM 小图/大图的 workspace/nnz。
 
@@ -112,4 +122,5 @@ C' = alpha * op(A) * op(B) + beta * C
 1. 构建 `ops-sparse` A2，跑 `test/spmm` 与 `test/spgemm` 的最小用例；
 2. 用小图（对角/链/随机）验证 SpGEMM 输出结构、`numProds/nnz`、显式零；
 3. SpMM 先 fp32，再 fp16/bf16/complex64；记录 alg/布局/行分块对时延的影响；
-4. Gather 只作为 dense gather 参考，GatherCoo 另找/另写 910B 实现。
+4. Gather 只作为 dense gather 参考，GatherCoo 另找/另写 910B 实现；
+5. Spspmm 先写 COO↔CSR + 固定槽位输出层，再复用 SpGEMM 核心。

@@ -8,9 +8,11 @@
 | `batched-least-squares` | `GITCODE-LINALG-LSTSQ` | `competition` | [README](../competition/elec-ops-inspection/README.md) | `partial` |
 | `candidate-decode-fusion` | `HANSEN-2026POWER-FIRE-R2` | `competition` | [README](../competition/hansen-2026-power/README.md) | `not-run` |
 | `complex-elementwise` | `MFG2026-MATH-COMPLEX-ABS` | `competition` | [README](../competition/mfg-2026/ops-math/README.md) | `not-run` |
+| `complex-elementwise` | `MFG2026-MATH-COMPLEX-EXP-BLOCKS` | `competition` | [README](../competition/mfg-2026/ops-math/README.md) | `not-run` |
 | `complex-elementwise` | `MFG2026-SOLVER-COMPLEX-DIV` | `competition` | [README](../competition/mfg-2026/ops-solver/README.md) | `not-run` |
 | `concat-layout` | `GITCODE-CONCAT` | `competition` | [README](../competition/cann-ops-competitions/README.md) | `offline-only` |
 | `equivariant-tensor-product` | `PARITY-O3-PACKED-TP` | `general` | [README](../general/equivariant/parity-ictc-o3/README.md) | `not-run` |
+| `fourier-transform` | `MFG2026-FFT1D` | `competition` | [README](../competition/mfg-2026/ops-fft/README.md) | `not-run` |
 | `fourier-transform` | `MFG2026-FFT2D` | `competition` | [README](../competition/mfg-2026/ops-fft/README.md) | `pass` |
 | `gemm` | `XAYAH-ASC910B-MATMUL-NEG` | `general` | [README](../general/elementwise/52xayah-triton-kernels/README.md) | `pass-negative` |
 | `geometric-argmin` | `HANSEN-2026POWER-TREE-R1` | `competition` | [README](../competition/hansen-2026-power/README.md) | `not-run` |

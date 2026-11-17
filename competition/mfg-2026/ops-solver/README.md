@@ -11,10 +11,13 @@
 | 固定 commit | `739775a145d7789693f97758f6771bb1b3eb6a8f`（2026-11-17） |
 | 默认分支 | `master` |
 | 许可证 | CANN Open Software License Agreement Version 2.0 |
-| 本地缓存 | `repository-research-cache/mfg-2026/ops-solver/` |
+| 本地源码 | `competition/mfg-2026/ops-solver/source/` |
 | 去重 | 与 ops-math 的复数算子不重复；这里是复数 LU/QR 求解器内部的除法 |
 
 ## 2. 赛题语义
+
+> 官方题面（2026-11-17）：`dividend/divisor` 支持 float16/float32/complex64，同 dtype、支持 NumPy/torch 广播、不做隐式提升；float32/complex64 容差 atol=rtol=1e-4，float16 为 1e-3；`N,M≤65536`、分量绝对值≤10、除数非零。下面的 `ops-solver` 代码只是 complex64 的 950 SIMT 内部 helper，不是官方算子的完整实现。
+
 
 `ComplexDiv`（02）要求复数逐元素除法：
 
@@ -58,7 +61,7 @@
 
 ## 6. 负例/风险
 
-- 不是独立 `ComplexDiv` elementwise 算子；只是 LU 面板里的除法 helper。
+- 不是独立 `ComplexDiv` elementwise 算子；只是 LU 面板里的除法 helper，不覆盖官方要求的 float16/float32/广播。
 - 依赖 SIMT（`asc_simt.h`/shuffle/FMA），不能直接搬到 910B Vector。
 - 只处理 `aclFloatComplex`（complex64）；complex32/128 需另写。
 - 没有性能数据；补偿商指令数比朴素公式多，是否值得要看题面精度/范围。
@@ -67,13 +70,13 @@
 
 **优先复用**：缩放因子、`Quotient` 的 FMA 误差修正、`first/second` 排序避免平方溢出。
 
-**需要验证**：910B 上 Vector 版 `Div`/`Sqrt`/`Mul` 的精度；题面是否要求 complex64 以外的 dtype；是否允许用 double 中间量。
+**需要验证**：910B 上 Vector 版 `Div`/`Sqrt`/`Mul` 的精度；官方已要求 float16/float32/complex64 + 广播，需分别实现/验证；是否允许用 double 中间量。
 
 **暂不使用**：直接编译这份 SIMT 代码到 910B；把它当完整算子。
 
 ## 8. 下一步
 
-1. 拿到 `ComplexDiv` 题面，确认 dtype、特殊值、精度阈值；
+1. 官方题面已确认 dtype/广播/精度阈值；下一步写 910B Vector 版并覆盖 float16/float32/complex64；
 2. 用 910B Vector 写一个逐元素版本，先做缩放 + 朴素商，再加 FMA 补偿；
 3. 与 CPU `numpy.complex64` 对照，覆盖 `c²+d²` 接近 0/极大/极小的输入；
 4. 记录 max abs/相对误差、指令数、时延；如果补偿没有收益，保留朴素路径。

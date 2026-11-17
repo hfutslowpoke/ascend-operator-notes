@@ -54,7 +54,7 @@ tools/         build_index.py、verify_archive.py
 
 ### 3.2 外部调研
 
-- 20 个仓库记录、18 个独立算法来源、15 个深读仓库、33 份实现；
+- 20 个仓库记录、18 个独立算法来源、15 个深读仓库、35 份实现；
 - 竞赛层：CANN 竞赛仓、电力行业仓、Hansen、KernelSwift；
 - 通用层：Be4ver SVD、eigh 候选、Mamba-2、vLLM-HUST、Parity O(3)/mesh、52Xayah 负例、两个 Triton 基准、CANNBot 接入位；
 - 本机 910B3 证据：KernelSwift 2 PASS/1 编译失败、Be4ver 4 组 PASS、Lstsq 3 组部分 PASS、recompute_w_u 编译成功/运行失败、Concat 仅离线。

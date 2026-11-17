@@ -2,7 +2,7 @@
 
 状态：第一/二批 + GitCode 补充来源筛选与源码深读完成；纯 Triton 任务、Be4ver 的两个 Ascend C 算子和 GitCode Lstsq 小尺寸已在本机 Ascend 910B3 复测。Parity-LRX 未在本机构建。未向比赛平台提交，未修改当前算子工程或 ACW 框架。除明确标注“本机复测”的数字外，本文中的“加速比”都是原作者/原报告在各自环境下的数字。
 
-> 2026-11-17 增量：新增 **6 个制造专场官方/生产仓**（ops-fft、DrivingSDK、ops-gnn、ops-sparse、ops-math、ops-solver）和 **15 份实现**，覆盖 15 道制造赛题中的 13 道（2 道未找到公开源码）。当前全库为 **20 个仓库记录、18 个独立算法来源、15 个深读仓库、33 份实现**。本文以下第 1–8 节保留 2026-11-16 批次的原始口径，制造专场增量见 [competition/mfg-2026/README.md](../../competition/mfg-2026/README.md)。
+> 2026-11-17 增量：新增 **6 个制造专场官方/生产仓**（ops-fft、DrivingSDK、ops-gnn、ops-sparse、ops-math、ops-solver）和 **15 份实现**，并抓取 15 道制造赛题的官方公开题面；13 道有候选源码，2 道（ComplexExp、FusedPropStep）无公开源码。当前全库为 **20 个仓库记录、18 个独立算法来源、15 个深读仓库、35 份实现**。本文以下第 1–8 节保留 2026-11-16 批次的原始口径，制造专场增量见 [competition/mfg-2026/README.md](../../competition/mfg-2026/README.md)。
 
 ## 1. 结论摘要
 

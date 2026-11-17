@@ -11,10 +11,19 @@
 | 固定 commit | `d10b13c95ec7f25a54a4aa9677c436cde30ff6e2`（2026-11-17） |
 | 默认分支 | `master` |
 | 许可证 | Apache-2.0 |
-| 本地缓存 | `repository-research-cache/mfg-2026/driving-sdk/` |
+| 本地源码 | `competition/mfg-2026/driving-sdk/source/` |
 | 去重 | 与 ops-gnn 的 radius/fps 实现不同：DrivingSDK 是自动驾驶生产 SDK，文档明确 A2/A3/950 |
 
 ## 2. 赛题与接口
+
+### 2.0 官方题面校正（2026-11-17）
+
+| 赛题 | 官方规格 | 源码匹配 |
+|---|---|---|
+| 11 `Radius` | `x/y` float32/float16，`ptr_x/ptr_y` int64，`D∈{2,3}`，`N,M≤1e6`，`out (2,M×K)` 定槽位、未命中 `(-1,-1)`，`ignore_same_index` | `adapt`：DrivingSDK 是动态输出、单 batch≤512、`Ndim<9`，需重写输出/约束 |
+| 13 `FurthestPointSample` | `points [B,N,3]` float32/float16，`npoint≤N`，首点 0，并列取最小索引，float16 保持 half 精度 | `direct` 候选：官方题面明确以 `mx_driving` Ascend FPS 为参考；仍需本机逐位验证 |
+| 15 `CylinderQuery` | `xyz/new_xyz/rot` float32/float16，`rot^T·Δ`，严格边界，扫描序 first-K，不足重复首个命中 | `adapt`：kernel 的 `rot^T` 与严格比较一致；但 Python 层会排序后截断，需改为 first-K |
+
 
 ### 2.1 Radius（11）
 
@@ -27,7 +36,7 @@ mx_driving.radius(x, y, ptr_x, ptr_y, r, max_num_neighbors) -> Tensor
 - 对每个 y，找同 batch 内 `dist² <= r²` 的 x，按扫描顺序保留前 `max_num_neighbors`；
 - 输出 `[2, num_neighbors]` int，第一行是 y 索引、第二行是 x 索引（按文档/测试为准）。
 
-约束：`Ndim < 9`、`batch_size <= 1024`、单 batch 点数 `<= 512`；支持 A2/A3/950。
+源码约束：`Ndim < 9`、`batch_size <= 1024`、单 batch 点数 `<= 512`；支持 A2/A3/950。官方约束是 `D∈{2,3}`、`N,M≤1e6`、`M×max_num_neighbors≤4e6`、定槽位输出，二者不可混用。
 
 ### 2.2 FurthestPointSample（13）
 
@@ -36,7 +45,7 @@ mx_driving.furthest_point_sampling(points, num_points) -> Tensor
 ```
 
 - `points`: `[B,N,3]`，FP32/FP16/BF16；输出 `[B,num_points]` int32；
-- 迭代选最远点；总元素 `B*N*3 <= 383166`；支持 A2/A3/950。
+- 迭代选最远点；源码约束 `B*N*3 <= 383166`；支持 A2/A3/950。官方测试规模为 `N≤2048`、`B≤4`、`npoint≤128`，远小于源码上限。
 
 ### 2.3 CylinderQuery（15）
 
@@ -72,7 +81,7 @@ mx_driving.cylinder_query(radius, hmin, hmax, nsample, new_xyz, xyz, rot)
 
 ### 4.1 Radius
 
-- 按 batch 分核；每个 batch 的点数上限 512，便于把 X/Y 点集放进 UB；
+- 按 batch 分核；源码每个 batch 点数上限 512，便于把 X/Y 点集放进 UB；官方允许 `N,M≤1e6`，需要重新分块。
 - 距离用平方比较，避免 sqrt；
 - 每个 y 扫描同 batch 的 x，命中写入邻居对；超过 `max_num_neighbors` 截断；
 - 输出是动态长度 `[2,E]`，需要 workspace/输出计数；顺序由扫描顺序决定（确定性）。
@@ -89,32 +98,32 @@ mx_driving.cylinder_query(radius, hmin, hmax, nsample, new_xyz, xyz, rot)
 - 每个 query 有 3×3 旋转；kernel 把点云 tile 搬入 UB（双缓冲），计算 `p - center`，再用 `R` 旋转；
 - `CompareScalar` 生成 `y'²+z'² < r²` 与 `hmin < x' < hmax` 两个 mask，`Select` 写候选索引；
 - 每核处理若干 query，点云按 UB 容量分块；`nsample` 参与 UB 预算；
-- Python 层 `sort` 候选、取前 `nsample`、把 miss 填成首索引，再转 int32。
+- Python 层 `sort` 候选、取前 `nsample`、把 miss 填成首索引，再转 int32。**这与官方扫描序 first-K 不一致**；官方禁止排序。
 
 ## 5. 910B 适用性与证据
 
-- Radius/FPS 文档明确列出 **Atlas A2 训练/推理**；CylinderQuery 走通用 host/kernel 路径，未见 arch35-only 分支，但文档没有单独支持表，**A2 需本机构建确认**。
+- Radius/FPS 文档明确列出 **Atlas A2 训练/推理**；CylinderQuery 走通用 host/kernel 路径，未见 arch35-only 分支，但文档没有单独支持表，**A2 需本机构建确认**。官方题面进一步表明 FPS 就是 `mx_driving` 参考语义，是最强候选；Radius/Cylinder 仍需适配。
 - 本批未构建/未运行：`local_status=not-run`；无作者性能数字。
 - 构建方式：DrivingSDK 是 CMake/setup.py 工程，`kernels/CMakeLists.txt` 自动扫描所有算子；全量构建较重。可先只编译/安装 `mx_driving` 的 Python 扩展，再调用单个 op；若不能单算子构建，记录为构建成本负例。
 
 ## 6. 负例/风险
 
-- **Radius**：`Ndim>=9`、batch>1024、单 batch>512 直接不支持；输出 E 动态，调用方要处理 workspace/计数；顺序/去重语义要按题面。
-- **FPS**：总元素上限 383166；首点约定（0）；分片会多次读点云；FP16/BF16 转 FP32 有额外开销。
-- **CylinderQuery**：`nsample` 受 UB 限制；rot 必须是 9 元素；输出全量候选后 Python 排序，端到端包含排序成本；A2 支持未在文档单列。
+- **Radius**：源码 `Ndim>=9`、batch>1024、单 batch>512 直接不支持；输出 E 动态，官方要求定槽位 `[2,M×K]` 和 `(-1,-1)`；`ignore_same_index` 需补。
+- **FPS**：源码总元素上限 383166；官方要求 float16 保持 half 精度，不能提升到 fp32；并列取最小索引需逐位验证；分片会多次读点云。
+- **CylinderQuery**：`nsample` 受 UB 限制；rot 必须是 9 元素；kernel 的 `rot^T·Δ` 与官方一致，但 Python 层排序违反 first-K；官方要求 `nsample≤N`、float16→float32 变换/比较。
 - **通用**：DrivingSDK 依赖 torch_npu/自定义 C++ 扩展，版本匹配要求高；不要把“文档支持 A2”当成本机通过。
 
 ## 7. 复用判断
 
 **优先复用**：Radius 的 batch 分核 + 半径平方 + 截断；FPS 的最近距离数组 + 迭代 reduce max + 分片；CylinderQuery 的 3×3 旋转 + 双 mask + 候选输出。
 
-**需要验证**：910B3 上单算子构建/调用；CylinderQuery 的 A2 兼容性；FPS 首点/分片语义与题面是否一致。
+**需要验证**：910B3 上单算子构建/调用；FPS 的 half 精度/并列 tie-break；Radius 的定槽位/ignore_same_index；CylinderQuery 去掉 Python 排序后的 first-K。
 
 **暂不使用**：超出约束的 shape；需要 950 专属路径的场景；未确认 A2 的 CylinderQuery 直接当 910B 模板。
 
 ## 8. 下一步
 
 1. 先构建/安装 `mx_driving`，跑 `tests/torch/test_radius.py`、`test_furthest_point_sampling.py`、`test_cylinder_query.py`；
-2. 与 CPU 暴力参考对照：Radius 邻居集合、FPS 索引序列、CylinderQuery 候选/排序结果；
+2. 与官方样例/CPU 暴力参考对照：Radius 定槽位、FPS 逐位索引、CylinderQuery 扫描序 first-K；
 3. 记录 ACLNN/event 时延、输入 shape、workspace、首轮 setup；
 4. 若全量构建过重，记录“单算子构建不可行”的成本，并改用源码级移植评估。

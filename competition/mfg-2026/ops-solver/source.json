@@ -9,7 +9,7 @@
     "default_branch": "master",
     "license": "CANN-Open-Software-License-2.0",
     "status": "deep-read",
-    "local_cache": "repository-research-cache/mfg-2026/ops-solver"
+    "local_cache": "competition/mfg-2026/ops-solver/source"
   },
   "implementations": [
     {
@@ -33,6 +33,17 @@
         }
       ],
       "local_status": "not-run",
+      "source_match": "reference",
+      "official_problem": {
+        "id": "complexdiv",
+        "canonical_name": "complexdiv",
+        "title": "仿真计算：ComplexDiv",
+        "url": "https://cannjudge.cn/public/gcc_2026_mfg/complexdiv",
+        "spec": "competition/mfg-2026/official/specs.json",
+        "description": "competition/mfg-2026/official/descriptions/complexdiv.md",
+        "tolerance": "float32/complex64: atol=rtol=1e-4；float16: atol=rtol=1e-3",
+        "source_match": "reference"
+      },
       "local_validation": {
         "status": "not-run",
         "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",

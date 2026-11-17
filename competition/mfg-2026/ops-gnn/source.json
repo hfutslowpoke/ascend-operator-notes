@@ -9,7 +9,7 @@
     "default_branch": "master",
     "license": "CANN-Open-Software-License-2.0",
     "status": "deep-read",
-    "local_cache": "repository-research-cache/mfg-2026/ops-gnn"
+    "local_cache": "competition/mfg-2026/ops-gnn/source"
   },
   "implementations": [
     {
@@ -33,6 +33,17 @@
         }
       ],
       "local_status": "not-run",
+      "source_match": "reference",
+      "official_problem": {
+        "id": "gathercoo",
+        "canonical_name": "gathercoo",
+        "title": "图计算：GatherCoo",
+        "url": "https://cannjudge.cn/public/gcc_2026_mfg/gathercoo",
+        "spec": "competition/mfg-2026/official/specs.json",
+        "description": "competition/mfg-2026/official/descriptions/gathercoo.md",
+        "tolerance": "索引/拷贝精确；dtype 原样",
+        "source_match": "reference"
+      },
       "local_validation": {
         "status": "not-run",
         "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",
@@ -68,6 +79,17 @@
         }
       ],
       "local_status": "not-run",
+      "source_match": "direct",
+      "official_problem": {
+        "id": "segmentmincsr",
+        "canonical_name": "segmentmincsr",
+        "title": "图计算：SegmentMinCsr",
+        "url": "https://cannjudge.cn/public/gcc_2026_mfg/segmentmincsr",
+        "spec": "competition/mfg-2026/official/specs.json",
+        "description": "competition/mfg-2026/official/descriptions/segmentmincsr.md",
+        "tolerance": "values 按题面 atol/rtol；arg_out 逐位一致",
+        "source_match": "direct"
+      },
       "local_validation": {
         "status": "not-run",
         "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",
@@ -96,6 +118,17 @@
         }
       ],
       "local_status": "not-run",
+      "source_match": "reference",
+      "official_problem": {
+        "id": "randomwalk",
+        "canonical_name": "randomwalk",
+        "title": "图计算：RandomWalk",
+        "url": "https://cannjudge.cn/public/gcc_2026_mfg/randomwalk",
+        "spec": "competition/mfg-2026/official/specs.json",
+        "description": "competition/mfg-2026/official/descriptions/randomwalk.md",
+        "tolerance": "轨迹逐位一致",
+        "source_match": "reference"
+      },
       "local_validation": {
         "status": "not-run",
         "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",
@@ -124,6 +157,17 @@
         }
       ],
       "local_status": "not-run",
+      "source_match": "adapt",
+      "official_problem": {
+        "id": "spmmsum",
+        "canonical_name": "spmmsum",
+        "title": "图计算：SpmmSum",
+        "url": "https://cannjudge.cn/public/gcc_2026_mfg/spmmsum",
+        "spec": "competition/mfg-2026/official/specs.json",
+        "description": "competition/mfg-2026/official/descriptions/spmmsum.md",
+        "tolerance": "float32: atol=rtol=1e-4；float16: atol=rtol=1e-2",
+        "source_match": "adapt"
+      },
       "local_validation": {
         "status": "not-run",
         "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",
@@ -145,6 +189,17 @@
         }
       ],
       "local_status": "not-run",
+      "source_match": "reference",
+      "official_problem": {
+        "id": "gridcluster",
+        "canonical_name": "gridcluster",
+        "title": "点云计算：GridCluster",
+        "url": "https://cannjudge.cn/public/gcc_2026_mfg/gridcluster",
+        "spec": "competition/mfg-2026/official/specs.json",
+        "description": "competition/mfg-2026/official/descriptions/gridcluster.md",
+        "tolerance": "int64 逐位一致",
+        "source_match": "reference"
+      },
       "local_validation": {
         "status": "not-run",
         "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",

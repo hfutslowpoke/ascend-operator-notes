@@ -9,7 +9,7 @@
     "default_branch": "master",
     "license": "CANN-Open-Software-License-2.0",
     "status": "deep-read",
-    "local_cache": "repository-research-cache/mfg-2026/ops-math"
+    "local_cache": "competition/mfg-2026/ops-math/source"
   },
   "implementations": [
     {
@@ -33,11 +33,94 @@
         }
       ],
       "local_status": "not-run",
+      "source_match": "reference",
+      "official_problem": {
+        "id": "complexabs",
+        "canonical_name": "complexabs",
+        "title": "仿真计算：ComplexAbs",
+        "url": "https://cannjudge.cn/public/gcc_2026_mfg/complexabs",
+        "spec": "competition/mfg-2026/official/specs.json",
+        "description": "competition/mfg-2026/official/descriptions/complexabs.md",
+        "tolerance": "atol=rtol=1e-4",
+        "source_match": "reference"
+      },
       "local_validation": {
         "status": "not-run",
         "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",
         "log": "competition/mfg-2026/evidence/README.md",
         "log_sha256": "5c1e4ae0ec1a4e9da61e5ea174f014c83305845350dca2aee71fd9e93acc1048"
+      }
+    },
+    {
+      "id": "MFG2026-MATH-COMPLEX-EXP-BLOCKS",
+      "operator": "ComplexExp building blocks (Exp/Sin/Cos + ComplexV3)",
+      "operator_family": "complex-elementwise",
+      "source_files": [
+        {
+          "path": "experimental/math/complex_v3/README.md",
+          "lines": "1-125",
+          "sha256": "21c4851d45bc73af97ad2e53b80206a8ff11c53f6b29f108ce1da587789856af",
+          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/experimental/math/complex_v3/README.md",
+          "local_path": "competition/mfg-2026/ops-math/source/experimental/math/complex_v3/README.md",
+          "role": "ComplexV3：910B arch22，real/imag float16/float32 → complex32/64，支持广播"
+        },
+        {
+          "path": "experimental/math/complex_v3/op_host/complex_v3_def.cpp",
+          "lines": "1-59",
+          "sha256": "1b02aab26e9e28272adfc2c0064dcfc2b54314f96f2c01ac955a39e337223324",
+          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/experimental/math/complex_v3/op_host/complex_v3_def.cpp",
+          "local_path": "competition/mfg-2026/ops-math/source/experimental/math/complex_v3/op_host/complex_v3_def.cpp",
+          "role": "ComplexV3 算子注册：ascend910b + ascend950，输出 complex32/64"
+        },
+        {
+          "path": "experimental/math/complex_v3/op_kernel/complex_v3.h",
+          "lines": "1-535",
+          "sha256": "dd9cea834ccaa0569654792d93efcac72fb54ac27e463db6a8cc61db5806dfc0",
+          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/experimental/math/complex_v3/op_kernel/complex_v3.h",
+          "local_path": "competition/mfg-2026/ops-math/source/experimental/math/complex_v3/op_kernel/complex_v3.h",
+          "role": "ComplexV3 arch22 kernel：无广播/广播路径，实虚交错输出"
+        },
+        {
+          "path": "experimental/math/exp/README.md",
+          "lines": "1-88",
+          "sha256": "80ab1dbae808cc7541c0954bf2e7c419e3cab10554144aebc64cbba8fb745474",
+          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/experimental/math/exp/README.md",
+          "local_path": "competition/mfg-2026/ops-math/source/experimental/math/exp/README.md",
+          "role": "Exp：910B（experimental arch22），float16/float32/bfloat16"
+        },
+        {
+          "path": "experimental/math/sin/README.md",
+          "lines": "1-67",
+          "sha256": "66480be90546ca06439ef8726ec37bc6f34e245f6acdab359c94ca4ebf9e9ca9",
+          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/experimental/math/sin/README.md",
+          "local_path": "competition/mfg-2026/ops-math/source/experimental/math/sin/README.md",
+          "role": "Sin：910B，float16/float32/bfloat16"
+        },
+        {
+          "path": "experimental/math/cos/README.md",
+          "lines": "1-50",
+          "sha256": "986e0b95a24a66ac6a01f7a095fe60723826ade890980eef47dbbdcdd531c050",
+          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/experimental/math/cos/README.md",
+          "local_path": "competition/mfg-2026/ops-math/source/experimental/math/cos/README.md",
+          "role": "Cos：910B，float16/float32/bfloat16"
+        }
+      ],
+      "local_status": "not-run",
+      "source_match": "building-block",
+      "official_problem": {
+        "id": "complexexp",
+        "canonical_name": "complexexp",
+        "title": "仿真计算：ComplexExp",
+        "url": "https://cannjudge.cn/public/gcc_2026_mfg/complexexp",
+        "spec": "competition/mfg-2026/official/specs.json",
+        "description": "competition/mfg-2026/official/descriptions/complexexp.md",
+        "tolerance": "float32/complex64: atol=rtol=1e-4；float16: 1e-3",
+        "source_match": "building-block"
+      },
+      "local_validation": {
+        "status": "not-run",
+        "notes": "仅登记为 910B 组合基础件；未构建/运行。",
+        "log": "competition/mfg-2026/evidence/README.md"
       }
     },
     {
@@ -68,6 +151,17 @@
         }
       ],
       "local_status": "not-run",
+      "source_match": "adapt",
+      "official_problem": {
+        "id": "ballquery",
+        "canonical_name": "ballquery",
+        "title": "点云计算：BallQuery",
+        "url": "https://cannjudge.cn/public/gcc_2026_mfg/ballquery",
+        "spec": "competition/mfg-2026/official/specs.json",
+        "description": "competition/mfg-2026/official/descriptions/ballquery.md",
+        "tolerance": "int32 索引逐元素一致",
+        "source_match": "adapt"
+      },
       "local_validation": {
         "status": "not-run",
         "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",

@@ -9,7 +9,7 @@
     "default_branch": "master",
     "license": "Apache-2.0",
     "status": "deep-read",
-    "local_cache": "repository-research-cache/mfg-2026/driving-sdk"
+    "local_cache": "competition/mfg-2026/driving-sdk/source"
   },
   "implementations": [
     {
@@ -40,6 +40,17 @@
         }
       ],
       "local_status": "not-run",
+      "source_match": "adapt",
+      "official_problem": {
+        "id": "cylinderquery",
+        "canonical_name": "cylinderquery",
+        "title": "机器人抓取：CylinderQuery",
+        "url": "https://cannjudge.cn/public/gcc_2026_mfg/cylinderquery",
+        "spec": "competition/mfg-2026/official/specs.json",
+        "description": "competition/mfg-2026/official/descriptions/cylinderquery.md",
+        "tolerance": "int32 索引逐元素一致",
+        "source_match": "adapt"
+      },
       "local_validation": {
         "status": "not-run",
         "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",
@@ -75,6 +86,17 @@
         }
       ],
       "local_status": "not-run",
+      "source_match": "direct",
+      "official_problem": {
+        "id": "furthestpointsample",
+        "canonical_name": "furthestpointsample",
+        "title": "点云计算：FurthestPointSample",
+        "url": "https://cannjudge.cn/public/gcc_2026_mfg/furthestpointsample",
+        "spec": "competition/mfg-2026/official/specs.json",
+        "description": "competition/mfg-2026/official/descriptions/furthestpointsample.md",
+        "tolerance": "索引逐位一致",
+        "source_match": "direct"
+      },
       "local_validation": {
         "status": "not-run",
         "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",
@@ -110,6 +132,17 @@
         }
       ],
       "local_status": "not-run",
+      "source_match": "adapt",
+      "official_problem": {
+        "id": "radius",
+        "canonical_name": "radius",
+        "title": "点云计算：Radius",
+        "url": "https://cannjudge.cn/public/gcc_2026_mfg/radius",
+        "spec": "competition/mfg-2026/official/specs.json",
+        "description": "competition/mfg-2026/official/descriptions/radius.md",
+        "tolerance": "索引逐位一致",
+        "source_match": "adapt"
+      },
       "local_validation": {
         "status": "not-run",
         "notes": "本批只做源码固定/文档映射；未在本机 910B3 构建运行。",
