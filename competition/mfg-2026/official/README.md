@@ -38,7 +38,7 @@
 | 题 | 基础件 | 能做什么 | 仍缺什么 |
 |---|---|---|---|
 | 03 ComplexExp | `experimental/math/exp` + `sin` + `cos` + `complex_v3`（均 910B arch22/A2） | 组合 `exp(a)·cos(b)`、`exp(a)·sin(b)`，再由 ComplexV3 拼成 complex64/complex32；ComplexV3 支持广播 | 单 kernel 融合、fp16 极值/精度、官方 4 组 dtype 的完整验证 |
-| 04 FusedPropStep | `ops-fft/fft1_d`（910B C2C 1D）+ `ops-fft/fft2_d`（910B C2C 2D，仅 32/64/128） | `fft1_d` 单维覆盖 n≤256 DFT、512..16384 FFTB、更大 FFTN；可按行/列组合 2D FFT，再做逐点乘/逆变换 | 2..8192 全尺寸 2D 组合、实数 dtype、单 kernel 融合、`norm` 归一化、大 batch |
+| 04 FusedPropStep | `ops-fft/fft1_d`（910B C2C 1D）+ `fft2_d`（2D，32/64/128）+ `rfft1_d`/`irfft1_d`（910B FP32 R2C/C2R 1D） | `fft1_d` 单维覆盖 n≤256 DFT、512..16384 FFTB；实数输入可用 R2C/C2R 按行/列组合 | 2..8192 全尺寸 2D 组合、FP16 原生 R2C/C2R、单 kernel 融合、`norm` 归一化、大 batch |
 | 05 FourierTransform2D | 同上 `fft1_d` + `fft2_d` | `fft2_d` 32/64/128 直接可用；`fft1_d` 可补 256..8192 的单维 FFT | 2D 组合、inverse 的 `1/(N·M)`、数据布局与 18 组官方 shape |
 
 这些基础件来自同一固定 commit，源码已复制到对应条目的 `source/`；`source_match` 仍按“完整题解”评估为 `none`（03/04）或 `adapt`（05），不把基础件冒充完整实现。

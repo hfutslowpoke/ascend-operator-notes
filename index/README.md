@@ -14,7 +14,7 @@
 | [cards.json](cards.json) | 35 张机器可读阅读卡（生成） |
 | `../competition/catalog.json` | 竞赛层过滤视图（生成） |
 | `../general/catalog.json` | 通用层过滤视图（生成） |
-| 各条目 `source.json` | 单条目的固定来源与实现清单（生成） |
+| 各条目 `source.json` | 单条目的固定来源与实现清单（生成）；`supporting_sources` 是补充来源，不当官方候选 |
 | `../competition/mfg-2026/official/specs.json` | 2026 制造专场 15 题官方规格（shape/dtype/属性/约束/容差） |
 
 ## 当前规模

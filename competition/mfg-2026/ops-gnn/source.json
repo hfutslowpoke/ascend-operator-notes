@@ -78,6 +78,143 @@
           "local_path": "competition/mfg-2026/ops-gnn/source/docs/zh/api_reference.md"
         }
       ],
+      "supporting_sources": [
+        {
+          "path": "LICENSE",
+          "lines": "1-165",
+          "sha256": "ea8af5e789cb2d4e9b10bce3874982ade163b749b6bfbdb32e2df21c4d106de1",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/LICENSE",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/LICENSE",
+          "role": "root license (LGPL-3.0)",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "README.md",
+          "lines": "1-22",
+          "sha256": "b63177df38bc9a5593d1fd3d28c395896fd1ac6f1133d028f97152fc39bd3f3d",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/README.md",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/README.md",
+          "role": "repo overview: Segment_Coo 910B/dav-2201; Segment_Csr A2/A3",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "Segment_Coo/LICENSE",
+          "lines": "1-39",
+          "sha256": "5f552ccd38baf92b4f227ca41e6d6ea84d7b7489ad84109373b8500ee3b7473f",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Coo/LICENSE",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Coo/LICENSE",
+          "role": "Segment_Coo license (CANN EULA 2.0)",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "Segment_Coo/README.md",
+          "lines": "1-96",
+          "sha256": "e7f0f8b4fa85261b87458e2c1de80dc33d1f84917a697941fd87ad6f89bb57b8",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Coo/README.md",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Coo/README.md",
+          "role": "Segment COO API: min/max return (value,arg), empty 0/E-like, last-occurrence tie",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "Segment_Coo/csrc/npu/kernel/segment/arch2201/segment_min_kernel.cpp",
+          "lines": "1-10",
+          "sha256": "a2e2df2d1d6914daee09bafd3e0cbf6501ede178386d12ac9615b5aacd348f56",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Coo/csrc/npu/kernel/segment/arch2201/segment_min_kernel.cpp",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Coo/csrc/npu/kernel/segment/arch2201/segment_min_kernel.cpp",
+          "role": "910B segment min kernel entry",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "Segment_Coo/csrc/npu/kernel/segment/common/segment_kernel_common.h",
+          "lines": "1-1333",
+          "sha256": "d9ed1233a86f72e503e076aa0274cd3dd3ca6d240181f30f81751b46491eed96",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Coo/csrc/npu/kernel/segment/common/segment_kernel_common.h",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Coo/csrc/npu/kernel/segment/common/segment_kernel_common.h",
+          "role": "segment reduction common implementation",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "Segment_Coo/csrc/npu/kernel/segment/common/segment_types.h",
+          "lines": "1-33",
+          "sha256": "49a4244af2d2538c69815102151381717492d10f2336682688a52cd8908b3a1e",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Coo/csrc/npu/kernel/segment/common/segment_types.h",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Coo/csrc/npu/kernel/segment/common/segment_types.h",
+          "role": "segment types/dtype traits",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "Segment_Coo/csrc/npu/kernel/segment/common/segment_tiling_fields.h",
+          "lines": "1-37",
+          "sha256": "da8366067cbdb9c6231dbfc4be8d31399ad00c2d2f40546951575d8b154e710b",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Coo/csrc/npu/kernel/segment/common/segment_tiling_fields.h",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Coo/csrc/npu/kernel/segment/common/segment_tiling_fields.h",
+          "role": "segment tiling fields",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "Segment_Csr/SegmentMinCsr/README.md",
+          "lines": "1-60",
+          "sha256": "7278dcfdc54498bad15b02a5607cd5ce3424b6a7707e5007bb7aec787bd11692",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Csr/SegmentMinCsr/README.md",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Csr/SegmentMinCsr/README.md",
+          "role": "SegmentMinCsr op spec: int32 indptr, empty=max, no arg_out",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/README.md",
+          "lines": "1-114",
+          "sha256": "60c38b0cde9b6ea97b004901467dad2843fa835e40bc4586e86949b31355de02",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/README.md",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/README.md",
+          "role": "A2/A3 msOpGen build/run guide",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/SegmentMinCsr.json",
+          "lines": "1-34",
+          "sha256": "2096c4c217e4ec13bc641b6947f6f2c8e5ac744eea1ef89eeae15538ef758eee",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/SegmentMinCsr.json",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/SegmentMinCsr.json",
+          "role": "op prototype (int32 indptr, out only)",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/SegmentMinCsr/op_kernel/segment_min_csr.cpp",
+          "lines": "1-414",
+          "sha256": "165ba95a79ff8fee60e9e4258012ce2a4d149f1378732a41a45afaa15067661a",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/SegmentMinCsr/op_kernel/segment_min_csr.cpp",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/SegmentMinCsr/op_kernel/segment_min_csr.cpp",
+          "role": "A2/A3 SegmentMinCsr kernel",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/SegmentMinCsr/op_host/segment_min_csr.cpp",
+          "lines": "1-196",
+          "sha256": "7565b7f27a4421e54a6ba1ccd02695ff8b8bf0abc9471a778e06fac3b305c16b",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/SegmentMinCsr/op_host/segment_min_csr.cpp",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/SegmentMinCsr/op_host/segment_min_csr.cpp",
+          "role": "A2/A3 host tiling/op def",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/SegmentMinCsr/op_host/segment_min_csr_tiling.h",
+          "lines": "1-26",
+          "sha256": "247284b622e96db695d97d26052c4530ab4ab045a4e6eca0ed212cd66e7df861",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/SegmentMinCsr/op_host/segment_min_csr_tiling.h",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/SegmentMinCsr/op_host/segment_min_csr_tiling.h",
+          "role": "tiling data struct",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/main.cpp",
+          "lines": "1-282",
+          "sha256": "fd77d2d4841fe80e772411b68016824d77f0ebe3cf12242da0fe438955ff5c8b",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/main.cpp",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/main.cpp",
+          "role": "minimal ACLNN invocation example",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        }
+      ],
       "local_status": "not-run",
       "source_match": "direct",
       "official_problem": {

@@ -81,10 +81,26 @@
 - `mat-chem-sim-pred`：有 FNO/PINN/PDE 算子，但没有 `FusedPropStep` 同名/同公式实现；官方题面已确认 `FusedPropStep` 是 `IFFT2(FFT2(field)·h)`，仍无公开 Ascend C 实现。
 - `flying_whj/CANN_grid_cluster`、`2403_87496454/ops-gnn-grid-cluster-950`：聚焦 grid_cluster 的个人/验收仓，含设计文档/golden/测试，但仍是 arch35（950）；官方 `cann/ops-gnn` 已覆盖同一架构，未重复纳入。
 - `gcw_4VCbQSde/huawei-spgemm-task`：A2/A3 SpGEMM 社区任务工程，含设计、Self-test 和 arch22 内核；核心与 `cann/ops-sparse/spgemm` 重叠，未重复纳入，但可作为 Spspmm 的补充阅读。
-- `2403_86959433/ops-gnn-segment-csr`、`WSCII/ops-gnn-segment-coo-950`、`gcw_i0yFZkCV/ops-gnn-fps-950`、`hyjw6/ops-gnn-knn-950`：个人 950 社区任务仓，未提供 A2 路径或新语义。
+- `2403_86959433/ops-gnn-segment-csr`、`WSCII/ops-gnn-segment-coo-950`、`hyjw6/ops-gnn-knn-950`：个人 950 社区任务仓，未提供 A2 路径或新语义。
+- `gcw_i0yFZkCV/ops-gnn-fps-950`：950-only 的 FPS 社区任务仓，但它的 compatibility/golden 文档记录了 torch_cluster 的 FP16 逐维舍入、mod-256 tie、count 边界差异；已把 5 个文档/测试文件复制到 `driving-sdk/supporting/ops-gnn-fps-950/`，仅作 FPS 精度对照，不冒充官方 `npoint` 接口实现。
 - `Ppsjq/spmspm_pim`、`Eason2013/Random_Walk`：与 Ascend 制造算子无关。
 - 其它个人仓：未找到可固定 commit、可定位源码的制造专场参赛实现；不把搜索结果/文章当源码。
 - 搜索结论：除 `ComplexExp` 命中一个无关词法分析仓、`RandomWalk`/`SpmmSum`/`Spspmm` 命中通用算法仓外，15 个精确算子名在 GitCode/AtomGit 上没有新的制造专场 Ascend C 实现；`FusedPropStep`、`CylinderQuery`、`BallQuery`、`GatherCoo`、`SegmentMinCsr`、`FurthestPointSample` 精确搜索均为 0。
+
+## 6.1 2026-11-17 追加检索（round 3）
+
+| 来源 | 结论 | 处理 |
+|---|---|---|
+| `cann/mfg-ops-cax`、`cann/mfg-ops-vision` | 制造 SIG 文档列为核心仓，但网页 403、`git ls-remote` 无 HEAD（空仓/未公开） | 记录待跟踪，不复制 |
+| `cann/cann-ops-competitions` | HEAD 前进到 `8b3e8c742b8ce99c8d9a24a082e53280332949e1`（2026-11-17）；`02_enterprise` 仍只有 `regional`，无制造专场提交目录 | 继续跟踪，不重复纳入 |
+| `LiJianhao2/mfg-operator-contest-2026` | 只有 README + MIT LICENSE，无算子源码 | 不纳入 |
+| `HIT1920/torch_scatter_npu` | 根 LICENSE LGPL-3.0；`Segment_Csr/SegmentMinCsr` 是 A2/A3 msOpGen 工程；`Segment_Coo` 有 arch2201 min/max + arg | 已复制 15 文件到 `ops-gnn/supporting/torch_scatter_npu/`；语义与官方有 4 处差异，只作构建骨架 |
+| `gcw_4VCbQSde/huawei-spgemm-task` | A2/A3 arch22 SpGEMM 工程、设计文档、A2 自测 142/142 UT + 200/200 精度；无 LICENSE | 只在本文记录并在 `ops-sparse/README.md` 引用，不复制代码 |
+| `gcw_i0yFZkCV/ops-gnn-fps-950` | CANN EULA；950-only；compatibility/golden 记录 FP16 逐维舍入、mod-256 tie、count 差异 | 已复制 5 文件到 `driving-sdk/supporting/ops-gnn-fps-950/`；只作精度对照 |
+| `jayhua/mx-driving-pypi` | PyPI 发布元数据：`mx_driving 26.2.0.post1` 面向 A2/PyTorch 2.1，post2 面向 A2/PyTorch 2.6–2.8；本机 Python 3.12 无 torch，暂不能跑 | 只记录 wheel 可用性，不复制 |
+| AtomGit 精确搜索 | `FusedPropStep`、`CylinderQuery`、`BallQuery`、`GatherCoo`、`SegmentMinCsr`、`FurthestPointSample` 均为 0；`ComplexExp` 仅命中词法分析仓 | 无新增单 kernel 实现 |
+
+**结论**：本轮新增的是“补充基础件/精度对照”，不是新的完整题解。15 题的 `direct/adapt/reference/none` 分级不变；`torch_scatter_npu` 只补 SegmentMinCsr 的 910B 构建参考，`ops-gnn-fps-950` 只补 FPS 的 FP16/tie 踩坑，均不改变官方候选。
 
 ## 7. 下一步
 
@@ -92,4 +108,5 @@
 2. 构建/调用 `DrivingSDK` 的 Radius/FPS/CylinderQuery（A2 文档最明确）；
 3. 构建 `ops-math/stack_ball_query`（有 910B 配置）；
 4. 构建 `ops-gnn/segment_csr`、`ops-sparse/spmm`/`spgemm` 的 arch22，跑小图/小点云；
-5. 拿到 ComplexExp/FusedPropStep 题面后，补候选实现；在此之前保持缺口。
+5. 用 `torch_scatter_npu` 的最小 A2/A3 工程先验证 910B3 SegmentMinCsr 工具链，再回到 `ops-gnn` arch22 补官方 arg_out/空段/首遇语义；
+6. 跟进 `cann/mfg-ops-cax`、`cann/mfg-ops-vision` 是否公开；若公开，优先检查是否已有 15 题的官方/参赛实现。

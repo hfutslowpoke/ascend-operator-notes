@@ -85,6 +85,53 @@
           "local_path": "competition/mfg-2026/driving-sdk/source/docs/zh/api/context/furthest_point_sampling.md"
         }
       ],
+      "supporting_sources": [
+        {
+          "path": "LICENSE",
+          "lines": "1-39",
+          "sha256": "5394aa290d99863ab5a50503063146c2f77bfd5862796a3a6be57f8479dd08eb",
+          "url": "https://gitcode.com/gcw_i0yFZkCV/ops-gnn-fps-950/blob/9d8da03b18d0b7bc70bfbab47f10c9361c942b91/LICENSE",
+          "local_path": "competition/mfg-2026/driving-sdk/supporting/ops-gnn-fps-950/LICENSE",
+          "role": "CANN EULA 2.0",
+          "commit": "9d8da03b18d0b7bc70bfbab47f10c9361c942b91"
+        },
+        {
+          "path": "test/fps/README.md",
+          "lines": "1-83",
+          "sha256": "6a085e2176be3d840455f06dcb6090813f19714e8cb234687ce51261ac968566",
+          "url": "https://gitcode.com/gcw_i0yFZkCV/ops-gnn-fps-950/blob/9d8da03b18d0b7bc70bfbab47f10c9361c942b91/test/fps/README.md",
+          "local_path": "competition/mfg-2026/driving-sdk/supporting/ops-gnn-fps-950/test/fps/README.md",
+          "role": "950 FPS test/count contract notes; torch_cluster 1.6.3 CPU comparison",
+          "commit": "9d8da03b18d0b7bc70bfbab47f10c9361c942b91"
+        },
+        {
+          "path": "compatibility/fps/README.md",
+          "lines": "1-29",
+          "sha256": "94db2099457f3c4a2857eb737c8645ed1217db92e5c109f46de4f7a0668a8240",
+          "url": "https://gitcode.com/gcw_i0yFZkCV/ops-gnn-fps-950/blob/9d8da03b18d0b7bc70bfbab47f10c9361c942b91/compatibility/fps/README.md",
+          "local_path": "competition/mfg-2026/driving-sdk/supporting/ops-gnn-fps-950/compatibility/fps/README.md",
+          "role": "known 44/17 and 58/3 mismatches: fp16 rounding, mod-256 tie, count, seed",
+          "commit": "9d8da03b18d0b7bc70bfbab47f10c9361c942b91"
+        },
+        {
+          "path": "compatibility/fps/supplied_attachment/golden.py",
+          "lines": "1-126",
+          "sha256": "ce498dce169b98e5850b96edb23dc5250f4db36bc5db5e7874a686730723e281",
+          "url": "https://gitcode.com/gcw_i0yFZkCV/ops-gnn-fps-950/blob/9d8da03b18d0b7bc70bfbab47f10c9361c942b91/compatibility/fps/supplied_attachment/golden.py",
+          "local_path": "competition/mfg-2026/driving-sdk/supporting/ops-gnn-fps-950/compatibility/fps/supplied_attachment/golden.py",
+          "role": "torch_cluster-style CPU golden; per-dim fp16 rounding and mod-256 tie model",
+          "commit": "9d8da03b18d0b7bc70bfbab47f10c9361c942b91"
+        },
+        {
+          "path": "compatibility/fps/supplied_attachment/test_fps.py",
+          "lines": "1-236",
+          "sha256": "47eb2ce17d4679d6cf3eb5f7bf8cd0440afd2c4ef6f32e02e7c4ce68203e46ab",
+          "url": "https://gitcode.com/gcw_i0yFZkCV/ops-gnn-fps-950/blob/9d8da03b18d0b7bc70bfbab47f10c9361c942b91/compatibility/fps/supplied_attachment/test_fps.py",
+          "local_path": "competition/mfg-2026/driving-sdk/supporting/ops-gnn-fps-950/compatibility/fps/supplied_attachment/test_fps.py",
+          "role": "frozen v7 oracle tests; 44 passed / 17 failed documented",
+          "commit": "9d8da03b18d0b7bc70bfbab47f10c9361c942b91"
+        }
+      ],
       "local_status": "not-run",
       "source_match": "direct",
       "official_problem": {

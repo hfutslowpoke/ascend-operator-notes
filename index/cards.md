@@ -70,8 +70,8 @@
 
 ### `MFG2026-FFT1D`
 
-- **FFT1D (C2C 1D building block)** · `fourier-transform` · 本机 `not-run` · 官方匹配 `building-block`
-- 一句话：按 batch/长度选 DFT、FFTB、FFTN 路径；1D FFT 可沿行/列调用，组合成 2D FFT；也可作为 FusedPropStep 的正/逆变换基础件
+- **FFT1D (C2C/R2C/C2R 1D building block)** · `fourier-transform` · 本机 `not-run` · 官方匹配 `building-block`
+- 一句话：按 batch/长度选 DFT、FFTB、FFTN；C2C 1D 可沿行/列组合 2D FFT；R2C/C2R 1D（FP32）可处理实数输入；也可作为 FusedPropStep 的正/逆变换基础件
 - 先读：[README](../competition/mfg-2026/ops-fft/README.md) · [source.json](../competition/mfg-2026/ops-fft/source.json)
 - 源码入口：`competition/mfg-2026/ops-fft/source/src/fft1_d/arch32/fft1_d_exec_api.cpp:1-154`；`competition/mfg-2026/ops-fft/source/src/fft1_d/arch32/dft/fft1_d_dft.cpp:1-180`；`competition/mfg-2026/ops-fft/source/src/fft1_d/arch32/fft_b/fft1_d_b.cpp:1-255`
 - 适用条件：Ascend 910B arch32；1D C2C complex64；n 为 2 的幂；2..8192 可由 DFT/FFTB/FFTN 覆盖；需要行/列组合才能得到 2D FFT
@@ -128,6 +128,7 @@
 - 一句话：模板 SegmentReduce 同时覆盖 min/max/sum；按 tileRows×tileK 流式读 CSR 行；多 AIV 按 unit 切分；极值与有序浮点路径分开；空段填充
 - 先读：[README](../competition/mfg-2026/ops-gnn/README.md) · [source.json](../competition/mfg-2026/ops-gnn/source.json)
 - 源码入口：`competition/mfg-2026/ops-gnn/source/csrc/npu/segment_csr/op_kernel/arch22/segment_csr.cpp:22-61`；`competition/mfg-2026/ops-gnn/source/csrc/npu/segment_csr/op_kernel/arch22/segment_csr_common.h:35-61`；`competition/mfg-2026/ops-gnn/source/docs/zh/api_reference.md:73-140`
+- 补充源码：`competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/LICENSE:1-165`；`competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/README.md:1-22`；`competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Coo/LICENSE:1-39`
 - 适用条件：A2/A3 arch22；int64 indptr nondecreasing；min/max/sum shared template；empty segment fill
 - 负例/风险：NaN/extreme semantics per题面；tileK tuning；empty segment fill
 
@@ -209,6 +210,7 @@
 - 一句话：维护 nearestDist[N]；每轮计算到新选中点的距离、取 min、reduce max 选下一个；点云大于 UB 时按 pieces 分片；多核按 batch；fp16/bf16 cast fp32 算距离
 - 先读：[README](../competition/mfg-2026/driving-sdk/README.md) · [source.json](../competition/mfg-2026/driving-sdk/source.json)
 - 源码入口：`competition/mfg-2026/driving-sdk/source/kernels/furthest_point_sampling/op_kernel/furthest_point_sampling.cpp:115-208`；`competition/mfg-2026/driving-sdk/source/kernels/furthest_point_sampling/op_host/furthest_point_sampling.cpp:1-100`；`competition/mfg-2026/driving-sdk/source/docs/zh/api/context/furthest_point_sampling.md:1-39`
+- 补充源码：`competition/mfg-2026/driving-sdk/supporting/ops-gnn-fps-950/LICENSE:1-39`；`competition/mfg-2026/driving-sdk/supporting/ops-gnn-fps-950/test/fps/README.md:1-83`；`competition/mfg-2026/driving-sdk/supporting/ops-gnn-fps-950/compatibility/fps/README.md:1-29`
 - 适用条件：B*N*3<=383166；num_points>0；first index 0；fp32/fp16/bf16
 - 负例/风险：total element cap；first-index convention；piece re-reads
 

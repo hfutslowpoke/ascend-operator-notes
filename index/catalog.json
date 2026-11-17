@@ -2660,10 +2660,10 @@
       "id": "MFG2026-FFT1D",
       "repository_id": "gitcode-mfg-ops-fft",
       "source_commit": "65f5ff1dee32802562a9412789b0c7719ef99269",
-      "operator": "FFT1D (C2C 1D building block)",
+      "operator": "FFT1D (C2C/R2C/C2R 1D building block)",
       "operator_family": "fourier-transform",
-      "semantics": "一维复数到复数 FFT；arch32 910B 路径按长度分派：n≤256 DFT、512..16384 FFTB、更大 FFTN；可作为 2D FFT/FusedPropStep 的行/列基础件。",
-      "shape_dtype": "complex64 (float32 interleaved); 1D C2C; n 为 2 的幂；官方 2D 需要 N,M∈[2,8192]",
+      "semantics": "一维 FFT 基础件：C2C（fft1_d）覆盖 2..2^30 的幂次与非 2 幂；R2C（rfft1_d）仅 FP32、正向，n≤1024 DFT 或 2 的幂到 2^29；C2R（irfft1_d）仅 FP32、反向，n≤1024 DFT 或 radix-mix >1024。可作为 2D FFT/FusedPropStep 的行/列基础件。",
+      "shape_dtype": "C2C/R2C/C2R 均为 FP32 实虚；R2C/C2R 只支持 FP32（FP16 输入需 cast）；1D；官方 2D N,M∈[2,8192]",
       "environment": {
         "soc": "Ascend 910B (arch32)",
         "cann": "9.1.0 local; README verified 9.0.0-beta.2",
@@ -2709,11 +2709,75 @@
           "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/docs/zh/API_Reference/FFT_1D.md",
           "local_path": "competition/mfg-2026/ops-fft/source/docs/zh/API_Reference/FFT_1D.md",
           "role": "FFT_1D 官方接口/支持范围/归一化说明"
+        },
+        {
+          "path": "src/rfft1_d/rfft1_d.h",
+          "lines": "1-80",
+          "sha256": "0b7f86582d5bebb7dab09c47397ab345b2ec25d51a61c421428ab7053222b069",
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/rfft1_d/rfft1_d.h",
+          "local_path": "competition/mfg-2026/ops-fft/source/src/rfft1_d/rfft1_d.h",
+          "role": "RFFT1D public interface and header"
+        },
+        {
+          "path": "src/rfft1_d/rfft1_d_size_utils.h",
+          "lines": "1-38",
+          "sha256": "8ced326feb377d72c602f66f21386e57b9aeb01d581a2bff00ca28e1b9a92947",
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/rfft1_d/rfft1_d_size_utils.h",
+          "local_path": "competition/mfg-2026/ops-fft/source/src/rfft1_d/rfft1_d_size_utils.h",
+          "role": "R2C input/output/workspace sizing"
+        },
+        {
+          "path": "src/rfft1_d/arch32/rfft1_d_exec_api.cpp",
+          "lines": "1-134",
+          "sha256": "acafc9a91acc6ec24d8ecb56e725abf2a838b2a4c7a8cccdce326f29ccb4dbea",
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/rfft1_d/arch32/rfft1_d_exec_api.cpp",
+          "local_path": "competition/mfg-2026/ops-fft/source/src/rfft1_d/arch32/rfft1_d_exec_api.cpp",
+          "role": "910B R2C dispatch: DFT n<=1024, power-of-two FFT up to 2^29"
+        },
+        {
+          "path": "src/rfft1_d/arch32/dft/rfft1_d_dft.cpp",
+          "lines": "1-147",
+          "sha256": "55961f1ebfa82fdf5a6a33f80092851a9cf904f5af6c83f1d6ecfa7a1fafc5e3",
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/rfft1_d/arch32/dft/rfft1_d_dft.cpp",
+          "local_path": "competition/mfg-2026/ops-fft/source/src/rfft1_d/arch32/dft/rfft1_d_dft.cpp",
+          "role": "910B R2C DFT path for n<=1024"
+        },
+        {
+          "path": "src/irfft1_d/irfft1_d.h",
+          "lines": "1-45",
+          "sha256": "32243535f749ac9674971f68d05cdc6ae66585be99f5e54fc8f0c2f24949183c",
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/irfft1_d/irfft1_d.h",
+          "local_path": "competition/mfg-2026/ops-fft/source/src/irfft1_d/irfft1_d.h",
+          "role": "IRFFT1D public interface and header"
+        },
+        {
+          "path": "src/irfft1_d/arch32/irfft1_d_exec_api.cpp",
+          "lines": "1-65",
+          "sha256": "b3abf33695d2dc2f313480c2576621ee0b8f6aa2579f160da5b00e6d9a06fb7a",
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/irfft1_d/arch32/irfft1_d_exec_api.cpp",
+          "local_path": "competition/mfg-2026/ops-fft/source/src/irfft1_d/arch32/irfft1_d_exec_api.cpp",
+          "role": "910B C2R dispatch: DFT n<=1024, mixed-radix FFT >1024"
+        },
+        {
+          "path": "src/irfft1_d/arch32/dft/irfft1_d_dft.cpp",
+          "lines": "1-163",
+          "sha256": "287258004ac1c7c65c5887e851d4a8b6cdf326ffec9ac49fdb6f460df9851a03",
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/irfft1_d/arch32/dft/irfft1_d_dft.cpp",
+          "local_path": "competition/mfg-2026/ops-fft/source/src/irfft1_d/arch32/dft/irfft1_d_dft.cpp",
+          "role": "910B C2R DFT path for n<=1024"
+        },
+        {
+          "path": "src/common/host/fft_exec_helper.h",
+          "lines": "1-141",
+          "sha256": "108cceb4db83bc489ca752aec9ac937e663ce1e0753ceb2d0304f72764526e2a",
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/common/host/fft_exec_helper.h",
+          "local_path": "competition/mfg-2026/ops-fft/source/src/common/host/fft_exec_helper.h",
+          "role": "radix selection: C2R accepts powers of two via RADIX_MIX"
         }
       ],
       "symbol": "aclfftPlan1d / aclfftExecC2C_1D / aclfftFft1DDft / aclfftFft1DB / aclfftFft1DN",
-      "mechanism": "按 batch/长度选 DFT、FFTB、FFTN 路径；1D FFT 可沿行/列调用，组合成 2D FFT；也可作为 FusedPropStep 的正/逆变换基础件。",
-      "work_model": "用现成 1D FFT 基础件覆盖官方 2..8192 的单维长度；代价是 2D 组合、布局转置、逆变换归一化和逐点乘仍需实现。",
+      "mechanism": "按 batch/长度选 DFT、FFTB、FFTN；C2C 1D 可沿行/列组合 2D FFT；R2C/C2R 1D（FP32）可处理实数输入；也可作为 FusedPropStep 的正/逆变换基础件。",
+      "work_model": "用现成 1D FFT 基础件覆盖官方 2..8192 的单维长度；C2C 用于复数 FFT2D，R2C/C2R 用于实数 FusedPropStep。代价是 2D 组合、布局转置、逆变换归一化、FP16 cast 和逐点乘仍需实现。",
       "evidence": [
         {
           "type": "official-doc",
@@ -2735,14 +2799,21 @@
         "Ascend 910B arch32",
         "1D C2C complex64",
         "n 为 2 的幂；2..8192 可由 DFT/FFTB/FFTN 覆盖",
-        "需要行/列组合才能得到 2D FFT"
+        "需要行/列组合才能得到 2D FFT",
+        "R2C/C2R 仅 FP32；R2C 只有 forward，C2R 只有 backward",
+        "R2C/C2R 在 910B 仅支持 horizontal；纵向 plan 执行返回 ACLFFT_NOT_IMPLEMENTED",
+        "R2C/C2R 仅 norm=0；C2R 输出未归一化（乘 N），需按官方 norm/归一化处理",
+        "R2C 2 的幂 n≤2^29；C2R n≤1024 或 radix-mix >1024（纯 2 的幂也属于 RADIX_MIX）"
       ],
       "negative_cases": [
         "不是 2D FFT；官方 2D 需要行/列组合与转置/布局处理",
         "inverse 的 1/(N·M) 归一化不在 1D 基础件里",
-        "FusedPropStep 的逐点乘/融合/实数 dtype 未覆盖"
+        "FusedPropStep 的逐点乘/融合/实数 dtype 未覆盖",
+        "R2C/C2R 不直接支持 FP16；FusedPropStep float16 需 cast 到 FP32，精度/性能另计",
+        "不是 2D FFT 实现；2D 需要行/列组合与布局处理",
+        "C2R 输出未归一化，且 norm 只支持 0；官方 norm=True/False 的归一化需另做"
       ],
-      "reuse_decision": "作为 05/04 的 910B 单维 FFT 基础件；先写行/列组合与 inverse 归一化，再和 torch.fft 对照。",
+      "reuse_decision": "作为 05/04 的 910B 单维 FFT 基础件；先写行/列组合与 inverse 归一化，再和 torch.fft 对照。 FusedPropStep 实数输入优先用 `rfft1_d`/`irfft1_d` 做行/列 1D R2C/C2R，再做逐点乘；注意二者仅 FP32、C2R 未归一化。",
       "report": "competition/mfg-2026/ops-fft/README.md",
       "verification": "building block only; not an end-to-end official-problem run",
       "tier": "competition",
@@ -2776,7 +2847,8 @@
       ],
       "official_negative_cases": [
         "不是 2D 完整实现",
-        "需要 2D 组合/布局/归一化"
+        "需要 2D 组合/布局/归一化",
+        "FusedPropStep float16/float32 实数输入可用 R2C+C2R 基础件，但 R2C/C2R 仅 FP32，需 cast；官方 float16 容差 1e-3，需验证 cast 误差"
       ]
     },
     {
@@ -2960,7 +3032,7 @@
         "piece re-reads",
         "no author performance data"
       ],
-      "reuse_decision": "优先复用 nearestDist + 每轮 min/max 更新 + 分片；在 910B3 与 CPU 参考逐索引对照。",
+      "reuse_decision": "优先复用 nearestDist + 每轮 min/max 更新 + 分片；在 910B3 与 CPU 参考逐索引对照。 950 社区仓的 fp16 逐维舍入/in-place 距离更新可作精度对照，但 ratio/计数/tie-break 不能照搬到官方 npoint 接口。",
       "report": "competition/mfg-2026/driving-sdk/README.md",
       "verification": "not-run; docs A2/A3/950",
       "tier": "competition",
@@ -3006,7 +3078,56 @@
       "official_negative_cases": [
         "DrivingSDK 文档还支持 bfloat16，官方只要求 float32/float16",
         "源码有总元素 B*N*3≤383166 的约束；官方测试规模远小于此",
-        "需本机确认 half 路径与并列 tie-break 逐位一致"
+        "需本机确认 half 路径与并列 tie-break 逐位一致",
+        "gcw_i0yFZkCV/ops-gnn-fps-950 是 950 社区任务，接口是 torch_cluster fps(src, ratio, random_start, ptr)，不是官方 furthest_point_sampling(points, npoint)。",
+        "该仓记录 torch_cluster fp16 计数差异（10000 点 ratio=0.3 得 3001 vs float32 3000）与 mod-256 lane tie-break；官方制造题用 npoint、首点 0、最小索引 tie，不能照搬。"
+      ],
+      "supporting_sources": [
+        {
+          "path": "LICENSE",
+          "lines": "1-39",
+          "sha256": "5394aa290d99863ab5a50503063146c2f77bfd5862796a3a6be57f8479dd08eb",
+          "url": "https://gitcode.com/gcw_i0yFZkCV/ops-gnn-fps-950/blob/9d8da03b18d0b7bc70bfbab47f10c9361c942b91/LICENSE",
+          "local_path": "competition/mfg-2026/driving-sdk/supporting/ops-gnn-fps-950/LICENSE",
+          "role": "CANN EULA 2.0",
+          "commit": "9d8da03b18d0b7bc70bfbab47f10c9361c942b91"
+        },
+        {
+          "path": "test/fps/README.md",
+          "lines": "1-83",
+          "sha256": "6a085e2176be3d840455f06dcb6090813f19714e8cb234687ce51261ac968566",
+          "url": "https://gitcode.com/gcw_i0yFZkCV/ops-gnn-fps-950/blob/9d8da03b18d0b7bc70bfbab47f10c9361c942b91/test/fps/README.md",
+          "local_path": "competition/mfg-2026/driving-sdk/supporting/ops-gnn-fps-950/test/fps/README.md",
+          "role": "950 FPS test/count contract notes; torch_cluster 1.6.3 CPU comparison",
+          "commit": "9d8da03b18d0b7bc70bfbab47f10c9361c942b91"
+        },
+        {
+          "path": "compatibility/fps/README.md",
+          "lines": "1-29",
+          "sha256": "94db2099457f3c4a2857eb737c8645ed1217db92e5c109f46de4f7a0668a8240",
+          "url": "https://gitcode.com/gcw_i0yFZkCV/ops-gnn-fps-950/blob/9d8da03b18d0b7bc70bfbab47f10c9361c942b91/compatibility/fps/README.md",
+          "local_path": "competition/mfg-2026/driving-sdk/supporting/ops-gnn-fps-950/compatibility/fps/README.md",
+          "role": "known 44/17 and 58/3 mismatches: fp16 rounding, mod-256 tie, count, seed",
+          "commit": "9d8da03b18d0b7bc70bfbab47f10c9361c942b91"
+        },
+        {
+          "path": "compatibility/fps/supplied_attachment/golden.py",
+          "lines": "1-126",
+          "sha256": "ce498dce169b98e5850b96edb23dc5250f4db36bc5db5e7874a686730723e281",
+          "url": "https://gitcode.com/gcw_i0yFZkCV/ops-gnn-fps-950/blob/9d8da03b18d0b7bc70bfbab47f10c9361c942b91/compatibility/fps/supplied_attachment/golden.py",
+          "local_path": "competition/mfg-2026/driving-sdk/supporting/ops-gnn-fps-950/compatibility/fps/supplied_attachment/golden.py",
+          "role": "torch_cluster-style CPU golden; per-dim fp16 rounding and mod-256 tie model",
+          "commit": "9d8da03b18d0b7bc70bfbab47f10c9361c942b91"
+        },
+        {
+          "path": "compatibility/fps/supplied_attachment/test_fps.py",
+          "lines": "1-236",
+          "sha256": "47eb2ce17d4679d6cf3eb5f7bf8cd0440afd2c4ef6f32e02e7c4ce68203e46ab",
+          "url": "https://gitcode.com/gcw_i0yFZkCV/ops-gnn-fps-950/blob/9d8da03b18d0b7bc70bfbab47f10c9361c942b91/compatibility/fps/supplied_attachment/test_fps.py",
+          "local_path": "competition/mfg-2026/driving-sdk/supporting/ops-gnn-fps-950/compatibility/fps/supplied_attachment/test_fps.py",
+          "role": "frozen v7 oracle tests; 44 passed / 17 failed documented",
+          "commit": "9d8da03b18d0b7bc70bfbab47f10c9361c942b91"
+        }
       ]
     },
     {
@@ -3303,9 +3424,9 @@
         "empty segment fill",
         "no author performance data"
       ],
-      "reuse_decision": "优先复用模板化 reduce/流式行 tile/空段填充；在 910B3 构建 arch22 并对照 scatter 参考。",
+      "reuse_decision": "优先复用模板化 reduce/流式行 tile/空段填充；在 910B3 构建 arch22 并对照 scatter 参考。 另可用 `HIT1920/torch_scatter_npu` 的最小 A2/A3 msOpGen 工程作为 910B 构建/调用参考，但必须按官方语义改 int64、arg_out、空段 0/E 与首遇 tie-break。",
       "report": "competition/mfg-2026/ops-gnn/README.md",
-      "verification": "not-run; A2/A3 arch22 exists",
+      "verification": "not-run; A2/A3 arch22 exists Alternative standalone A2/A3 project archived as supporting_sources; not locally run and not official-semantics compliant.",
       "tier": "competition",
       "entry_path": "competition/mfg-2026/ops-gnn",
       "local_status": "not-run",
@@ -3348,7 +3469,146 @@
       ],
       "official_negative_cases": [
         "需确认 Python 入口返回 (values, indices) 与官方两个输出张量的绑定方式",
-        "源码还支持 sum/max/mean 等，官方只要求 min"
+        "源码还支持 sum/max/mean 等，官方只要求 min",
+        "HIT1920/torch_scatter_npu SegmentMinCsr 是 A2/A3，但 indptr 为 int32、只输出 out、空段填 dtype 最大值；官方要求 int64、out+arg_out、空段 0/E。",
+        "同仓 Segment_Coo 的 min/max 返回 (value,arg)，但相等极值保留最后一次出现；官方 SegmentMinCsr 要求首遇 tie-break。"
+      ],
+      "supporting_sources": [
+        {
+          "path": "LICENSE",
+          "lines": "1-165",
+          "sha256": "ea8af5e789cb2d4e9b10bce3874982ade163b749b6bfbdb32e2df21c4d106de1",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/LICENSE",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/LICENSE",
+          "role": "root license (LGPL-3.0)",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "README.md",
+          "lines": "1-22",
+          "sha256": "b63177df38bc9a5593d1fd3d28c395896fd1ac6f1133d028f97152fc39bd3f3d",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/README.md",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/README.md",
+          "role": "repo overview: Segment_Coo 910B/dav-2201; Segment_Csr A2/A3",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "Segment_Coo/LICENSE",
+          "lines": "1-39",
+          "sha256": "5f552ccd38baf92b4f227ca41e6d6ea84d7b7489ad84109373b8500ee3b7473f",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Coo/LICENSE",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Coo/LICENSE",
+          "role": "Segment_Coo license (CANN EULA 2.0)",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "Segment_Coo/README.md",
+          "lines": "1-96",
+          "sha256": "e7f0f8b4fa85261b87458e2c1de80dc33d1f84917a697941fd87ad6f89bb57b8",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Coo/README.md",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Coo/README.md",
+          "role": "Segment COO API: min/max return (value,arg), empty 0/E-like, last-occurrence tie",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "Segment_Coo/csrc/npu/kernel/segment/arch2201/segment_min_kernel.cpp",
+          "lines": "1-10",
+          "sha256": "a2e2df2d1d6914daee09bafd3e0cbf6501ede178386d12ac9615b5aacd348f56",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Coo/csrc/npu/kernel/segment/arch2201/segment_min_kernel.cpp",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Coo/csrc/npu/kernel/segment/arch2201/segment_min_kernel.cpp",
+          "role": "910B segment min kernel entry",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "Segment_Coo/csrc/npu/kernel/segment/common/segment_kernel_common.h",
+          "lines": "1-1333",
+          "sha256": "d9ed1233a86f72e503e076aa0274cd3dd3ca6d240181f30f81751b46491eed96",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Coo/csrc/npu/kernel/segment/common/segment_kernel_common.h",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Coo/csrc/npu/kernel/segment/common/segment_kernel_common.h",
+          "role": "segment reduction common implementation",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "Segment_Coo/csrc/npu/kernel/segment/common/segment_types.h",
+          "lines": "1-33",
+          "sha256": "49a4244af2d2538c69815102151381717492d10f2336682688a52cd8908b3a1e",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Coo/csrc/npu/kernel/segment/common/segment_types.h",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Coo/csrc/npu/kernel/segment/common/segment_types.h",
+          "role": "segment types/dtype traits",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "Segment_Coo/csrc/npu/kernel/segment/common/segment_tiling_fields.h",
+          "lines": "1-37",
+          "sha256": "da8366067cbdb9c6231dbfc4be8d31399ad00c2d2f40546951575d8b154e710b",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Coo/csrc/npu/kernel/segment/common/segment_tiling_fields.h",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Coo/csrc/npu/kernel/segment/common/segment_tiling_fields.h",
+          "role": "segment tiling fields",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "Segment_Csr/SegmentMinCsr/README.md",
+          "lines": "1-60",
+          "sha256": "7278dcfdc54498bad15b02a5607cd5ce3424b6a7707e5007bb7aec787bd11692",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Csr/SegmentMinCsr/README.md",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Csr/SegmentMinCsr/README.md",
+          "role": "SegmentMinCsr op spec: int32 indptr, empty=max, no arg_out",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/README.md",
+          "lines": "1-114",
+          "sha256": "60c38b0cde9b6ea97b004901467dad2843fa835e40bc4586e86949b31355de02",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/README.md",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/README.md",
+          "role": "A2/A3 msOpGen build/run guide",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/SegmentMinCsr.json",
+          "lines": "1-34",
+          "sha256": "2096c4c217e4ec13bc641b6947f6f2c8e5ac744eea1ef89eeae15538ef758eee",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/SegmentMinCsr.json",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/SegmentMinCsr.json",
+          "role": "op prototype (int32 indptr, out only)",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/SegmentMinCsr/op_kernel/segment_min_csr.cpp",
+          "lines": "1-414",
+          "sha256": "165ba95a79ff8fee60e9e4258012ce2a4d149f1378732a41a45afaa15067661a",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/SegmentMinCsr/op_kernel/segment_min_csr.cpp",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/SegmentMinCsr/op_kernel/segment_min_csr.cpp",
+          "role": "A2/A3 SegmentMinCsr kernel",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/SegmentMinCsr/op_host/segment_min_csr.cpp",
+          "lines": "1-196",
+          "sha256": "7565b7f27a4421e54a6ba1ccd02695ff8b8bf0abc9471a778e06fac3b305c16b",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/SegmentMinCsr/op_host/segment_min_csr.cpp",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/SegmentMinCsr/op_host/segment_min_csr.cpp",
+          "role": "A2/A3 host tiling/op def",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/SegmentMinCsr/op_host/segment_min_csr_tiling.h",
+          "lines": "1-26",
+          "sha256": "247284b622e96db695d97d26052c4530ab4ab045a4e6eca0ed212cd66e7df861",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/SegmentMinCsr/op_host/segment_min_csr_tiling.h",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/SegmentMinCsr/op_host/segment_min_csr_tiling.h",
+          "role": "tiling data struct",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/main.cpp",
+          "lines": "1-282",
+          "sha256": "fd77d2d4841fe80e772411b68016824d77f0ebe3cf12242da0fe438955ff5c8b",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/main.cpp",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/main.cpp",
+          "role": "minimal ACLNN invocation example",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        }
       ]
     },
     {

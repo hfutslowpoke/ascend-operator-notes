@@ -1,0 +1,7 @@
+# Byte-exact third-party snapshots: do not flag or normalize upstream whitespace.
+competition/mfg-2026/*/source/** -whitespace
+competition/mfg-2026/*/supporting/** -whitespace
+competition/grouped-matmul-gelu/prs/** -whitespace
+competition/grouped-matmul-gelu/official/** -whitespace
+competition/grouped-matmul-gelu/our-submission/** -whitespace
+competition/grouped-matmul-gelu/components/** -whitespace

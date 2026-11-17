@@ -47,6 +47,16 @@ mx_driving.furthest_point_sampling(points, num_points) -> Tensor
 - `points`: `[B,N,3]`，FP32/FP16/BF16；输出 `[B,num_points]` int32；
 - 迭代选最远点；源码约束 `B*N*3 <= 383166`；支持 A2/A3/950。官方测试规模为 `N≤2048`、`B≤4`、`npoint≤128`，远小于源码上限。
 
+#### 2.2.1 950 社区任务的 FPS 踩坑（只能作精度对照）
+
+`gcw_i0yFZkCV/ops-gnn-fps-950`（commit `9d8da03b18d0b7bc70bfbab47f10c9361c942b91`，CANN EULA 2.0）是 950 社区任务实现，接口是 `torch_cluster.fps(src, ratio, random_start, ptr)`，**不是**官方制造的 `furthest_point_sampling(points, npoint)`。它记录了三个容易踩的坑：
+
+1. **FP16 逐维舍入**：torch_cluster CUDA/C++ 路径按每个特征维先算 `delta.half()`、平方后再 `half()`、再累加，和“先转 FP32 累加再转回”会在边界选点上产生不同结果；官方题面要求“按输入数据类型计算平方欧氏距离”且“float16 必须保持 half 精度”，实现时必须明确逐维舍入还是 FP32 累加，并用官方算子逐位核对。
+2. **并列 tie-break 不是简单最小索引**：torch_cluster CUDA 的 256-lane 归约等价于“先选 `index % 256` 最小的 lane，再选该 lane 先遇到的点”；官方制造题明确要求**最小输入索引**。不能照搬 torch_cluster 的 lane 规则。
+3. **计数/ratio 语义不同**：950 任务用 `ceil(degree.float() * ratio_stored_dtype)`，并存在 FP16 标量 ratio 的 3000/3001 边界差异；官方制造题直接给 `npoint`，不做 ratio/ceil。不要把 950 任务的 count 契约带进官方实现。
+
+本地副本：`supporting/ops-gnn-fps-950/`（LICENSE、测试 README、compatibility README、golden、frozen oracle test）；来源/边界见 [`PROVENANCE.md`](supporting/ops-gnn-fps-950/PROVENANCE.md)。这些文件只用于理解 torch_cluster 的 FP16/tie 行为；官方候选仍是 DrivingSDK 的 `furthest_point_sampling`，并按官方 `npoint`/首点 0/最小索引 tie 改写。
+
 ### 2.3 CylinderQuery（15）
 
 ```python
@@ -109,7 +119,7 @@ mx_driving.cylinder_query(radius, hmin, hmax, nsample, new_xyz, xyz, rot)
 ## 6. 负例/风险
 
 - **Radius**：源码 `Ndim>=9`、batch>1024、单 batch>512 直接不支持；输出 E 动态，官方要求定槽位 `[2,M×K]` 和 `(-1,-1)`；`ignore_same_index` 需补。
-- **FPS**：源码总元素上限 383166；官方要求 float16 保持 half 精度，不能提升到 fp32；并列取最小索引需逐位验证；分片会多次读点云。
+- **FPS**：源码总元素上限 383166；官方要求 float16 保持 half 精度，不能提升到 fp32；并列取最小索引需逐位验证；分片会多次读点云。950 社区仓证明 torch_cluster 的 `index % 256` lane tie 与 FP16 逐维舍入会和“最小索引/FP32 累加”产生不同结果，必须按官方口径单独验证。
 - **CylinderQuery**：`nsample` 受 UB 限制；rot 必须是 9 元素；kernel 的 `rot^T·Δ` 与官方一致，但 Python 层排序违反 first-K；官方要求 `nsample≤N`、float16→float32 变换/比较。
 - **通用**：DrivingSDK 依赖 torch_npu/自定义 C++ 扩展，版本匹配要求高；不要把“文档支持 A2”当成本机通过。
 
@@ -117,7 +127,7 @@ mx_driving.cylinder_query(radius, hmin, hmax, nsample, new_xyz, xyz, rot)
 
 **优先复用**：Radius 的 batch 分核 + 半径平方 + 截断；FPS 的最近距离数组 + 迭代 reduce max + 分片；CylinderQuery 的 3×3 旋转 + 双 mask + 候选输出。
 
-**需要验证**：910B3 上单算子构建/调用；FPS 的 half 精度/并列 tie-break；Radius 的定槽位/ignore_same_index；CylinderQuery 去掉 Python 排序后的 first-K。
+**需要验证**：910B3 上单算子构建/调用；FPS 的 half 精度（逐维舍入 vs FP32 累加）与最小索引 tie-break；Radius 的定槽位/ignore_same_index；CylinderQuery 去掉 Python 排序后的 first-K。
 
 **暂不使用**：超出约束的 shape；需要 950 专属路径的场景；未确认 A2 的 CylinderQuery 直接当 910B 模板。
 

@@ -1,0 +1,34 @@
+[ 
+    { 
+        "op": "SegmentMinCsr", 
+         "input_desc": [ 
+            { 
+                "name": "src", 
+                "param_type": "required", 
+                "format": ["ND","ND","ND","ND"], 
+                "type": ["float16","float","int32","int16"] 
+            }, 
+            { 
+                "name": "indptr", 
+                "param_type": "required", 
+                "format": ["ND","ND","ND","ND"], 
+                "type": ["int32","int32","int32","int32"] 
+            },
+            { 
+                "name": "optional_out", 
+                "param_type": "optional", 
+                "format": ["ND","ND","ND","ND"], 
+                "type": ["float16","float","int32","int16"] 
+            }
+        ], 
+        "output_desc": [ 
+            { 
+                "name": "out", 
+                "param_type": "required", 
+                "format": ["ND","ND","ND","ND"], 
+                "type": ["float16","float","int32","int16"] 
+            }
+        ], 
+        "attr": []
+    } 
+]

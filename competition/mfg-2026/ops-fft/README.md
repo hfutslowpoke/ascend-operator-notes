@@ -48,19 +48,29 @@ aclfftResult aclfftExecC2C(aclfftHandle plan, aclfftComplex* idata, aclfftComple
 
 机器索引：[source.json](source.json)。
 
-### 3.1 910B 补充基础件：`fft1_d`
+### 3.1 910B 补充基础件：`fft1_d` / `rfft1_d` / `irfft1_d`
 
-`ops-fft` 同一 commit 还有 `fft1_d`（arch32，910B C2C 1D），能补 `fft2_d` 的尺寸缺口：
+`ops-fft` 同一 commit 还有 1D FFT 基础件（arch32，910B），能补 `fft2_d` 的尺寸/实数 dtype 缺口：
 
 | 内容 | 路径/行 |
 |---|---|
-| 1D 尺寸分派 | `source/src/fft1_d/arch32/fft1_d_exec_api.cpp:29-153` |
-| n ≤ 256：DFT 路径 | `source/src/fft1_d/arch32/dft/fft1_d_dft.cpp` |
-| 512..16384：FFTB 路径 | `source/src/fft1_d/arch32/fft_b/fft1_d_b.cpp` |
-| 更大 n：FFTN 路径 | `source/src/fft1_d/arch32/fft_n/fft1_d_n.cpp` |
+| C2C 1D 尺寸分派 | `source/src/fft1_d/arch32/fft1_d_exec_api.cpp:29-153` |
+| C2C n ≤ 256：DFT | `source/src/fft1_d/arch32/dft/fft1_d_dft.cpp` |
+| C2C 512..16384：FFTB | `source/src/fft1_d/arch32/fft_b/fft1_d_b.cpp` |
+| C2C 更大 n：FFTN | `source/src/fft1_d/arch32/fft_n/fft1_d_n.cpp` |
+| R2C 1D 分派（仅 FP32、正向） | `source/src/rfft1_d/arch32/rfft1_d_exec_api.cpp:14-133` |
+| C2R 1D 分派（仅 FP32、反向） | `source/src/irfft1_d/arch32/irfft1_d_exec_api.cpp:14-63` |
+| R2C/C2R buffer sizing | `source/src/rfft1_d/rfft1_d_size_utils.h` |
+| radix 选择（C2R 的纯 2 次幂走 RADIX_MIX） | `source/src/common/host/fft_exec_helper.h:76-139` |
 | 1D 接口/支持范围 | `source/docs/zh/API_Reference/FFT_1D.md` |
 
-用法边界：`fft1_d` 是**单维** C2C；官方 2D FFT 需要按行/列各做一次 1D FFT，再处理转置/布局与 `inverse` 的 `1/(N·M)`。它能把官方 `N,M∈[2,8192]` 的单维长度覆盖到（n≤256 DFT、512..16384 FFTB），但不是现成的 2D FFT，也不是 FusedPropStep 的融合实现。
+用法边界：
+
+- `fft1_d` 是**单维 C2C**；官方 2D FFT 需要按行/列各做一次 1D FFT，再处理转置/布局与 `inverse` 的 `1/(N·M)`。它覆盖官方 `N,M∈[2,8192]` 的单维长度（n≤256 DFT、512..16384 FFTB），但不是现成的 2D FFT。
+- `rfft1_d` / `irfft1_d` 是**单维 R2C/C2R**，仅 **FP32**、仅 **horizontal**、R2C 只有 forward、C2R 只有 backward、`norm=0`；C2R 输出未归一化（乘 N）。它们适合 `FusedPropStep` 的实数输入：先 cast 到 FP32，行/列各做一次 R2C/C2R，再做逐点乘和官方归一化；float16 原生 R2C/C2R 仍缺。
+- 2 的幂长度：R2C 走 Fft1/2/31/32/4/5，最高到 `2^29`；C2R 的纯 2 次幂属于 `RADIX_MIX`，`n>1024` 走 C2R FFT，覆盖到 `2^27`；`n≤1024` 走 DFT。官方 `N,M≤8192` 在两者覆盖范围内。
+- 纵向（VERTICAL）R2C/C2R 在 910B 上返回 `ACLFFT_NOT_IMPLEMENTED`；2D 必须自己组合横向变换。
+- 这些仍是基础件，不是 `FusedPropStep` 的单 kernel 融合实现；逐点乘、`h` 广播、`norm` 分支和 2D 布局仍需另写。
 
 本地源码副本：[`source/`](source/)（按上游路径保存，字节与固定 commit 一致；`source.json` 的 `local_path` 指向对应文件。上游原文的相对链接假设整仓，本地不保证可解析）。
 

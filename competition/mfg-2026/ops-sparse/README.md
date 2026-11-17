@@ -47,6 +47,19 @@ C' = alpha * op(A) * op(B) + beta * C
 - 多阶段：WorkEstimation → EstimateMemory → Compute（symbolic + numeric）→ Copy；
 - A2/A3/950 支持。
 
+#### 2.2.1 社区任务 A2/A3 SpGEMM 补充证据（未复制）
+
+`gcw_4VCbQSde/huawei-spgemm-task`（commit `5528c34ace68f6cba7b15c2800bc0d2bff7dc904`，2026-08-23）是一份完整的 A2/A3 SpGEMM 社区任务工程，包含：
+
+- `project/sparse/spgemm/arch22/`：count / symbolic / numeric 三阶段 Ascend C kernel，`dav-2201`（A2/A3）；
+- `aclsparseSpGemm_design.md`：符号 + 数值两趟、k 路归并、T1 有序归并 / T3 列分块、int64 中间乘积计数、显式零保留；
+- `SELF_TEST_REPORT.md`：Ascend 910B4、CANN 9.1.0 上 **142/142 UT、200/200 精度**（float32 100 + complex64 100），并给出 A2 性能倍率；
+- 支持 fp16/bf16/fp32/complex64，fp16/bf16 在 fp32 累加。
+
+**为什么不复制**：该仓没有 LICENSE 文件，无法确认再分发许可；因此只在本文登记 commit/链接和证据数字，不把代码复制进仓库。它的核心与 `cann/ops-sparse/spgemm` 重叠，价值主要在“A2/A3 上确实跑通过 142+200 例”的独立证据和设计文档。
+
+对 10 `Spspmm` 的意义：它证明了 A2/A3 的 CSR SpGEMM 多阶段实现是可行的，但官方 `Spspmm` 仍是 **COO + 固定槽位 `U=m·n`**；这份工程不能直接解决 COO 输入/槽位输出，只可作为 CSR 核心和构建/测试参考。
+
 ### 2.3 Gather（06 的部分）
 
 - `aclsparseGather` / `aclsparseGatherRaw`：按稀疏索引从稠密向量取值；
@@ -123,4 +136,4 @@ C' = alpha * op(A) * op(B) + beta * C
 2. 用小图（对角/链/随机）验证 SpGEMM 输出结构、`numProds/nnz`、显式零；
 3. SpMM 先 fp32，再 fp16/bf16/complex64；记录 alg/布局/行分块对时延的影响；
 4. Gather 只作为 dense gather 参考，GatherCoo 另找/另写 910B 实现；
-5. Spspmm 先写 COO↔CSR + 固定槽位输出层，再复用 SpGEMM 核心。
+5. Spspmm 先写 COO↔CSR + 固定槽位输出层，再复用 SpGEMM 核心；可参考 `gcw_4VCbQSde/huawei-spgemm-task` 的 A2/A3 142/142 + 200/200 证据，但不复制其无许可证代码。

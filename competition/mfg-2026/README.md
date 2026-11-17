@@ -32,7 +32,7 @@
 | 01 | `ComplexAbs` | [题面](official/descriptions/complexabs.md) | [ops-math](ops-math/README.md) | `reference` | 源码 arch35（950/A3），A2 明确不支持；官方只需 complex64→float32 |
 | 02 | `ComplexDiv` | [题面](official/descriptions/complexdiv.md) | [ops-solver](ops-solver/README.md) | `reference` | 源码是 950 SIMT 的 complex64 LU helper，不覆盖 float16/float32/广播 |
 | 03 | `ComplexExp` | [题面](official/descriptions/complexexp.md) | 未找到单 kernel；[ops-math](ops-math/README.md) 有 910B 基础件 | `none` | 官方公式/dtype 已明确；可用 exp/sin/cos + ComplexV3 组合，非单 kernel |
-| 04 | `FusedPropStep` | [题面](official/descriptions/fusedpropstep.md) | 未找到单 kernel；[ops-fft](ops-fft/README.md) 有 1D/2D FFT 基础件 | `none` | 官方是 `IFFT2(FFT2(field)·h)`；fft1_d/fft2_d 可组合，但融合/实数/8192 未实现 |
+| 04 | `FusedPropStep` | [题面](official/descriptions/fusedpropstep.md) | 未找到单 kernel；[ops-fft](ops-fft/README.md) 有 1D/2D FFT + R2C/C2R 基础件 | `none` | 官方是 `IFFT2(FFT2(field)·h)`；fft1_d/fft2_d 可组合；实数输入可用 FP32 rfft1_d/irfft1_d，但融合/norm/FP16 未实现 |
 | 05 | `FourierTransform2D` | [题面](official/descriptions/fouriertransform2d.md) | [ops-fft](ops-fft/README.md) | `adapt` | fft2_d 只支持 32/64/128；fft1_d 提供单维 2..8192 基础件；官方 2D+inverse 仍需组合 |
 | 06 | `GatherCoo` | [题面](official/descriptions/gathercoo.md) | [ops-gnn](ops-gnn/README.md)、[ops-sparse](ops-sparse/README.md) | `reference` | gnn 版 arch35、int64、rank1–8；官方 int32、`[M,K]→[E,K]`；sparse gather 不是 COO 行扩展 |
 | 07 | `SegmentMinCsr` | [题面](official/descriptions/segmentmincsr.md) | [ops-gnn](ops-gnn/README.md) | `direct` | arch22 `segment_min_csr` 已覆盖 arg_out、空段 `0/E`、首遇 tie-break |
@@ -58,7 +58,7 @@
 
 | 实现 | 基础件 | 用途 | 仍缺 |
 |---|---|---|---|
-| `MFG2026-FFT1D` | `ops-fft/fft1_d` | 910B 1D C2C：n≤256 DFT、512..16384 FFTB、更大 FFTN；可组合 2D FFT / FusedPropStep | 行/列 2D 组合、inverse `1/(N·M)`、大 batch |
+| `MFG2026-FFT1D` | `ops-fft/fft1_d` + `rfft1_d`/`irfft1_d` | C2C 1D：n≤256 DFT、512..16384 FFTB、更大 FFTN；R2C/C2R 1D（FP32）：2 的幂到 2^29/2^27，适合实数 FusedPropStep | 行/列 2D 组合、inverse `1/(N·M)`、FP16 R2C/C2R、norm |
 | `MFG2026-MATH-COMPLEX-EXP-BLOCKS` | `exp/sin/cos + ComplexV3` | 910B 实数基础件 + real/imag→complex；可组合 ComplexExp | 单 kernel 融合、fp16 极值/精度、4 个算子的 GM 往返 |
 
 这两项在 `index/catalog.json` 中标记为 `source_match=building-block`，不计入 15 题的 `direct/adapt/reference/none` 数量。
@@ -110,7 +110,7 @@
 
 - 官方题面/规格：`O`（CANN Judge 公开页面/API，2026-11-17）；源码路径/行号/哈希：`S+L`；本机：`N`。
 - `cann/ops-*` 为 CANN Open Software License Agreement Version 2.0；`Ascend/DrivingSDK` 为 Apache-2.0。
-- 本库把 47 个唯一选中源码文件（50 条引用）复制到各子条目的 `source/`，保留上游路径、固定 commit、URL 和 SHA256；未复制整仓，`source.json` 的 `local_path` 可直接打开。副本是上游原样快照，原文里的相对链接按整仓解析，本地不保证可点开。
+- 本库把 75 个唯一选中源码文件（78 条引用）复制到各子条目的 `source/` 或 `supporting/`，保留上游路径、固定 commit、URL 和 SHA256；未复制整仓，`source.json` 的 `local_path` 可直接打开。副本是上游原样快照，原文里的相对链接按整仓解析，本地不保证可点开。
 - 官方题面只保存公开描述，不包含隐藏测试数据；`/api/testcases/<id>` 返回 403，未绕过。
 - 不把官方仓的“支持 A2”直接当成本机通过；不把 950-only 实现写成 910B 方案。
 
@@ -118,6 +118,6 @@
 
 - 跟踪 `cann/cann-ops-competitions` 的 `02_enterprise` 制造专场提交目录；
 - 跟踪 `cann/mfg-ops-cax`、`cann/mfg-ops-vision` 是否公开（2026-11-17 `git ls-remote` 无 HEAD）；
-- 03/04 官方题面已补；仍无公开单 kernel，但已加入 910B 基础件（exp/sin/cos + ComplexV3；fft1_d），可先做组合参考实现；
+- 03/04 官方题面已补；仍无公开单 kernel，但已加入 910B 基础件（exp/sin/cos + ComplexV3；fft1_d/rfft1_d/irfft1_d），可先做组合参考实现；
 - 对 07/09/10/11/13/14/15 做 910B3 构建/精度/计时，并扩展 05 到官方 shape/inverse；
 - 评估 GitCode 上的个人聚焦仓（如 `flying_whj/CANN_grid_cluster`）是否值得作为补充阅读材料，避免与官方仓重复。

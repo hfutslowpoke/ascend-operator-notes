@@ -146,6 +146,8 @@
 8. [ops-math](../competition/mfg-2026/ops-math/README.md)（ComplexAbs 950-only；BallQuery 官方单半径/严格 `<`；StackBallQuery 有 910B 配置）
 9. [ops-solver](../competition/mfg-2026/ops-solver/README.md)（ComplexDiv 算法参考，950 SIMT）
 
+补充来源放在对应条目的 `supporting/`，在 `source.json` 里标记为 `supporting_sources`：`ops-gnn/supporting/torch_scatter_npu/` 是 SegmentMinCsr 的 A2/A3 构建骨架，`driving-sdk/supporting/ops-gnn-fps-950/` 是 FP16/tie-break 对照。它们都**不是**官方题解候选，不能改变 `direct/adapt/reference/none` 分级。
+
 带着问题读：
 
 - 15 题里哪 2 题 direct、哪 6 题 adapt、哪 5 题 reference、哪 2 题 none？为什么“有 A2 路径”不等于“能直接提交”？

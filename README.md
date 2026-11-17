@@ -37,10 +37,10 @@
 
 ## 2026-11-17 制造专场补充
 
-- [2026 制造行业算子专场：15 题源码地图](competition/mfg-2026/README.md)：6 个官方/生产仓、15 份实现映射、2 个 910B 基础件、47 份选中源码快照；官方题面已落库到 [official/](competition/mfg-2026/official/README.md)；搜索/去重/缺口见 [制造专场源码调研](docs/research/MFG2026_SOURCE_SURVEY_20261117.md)；
+- [2026 制造行业算子专场：15 题源码地图](competition/mfg-2026/README.md)：6 个官方/生产仓、15 份实现映射、2 个 910B 基础件、75 份选中源码快照；官方题面已落库到 [official/](competition/mfg-2026/official/README.md)；搜索/去重/缺口见 [制造专场源码调研](docs/research/MFG2026_SOURCE_SURVEY_20261117.md)；
 - 按官方语义重分级：**2 题 direct**（SegmentMinCsr、FurthestPointSample）、**6 题 adapt**（FourierTransform2D、SpmmSum、Spspmm、Radius、BallQuery、CylinderQuery）、**5 题 reference**（ComplexAbs、ComplexDiv、GatherCoo、RandomWalk、GridCluster）、**2 题 none**（ComplexExp、FusedPropStep）；
 - 8 题有 A2/910B 路径，但其中 6 题接口/布局/后处理需改；没有任何一题是“原样可直接提交”；
-- ComplexExp/FusedPropStep 官方公式和 dtype 已补；仍无公开单 kernel 实现，但已加入 910B 基础件：ComplexExp 可用 exp/sin/cos + ComplexV3，FusedPropStep 可用 fft1_d/fft2_d + 逐点乘组合；
+- ComplexExp/FusedPropStep 官方公式和 dtype 已补；仍无公开单 kernel 实现，但已加入 910B 基础件：ComplexExp 可用 exp/sin/cos + ComplexV3，FusedPropStep 可用 fft1_d/fft2_d（复数）或 rfft1_d/irfft1_d（FP32 实数）+ 逐点乘组合；
 - 本机已跑 1/15：`FourierTransform2D`（`ops-fft/fft2_d`）在 910B3 通过 **32×32 C2C 子集**，best 0.1537 ms、max_abs 9.086799e-08；官方要求 2..8192 + inverse，尚未覆盖。其余 14 份 `local_status=not-run`，没有把文档支持或 950 实现写成 910B 通过。
 
 ## 本机验证摘要

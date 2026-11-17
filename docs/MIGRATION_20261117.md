@@ -140,7 +140,7 @@ git diff --check: pass
 ### 8.2 制造专场增量与清理（2026-11-17）
 
 ```text
-提交：c1f6283c6f5f5b551a3b0b92778d44d0d32e11d6（批次）；17e3be0586d0fac3e3cdbbf6cec412a28583884f（evidence 日志跟踪修复）；fd1b4942e057e87f8caffe45fc44e3d9c727de98（47 个唯一源码快照/50 条引用）
+提交：c1f6283c6f5f5b551a3b0b92778d44d0d32e11d6（批次）；17e3be0586d0fac3e3cdbbf6cec412a28583884f（evidence 日志跟踪修复）；fd1b4942e057e87f8caffe45fc44e3d9c727de98（47 个唯一源码快照/50 条引用；后续追加 28 个补充文件后共 75 个唯一文件/78 条引用）
 范围：2026 制造行业算子专场 6 个官方/生产仓、15 份实现映射、2 个 910B 基础件（FFT1D、ComplexExp blocks）
 python3 tools/build_index.py --check: pass
 python3 tools/verify_archive.py:
@@ -170,7 +170,7 @@ kb-restructure-20261117, mfg/competition/tree HTML, add_mfg_catalog.py
 释放：约 21 MiB；仓库内证据/哈希/驱动保留
 注：首次提交时 `*.log` 忽略规则使两份 FFT 日志未入 Git；已为 `competition/mfg-2026/evidence/` 加例外并在 17e3be0 跟踪，当前远端 `main` 可检出日志。
 
-制造专场的 47 个唯一选中源码文件（50 条引用）已按上游路径复制到 `competition/mfg-2026/<entry>/source/`；`source.json` 的 `local_path` 与 SHA256 可直接核对，外部缓存删除后仓库仍自包含这些选中文件。
+制造专场最初 47 个唯一选中源码文件（50 条引用）已按上游路径复制到 `competition/mfg-2026/<entry>/source/`；后续追加 `torch_scatter_npu`、`ops-gnn-fps-950` 与 `rfft1_d`/`irfft1_d` 共 28 个补充文件，当前为 75 个唯一文件/78 条引用（主仓快照在 `source/`，补充来源在 `supporting/`）；`source.json` 的 `local_path` 与 SHA256 可直接核对，外部缓存删除后仓库仍自包含这些选中文件。
 ```
 
 更早批次的 `local-validation-20261116/` 与来源缓存未删除；它们不是本批临时产物，保留供对照。清理后 `verify_archive.py` 仍为 `ok: true`。
@@ -201,3 +201,40 @@ none (2):       ComplexExp, FusedPropStep
 补充基础件：`ops-fft/fft1_d`（910B 1D：n≤256 DFT、512..16384 FFTB、更大 FFTN）可补 2D/FusedPropStep 的单维 FFT；`ops-math` 的 `exp/sin/cos + ComplexV3`（910B arch22）可组合 ComplexExp。二者都不是完整单 kernel 实现，已作为 `supporting_sources` 落库。
 
 关键校正：FFT 官方要求 2..8192 + inverse（`fft2_d` 仅 32/64/128；`fft1_d` 需行/列组合）；Spspmm 官方是 COO 固定槽位（源码是 CSR 动态）；Radius 官方是定槽位 `(-1,-1)`；CylinderQuery 官方要求扫描序 first-K（源码 Python 层排序）；BallQuery 官方单半径/严格 `<`/fp16→fp32；FPS 官方要求 half 精度且以 `mx_driving` 为参考。
+
+### 8.4 制造专场追加来源（round 3，2026-11-17）
+
+本轮继续检索制造 SIG、竞赛仓、AtomGit 个人/社区仓，结论：
+
+```text
+cann/mfg-ops-cax / cann/mfg-ops-vision     网页 403，git ls-remote 无 HEAD（空仓/未公开）
+cann/cann-ops-competitions@8b3e8c7          02_enterprise 仍只有 regional，无制造提交目录
+LiJianhao2/mfg-operator-contest-2026        仅 README + MIT LICENSE，无源码
+AtomGit 精确算子名搜索                       FusedPropStep/CylinderQuery/BallQuery/GatherCoo/
+                                            SegmentMinCsr/FurthestPointSample 均为 0
+```
+
+新增补充来源（不改变 15 题分级）：
+
+```text
+HIT1920/torch_scatter_npu@0199ab0           15 文件 → ops-gnn/supporting/torch_scatter_npu/
+  - Segment_Csr/SegmentMinCsr：A2/A3 msOpGen 工程，int32 indptr、无 arg_out、空段填最大值
+  - Segment_Coo：arch2201 min/max + arg，相等极值保留最后一次出现
+  - 结论：只作 910B 构建/调用骨架；官方语义仍需 ops-gnn arch22 + 改造
+
+gcw_i0yFZkCV/ops-gnn-fps-950@9d8da03        5 文件 → driving-sdk/supporting/ops-gnn-fps-950/
+  - 950-only，接口是 torch_cluster fps(ratio)，不是官方 npoint
+  - 记录 FP16 逐维舍入、mod-256 lane tie、ratio count 3000/3001 差异
+  - 结论：只作 FPS 精度/tie 踩坑对照；官方 tie 是最小索引
+
+ops-fft rfft1_d/irfft1_d@65f5ff1             8 文件 → ops-fft/source/
+  - 910B arch32，FP32 R2C/C2R 1D；R2C 正向、C2R 反向、norm=0、horizontal only
+  - 2 的幂：R2C 到 2^29，C2R 到 2^27（纯 2 次幂属于 RADIX_MIX）
+  - 结论：补 FusedPropStep 实数输入基础件；FP16 原生 R2C/C2R 仍缺
+
+gcw_4VCbQSde/huawei-spgemm-task@5528c34     仅登记，不复制（无 LICENSE）
+  - A2/A3 arch22 SpGEMM；910B4/CANN 9.1.0 自测 142/142 UT、200/200 精度
+  - 结论：证明 A2/A3 CSR SpGEMM 可行；官方 Spspmm 仍是 COO + 固定槽位
+```
+
+当前制造专场源码快照：**75 个唯一文件 / 78 条引用**（主仓 `source/` + 补充 `supporting/`）。所有 NPU 运行仍只有 FFT 32×32 子集 PASS，其余未跑。

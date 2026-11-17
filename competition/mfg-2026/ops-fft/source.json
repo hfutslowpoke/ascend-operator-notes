@@ -93,7 +93,7 @@
     },
     {
       "id": "MFG2026-FFT1D",
-      "operator": "FFT1D (C2C 1D building block)",
+      "operator": "FFT1D (C2C/R2C/C2R 1D building block)",
       "operator_family": "fourier-transform",
       "source_files": [
         {
@@ -135,6 +135,70 @@
           "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/docs/zh/API_Reference/FFT_1D.md",
           "local_path": "competition/mfg-2026/ops-fft/source/docs/zh/API_Reference/FFT_1D.md",
           "role": "FFT_1D 官方接口/支持范围/归一化说明"
+        },
+        {
+          "path": "src/rfft1_d/rfft1_d.h",
+          "lines": "1-80",
+          "sha256": "0b7f86582d5bebb7dab09c47397ab345b2ec25d51a61c421428ab7053222b069",
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/rfft1_d/rfft1_d.h",
+          "local_path": "competition/mfg-2026/ops-fft/source/src/rfft1_d/rfft1_d.h",
+          "role": "RFFT1D public interface and header"
+        },
+        {
+          "path": "src/rfft1_d/rfft1_d_size_utils.h",
+          "lines": "1-38",
+          "sha256": "8ced326feb377d72c602f66f21386e57b9aeb01d581a2bff00ca28e1b9a92947",
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/rfft1_d/rfft1_d_size_utils.h",
+          "local_path": "competition/mfg-2026/ops-fft/source/src/rfft1_d/rfft1_d_size_utils.h",
+          "role": "R2C input/output/workspace sizing"
+        },
+        {
+          "path": "src/rfft1_d/arch32/rfft1_d_exec_api.cpp",
+          "lines": "1-134",
+          "sha256": "acafc9a91acc6ec24d8ecb56e725abf2a838b2a4c7a8cccdce326f29ccb4dbea",
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/rfft1_d/arch32/rfft1_d_exec_api.cpp",
+          "local_path": "competition/mfg-2026/ops-fft/source/src/rfft1_d/arch32/rfft1_d_exec_api.cpp",
+          "role": "910B R2C dispatch: DFT n<=1024, power-of-two FFT up to 2^29"
+        },
+        {
+          "path": "src/rfft1_d/arch32/dft/rfft1_d_dft.cpp",
+          "lines": "1-147",
+          "sha256": "55961f1ebfa82fdf5a6a33f80092851a9cf904f5af6c83f1d6ecfa7a1fafc5e3",
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/rfft1_d/arch32/dft/rfft1_d_dft.cpp",
+          "local_path": "competition/mfg-2026/ops-fft/source/src/rfft1_d/arch32/dft/rfft1_d_dft.cpp",
+          "role": "910B R2C DFT path for n<=1024"
+        },
+        {
+          "path": "src/irfft1_d/irfft1_d.h",
+          "lines": "1-45",
+          "sha256": "32243535f749ac9674971f68d05cdc6ae66585be99f5e54fc8f0c2f24949183c",
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/irfft1_d/irfft1_d.h",
+          "local_path": "competition/mfg-2026/ops-fft/source/src/irfft1_d/irfft1_d.h",
+          "role": "IRFFT1D public interface and header"
+        },
+        {
+          "path": "src/irfft1_d/arch32/irfft1_d_exec_api.cpp",
+          "lines": "1-65",
+          "sha256": "b3abf33695d2dc2f313480c2576621ee0b8f6aa2579f160da5b00e6d9a06fb7a",
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/irfft1_d/arch32/irfft1_d_exec_api.cpp",
+          "local_path": "competition/mfg-2026/ops-fft/source/src/irfft1_d/arch32/irfft1_d_exec_api.cpp",
+          "role": "910B C2R dispatch: DFT n<=1024, mixed-radix FFT >1024"
+        },
+        {
+          "path": "src/irfft1_d/arch32/dft/irfft1_d_dft.cpp",
+          "lines": "1-163",
+          "sha256": "287258004ac1c7c65c5887e851d4a8b6cdf326ffec9ac49fdb6f460df9851a03",
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/irfft1_d/arch32/dft/irfft1_d_dft.cpp",
+          "local_path": "competition/mfg-2026/ops-fft/source/src/irfft1_d/arch32/dft/irfft1_d_dft.cpp",
+          "role": "910B C2R DFT path for n<=1024"
+        },
+        {
+          "path": "src/common/host/fft_exec_helper.h",
+          "lines": "1-141",
+          "sha256": "108cceb4db83bc489ca752aec9ac937e663ce1e0753ceb2d0304f72764526e2a",
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/common/host/fft_exec_helper.h",
+          "local_path": "competition/mfg-2026/ops-fft/source/src/common/host/fft_exec_helper.h",
+          "role": "radix selection: C2R accepts powers of two via RADIX_MIX"
         }
       ],
       "local_status": "not-run",

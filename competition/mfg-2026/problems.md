@@ -54,9 +54,9 @@
 - **属性**：norm bool 默认 False
 - **约束**：B ∈ [1,256]；N,M ∈ [2,8192] 且均为 2 的幂；取值 [-1,1]，输入有限；Bh = 1 或 Bh = B；h 的 N,M 与 field 相同
 - **容差**：complex64: atol=rtol=1e-4；float32/float16: atol=rtol=1e-3
-- **源码差异**：未找到公开的 Ascend C FusedPropStep 实现；ops-fft/fft2_d 只覆盖 complex64、32/64/128，且不融合逐点乘，无法覆盖 2..8192 与实数 dtype；已有 910B 的 1D/2D FFT 基础件，但需要组合/融合，且 fft2_d 仅 32/64/128
-- **复用判断**：没有公开 FusedPropStep；可用 fft1_d 的行/列 1D FFT 组合 2D FFT，再做逐点乘与逆变换。仍缺单 kernel 融合、2..8192 全尺寸、实数 dtype 和 norm 归一化。
-- **补充基础件**：ops-fft/fft1_d（910B C2C 1D，n≤256 DFT / 512..16384 FFTB）；ops-fft/fft2_d（910B C2C 2D，仅 32/64/128）
+- **源码差异**：未找到公开的 Ascend C FusedPropStep 实现；ops-fft/fft2_d 只覆盖 complex64、32/64/128，且不融合逐点乘，无法覆盖 2..8192 与实数 dtype；已有 910B 的 1D/2D FFT 基础件，但需要组合/融合，且 fft2_d 仅 32/64/128；rfft1_d/irfft1_d 仅 FP32；官方 float16 输入需 cast，且 C2R 输出未归一化
+- **复用判断**：没有公开 FusedPropStep；实数输入可用 rfft1_d/irfft1_d（FP32）按行/列做 1D R2C/C2R，再做逐点乘/归一化；复数输入可用 fft1_d/fft2_d。仍缺单 kernel 融合、float16 原生 R2C/C2R、2..8192 全尺寸 2D 组合与 norm 归一化。
+- **补充基础件**：ops-fft/fft1_d（910B C2C 1D，n≤256 DFT / 512..16384 FFTB / 更大 FFTN）；ops-fft/fft2_d（910B C2C 2D，仅 32/64/128）；ops-fft/rfft1_d + irfft1_d（910B FP32 R2C/C2R 1D；2 的幂到 2^29/2^27，C2R 含 radix-mix）
 
 ## 05 仿真计算：FourierTransform2D
 
