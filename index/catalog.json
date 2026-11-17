@@ -2519,25 +2519,29 @@
           "path": "docs/zh/API_Reference/FFT_2D.md",
           "lines": "1-70",
           "sha256": "5f89f98e336a88e43a32fcb5f9adb682f7befed7ce6339bc51c3bb0481f7fcf8",
-          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/docs/zh/API_Reference/FFT_2D.md"
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/docs/zh/API_Reference/FFT_2D.md",
+          "local_path": "competition/mfg-2026/ops-fft/source/docs/zh/API_Reference/FFT_2D.md"
         },
         {
           "path": "src/fft2_d/arch32/fft2_d_exec_api.cpp",
           "lines": "18-60",
           "sha256": "51b0ed903eb87e73cc1c66732fd31f48c31715ad22b2010f4db27498afd12a80",
-          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/fft2_d/arch32/fft2_d_exec_api.cpp"
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/fft2_d/arch32/fft2_d_exec_api.cpp",
+          "local_path": "competition/mfg-2026/ops-fft/source/src/fft2_d/arch32/fft2_d_exec_api.cpp"
         },
         {
           "path": "src/fft2_d/arch32/dd/fft2_d_dd.cpp",
           "lines": "17-29,31-62,64-112",
           "sha256": "e729b6d549d2860f7462fd5bcfe958e4794a16f08620f393b68c674498f70ed4",
-          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/fft2_d/arch32/dd/fft2_d_dd.cpp"
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/fft2_d/arch32/dd/fft2_d_dd.cpp",
+          "local_path": "competition/mfg-2026/ops-fft/source/src/fft2_d/arch32/dd/fft2_d_dd.cpp"
         },
         {
           "path": "src/fft2_d/arch32/dd/fft2_d_dd_kernel.h",
           "lines": "50-143,259-420",
           "sha256": "68a252d2e46cbb08d675ad0ddf9e0c974372783641ca068ee9ba2db73db05ba0",
-          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/fft2_d/arch32/dd/fft2_d_dd_kernel.h"
+          "url": "https://gitcode.com/cann/ops-fft/blob/65f5ff1dee32802562a9412789b0c7719ef99269/src/fft2_d/arch32/dd/fft2_d_dd_kernel.h",
+          "local_path": "competition/mfg-2026/ops-fft/source/src/fft2_d/arch32/dd/fft2_d_dd_kernel.h"
         }
       ],
       "symbol": "aclfftPlan2d / aclfftExecC2C_2D / aclfftFft2DDd",
@@ -2641,19 +2645,22 @@
           "path": "kernels/cylinder_query/op_host/cylinder_query.cpp",
           "lines": "1-120",
           "sha256": "b0c9b2adb0d9f2bd868896a817994f21fb5d20e94425a6f95d9f737280162e64",
-          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/kernels/cylinder_query/op_host/cylinder_query.cpp"
+          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/kernels/cylinder_query/op_host/cylinder_query.cpp",
+          "local_path": "competition/mfg-2026/driving-sdk/source/kernels/cylinder_query/op_host/cylinder_query.cpp"
         },
         {
           "path": "kernels/cylinder_query/op_kernel/cylinder_query.cpp",
           "lines": "60-102,300-350",
           "sha256": "adbcf1f90af3f5bf1be4a14508e130344ac67b125ba8caaa95018ea5c945f567",
-          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/kernels/cylinder_query/op_kernel/cylinder_query.cpp"
+          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/kernels/cylinder_query/op_kernel/cylinder_query.cpp",
+          "local_path": "competition/mfg-2026/driving-sdk/source/kernels/cylinder_query/op_kernel/cylinder_query.cpp"
         },
         {
           "path": "mx_driving/ops/cylinder_query.py",
           "lines": "29-50",
           "sha256": "d14246e76cbbb5ef130381c2da49e2cda1ca8a563b38f97aa146b87aa00b692c",
-          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/mx_driving/ops/cylinder_query.py"
+          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/mx_driving/ops/cylinder_query.py",
+          "local_path": "competition/mfg-2026/driving-sdk/source/mx_driving/ops/cylinder_query.py"
         }
       ],
       "symbol": "CylinderQuery / cylinder_query",
@@ -2725,19 +2732,22 @@
           "path": "kernels/furthest_point_sampling/op_kernel/furthest_point_sampling.cpp",
           "lines": "115-208",
           "sha256": "fb7722013394ba057a2391647396bce3f51f3e853e777452458134fd96ad2893",
-          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/kernels/furthest_point_sampling/op_kernel/furthest_point_sampling.cpp"
+          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/kernels/furthest_point_sampling/op_kernel/furthest_point_sampling.cpp",
+          "local_path": "competition/mfg-2026/driving-sdk/source/kernels/furthest_point_sampling/op_kernel/furthest_point_sampling.cpp"
         },
         {
           "path": "kernels/furthest_point_sampling/op_host/furthest_point_sampling.cpp",
           "lines": "1-100",
           "sha256": "9202966cb666c7e3e52058297d784a48a8e07329236c621016b49f3f399871ce",
-          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/kernels/furthest_point_sampling/op_host/furthest_point_sampling.cpp"
+          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/kernels/furthest_point_sampling/op_host/furthest_point_sampling.cpp",
+          "local_path": "competition/mfg-2026/driving-sdk/source/kernels/furthest_point_sampling/op_host/furthest_point_sampling.cpp"
         },
         {
           "path": "docs/zh/api/context/furthest_point_sampling.md",
           "lines": "1-39",
           "sha256": "6b6243aa3e85fc0a0ed2b398da6769001c84384ab65bad560ad1ac9e200ad2d7",
-          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/docs/zh/api/context/furthest_point_sampling.md"
+          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/docs/zh/api/context/furthest_point_sampling.md",
+          "local_path": "competition/mfg-2026/driving-sdk/source/docs/zh/api/context/furthest_point_sampling.md"
         }
       ],
       "symbol": "furthest_point_sampling / furthestPointSamplingKernel",
@@ -2814,19 +2824,22 @@
           "path": "kernels/radius/op_host/radius.cpp",
           "lines": "1-100",
           "sha256": "f246a6fe33d9fc3868379ccfe0ad996dce04ab80ed6ec30ddb63e678b583ce63",
-          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/kernels/radius/op_host/radius.cpp"
+          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/kernels/radius/op_host/radius.cpp",
+          "local_path": "competition/mfg-2026/driving-sdk/source/kernels/radius/op_host/radius.cpp"
         },
         {
           "path": "kernels/radius/op_kernel/radius.cpp",
           "lines": "1-120",
           "sha256": "ec6007172be87f25b6f1335764447fe82e8a6319c97bcfff78ce6861fea73b49",
-          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/kernels/radius/op_kernel/radius.cpp"
+          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/kernels/radius/op_kernel/radius.cpp",
+          "local_path": "competition/mfg-2026/driving-sdk/source/kernels/radius/op_kernel/radius.cpp"
         },
         {
           "path": "docs/zh/api/context/radius.md",
           "lines": "1-50",
           "sha256": "621a9f20d45398b18f9af230a852a62fc1b40f3b3a730541c7258604ae93bac9",
-          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/docs/zh/api/context/radius.md"
+          "url": "https://gitcode.com/Ascend/DrivingSDK/blob/d10b13c95ec7f25a54a4aa9677c436cde30ff6e2/docs/zh/api/context/radius.md",
+          "local_path": "competition/mfg-2026/driving-sdk/source/docs/zh/api/context/radius.md"
         }
       ],
       "symbol": "radius / TilingForRadius",
@@ -2903,13 +2916,15 @@
           "path": "csrc/npu/gather_coo/op_kernel/arch35/gather_coo_kernel.h",
           "lines": "24-110",
           "sha256": "f233754ed50110565386c3d3f9e334c587ea1e7e6c95c1ca85d68bbcff73d5b6",
-          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/csrc/npu/gather_coo/op_kernel/arch35/gather_coo_kernel.h"
+          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/csrc/npu/gather_coo/op_kernel/arch35/gather_coo_kernel.h",
+          "local_path": "competition/mfg-2026/ops-gnn/source/csrc/npu/gather_coo/op_kernel/arch35/gather_coo_kernel.h"
         },
         {
           "path": "docs/zh/api_reference.md",
           "lines": "533-563",
           "sha256": "0043c8e8ff3553987aff0a581aed902c5481e546ae033dc3cfcc2139e4ee9446",
-          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/docs/zh/api_reference.md"
+          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/docs/zh/api_reference.md",
+          "local_path": "competition/mfg-2026/ops-gnn/source/docs/zh/api_reference.md"
         }
       ],
       "symbol": "GatherCooKernel",
@@ -2986,19 +3001,22 @@
           "path": "csrc/npu/segment_csr/op_kernel/arch22/segment_csr.cpp",
           "lines": "22-61",
           "sha256": "b8360db34993be394edf7864c3f8d2e03fdf5a9a5758f3b1bec63a612d87f687",
-          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/csrc/npu/segment_csr/op_kernel/arch22/segment_csr.cpp"
+          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/csrc/npu/segment_csr/op_kernel/arch22/segment_csr.cpp",
+          "local_path": "competition/mfg-2026/ops-gnn/source/csrc/npu/segment_csr/op_kernel/arch22/segment_csr.cpp"
         },
         {
           "path": "csrc/npu/segment_csr/op_kernel/arch22/segment_csr_common.h",
           "lines": "35-61",
           "sha256": "7fc52b0bc40a32a7522890753bec9f5d49f4e71764bcb8725af6112bff540bf5",
-          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/csrc/npu/segment_csr/op_kernel/arch22/segment_csr_common.h"
+          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/csrc/npu/segment_csr/op_kernel/arch22/segment_csr_common.h",
+          "local_path": "competition/mfg-2026/ops-gnn/source/csrc/npu/segment_csr/op_kernel/arch22/segment_csr_common.h"
         },
         {
           "path": "docs/zh/api_reference.md",
           "lines": "73-140",
           "sha256": "0043c8e8ff3553987aff0a581aed902c5481e546ae033dc3cfcc2139e4ee9446",
-          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/docs/zh/api_reference.md"
+          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/docs/zh/api_reference.md",
+          "local_path": "competition/mfg-2026/ops-gnn/source/docs/zh/api_reference.md"
         }
       ],
       "symbol": "SegmentReduceDevice / segment_csr",
@@ -3075,13 +3093,15 @@
           "path": "csrc/npu/random_walk/op_kernel/arch35/random_walk.h",
           "lines": "18-33",
           "sha256": "b3b66d5bb699e32cb9f2522d3c76c6d0c966a4c47f497a3455521ba48447bb43",
-          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/csrc/npu/random_walk/op_kernel/arch35/random_walk.h"
+          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/csrc/npu/random_walk/op_kernel/arch35/random_walk.h",
+          "local_path": "competition/mfg-2026/ops-gnn/source/csrc/npu/random_walk/op_kernel/arch35/random_walk.h"
         },
         {
           "path": "docs/zh/api_reference.md",
           "lines": "688-730",
           "sha256": "0043c8e8ff3553987aff0a581aed902c5481e546ae033dc3cfcc2139e4ee9446",
-          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/docs/zh/api_reference.md"
+          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/docs/zh/api_reference.md",
+          "local_path": "competition/mfg-2026/ops-gnn/source/docs/zh/api_reference.md"
         }
       ],
       "symbol": "RandomWalk / RandomWalkLaunchParams",
@@ -3158,13 +3178,15 @@
           "path": "csrc/npu/common/spmm/spmm_utils.h",
           "lines": "210-241",
           "sha256": "4ca1fb0b3b09641569d5923007ac435a760bbe42a792f7bac301a0a0c0ce34e7",
-          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/csrc/npu/common/spmm/spmm_utils.h"
+          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/csrc/npu/common/spmm/spmm_utils.h",
+          "local_path": "competition/mfg-2026/ops-gnn/source/csrc/npu/common/spmm/spmm_utils.h"
         },
         {
           "path": "docs/zh/api_reference.md",
           "lines": "197-199",
           "sha256": "0043c8e8ff3553987aff0a581aed902c5481e546ae033dc3cfcc2139e4ee9446",
-          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/docs/zh/api_reference.md"
+          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/docs/zh/api_reference.md",
+          "local_path": "competition/mfg-2026/ops-gnn/source/docs/zh/api_reference.md"
         }
       ],
       "symbol": "SpmmReduce / SpmmReducer / RunSpmmCopyLhs",
@@ -3241,7 +3263,8 @@
           "path": "csrc/npu/grid_cluster/op_kernel/arch35/grid_cluster.cpp",
           "lines": "15-120,135-221",
           "sha256": "a5651a332d9a821d98bfcc8b3e358d3fb175f6ad11ac76cc0e8647eaae2c2fb8",
-          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/csrc/npu/grid_cluster/op_kernel/arch35/grid_cluster.cpp"
+          "url": "https://gitcode.com/cann/ops-gnn/blob/ea0b18a1d3e97f1ae2315df69338bb51c9f96466/csrc/npu/grid_cluster/op_kernel/arch35/grid_cluster.cpp",
+          "local_path": "competition/mfg-2026/ops-gnn/source/csrc/npu/grid_cluster/op_kernel/arch35/grid_cluster.cpp"
         }
       ],
       "symbol": "GridIndex / Grid3Simt / GridWideBody",
@@ -3318,25 +3341,29 @@
           "path": "sparse/spgemm/README.md",
           "lines": "1-40",
           "sha256": "a978c57a14ae24b2a8bc3a0672fabba3e85e42644c0afe9ec28c8aaff007d5ad",
-          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/spgemm/README.md"
+          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/spgemm/README.md",
+          "local_path": "competition/mfg-2026/ops-sparse/source/sparse/spgemm/README.md"
         },
         {
           "path": "sparse/spgemm/arch22/spgemm_host.cpp",
           "lines": "654-720,1066-1120",
           "sha256": "13eb58db9801f746754f6ee1d671aa4278b6745dd2dfdae4beb9b75bd6ae39a7",
-          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/spgemm/arch22/spgemm_host.cpp"
+          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/spgemm/arch22/spgemm_host.cpp",
+          "local_path": "competition/mfg-2026/ops-sparse/source/sparse/spgemm/arch22/spgemm_host.cpp"
         },
         {
           "path": "sparse/spgemm/arch22/spgemm_symbolic_kernel.cpp",
           "lines": "1-120",
           "sha256": "6291fdfb487d129551003c5dd60289b933fcb6b0ff18cf24d7f7006ce9736de5",
-          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/spgemm/arch22/spgemm_symbolic_kernel.cpp"
+          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/spgemm/arch22/spgemm_symbolic_kernel.cpp",
+          "local_path": "competition/mfg-2026/ops-sparse/source/sparse/spgemm/arch22/spgemm_symbolic_kernel.cpp"
         },
         {
           "path": "sparse/spgemm/arch22/spgemm_numeric_kernel.cpp",
           "lines": "1-120",
           "sha256": "82a537ca32c253830d587d7478e3ea4349ff8b26755b05511310fd7d29dbd013",
-          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/spgemm/arch22/spgemm_numeric_kernel.cpp"
+          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/spgemm/arch22/spgemm_numeric_kernel.cpp",
+          "local_path": "competition/mfg-2026/ops-sparse/source/sparse/spgemm/arch22/spgemm_numeric_kernel.cpp"
         }
       ],
       "symbol": "aclsparseSpGEMMWorkEstimation / Compute / Copy / spgemm_host",
@@ -3413,19 +3440,22 @@
           "path": "sparse/spmm/README.md",
           "lines": "1-120",
           "sha256": "0931104b0a7351059a9014ac94e53ad1ee961adee324e5220f6fad986a553c0a",
-          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/spmm/README.md"
+          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/spmm/README.md",
+          "local_path": "competition/mfg-2026/ops-sparse/source/sparse/spmm/README.md"
         },
         {
           "path": "sparse/spmm/arch22/spmm_host.cpp",
           "lines": "201-330",
           "sha256": "b60322d815f31818804e1c67f7cc286dd0b5828dd7d269f6c3bbc0f5ef12db81",
-          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/spmm/arch22/spmm_host.cpp"
+          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/spmm/arch22/spmm_host.cpp",
+          "local_path": "competition/mfg-2026/ops-sparse/source/sparse/spmm/arch22/spmm_host.cpp"
         },
         {
           "path": "sparse/spmm/arch22/kernels/spmm_kernel_group_axpy.h",
           "lines": "1-120",
           "sha256": "ed6208a4c211f42818a8ba2cbde5c6b8c358965ad20b1835160858fba24905d8",
-          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/spmm/arch22/kernels/spmm_kernel_group_axpy.h"
+          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/spmm/arch22/kernels/spmm_kernel_group_axpy.h",
+          "local_path": "competition/mfg-2026/ops-sparse/source/sparse/spmm/arch22/kernels/spmm_kernel_group_axpy.h"
         }
       ],
       "symbol": "aclsparseSpMM / SelectSpmmRowBlock / group_axpy",
@@ -3502,13 +3532,15 @@
           "path": "sparse/gather/README.md",
           "lines": "1-60",
           "sha256": "b02963b7701fc2da5d4cb8754eeb9b5ca641758c12126af2d1d76f18b47b2ae0",
-          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/gather/README.md"
+          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/gather/README.md",
+          "local_path": "competition/mfg-2026/ops-sparse/source/sparse/gather/README.md"
         },
         {
           "path": "sparse/gather/arch22/gather_host.cpp",
           "lines": "1-120",
           "sha256": "f7ded5ea056a1e3c9d59a46583a818f833808e51b98c3d77eaefcf58cbc4c3de",
-          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/gather/arch22/gather_host.cpp"
+          "url": "https://gitcode.com/cann/ops-sparse/blob/8fae00b8832bf31f1ce26059680bce67c6026c4f/sparse/gather/arch22/gather_host.cpp",
+          "local_path": "competition/mfg-2026/ops-sparse/source/sparse/gather/arch22/gather_host.cpp"
         }
       ],
       "symbol": "aclsparseGather / aclsparseGatherRaw",
@@ -3585,13 +3617,15 @@
           "path": "math/complex_abs/README.md",
           "lines": "1-60",
           "sha256": "3441cc3c26c96d5839743a313898c5be6bb6081acab52598b419fb59f537d01b",
-          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/math/complex_abs/README.md"
+          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/math/complex_abs/README.md",
+          "local_path": "competition/mfg-2026/ops-math/source/math/complex_abs/README.md"
         },
         {
           "path": "math/complex_abs/op_kernel/arch35/complex_abs_dag.h",
           "lines": "23-178",
           "sha256": "60d0750fd1d3fd53fdfe1c322adb4b3f56856c5f0e5d3a8904e9d41aea0d0500",
-          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/math/complex_abs/op_kernel/arch35/complex_abs_dag.h"
+          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/math/complex_abs/op_kernel/arch35/complex_abs_dag.h",
+          "local_path": "competition/mfg-2026/ops-math/source/math/complex_abs/op_kernel/arch35/complex_abs_dag.h"
         }
       ],
       "symbol": "ComplexAbsCustom / ComplexAbsVf",
@@ -3668,19 +3702,22 @@
           "path": "conversion/stack_ball_query/README.md",
           "lines": "1-58",
           "sha256": "9e1d5af15ce7b228d2692b95b418e7f7474f3c7e02797067cd85a874a9b3ab31",
-          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/conversion/stack_ball_query/README.md"
+          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/conversion/stack_ball_query/README.md",
+          "local_path": "competition/mfg-2026/ops-math/source/conversion/stack_ball_query/README.md"
         },
         {
           "path": "conversion/stack_ball_query/op_kernel/stack_ball_query.h",
           "lines": "28-140,281-397",
           "sha256": "4fc295c8429c145575506bd0492097f0ec470d94fd116f1a195a0fcaedee1f19",
-          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/conversion/stack_ball_query/op_kernel/stack_ball_query.h"
+          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/conversion/stack_ball_query/op_kernel/stack_ball_query.h",
+          "local_path": "competition/mfg-2026/ops-math/source/conversion/stack_ball_query/op_kernel/stack_ball_query.h"
         },
         {
           "path": "conversion/stack_ball_query/op_kernel/stack_ball_query.cpp",
           "lines": "17-40",
           "sha256": "21748f67be4b9bc22bab4329c2c1416b32e6bdc404a11b9a1a223019ac788445",
-          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/conversion/stack_ball_query/op_kernel/stack_ball_query.cpp"
+          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/conversion/stack_ball_query/op_kernel/stack_ball_query.cpp",
+          "local_path": "competition/mfg-2026/ops-math/source/conversion/stack_ball_query/op_kernel/stack_ball_query.cpp"
         }
       ],
       "symbol": "KernelStackBallQuery / stack_ball_query",
@@ -3758,13 +3795,15 @@
           "path": "src/utils/complex_solver_kernel.hpp",
           "lines": "49-80",
           "sha256": "488d70e56cc13da6b3570250099343d2ffb312d4f8a0bd4cc59adce9e797e799",
-          "url": "https://gitcode.com/cann/ops-solver/blob/739775a145d7789693f97758f6771bb1b3eb6a8f/src/utils/complex_solver_kernel.hpp"
+          "url": "https://gitcode.com/cann/ops-solver/blob/739775a145d7789693f97758f6771bb1b3eb6a8f/src/utils/complex_solver_kernel.hpp",
+          "local_path": "competition/mfg-2026/ops-solver/source/src/utils/complex_solver_kernel.hpp"
         },
         {
           "path": "docs/zh/complex_solver_migration.md",
           "lines": "1-20",
           "sha256": "28e5229e00e11ae9fbae7d2de69d838afeb8d0e5520453dcf4c072d60b23a5d2",
-          "url": "https://gitcode.com/cann/ops-solver/blob/739775a145d7789693f97758f6771bb1b3eb6a8f/docs/zh/complex_solver_migration.md"
+          "url": "https://gitcode.com/cann/ops-solver/blob/739775a145d7789693f97758f6771bb1b3eb6a8f/docs/zh/complex_solver_migration.md",
+          "local_path": "competition/mfg-2026/ops-solver/source/docs/zh/complex_solver_migration.md"
         }
       ],
       "symbol": "ComplexSolverKernel::Divide / Quotient",

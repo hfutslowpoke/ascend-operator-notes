@@ -77,6 +77,10 @@ for sub in ("competition", "general", "index", "skills", "docs"):
                            "competition/grouped-matmul-gelu/our-submission/",
                            "competition/grouped-matmul-gelu/components/")):
             continue
+        # Selected upstream source snapshots are byte-exact copies; their internal
+        # relative links assume the full repository and are not ours to fix.
+        if rel.startswith("competition/mfg-2026/") and "/source/" in rel:
+            continue
         docs.append(path)
 for path in docs:
     text = path.read_text()

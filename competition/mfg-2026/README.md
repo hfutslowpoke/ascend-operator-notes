@@ -87,7 +87,7 @@
 
 - 作者/官方文档：`A`；源码路径/行号/哈希：`S+L`；本机：`N`。
 - `cann/ops-*` 为 CANN Open Software License Agreement Version 2.0；`Ascend/DrivingSDK` 为 Apache-2.0。
-- 本库只引用源码路径、行号和哈希，不复制第三方源码；源码缓存位于工作区外 `repository-research-cache/mfg-2026/`。
+- 本库把 36 个唯一选中源码文件（39 条引用）复制到各子条目的 `source/`，保留上游路径、固定 commit、URL 和 SHA256；未复制整仓，`source.json` 的 `local_path` 可直接打开。副本是上游原样快照，原文里的相对链接按整仓解析，本地不保证可点开。
 - 不把官方仓的“支持 A2”直接当成本机通过；不把 950-only 实现写成 910B 方案。
 
 ## 7. 后续增量

@@ -212,7 +212,7 @@ def card_view(impl: dict) -> dict:
     one_line = mechanism.split("。", 1)[0][:260]
     source_files = []
     for item in impl.get("source_files", [])[:6]:
-        source_files.append(f"{item.get('path')}:{item.get('lines')}")
+        source_files.append(f"{item.get('local_path') or item.get('path')}:{item.get('lines')}")
     logs = []
     lv = impl.get("local_validation", {})
     if isinstance(lv, dict):

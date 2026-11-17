@@ -21,13 +21,15 @@
           "path": "math/complex_abs/README.md",
           "lines": "1-60",
           "sha256": "3441cc3c26c96d5839743a313898c5be6bb6081acab52598b419fb59f537d01b",
-          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/math/complex_abs/README.md"
+          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/math/complex_abs/README.md",
+          "local_path": "competition/mfg-2026/ops-math/source/math/complex_abs/README.md"
         },
         {
           "path": "math/complex_abs/op_kernel/arch35/complex_abs_dag.h",
           "lines": "23-178",
           "sha256": "60d0750fd1d3fd53fdfe1c322adb4b3f56856c5f0e5d3a8904e9d41aea0d0500",
-          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/math/complex_abs/op_kernel/arch35/complex_abs_dag.h"
+          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/math/complex_abs/op_kernel/arch35/complex_abs_dag.h",
+          "local_path": "competition/mfg-2026/ops-math/source/math/complex_abs/op_kernel/arch35/complex_abs_dag.h"
         }
       ],
       "local_status": "not-run",
@@ -47,19 +49,22 @@
           "path": "conversion/stack_ball_query/README.md",
           "lines": "1-58",
           "sha256": "9e1d5af15ce7b228d2692b95b418e7f7474f3c7e02797067cd85a874a9b3ab31",
-          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/conversion/stack_ball_query/README.md"
+          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/conversion/stack_ball_query/README.md",
+          "local_path": "competition/mfg-2026/ops-math/source/conversion/stack_ball_query/README.md"
         },
         {
           "path": "conversion/stack_ball_query/op_kernel/stack_ball_query.h",
           "lines": "28-140,281-397",
           "sha256": "4fc295c8429c145575506bd0492097f0ec470d94fd116f1a195a0fcaedee1f19",
-          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/conversion/stack_ball_query/op_kernel/stack_ball_query.h"
+          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/conversion/stack_ball_query/op_kernel/stack_ball_query.h",
+          "local_path": "competition/mfg-2026/ops-math/source/conversion/stack_ball_query/op_kernel/stack_ball_query.h"
         },
         {
           "path": "conversion/stack_ball_query/op_kernel/stack_ball_query.cpp",
           "lines": "17-40",
           "sha256": "21748f67be4b9bc22bab4329c2c1416b32e6bdc404a11b9a1a223019ac788445",
-          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/conversion/stack_ball_query/op_kernel/stack_ball_query.cpp"
+          "url": "https://gitcode.com/cann/ops-math/blob/3b2baac63624c32e03781bd9f0290f1a4584f0c7/conversion/stack_ball_query/op_kernel/stack_ball_query.cpp",
+          "local_path": "competition/mfg-2026/ops-math/source/conversion/stack_ball_query/op_kernel/stack_ball_query.cpp"
         }
       ],
       "local_status": "not-run",

@@ -36,6 +36,8 @@
 
 机器索引：[source.json](source.json)。
 
+本地源码副本：[`source/`](source/)（按上游路径保存，字节与固定 commit 一致；`source.json` 的 `local_path` 指向对应文件。上游原文的相对链接假设整仓，本地不保证可解析）。
+
 ## 4. 机制
 
 `Divide(a,b)` 的做法：

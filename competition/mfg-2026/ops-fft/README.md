@@ -46,6 +46,8 @@ aclfftResult aclfftExecC2C(aclfftHandle plan, aclfftComplex* idata, aclfftComple
 
 机器索引：[source.json](source.json)。
 
+本地源码副本：[`source/`](source/)（按上游路径保存，字节与固定 commit 一致；`source.json` 的 `local_path` 指向对应文件。上游原文的相对链接假设整仓，本地不保证可解析）。
+
 ## 4. 机制
 
 1. **2D DFT 拆成两次矩阵乘**：Host 生成 P（N1×N1 DFT 矩阵）和 Q（N2×N2 DFT 矩阵），设备侧按 `P·X·Q` 做二维变换；这比直接 O(N²) 逐点求和更适合 Cube。

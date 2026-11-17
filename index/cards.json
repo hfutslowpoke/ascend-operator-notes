@@ -650,10 +650,10 @@
       ],
       "reuse_decision": "优先复用 P/Q 矩阵乘分解、复数实虚分离、尺寸专用 batch 循环；先在 910B3 构建 fft2_d 并对照 torch.fft.fft2。",
       "source_files": [
-        "docs/zh/API_Reference/FFT_2D.md:1-70",
-        "src/fft2_d/arch32/fft2_d_exec_api.cpp:18-60",
-        "src/fft2_d/arch32/dd/fft2_d_dd.cpp:17-29,31-62,64-112",
-        "src/fft2_d/arch32/dd/fft2_d_dd_kernel.h:50-143,259-420"
+        "competition/mfg-2026/ops-fft/source/docs/zh/API_Reference/FFT_2D.md:1-70",
+        "competition/mfg-2026/ops-fft/source/src/fft2_d/arch32/fft2_d_exec_api.cpp:18-60",
+        "competition/mfg-2026/ops-fft/source/src/fft2_d/arch32/dd/fft2_d_dd.cpp:17-29,31-62,64-112",
+        "competition/mfg-2026/ops-fft/source/src/fft2_d/arch32/dd/fft2_d_dd_kernel.h:50-143,259-420"
       ],
       "evidence": [
         "competition/mfg-2026/evidence/ops-fft_fft2d_build_20261117.log",
@@ -685,9 +685,9 @@
       ],
       "reuse_decision": "优先复用旋转+双 mask+候选输出；先在 910B3 构建/调用并和 CPU 公式对照。",
       "source_files": [
-        "kernels/cylinder_query/op_host/cylinder_query.cpp:1-120",
-        "kernels/cylinder_query/op_kernel/cylinder_query.cpp:60-102,300-350",
-        "mx_driving/ops/cylinder_query.py:29-50"
+        "competition/mfg-2026/driving-sdk/source/kernels/cylinder_query/op_host/cylinder_query.cpp:1-120",
+        "competition/mfg-2026/driving-sdk/source/kernels/cylinder_query/op_kernel/cylinder_query.cpp:60-102,300-350",
+        "competition/mfg-2026/driving-sdk/source/mx_driving/ops/cylinder_query.py:29-50"
       ],
       "evidence": [
         "competition/mfg-2026/evidence/README.md"
@@ -718,9 +718,9 @@
       ],
       "reuse_decision": "优先复用 nearestDist + 每轮 min/max 更新 + 分片；在 910B3 与 CPU 参考逐索引对照。",
       "source_files": [
-        "kernels/furthest_point_sampling/op_kernel/furthest_point_sampling.cpp:115-208",
-        "kernels/furthest_point_sampling/op_host/furthest_point_sampling.cpp:1-100",
-        "docs/zh/api/context/furthest_point_sampling.md:1-39"
+        "competition/mfg-2026/driving-sdk/source/kernels/furthest_point_sampling/op_kernel/furthest_point_sampling.cpp:115-208",
+        "competition/mfg-2026/driving-sdk/source/kernels/furthest_point_sampling/op_host/furthest_point_sampling.cpp:1-100",
+        "competition/mfg-2026/driving-sdk/source/docs/zh/api/context/furthest_point_sampling.md:1-39"
       ],
       "evidence": [
         "competition/mfg-2026/evidence/README.md"
@@ -751,9 +751,9 @@
       ],
       "reuse_decision": "优先复用 batch 分核 + 半径平方 + 截断；在 910B3 与 CPU 暴力搜索对照。",
       "source_files": [
-        "kernels/radius/op_host/radius.cpp:1-100",
-        "kernels/radius/op_kernel/radius.cpp:1-120",
-        "docs/zh/api/context/radius.md:1-50"
+        "competition/mfg-2026/driving-sdk/source/kernels/radius/op_host/radius.cpp:1-100",
+        "competition/mfg-2026/driving-sdk/source/kernels/radius/op_kernel/radius.cpp:1-120",
+        "competition/mfg-2026/driving-sdk/source/docs/zh/api/context/radius.md:1-50"
       ],
       "evidence": [
         "competition/mfg-2026/evidence/README.md"
@@ -784,8 +784,8 @@
       ],
       "reuse_decision": "只作为 910B GatherCoo 的算法参考（slab 合并）；不能直接构建/复用 arch35 代码。",
       "source_files": [
-        "csrc/npu/gather_coo/op_kernel/arch35/gather_coo_kernel.h:24-110",
-        "docs/zh/api_reference.md:533-563"
+        "competition/mfg-2026/ops-gnn/source/csrc/npu/gather_coo/op_kernel/arch35/gather_coo_kernel.h:24-110",
+        "competition/mfg-2026/ops-gnn/source/docs/zh/api_reference.md:533-563"
       ],
       "evidence": [
         "competition/mfg-2026/evidence/README.md"
@@ -816,9 +816,9 @@
       ],
       "reuse_decision": "优先复用模板化 reduce/流式行 tile/空段填充；在 910B3 构建 arch22 并对照 scatter 参考。",
       "source_files": [
-        "csrc/npu/segment_csr/op_kernel/arch22/segment_csr.cpp:22-61",
-        "csrc/npu/segment_csr/op_kernel/arch22/segment_csr_common.h:35-61",
-        "docs/zh/api_reference.md:73-140"
+        "competition/mfg-2026/ops-gnn/source/csrc/npu/segment_csr/op_kernel/arch22/segment_csr.cpp:22-61",
+        "competition/mfg-2026/ops-gnn/source/csrc/npu/segment_csr/op_kernel/arch22/segment_csr_common.h:35-61",
+        "competition/mfg-2026/ops-gnn/source/docs/zh/api_reference.md:73-140"
       ],
       "evidence": [
         "competition/mfg-2026/evidence/README.md"
@@ -849,8 +849,8 @@
       ],
       "reuse_decision": "只作为 910B RandomWalk 的算法参考（Philox/分组采样）；不能直接构建 arch35 代码。",
       "source_files": [
-        "csrc/npu/random_walk/op_kernel/arch35/random_walk.h:18-33",
-        "docs/zh/api_reference.md:688-730"
+        "competition/mfg-2026/ops-gnn/source/csrc/npu/random_walk/op_kernel/arch35/random_walk.h:18-33",
+        "competition/mfg-2026/ops-gnn/source/docs/zh/api_reference.md:688-730"
       ],
       "evidence": [
         "competition/mfg-2026/evidence/README.md"
@@ -881,8 +881,8 @@
       ],
       "reuse_decision": "优先复用 reduce 枚举/Reducer/行分组；在 910B3 构建 arch22 并对照 torch_sparse。",
       "source_files": [
-        "csrc/npu/common/spmm/spmm_utils.h:210-241",
-        "docs/zh/api_reference.md:197-199"
+        "competition/mfg-2026/ops-gnn/source/csrc/npu/common/spmm/spmm_utils.h:210-241",
+        "competition/mfg-2026/ops-gnn/source/docs/zh/api_reference.md:197-199"
       ],
       "evidence": [
         "competition/mfg-2026/evidence/README.md"
@@ -913,7 +913,7 @@
       ],
       "reuse_decision": "只作为 910B GridCluster 的算法参考；需要重写 SIMT/Vector 路径。",
       "source_files": [
-        "csrc/npu/grid_cluster/op_kernel/arch35/grid_cluster.cpp:15-120,135-221"
+        "competition/mfg-2026/ops-gnn/source/csrc/npu/grid_cluster/op_kernel/arch35/grid_cluster.cpp:15-120,135-221"
       ],
       "evidence": [
         "competition/mfg-2026/evidence/README.md"
@@ -944,10 +944,10 @@
       ],
       "reuse_decision": "优先复用 symbolic+numeric+merge 多阶段；在 910B3 用小图验证结构/数值。",
       "source_files": [
-        "sparse/spgemm/README.md:1-40",
-        "sparse/spgemm/arch22/spgemm_host.cpp:654-720,1066-1120",
-        "sparse/spgemm/arch22/spgemm_symbolic_kernel.cpp:1-120",
-        "sparse/spgemm/arch22/spgemm_numeric_kernel.cpp:1-120"
+        "competition/mfg-2026/ops-sparse/source/sparse/spgemm/README.md:1-40",
+        "competition/mfg-2026/ops-sparse/source/sparse/spgemm/arch22/spgemm_host.cpp:654-720,1066-1120",
+        "competition/mfg-2026/ops-sparse/source/sparse/spgemm/arch22/spgemm_symbolic_kernel.cpp:1-120",
+        "competition/mfg-2026/ops-sparse/source/sparse/spgemm/arch22/spgemm_numeric_kernel.cpp:1-120"
       ],
       "evidence": [
         "competition/mfg-2026/evidence/README.md"
@@ -978,9 +978,9 @@
       ],
       "reuse_decision": "优先复用行分块/group axpy/Kahan；在 910B3 先 fp32 再 fp16/bf16。",
       "source_files": [
-        "sparse/spmm/README.md:1-120",
-        "sparse/spmm/arch22/spmm_host.cpp:201-330",
-        "sparse/spmm/arch22/kernels/spmm_kernel_group_axpy.h:1-120"
+        "competition/mfg-2026/ops-sparse/source/sparse/spmm/README.md:1-120",
+        "competition/mfg-2026/ops-sparse/source/sparse/spmm/arch22/spmm_host.cpp:201-330",
+        "competition/mfg-2026/ops-sparse/source/sparse/spmm/arch22/kernels/spmm_kernel_group_axpy.h:1-120"
       ],
       "evidence": [
         "competition/mfg-2026/evidence/README.md"
@@ -1011,8 +1011,8 @@
       ],
       "reuse_decision": "只作为 dense gather 参考；GatherCoo 需要 ops-gnn 语义或另写 910B COO 扩展。",
       "source_files": [
-        "sparse/gather/README.md:1-60",
-        "sparse/gather/arch22/gather_host.cpp:1-120"
+        "competition/mfg-2026/ops-sparse/source/sparse/gather/README.md:1-60",
+        "competition/mfg-2026/ops-sparse/source/sparse/gather/arch22/gather_host.cpp:1-120"
       ],
       "evidence": [
         "competition/mfg-2026/evidence/README.md"
@@ -1043,8 +1043,8 @@
       ],
       "reuse_decision": "只作为 910B ComplexAbs 的算法参考；需另写 arch22/Vector 版本。",
       "source_files": [
-        "math/complex_abs/README.md:1-60",
-        "math/complex_abs/op_kernel/arch35/complex_abs_dag.h:23-178"
+        "competition/mfg-2026/ops-math/source/math/complex_abs/README.md:1-60",
+        "competition/mfg-2026/ops-math/source/math/complex_abs/op_kernel/arch35/complex_abs_dag.h:23-178"
       ],
       "evidence": [
         "competition/mfg-2026/evidence/README.md"
@@ -1076,9 +1076,9 @@
       ],
       "reuse_decision": "优先复用堆叠/分段/提前停；在 910B3 构建 ascend910b 配置并对 GEIR 用例。",
       "source_files": [
-        "conversion/stack_ball_query/README.md:1-58",
-        "conversion/stack_ball_query/op_kernel/stack_ball_query.h:28-140,281-397",
-        "conversion/stack_ball_query/op_kernel/stack_ball_query.cpp:17-40"
+        "competition/mfg-2026/ops-math/source/conversion/stack_ball_query/README.md:1-58",
+        "competition/mfg-2026/ops-math/source/conversion/stack_ball_query/op_kernel/stack_ball_query.h:28-140,281-397",
+        "competition/mfg-2026/ops-math/source/conversion/stack_ball_query/op_kernel/stack_ball_query.cpp:17-40"
       ],
       "evidence": [
         "competition/mfg-2026/evidence/README.md"
@@ -1109,8 +1109,8 @@
       ],
       "reuse_decision": "只复用算法（缩放+补偿商）；在 910B 写 Vector 版 ComplexDiv，并问题面 dtype/特殊值。",
       "source_files": [
-        "src/utils/complex_solver_kernel.hpp:49-80",
-        "docs/zh/complex_solver_migration.md:1-20"
+        "competition/mfg-2026/ops-solver/source/src/utils/complex_solver_kernel.hpp:49-80",
+        "competition/mfg-2026/ops-solver/source/docs/zh/complex_solver_migration.md:1-20"
       ],
       "evidence": [
         "competition/mfg-2026/evidence/README.md"

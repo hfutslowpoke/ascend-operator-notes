@@ -21,13 +21,15 @@
           "path": "src/utils/complex_solver_kernel.hpp",
           "lines": "49-80",
           "sha256": "488d70e56cc13da6b3570250099343d2ffb312d4f8a0bd4cc59adce9e797e799",
-          "url": "https://gitcode.com/cann/ops-solver/blob/739775a145d7789693f97758f6771bb1b3eb6a8f/src/utils/complex_solver_kernel.hpp"
+          "url": "https://gitcode.com/cann/ops-solver/blob/739775a145d7789693f97758f6771bb1b3eb6a8f/src/utils/complex_solver_kernel.hpp",
+          "local_path": "competition/mfg-2026/ops-solver/source/src/utils/complex_solver_kernel.hpp"
         },
         {
           "path": "docs/zh/complex_solver_migration.md",
           "lines": "1-20",
           "sha256": "28e5229e00e11ae9fbae7d2de69d838afeb8d0e5520453dcf4c072d60b23a5d2",
-          "url": "https://gitcode.com/cann/ops-solver/blob/739775a145d7789693f97758f6771bb1b3eb6a8f/docs/zh/complex_solver_migration.md"
+          "url": "https://gitcode.com/cann/ops-solver/blob/739775a145d7789693f97758f6771bb1b3eb6a8f/docs/zh/complex_solver_migration.md",
+          "local_path": "competition/mfg-2026/ops-solver/source/docs/zh/complex_solver_migration.md"
         }
       ],
       "local_status": "not-run",

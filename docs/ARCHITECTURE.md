@@ -111,7 +111,7 @@
 由 `tools/build_index.py` 从 `index/catalog.json` 生成，避免手抄漂移。字段见 [index/entry-schema.json](../index/entry-schema.json)。核心字段：
 
 - `entry`、`tier`、`repository`、`commit`、`license`；
-- `implementations[]`：算子、族、源码文件（路径、行号、SHA256、原始 URL）；
+- `implementations[]`：算子、族、源码文件（路径、行号、SHA256、原始 URL；复制到条目 `source/` 时附 `local_path`）；
 - `local_validation`：本机状态、环境、日志路径、结论；
 - `generated_from`：固定指向 `index/catalog.json`。
 

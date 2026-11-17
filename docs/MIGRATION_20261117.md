@@ -169,6 +169,8 @@ review_mat-chem-sim-pred, mfg-2026, local-validation-20261117,
 kb-restructure-20261117, mfg/competition/tree HTML, add_mfg_catalog.py
 释放：约 21 MiB；仓库内证据/哈希/驱动保留
 注：首次提交时 `*.log` 忽略规则使两份 FFT 日志未入 Git；已为 `competition/mfg-2026/evidence/` 加例外并在 17e3be0 跟踪，当前远端 `main` 可检出日志。
+
+制造专场的 36 个唯一选中源码文件（39 条引用）已按上游路径复制到 `competition/mfg-2026/<entry>/source/`；`source.json` 的 `local_path` 与 SHA256 可直接核对，外部缓存删除后仓库仍自包含这些选中文件。
 ```
 
 更早批次的 `local-validation-20261116/` 与来源缓存未删除；它们不是本批临时产物，保留供对照。清理后 `verify_archive.py` 仍为 `ok: true`。
