@@ -2900,6 +2900,11 @@
           "type": "local-validation",
           "value": "not-run; A2 generic path, build pending.",
           "source": "competition/mfg-2026/evidence/README.md"
+        },
+        {
+          "type": "algorithm-reference",
+          "value": "AnyGrasp cylinder_query_gpu.cu confirms rot^T*delta, strict d2<radius2 and hmin<x<hmax, ascending-k first-K, fill first hit, zero hits all 0.",
+          "source": "https://github.com/graspnet/anygrasp_sdk/blob/b8eaafc9eca7babd5208e7a5ade3c561060be4c5/pointnet2/pointnet2/_ext_src/src/cylinder_query_gpu.cu#L14-L61"
         }
       ],
       "conditions": [
@@ -2961,7 +2966,8 @@
       "official_negative_cases": [
         "DrivingSDK kernel 的旋转方向是 rot^T·Δ，与官方一致；但 Python 层 `sortRes` 会排序后截断，官方要求扫描序 first-K",
         "DrivingSDK 输出全量候选，再由 Python 排序；官方直接输出 [B,M,nsample]",
-        "float16 输入需确认 host/kernel 是否先转 float32"
+        "float16 输入需确认 host/kernel 是否先转 float32",
+        "AnyGrasp reference confirms rot^T delta and first-K; DrivingSDK Python sort is the remaining official-semantics mismatch."
       ]
     },
     {
@@ -3018,6 +3024,11 @@
           "type": "local-validation",
           "value": "not-run.",
           "source": "competition/mfg-2026/evidence/README.md"
+        },
+        {
+          "type": "algorithm-reference",
+          "value": "torch_cluster fps_cpu.cpp uses (x-x[idx]).pow_(2).sum(1) and argmax first-max, i.e. smallest-index tie; random_start/ratio are not the official npoint interface.",
+          "source": "https://github.com/rusty1s/pytorch_cluster/blob/e9a855c284b45edcbf0282cf70ac09bee0ce4e49/csrc/cpu/fps_cpu.cpp#L7-L53"
         }
       ],
       "conditions": [
@@ -3080,7 +3091,8 @@
         "源码有总元素 B*N*3≤383166 的约束；官方测试规模远小于此",
         "需本机确认 half 路径与并列 tie-break 逐位一致",
         "gcw_i0yFZkCV/ops-gnn-fps-950 是 950 社区任务，接口是 torch_cluster fps(src, ratio, random_start, ptr)，不是官方 furthest_point_sampling(points, npoint)。",
-        "该仓记录 torch_cluster fp16 计数差异（10000 点 ratio=0.3 得 3001 vs float32 3000）与 mod-256 lane tie-break；官方制造题用 npoint、首点 0、最小索引 tie，不能照搬。"
+        "该仓记录 torch_cluster fp16 计数差异（10000 点 ratio=0.3 得 3001 vs float32 3000）与 mod-256 lane tie-break；官方制造题用 npoint、首点 0、最小索引 tie，不能照搬。",
+        "torch_cluster argmax first-max confirms smallest-index tie; FP16 per-dim rounding vs FP32 accumulation must be tested against official mx_driving."
       ],
       "supporting_sources": [
         {
@@ -3184,6 +3196,11 @@
           "type": "local-validation",
           "value": "not-run.",
           "source": "competition/mfg-2026/evidence/README.md"
+        },
+        {
+          "type": "algorithm-reference",
+          "value": "torch_cluster radius_cpu.cpp uses KD-tree radiusSearch(r*r), unsorted order and dynamic [2,E]; ignore_same_index compares global indices. Official requires scan-order first-K and fixed slots.",
+          "source": "https://github.com/rusty1s/pytorch_cluster/blob/e9a855c284b45edcbf0282cf70ac09bee0ce4e49/csrc/cpu/radius_cpu.cpp#L31-L110"
         }
       ],
       "conditions": [
@@ -3244,7 +3261,8 @@
       "official_negative_cases": [
         "DrivingSDK radius 输出动态 [2,E]，官方要求定槽位 [2,M×K] 且未命中 (-1,-1)",
         "源码约束 Ndim<9、batch≤1024、单 batch 点数≤512；官方 D∈{2,3}、N/M≤1e6",
-        "官方有 ignore_same_index；源码需核对该属性"
+        "官方有 ignore_same_index；源码需核对该属性",
+        "torch_cluster KD-tree order/dynamic output cannot be reused; official is scan-order first-K fixed slots and d2<=r2."
       ]
     },
     {
@@ -3410,6 +3428,11 @@
           "type": "local-validation",
           "value": "not-run; arch22 A2/A3 path exists.",
           "source": "competition/mfg-2026/evidence/README.md"
+        },
+        {
+          "type": "algorithm-reference",
+          "value": "pyg-lib segment_min_csr CPU source confirms sentinel E, max-init, strict < first-match, empty out=0, int64 arg_out; official semantics match.",
+          "source": "https://github.com/pyg-team/pyg-lib/blob/d13e20662aaa075c82ab9c814f8c39789425bf7a/pyg_lib/csrc/ops/cpu/segment_csr_kernel.cpp#L256-L404"
         }
       ],
       "conditions": [
@@ -3471,7 +3494,8 @@
         "需确认 Python 入口返回 (values, indices) 与官方两个输出张量的绑定方式",
         "源码还支持 sum/max/mean 等，官方只要求 min",
         "HIT1920/torch_scatter_npu SegmentMinCsr 是 A2/A3，但 indptr 为 int32、只输出 out、空段填 dtype 最大值；官方要求 int64、out+arg_out、空段 0/E。",
-        "同仓 Segment_Coo 的 min/max 返回 (value,arg)，但相等极值保留最后一次出现；官方 SegmentMinCsr 要求首遇 tie-break。"
+        "同仓 Segment_Coo 的 min/max 返回 (value,arg)，但相等极值保留最后一次出现；官方 SegmentMinCsr 要求首遇 tie-break。",
+        "pyg-lib CPU source at d13e206 confirms the exact official rules; ops-gnn arch22 remains direct candidate but still not locally built."
       ],
       "supporting_sources": [
         {
@@ -4572,6 +4596,11 @@
           "type": "local-validation",
           "value": "not-run; A2 config exists.",
           "source": "competition/mfg-2026/evidence/README.md"
+        },
+        {
+          "type": "algorithm-reference",
+          "value": "AnyGrasp ball_query_gpu.cu confirms strict d2<radius2, ascending-k first-K, fill first hit, zero hits all 0.",
+          "source": "https://github.com/graspnet/anygrasp_sdk/blob/b8eaafc9eca7babd5208e7a5ade3c561060be4c5/pointnet2/pointnet2/_ext_src/src/ball_query_gpu.cu#L14-L58"
         }
       ],
       "conditions": [
@@ -4633,7 +4662,8 @@
       "official_negative_cases": [
         "stack_ball_query 输入是 2D 堆叠布局 + batch counts，官方是 [B,N,3]/[B,M,3]",
         "stack_ball_query 在 float16 路径把 radius² 先转 half，官方要求 float32 阈值语义",
-        "ops-math 直接版 ball_query 有 min_radius/max_radius 语义，官方只有单 radius；且直接版只有 arch35"
+        "ops-math 直接版 ball_query 有 min_radius/max_radius 语义，官方只有单 radius；且直接版只有 arch35",
+        "AnyGrasp reference confirms strict d2<r2 and first-K; converting radius^2 to half is an official-semantics mismatch."
       ]
     },
     {

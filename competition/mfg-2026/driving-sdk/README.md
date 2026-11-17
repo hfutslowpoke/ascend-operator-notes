@@ -38,6 +38,8 @@ mx_driving.radius(x, y, ptr_x, ptr_y, r, max_num_neighbors) -> Tensor
 
 源码约束：`Ndim < 9`、`batch_size <= 1024`、单 batch 点数 `<= 512`；支持 A2/A3/950。官方约束是 `D∈{2,3}`、`N,M≤1e6`、`M×max_num_neighbors≤4e6`、定槽位输出，二者不可混用。
 
+上游核对：torch_cluster `radius_cpu.cpp`（commit `e9a855c`）用 nanoflann KD-tree `radiusSearch(r*r)`、`params.sorted=false`、动态 `[2,E]`，`ignore_same_index` 比较全局索引。KD-tree 顺序不是官方扫描序，动态输出也不是官方定槽位；只能复用 `r*r` 阈值和 `ignore_same_index` 语义，不能复用输出顺序/形状。官方 Radius 用 `d² <= r²`（含边界），BallQuery/CylinderQuery 用严格 `<`，三者不要共用比较符。详见 [算法参考核对](../../../docs/research/MFG2026_ALGORITHM_REFERENCES_20261117.md#4-radiustorch_cluster-的顺序不能直接搬)。
+
 ### 2.2 FurthestPointSample（13）
 
 ```python
@@ -46,6 +48,7 @@ mx_driving.furthest_point_sampling(points, num_points) -> Tensor
 
 - `points`: `[B,N,3]`，FP32/FP16/BF16；输出 `[B,num_points]` int32；
 - 迭代选最远点；源码约束 `B*N*3 <= 383166`；支持 A2/A3/950。官方测试规模为 `N≤2048`、`B≤4`、`npoint≤128`，远小于源码上限。
+- 上游核对：torch_cluster `fps_cpu.cpp`（commit `e9a855c`）用 `(x-x[idx]).pow_(2).sum(1)` + `argmax`，`argmax` 的首最大值语义就是官方“并列取最小输入索引”；但 `ratio`/`ceil`/`random_start` 不是官方 `npoint` 接口。详见 [算法参考核对](../../../docs/research/MFG2026_ALGORITHM_REFERENCES_20261117.md#5-fpstorch_cluster-的-tie-是最小索引但-countratio-不是官方接口)。
 
 #### 2.2.1 950 社区任务的 FPS 踩坑（只能作精度对照）
 
@@ -66,6 +69,7 @@ mx_driving.cylinder_query(radius, hmin, hmax, nsample, new_xyz, xyz, rot)
 - `new_xyz`: 查询中心；`xyz`: 点云；`rot`: 每个 query 的 3×3 旋转（9 元素）；
 - 在局部坐标下按 `y²+z² < radius²` 且 `hmin < x < hmax` 选点；
 - 输出先为全量候选，Python `sort` 后取前 `nsample`，miss 用首索引填充。
+- 上游核对：AnyGrasp SDK `cylinder_query_gpu.cu`（commit `b8eaafc`）计算 `x_rot=r0*dx+r3*dy+r6*dz`（即 `rot^T·Δ`），严格 `d²<r²` 且 `hmin<x_rot<hmax`，k 升序 first-K、不足重复首个命中、零命中全 0。DrivingSDK kernel 与之一致；**Python 排序是唯一语义差异**。详见 [算法参考核对](../../../docs/research/MFG2026_ALGORITHM_REFERENCES_20261117.md#2-cylinderqueryrottδ-已由-anygrasp-源码确认)。
 
 ## 3. 源码定位
 

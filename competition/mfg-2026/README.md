@@ -15,7 +15,7 @@
 | 评测 | CANN Judge 精度校验 + 运行性能/耗时排名 |
 | 开源要求 | 获奖者须在指定 AtomGit 仓开源并合入 PR，同时发布技术总结 |
 
-本条目不是“参赛提交”，而是把公开官方/生产源码映射到 15 道题，并用官方题面校正“源码能做什么、不能做什么”。完整公开题面已保存到 [official/descriptions/](official/descriptions/)，机器可读摘要在 [official/specs.json](official/specs.json)。
+本条目不是“参赛提交”，而是把公开官方/生产源码映射到 15 道题，并用官方题面校正“源码能做什么、不能做什么”。6 个 adapt 题的具体改造步骤见 [adapters.md](adapters.md)；上游 tie/空段/first-K 语义见 [算法参考核对](../../docs/research/MFG2026_ALGORITHM_REFERENCES_20261117.md)。完整公开题面已保存到 [official/descriptions/](official/descriptions/)，机器可读摘要在 [official/specs.json](official/specs.json)。
 
 ## 2. 15 题与源码覆盖
 
@@ -113,6 +113,20 @@
 - 本库把 75 个唯一选中源码文件（78 条引用）复制到各子条目的 `source/` 或 `supporting/`，保留上游路径、固定 commit、URL 和 SHA256；未复制整仓，`source.json` 的 `local_path` 可直接打开。副本是上游原样快照，原文里的相对链接按整仓解析，本地不保证可点开。
 - 官方题面只保存公开描述，不包含隐藏测试数据；`/api/testcases/<id>` 返回 403，未绕过。
 - 不把官方仓的“支持 A2”直接当成本机通过；不把 950-only 实现写成 910B 方案。
+
+### 6.1 上游算法参考核对
+
+除了 Ascend 源码，本库还用公开 CPU/CUDA 参考实现核对了官方边界语义，详见 [MFG2026_ALGORITHM_REFERENCES_20261117.md](../../docs/research/MFG2026_ALGORITHM_REFERENCES_20261117.md)：
+
+| 题 | 参考 | 核对结论 |
+|---|---|---|
+| 07 `SegmentMinCsr` | pyg-lib `segment_csr_kernel.cpp` | `arg_out=E`、空段 `out=0`、严格 `<` 首遇，与官方逐条一致 |
+| 13 `FPS` | torch_cluster `fps_cpu.cpp` | `argmax` 首最大值 = 最小索引 tie；ratio/count 不是官方接口 |
+| 11 `Radius` | torch_cluster `radius_cpu.cpp` | `ignore_same_index` 一致；KD-tree 顺序/动态输出不能复用 |
+| 14 `BallQuery` | AnyGrasp `ball_query_gpu.cu` | 严格 `d²<r²`、first-K、不足重复首个、零命中全 0 |
+| 15 `CylinderQuery` | AnyGrasp `cylinder_query_gpu.cu` | `rot^T·Δ`、严格边界、first-K、不足重复首个、零命中全 0 |
+
+这些参考只用于核对语义，不是 Ascend 实现；实际复用代码前阅读对应 LICENSE。
 
 ## 7. 后续增量
 

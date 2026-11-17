@@ -95,6 +95,7 @@
 - 每个线程处理多个 query（grid-stride）；
 - 用 `UintDiv` magic 把 `qIdx` 分解成 `(m,b)`；
 - 对每个 query 扫描 N 个点，`d² = (cx-x)² + ...`；源码命中条件 `d²==0 || minR² <= d² < maxR²`；**官方只有 `d² < radius²`**，两者不同；
+- 上游核对：AnyGrasp SDK `ball_query_gpu.cu`（commit `b8eaafc`）使用严格 `d² < radius²`、k 升序 first-K、不足重复首个命中、零命中全 0；官方单半径语义与它一致。详见 [算法参考核对](../../../docs/research/MFG2026_ALGORITHM_REFERENCES_20261117.md#3-ballquery严格--与-first-k-已确认)。
 - 命中按 k 顺序写入 `idx`；不足 `sample_num` 用首命中填充；零命中写 0；
 - 不涉及 atomic，输出确定。
 

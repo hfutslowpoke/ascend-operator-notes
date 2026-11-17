@@ -87,6 +87,8 @@
 - min/max 走极值路径，sum 走有序浮点路径；官方空段 `out=0`、`arg_out=E`；源码 `HasArg` 路径实现了 arg 输出与空段哨兵，需核对 `M=E`；
 - 多 AIV 按 unit 切分，`ProcessSingleUnit`/`ProcessOutputGroup` 处理单输出/输出分组。
 
+上游核对：pyg-lib `segment_min_csr` CPU 实现（commit `d13e206`，`segment_csr_kernel.cpp:279-404`）使用 `arg_out=E` 哨兵、`out` 初值 `numeric_limits::max()`、严格 `<` 首遇、空段 `out=0`，与官方逐条一致；详见 [算法参考核对](../../../docs/research/MFG2026_ALGORITHM_REFERENCES_20261117.md#6-segmentmincsrpyg-lib-源码与官方逐条一致)。这加强了 `direct` 分级，但仍需本机 910B3 构建。
+
 ### 4.2 SpmmSum（09，A2/A3）
 
 - `SpmmReduce` 枚举 sum/max/min/mean；`SpmmReducer` 给 half 等类型初值和 apply；
