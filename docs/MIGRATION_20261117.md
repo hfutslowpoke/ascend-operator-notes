@@ -134,5 +134,40 @@ git diff --check: pass
 - [x] `verify_archive.py` `ok: true`
 - [x] Markdown 链接/表格检查通过（归档第三方原样文件除外）
 - [x] `git diff --check` 通过
-- [ ] 远端分支可访问
-- [ ] 本地暂存备份已删除
+- [x] 远端分支可访问（`main` 与 `architecture/two-tier-knowledge-base-20261117` 均为 `c1f6283`）
+- [x] 本地暂存备份已删除
+
+### 8.2 制造专场增量与清理（2026-11-17）
+
+```text
+提交：c1f6283c6f5f5b551a3b0b92778d44d0d32e11d6
+范围：2026 制造行业算子专场 6 个官方/生产仓、15 份实现映射
+python3 tools/build_index.py --check: pass
+python3 tools/verify_archive.py:
+  ok: true
+  public_files=248 own_copied_files=69 python_syntax=26 json=69 errors=[]
+Markdown 链接：540 条；本库文档 0 断链
+Markdown 表格：202 个；列数不一致 0
+git diff --check: pass
+```
+
+本机 910B3 结果：
+
+```text
+ops-fft/fft2_d, CANN 9.1.0, Ascend 910B3 physical NPU 2 / ACL logical 0
+build: ./build.sh --ops=fft2_d --soc=Ascend910B --pkg -j8  -> success
+run:   32x32 batch=1 complex64 impulse vs analytic DFT
+       5 runs, best 0.1537 ms, max_abs=9.086799e-08, max_rel=9.086799e-08, bad=0
+```
+
+清理的当前批次临时数据（均在 `repository-research-cache/` 下）：
+
+```text
+review_ops-fft, review_ops-gnn, review_ops-sparse, review_ops-math,
+review_ops-cv, review_ops-solver, review_DrivingSDK,
+review_mat-chem-sim-pred, mfg-2026, local-validation-20261117,
+kb-restructure-20261117, mfg/competition/tree HTML, add_mfg_catalog.py
+释放：约 21 MiB；仓库内证据/哈希/驱动保留
+```
+
+更早批次的 `local-validation-20261116/` 与来源缓存未删除；它们不是本批临时产物，保留供对照。清理后 `verify_archive.py` 仍为 `ok: true`。
