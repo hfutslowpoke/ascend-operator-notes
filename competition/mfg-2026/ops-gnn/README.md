@@ -75,7 +75,7 @@
   - `Segment_Coo` 是 COO/index 归约，不是官方 CSR 行切片。
 - 本地副本：`supporting/torch_scatter_npu/`（15 个文件，含 LICENSE、两份 README、kernel/host/tiling、AclNN 调用示例、Segment_Coo arch2201 min kernel）；来源/边界见 [`PROVENANCE.md`](supporting/torch_scatter_npu/PROVENANCE.md)。
 - 复用判断：只把它当**构建/调用骨架**和 kernel 写法参考；官方候选仍是本仓 `ops-gnn` 的 arch22 `segment_min_csr`，并需补齐 int64、arg_out、空段 0/E、首遇 tie-break。
-- 本机状态：**BUILD PASS**（2026-11-17，CANN 9.1.0 / 910B3 工具链，`install.sh -v Ascend910B3` 成功生成 910B 自定义算子包）；AclNN 用例在 `bin/npu-lock` 排队，运行结果未出，不能写 `pass`。见 [构建记录](../evidence/segment_min_csr_alt_20261117.md)。
+- 本机状态：**BUILD+RUN PASS（仅示例）**（CANN 9.1.0 / 910B3；`install_rc=0`，AclNN `8×2048` float32、int32 indptr、4 段含空段，`golden==output`，`run_rc=0`）。这只证明骨架能构建/调用，**不是官方语义**；主 `ops-gnn` 实现仍未跑。见 [构建/运行记录](../evidence/segment_min_csr_alt_20261117.md)。
 
 ## 4. 机制
 
@@ -116,7 +116,7 @@
 ## 5. 910B 适用性与证据
 
 - 只有 `segment_csr`/`spmm` 有 arch22 路径；其余为 arch35-only，**不能直接构建到 910B**。
-- 本批未构建/未运行：`local_status=not-run`；没有作者性能数字。补充来源 `HIT1920/torch_scatter_npu` 同样未在本机构建。
+- 主实现未构建/未运行：`local_status=not-run`；没有作者性能数字。补充来源 `HIT1920/torch_scatter_npu` 已在本机构建，并在 `8×2048` 示例上运行 PASS（int32 indptr、非官方语义）。
 - 构建 `ops-gnn` 需要 PyTorch/torch_npu + CANN 9.1 + CMake；全量构建较重，可先跑 `test/segment_csr/arch22` 与 `test/spmm/arch22`。
 - 950-only 算子只能作为算法参考，不能在 910B3 上宣称通过。
 

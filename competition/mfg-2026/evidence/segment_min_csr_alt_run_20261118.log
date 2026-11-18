@@ -1,0 +1,41 @@
+[INFO] 写入 /workspace/acw/var/private/repository-research-cache/mfg-refs-20261117/segment-alt/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/input/src_single_case.bin | shape=(8, 2048), dtype=float32
+[INFO] 写入 /workspace/acw/var/private/repository-research-cache/mfg-refs-20261117/segment-alt/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/input/indptr_single_case.bin | shape=(5,), dtype=int32
+[INFO] 写入 /workspace/acw/var/private/repository-research-cache/mfg-refs-20261117/segment-alt/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/output/golden_single_case.bin | shape=(4, 2048), dtype=float32
+[INFO] 写入 /workspace/acw/var/private/repository-research-cache/mfg-refs-20261117/segment-alt/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/input/shape_single_case.txt | 描述 float32 形状信息
+src shape: (8, 2048)
+indptr: [0 0 5 8 8]
+out shape: (4, 2048)
+[INFO] 用例 single_case 数据生成完毕
+INFO: generate input data success!
+-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- env INC_PATH: /usr/local/Ascend/cann-9.1.0
+-- env LIB_PATH: /usr/local/Ascend/cann-9.1.0/lib64
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /workspace/acw/var/private/repository-research-cache/mfg-refs-20261117/segment-alt/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/build
+[ 50%] Building CXX object CMakeFiles/execute_segment_min_csr_float32.dir/main.cpp.o
+[100%] Linking CXX executable execute_segment_min_csr_float32
+[100%] Built target execute_segment_min_csr_float32
+[INFO]  Running SegmentMinCsr test case: single_case
+[INFO]  Input preparation success.
+[INFO]  Output preparation success.
+[INFO]  Write output success.
+[INFO]  Successfully completed SegmentMinCsr test case!
+[INFO] out tensor compare pass
+
+#####################################
+INFO: SegmentMinCsr precision PASS!
+#####################################
+
+run_rc=0

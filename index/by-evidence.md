@@ -54,7 +54,7 @@
 | `MFG2026-GNN-GATHER-COO` | `competition` | [README](../competition/mfg-2026/ops-gnn/README.md) | not-run; 950-only reference |
 | `MFG2026-GNN-GRID-CLUSTER` | `competition` | [README](../competition/mfg-2026/ops-gnn/README.md) | not-run; 950-only reference |
 | `MFG2026-GNN-RANDOM-WALK` | `competition` | [README](../competition/mfg-2026/ops-gnn/README.md) | not-run; 950-only reference |
-| `MFG2026-GNN-SEGMENT-MIN-CSR` | `competition` | [README](../competition/mfg-2026/ops-gnn/README.md) | not-run; A2/A3 arch22 exists Alternative standalone A2/A3 project archived as supporting_sources; not locally run and not official-semantics compliant. Supporting alt project build PASS only; main ops-gnn implementation still not-run. |
+| `MFG2026-GNN-SEGMENT-MIN-CSR` | `competition` | [README](../competition/mfg-2026/ops-gnn/README.md) | Supporting alt project build+run PASS on its own 8x2048 sample; main ops-gnn implementation still not-run; official int64/arg_out/empty-0/first-tie semantics not covered by the alt project. |
 | `MFG2026-GNN-SPMM` | `competition` | [README](../competition/mfg-2026/ops-gnn/README.md) | not-run; A2/A3 arch22 exists |
 | `MFG2026-MATH-COMPLEX-ABS` | `competition` | [README](../competition/mfg-2026/ops-math/README.md) | not-run; 950-only reference |
 | `MFG2026-MATH-COMPLEX-EXP-BLOCKS` | `competition` | [README](../competition/mfg-2026/ops-math/README.md) | building block composition; no end-to-end official-problem run |

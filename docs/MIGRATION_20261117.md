@@ -140,7 +140,7 @@ git diff --check: pass
 ### 8.2 制造专场增量与清理（2026-11-17）
 
 ```text
-提交：c1f6283c6f5f5b551a3b0b92778d44d0d32e11d6（批次）；17e3be0586d0fac3e3cdbbf6cec412a28583884f（evidence 日志跟踪修复）；fd1b4942e057e87f8caffe45fc44e3d9c727de98（47 个唯一源码快照/50 条引用；后续追加 28 个补充文件后共 75 个唯一文件/78 条引用）
+提交：c1f6283c6f5f5b551a3b0b92778d44d0d32e11d6（批次）；17e3be0586d0fac3e3cdbbf6cec412a28583884f（evidence 日志跟踪修复）；fd1b4942e057e87f8caffe45fc44e3d9c727de98（47 个唯一源码快照/50 条引用；后续追加 32 个补充文件后共 79 个唯一文件/82 条引用）
 范围：2026 制造行业算子专场 6 个官方/生产仓、15 份实现映射、2 个 910B 基础件（FFT1D、ComplexExp blocks）
 python3 tools/build_index.py --check: pass
 python3 tools/verify_archive.py:
@@ -170,7 +170,7 @@ kb-restructure-20261117, mfg/competition/tree HTML, add_mfg_catalog.py
 释放：约 21 MiB；仓库内证据/哈希/驱动保留
 注：首次提交时 `*.log` 忽略规则使两份 FFT 日志未入 Git；已为 `competition/mfg-2026/evidence/` 加例外并在 17e3be0 跟踪，当前远端 `main` 可检出日志。
 
-制造专场最初 47 个唯一选中源码文件（50 条引用）已按上游路径复制到 `competition/mfg-2026/<entry>/source/`；后续追加 `torch_scatter_npu`、`ops-gnn-fps-950` 与 `rfft1_d`/`irfft1_d` 共 28 个补充文件，当前为 75 个唯一文件/78 条引用（主仓快照在 `source/`，补充来源在 `supporting/`）；`source.json` 的 `local_path` 与 SHA256 可直接核对，外部缓存删除后仓库仍自包含这些选中文件。
+制造专场最初 47 个唯一选中源码文件（50 条引用）已按上游路径复制到 `competition/mfg-2026/<entry>/source/`；后续追加 `torch_scatter_npu`、`ops-gnn-fps-950` 与 `rfft1_d`/`irfft1_d` 共 32 个补充文件，当前为 79 个唯一文件/82 条引用（主仓快照在 `source/`，补充来源在 `supporting/`）；`source.json` 的 `local_path` 与 SHA256 可直接核对，外部缓存删除后仓库仍自包含这些选中文件。
 ```
 
 更早批次的 `local-validation-20261116/` 与来源缓存未删除；它们不是本批临时产物，保留供对照。清理后 `verify_archive.py` 仍为 `ok: true`。
@@ -237,7 +237,7 @@ gcw_4VCbQSde/huawei-spgemm-task@5528c34     仅登记，不复制（无 LICENSE�
   - 结论：证明 A2/A3 CSR SpGEMM 可行；官方 Spspmm 仍是 COO + 固定槽位
 ```
 
-当前制造专场源码快照：**75 个唯一文件 / 78 条引用**（主仓 `source/` + 补充 `supporting/`）。所有 NPU 运行仍只有 FFT 32×32 子集 PASS，其余未跑。
+当前制造专场源码快照：**79 个唯一文件 / 82 条引用**（主仓 `source/` + 补充 `supporting/`）。15 题主实现仍只有 FFT 32×32 子集 PASS；补充 SegmentMinCsr 骨架另有 BUILD+RUN PASS（仅示例、非官方语义）。
 
 ### 8.5 上游语义核对、适配蓝图与段最小构建（2026-11-17）
 
@@ -255,6 +255,15 @@ f06aa6a feat(competition): add source-match view and SegmentMinCsr build evidenc
   HIT1920/torch_scatter_npu SegmentMinCsr A2/A3 msOpGen 工程
   CANN 9.1.0 / 910B3 工具链：install_rc=0
   package sha256 94b1155e7028400ebc4944a4f10ef100872bf2d180ec2bafa5c2f4e36bbccbba
+
+c4d2d2d feat(competition): add CPU reference and semantic tests
+  competition/mfg-2026/reference/mfg_reference.py + test_reference.py
+  9 项 CPU 测试 PASS；非官方隐藏 golden
+
+2026-11-18 补充骨架运行
+  AclNN 8x2048 float32、int32 indptr [0,0,5,8,8]、4 段（含 2 空段）
+  run_rc=0；golden==output
+  run log sha256 48b9a979e8bd7b8dead43fc19a8e272eb7badc70619d14e8923f4d43121417b5
 ```
 
-边界：该工程是 int32 indptr、无 arg_out、空段填最大值，**不是官方语义**；AclNN 运行仍在 `bin/npu-lock` 排队。主 `ops-gnn` 实现仍为 `not-run`，没有新增 910B PASS。
+边界：该工程是 int32 indptr、无 arg_out、空段填最大值，**不是官方语义**；AclNN PASS 只证明骨架能构建/调用，不证明官方 18 组 shape/fp16/arg_out。主 `ops-gnn` 实现仍为 `not-run`。

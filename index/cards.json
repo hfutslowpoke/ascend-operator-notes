@@ -989,7 +989,7 @@
         "tolerance": "values 按题面 atol/rtol；arg_out 逐位一致",
         "source_match": "direct"
       },
-      "verification": "not-run; A2/A3 arch22 exists Alternative standalone A2/A3 project archived as supporting_sources; not locally run and not official-semantics compliant. Supporting alt project build PASS only; main ops-gnn implementation still not-run.",
+      "verification": "Supporting alt project build+run PASS on its own 8x2048 sample; main ops-gnn implementation still not-run; official int64/arg_out/empty-0/first-tie semantics not covered by the alt project.",
       "conditions": [
         "A2/A3 arch22",
         "int64 indptr nondecreasing",

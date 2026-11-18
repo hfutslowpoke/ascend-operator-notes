@@ -2052,14 +2052,14 @@
           "source": "https://github.com/pyg-team/pyg-lib/blob/d13e20662aaa075c82ab9c814f8c39789425bf7a/pyg_lib/csrc/ops/cpu/segment_csr_kernel.cpp#L256-L404"
         },
         {
-          "type": "local-build",
-          "value": "Supporting HIT1920/torch_scatter_npu SegmentMinCsr msOpGen project builds on the 910B3 toolchain with CANN 9.1.0; AclNN run queued behind npu-lock. This is build-only, not official semantics.",
-          "source": "competition/mfg-2026/evidence/segment_min_csr_alt_20261117.md"
-        },
-        {
           "type": "cpu-reference-test",
           "value": "Independent NumPy reference and 9 semantic tests PASS (not official hidden golden, not NPU).",
           "source": "competition/mfg-2026/reference/README.md; competition/mfg-2026/evidence/mfg_reference_tests_20261117.log"
+        },
+        {
+          "type": "local-build-run",
+          "value": "Supporting HIT1920/torch_scatter_npu SegmentMinCsr A2/A3 project: build PASS on 910B3 with CANN 9.1.0 and AclNN sample PASS (src 8x2048 float32, indptr int32 [0,0,5,8,8], golden==output). Build/run only; not official semantics.",
+          "source": "competition/mfg-2026/evidence/segment_min_csr_alt_20261117.md; competition/mfg-2026/evidence/segment_min_csr_alt_run_20261118.log"
         }
       ],
       "conditions": [
@@ -2076,7 +2076,7 @@
       ],
       "reuse_decision": "优先复用模板化 reduce/流式行 tile/空段填充；在 910B3 构建 arch22 并对照 scatter 参考。 另可用 `HIT1920/torch_scatter_npu` 的最小 A2/A3 msOpGen 工程作为 910B 构建/调用参考，但必须按官方语义改 int64、arg_out、空段 0/E 与首遇 tie-break。",
       "report": "competition/mfg-2026/ops-gnn/README.md",
-      "verification": "not-run; A2/A3 arch22 exists Alternative standalone A2/A3 project archived as supporting_sources; not locally run and not official-semantics compliant. Supporting alt project build PASS only; main ops-gnn implementation still not-run.",
+      "verification": "Supporting alt project build+run PASS on its own 8x2048 sample; main ops-gnn implementation still not-run; official int64/arg_out/empty-0/first-tie semantics not covered by the alt project.",
       "tier": "competition",
       "entry_path": "competition/mfg-2026/ops-gnn",
       "local_status": "not-run",
@@ -2247,6 +2247,42 @@
           "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/main.cpp",
           "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/main.cpp",
           "role": "minimal ACLNN invocation example",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/run.sh",
+          "lines": "1-62",
+          "sha256": "94357fc01a85689c506a14cb21f0e68b053d4c3d810948038d8f0351f8df54b2",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/run.sh",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/run.sh",
+          "role": "AclNN run: generate data, build main, execute, verify",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/gen_data.py",
+          "lines": "1-108",
+          "sha256": "6a5d08b45c8a9c687fd5074fb24f0a262cc34fc58cf3b34d812144146859d7eb",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/gen_data.py",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/gen_data.py",
+          "role": "AclNN input/golden generator for the 8x2048 sample",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/verify_result.py",
+          "lines": "1-45",
+          "sha256": "558a17ae9e350da917f6b870f3cd1b4f7c897da2072c47ca85c6ee5431bcc2bf",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/verify_result.py",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/verify_result.py",
+          "role": "AclNN output vs golden comparator",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/CMakeLists.txt",
+          "lines": "1-52",
+          "sha256": "1b375ee99324270a57d3353702f71576697a62258b8006ab7250204be7e74b88",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/CMakeLists.txt",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/CMakeLists.txt",
+          "role": "AclNN sample build file",
           "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
         }
       ]

@@ -213,6 +213,42 @@
           "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/main.cpp",
           "role": "minimal ACLNN invocation example",
           "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/run.sh",
+          "lines": "1-62",
+          "sha256": "94357fc01a85689c506a14cb21f0e68b053d4c3d810948038d8f0351f8df54b2",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/run.sh",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/run.sh",
+          "role": "AclNN run: generate data, build main, execute, verify",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/gen_data.py",
+          "lines": "1-108",
+          "sha256": "6a5d08b45c8a9c687fd5074fb24f0a262cc34fc58cf3b34d812144146859d7eb",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/gen_data.py",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/gen_data.py",
+          "role": "AclNN input/golden generator for the 8x2048 sample",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/verify_result.py",
+          "lines": "1-45",
+          "sha256": "558a17ae9e350da917f6b870f3cd1b4f7c897da2072c47ca85c6ee5431bcc2bf",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/verify_result.py",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/verify_result.py",
+          "role": "AclNN output vs golden comparator",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
+        },
+        {
+          "path": "Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/CMakeLists.txt",
+          "lines": "1-52",
+          "sha256": "1b375ee99324270a57d3353702f71576697a62258b8006ab7250204be7e74b88",
+          "url": "https://gitcode.com/HIT1920/torch_scatter_npu/blob/0199ab0d836ea07e26d2914179a22bf3c793b62e/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/CMakeLists.txt",
+          "local_path": "competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/Segment_Csr/SegmentMinCsr/SegmentMinCsrFrameworkLaunch/AclNNInvocationNaive/CMakeLists.txt",
+          "role": "AclNN sample build file",
+          "commit": "0199ab0d836ea07e26d2914179a22bf3c793b62e"
         }
       ],
       "local_status": "not-run",

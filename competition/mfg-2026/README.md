@@ -110,7 +110,7 @@
 
 - 官方题面/规格：`O`（CANN Judge 公开页面/API，2026-11-17）；源码路径/行号/哈希：`S+L`；本机：`N`。
 - `cann/ops-*` 为 CANN Open Software License Agreement Version 2.0；`Ascend/DrivingSDK` 为 Apache-2.0。
-- 本库把 75 个唯一选中源码文件（78 条引用）复制到各子条目的 `source/` 或 `supporting/`，保留上游路径、固定 commit、URL 和 SHA256；未复制整仓，`source.json` 的 `local_path` 可直接打开。副本是上游原样快照，原文里的相对链接按整仓解析，本地不保证可点开。
+- 本库把 79 个唯一选中源码文件（82 条引用）复制到各子条目的 `source/` 或 `supporting/`，保留上游路径、固定 commit、URL 和 SHA256；未复制整仓，`source.json` 的 `local_path` 可直接打开。副本是上游原样快照，原文里的相对链接按整仓解析，本地不保证可点开。
 - 官方题面只保存公开描述，不包含隐藏测试数据；`/api/testcases/<id>` 返回 403，未绕过。
 - 不把官方仓的“支持 A2”直接当成本机通过；不把 950-only 实现写成 910B 方案。
 
