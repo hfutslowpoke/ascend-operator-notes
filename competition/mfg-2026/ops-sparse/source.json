@@ -56,7 +56,16 @@
         "spec": "competition/mfg-2026/official/specs.json",
         "description": "competition/mfg-2026/official/descriptions/spspmm.md",
         "tolerance": "float32: atol=rtol=1e-4；float16: atol=rtol=1e-2；indexC 逐位一致",
-        "source_match": "adapt"
+        "source_match": "adapt",
+        "contest_id": "6aed4926a5348dcef5dd8d0c",
+        "problem_id": 3171,
+        "total_testcase_count": 15,
+        "ranking_testcase_count": 8,
+        "difficulty": 5,
+        "cann_version": "9.0.0",
+        "soc_version": null,
+        "iterations": 5,
+        "judge_revision": 0
       },
       "local_validation": {
         "status": "not-run",
@@ -102,7 +111,16 @@
         "spec": "competition/mfg-2026/official/specs.json",
         "description": "competition/mfg-2026/official/descriptions/spmmsum.md",
         "tolerance": "float32: atol=rtol=1e-4；float16: atol=rtol=1e-2",
-        "source_match": "adapt"
+        "source_match": "adapt",
+        "contest_id": "6aed4926a5348dcef5dd8d0c",
+        "problem_id": 3169,
+        "total_testcase_count": 15,
+        "ranking_testcase_count": 8,
+        "difficulty": 3,
+        "cann_version": "9.0.0",
+        "soc_version": null,
+        "iterations": 5,
+        "judge_revision": 0
       },
       "local_validation": {
         "status": "not-run",
@@ -142,7 +160,16 @@
         "description": "competition/mfg-2026/official/descriptions/gathercoo.md",
         "tolerance": "索引/拷贝精确；dtype 原样",
         "source_match": "not-applicable",
-        "note": "dense gather only; not COO row expansion"
+        "note": "dense gather only; not COO row expansion",
+        "contest_id": "6aed4926a5348dcef5dd8d0c",
+        "problem_id": 3163,
+        "total_testcase_count": 24,
+        "ranking_testcase_count": 8,
+        "difficulty": 1,
+        "cann_version": "9.0.0",
+        "soc_version": null,
+        "iterations": 5,
+        "judge_revision": 0
       },
       "local_validation": {
         "status": "not-run",

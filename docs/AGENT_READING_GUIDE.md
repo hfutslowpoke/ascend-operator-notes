@@ -137,17 +137,19 @@
 适合：要参加/复现制造专场，或需要图计算、点云、复数/FFT 的行业算子。
 
 1. [competition/mfg-2026/README.md](../competition/mfg-2026/README.md)（15 题总表、2/6/5/2 覆盖口径）
-2. [official/specs.md](../competition/mfg-2026/official/specs.md)（官方 shape/dtype/属性/约束）
-3. [problems.md](../competition/mfg-2026/problems.md)（逐题官方规格/源码/差异）
-4. [MFG2026_ALGORITHM_REFERENCES_20261117.md](../docs/research/MFG2026_ALGORITHM_REFERENCES_20261117.md)（pyg-lib/torch_cluster/AnyGrasp 对 tie/空段/first-K 的核对）
-5. [adapters.md](../competition/mfg-2026/adapters.md)（6 个 adapt 题的改造步骤与验收清单）
-6. [reference/](../competition/mfg-2026/reference/README.md)（CPU 语义参考与 9 项测试；非官方 golden）
-7. [driving-sdk](../competition/mfg-2026/driving-sdk/README.md)（FPS 最接近 direct；Radius/CylinderQuery 需适配官方定槽位/first-K）
-8. [ops-fft](../competition/mfg-2026/ops-fft/README.md)（官方要求 2..8192；源码仅 32/64/128，32×32 本机 PASS 是子集）
-9. [ops-gnn](../competition/mfg-2026/ops-gnn/README.md)（SegmentMinCsr direct；GatherCoo/RandomWalk/GridCluster 950-only）
-10. [ops-sparse](../competition/mfg-2026/ops-sparse/README.md)（SpmmSum adapt；Spspmm 官方是 COO 固定槽位；Gather 不是 GatherCoo）
-11. [ops-math](../competition/mfg-2026/ops-math/README.md)（ComplexAbs 950-only；BallQuery 官方单半径/严格 `<`；StackBallQuery 有 910B 配置）
-12. [ops-solver](../competition/mfg-2026/ops-solver/README.md)（ComplexDiv 算法参考，950 SIMT）
+2. [cannjudge-map.md](../competition/mfg-2026/cannjudge-map.md)（题目 ID/测试点数/源码分级/本机状态）
+3. [CANNJUDGE_INTEGRATION.md](CANNJUDGE_INTEGRATION.md)（两层库 + CANNJudge 工具/提交的联合视图）
+4. [official/specs.md](../competition/mfg-2026/official/specs.md)（官方 shape/dtype/属性/约束）
+5. [problems.md](../competition/mfg-2026/problems.md)（逐题官方规格/源码/差异）
+6. [MFG2026_ALGORITHM_REFERENCES_20261117.md](../docs/research/MFG2026_ALGORITHM_REFERENCES_20261117.md)（pyg-lib/torch_cluster/AnyGrasp 对 tie/空段/first-K 的核对）
+7. [adapters.md](../competition/mfg-2026/adapters.md)（6 个 adapt 题的改造步骤与验收清单）
+8. [reference/](../competition/mfg-2026/reference/README.md)（CPU 语义参考与 9 项测试；非官方 golden）
+9. [driving-sdk](../competition/mfg-2026/driving-sdk/README.md)（FPS 最接近 direct；Radius/CylinderQuery 需适配官方定槽位/first-K）
+10. [ops-fft](../competition/mfg-2026/ops-fft/README.md)（官方要求 2..8192；源码仅 32/64/128，32×32 本机 PASS 是子集）
+11. [ops-gnn](../competition/mfg-2026/ops-gnn/README.md)（SegmentMinCsr direct；GatherCoo/RandomWalk/GridCluster 950-only）
+12. [ops-sparse](../competition/mfg-2026/ops-sparse/README.md)（SpmmSum adapt；Spspmm 官方是 COO 固定槽位；Gather 不是 GatherCoo）
+13. [ops-math](../competition/mfg-2026/ops-math/README.md)（ComplexAbs 950-only；BallQuery 官方单半径/严格 `<`；StackBallQuery 有 910B 配置）
+14. [ops-solver](../competition/mfg-2026/ops-solver/README.md)（ComplexDiv 算法参考，950 SIMT）
 
 补充来源放在对应条目的 `supporting/`，在 `source.json` 里标记为 `supporting_sources`：`ops-gnn/supporting/torch_scatter_npu/` 是 SegmentMinCsr 的 A2/A3 构建骨架，`driving-sdk/supporting/ops-gnn-fps-950/` 是 FP16/tie-break 对照。它们都**不是**官方题解候选，不能改变 `direct/adapt/reference/none` 分级。
 

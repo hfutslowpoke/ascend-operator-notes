@@ -696,7 +696,16 @@
         "spec": "competition/mfg-2026/official/specs.json",
         "description": "competition/mfg-2026/official/descriptions/fouriertransform2d.md",
         "tolerance": "atol=rtol=1e-3",
-        "source_match": "adapt"
+        "source_match": "adapt",
+        "contest_id": "6aed4926a5348dcef5dd8d0c",
+        "problem_id": 3186,
+        "total_testcase_count": 15,
+        "ranking_testcase_count": 8,
+        "difficulty": 4,
+        "cann_version": "9.0.0",
+        "soc_version": null,
+        "iterations": 5,
+        "judge_revision": 0
       },
       "verification": "local 910B3 PASS: build CANN 9.1.0; 32x32 C2C impulse vs analytic DFT, best 0.1537 ms, max_abs 9.086799e-08, bad=0",
       "conditions": [
@@ -748,7 +757,16 @@
         "source_match": "building-block",
         "also_relevant_to": [
           "fusedpropstep"
-        ]
+        ],
+        "contest_id": "6aed4926a5348dcef5dd8d0c",
+        "problem_id": 3186,
+        "total_testcase_count": 15,
+        "ranking_testcase_count": 8,
+        "difficulty": 4,
+        "cann_version": "9.0.0",
+        "soc_version": null,
+        "iterations": 5,
+        "judge_revision": 0
       },
       "verification": "building block only; not an end-to-end official-problem run",
       "conditions": [
@@ -802,7 +820,16 @@
         "spec": "competition/mfg-2026/official/specs.json",
         "description": "competition/mfg-2026/official/descriptions/cylinderquery.md",
         "tolerance": "int32 索引逐元素一致",
-        "source_match": "adapt"
+        "source_match": "adapt",
+        "contest_id": "6aed4926a5348dcef5dd8d0c",
+        "problem_id": 3157,
+        "total_testcase_count": 18,
+        "ranking_testcase_count": 8,
+        "difficulty": 3,
+        "cann_version": "9.0.0",
+        "soc_version": null,
+        "iterations": 5,
+        "judge_revision": 0
       },
       "verification": "not-run; A2-targeted generic path; build pending",
       "conditions": [
@@ -847,7 +874,16 @@
         "spec": "competition/mfg-2026/official/specs.json",
         "description": "competition/mfg-2026/official/descriptions/furthestpointsample.md",
         "tolerance": "索引逐位一致",
-        "source_match": "direct"
+        "source_match": "direct",
+        "contest_id": "6aed4926a5348dcef5dd8d0c",
+        "problem_id": 3158,
+        "total_testcase_count": 18,
+        "ranking_testcase_count": 8,
+        "difficulty": 3,
+        "cann_version": "9.0.0",
+        "soc_version": null,
+        "iterations": 5,
+        "judge_revision": 0
       },
       "verification": "not-run; docs A2/A3/950",
       "conditions": [
@@ -898,7 +934,16 @@
         "spec": "competition/mfg-2026/official/specs.json",
         "description": "competition/mfg-2026/official/descriptions/radius.md",
         "tolerance": "索引逐位一致",
-        "source_match": "adapt"
+        "source_match": "adapt",
+        "contest_id": "6aed4926a5348dcef5dd8d0c",
+        "problem_id": 3160,
+        "total_testcase_count": 15,
+        "ranking_testcase_count": 8,
+        "difficulty": 3,
+        "cann_version": "9.0.0",
+        "soc_version": null,
+        "iterations": 5,
+        "judge_revision": 0
       },
       "verification": "not-run; docs A2/A3/950",
       "conditions": [
@@ -943,7 +988,16 @@
         "spec": "competition/mfg-2026/official/specs.json",
         "description": "competition/mfg-2026/official/descriptions/gathercoo.md",
         "tolerance": "索引/拷贝精确；dtype 原样",
-        "source_match": "reference"
+        "source_match": "reference",
+        "contest_id": "6aed4926a5348dcef5dd8d0c",
+        "problem_id": 3163,
+        "total_testcase_count": 24,
+        "ranking_testcase_count": 8,
+        "difficulty": 1,
+        "cann_version": "9.0.0",
+        "soc_version": null,
+        "iterations": 5,
+        "judge_revision": 0
       },
       "verification": "not-run; 950-only reference",
       "conditions": [
@@ -987,7 +1041,16 @@
         "spec": "competition/mfg-2026/official/specs.json",
         "description": "competition/mfg-2026/official/descriptions/segmentmincsr.md",
         "tolerance": "values 按题面 atol/rtol；arg_out 逐位一致",
-        "source_match": "direct"
+        "source_match": "direct",
+        "contest_id": "6aed4926a5348dcef5dd8d0c",
+        "problem_id": 3164,
+        "total_testcase_count": 15,
+        "ranking_testcase_count": 8,
+        "difficulty": 4,
+        "cann_version": "9.0.0",
+        "soc_version": null,
+        "iterations": 5,
+        "judge_revision": 0
       },
       "verification": "Supporting alt project build+run PASS on its own 8x2048 sample; main ops-gnn implementation still not-run; official int64/arg_out/empty-0/first-tie semantics not covered by the alt project.",
       "conditions": [
@@ -1039,7 +1102,16 @@
         "spec": "competition/mfg-2026/official/specs.json",
         "description": "competition/mfg-2026/official/descriptions/randomwalk.md",
         "tolerance": "轨迹逐位一致",
-        "source_match": "reference"
+        "source_match": "reference",
+        "contest_id": "6aed4926a5348dcef5dd8d0c",
+        "problem_id": 3172,
+        "total_testcase_count": 15,
+        "ranking_testcase_count": 8,
+        "difficulty": 5,
+        "cann_version": "9.0.0",
+        "soc_version": null,
+        "iterations": 5,
+        "judge_revision": 0
       },
       "verification": "not-run; 950-only reference",
       "conditions": [
@@ -1083,7 +1155,16 @@
         "spec": "competition/mfg-2026/official/specs.json",
         "description": "competition/mfg-2026/official/descriptions/spmmsum.md",
         "tolerance": "float32: atol=rtol=1e-4；float16: atol=rtol=1e-2",
-        "source_match": "adapt"
+        "source_match": "adapt",
+        "contest_id": "6aed4926a5348dcef5dd8d0c",
+        "problem_id": 3169,
+        "total_testcase_count": 15,
+        "ranking_testcase_count": 8,
+        "difficulty": 3,
+        "cann_version": "9.0.0",
+        "soc_version": null,
+        "iterations": 5,
+        "judge_revision": 0
       },
       "verification": "not-run; A2/A3 arch22 exists",
       "conditions": [
@@ -1127,7 +1208,16 @@
         "spec": "competition/mfg-2026/official/specs.json",
         "description": "competition/mfg-2026/official/descriptions/gridcluster.md",
         "tolerance": "int64 逐位一致",
-        "source_match": "reference"
+        "source_match": "reference",
+        "contest_id": "6aed4926a5348dcef5dd8d0c",
+        "problem_id": 3162,
+        "total_testcase_count": 15,
+        "ranking_testcase_count": 8,
+        "difficulty": 1,
+        "cann_version": "9.0.0",
+        "soc_version": null,
+        "iterations": 5,
+        "judge_revision": 0
       },
       "verification": "not-run; 950-only reference",
       "conditions": [
@@ -1170,7 +1260,16 @@
         "spec": "competition/mfg-2026/official/specs.json",
         "description": "competition/mfg-2026/official/descriptions/spspmm.md",
         "tolerance": "float32: atol=rtol=1e-4；float16: atol=rtol=1e-2；indexC 逐位一致",
-        "source_match": "adapt"
+        "source_match": "adapt",
+        "contest_id": "6aed4926a5348dcef5dd8d0c",
+        "problem_id": 3171,
+        "total_testcase_count": 15,
+        "ranking_testcase_count": 8,
+        "difficulty": 5,
+        "cann_version": "9.0.0",
+        "soc_version": null,
+        "iterations": 5,
+        "judge_revision": 0
       },
       "verification": "not-run; A2/A3 arch22 exists",
       "conditions": [
@@ -1216,7 +1315,16 @@
         "spec": "competition/mfg-2026/official/specs.json",
         "description": "competition/mfg-2026/official/descriptions/spmmsum.md",
         "tolerance": "float32: atol=rtol=1e-4；float16: atol=rtol=1e-2",
-        "source_match": "adapt"
+        "source_match": "adapt",
+        "contest_id": "6aed4926a5348dcef5dd8d0c",
+        "problem_id": 3169,
+        "total_testcase_count": 15,
+        "ranking_testcase_count": 8,
+        "difficulty": 3,
+        "cann_version": "9.0.0",
+        "soc_version": null,
+        "iterations": 5,
+        "judge_revision": 0
       },
       "verification": "not-run; A2/A3 arch22 exists",
       "conditions": [
@@ -1262,7 +1370,16 @@
         "description": "competition/mfg-2026/official/descriptions/gathercoo.md",
         "tolerance": "索引/拷贝精确；dtype 原样",
         "source_match": "not-applicable",
-        "note": "dense gather only; not COO row expansion"
+        "note": "dense gather only; not COO row expansion",
+        "contest_id": "6aed4926a5348dcef5dd8d0c",
+        "problem_id": 3163,
+        "total_testcase_count": 24,
+        "ranking_testcase_count": 8,
+        "difficulty": 1,
+        "cann_version": "9.0.0",
+        "soc_version": null,
+        "iterations": 5,
+        "judge_revision": 0
       },
       "verification": "not-run; A2 arch22 exists",
       "conditions": [
@@ -1306,7 +1423,16 @@
         "spec": "competition/mfg-2026/official/specs.json",
         "description": "competition/mfg-2026/official/descriptions/complexabs.md",
         "tolerance": "atol=rtol=1e-4",
-        "source_match": "reference"
+        "source_match": "reference",
+        "contest_id": "6aed4926a5348dcef5dd8d0c",
+        "problem_id": 3180,
+        "total_testcase_count": 15,
+        "ranking_testcase_count": 8,
+        "difficulty": 1,
+        "cann_version": "9.0.0",
+        "soc_version": null,
+        "iterations": 5,
+        "judge_revision": 0
       },
       "verification": "not-run; 950-only reference",
       "conditions": [
@@ -1350,7 +1476,16 @@
         "spec": "competition/mfg-2026/official/specs.json",
         "description": "competition/mfg-2026/official/descriptions/complexexp.md",
         "tolerance": "float32/complex64: atol=rtol=1e-4；float16: 1e-3",
-        "source_match": "building-block"
+        "source_match": "building-block",
+        "contest_id": "6aed4926a5348dcef5dd8d0c",
+        "problem_id": 3201,
+        "total_testcase_count": 18,
+        "ranking_testcase_count": 8,
+        "difficulty": 1,
+        "cann_version": "9.0.0",
+        "soc_version": null,
+        "iterations": 5,
+        "judge_revision": 0
       },
       "verification": "building block composition; no end-to-end official-problem run",
       "conditions": [
@@ -1396,7 +1531,16 @@
         "spec": "competition/mfg-2026/official/specs.json",
         "description": "competition/mfg-2026/official/descriptions/ballquery.md",
         "tolerance": "int32 索引逐元素一致",
-        "source_match": "adapt"
+        "source_match": "adapt",
+        "contest_id": "6aed4926a5348dcef5dd8d0c",
+        "problem_id": 3159,
+        "total_testcase_count": 18,
+        "ranking_testcase_count": 8,
+        "difficulty": 1,
+        "cann_version": "9.0.0",
+        "soc_version": null,
+        "iterations": 5,
+        "judge_revision": 0
       },
       "verification": "not-run; A2 config exists",
       "conditions": [
@@ -1442,7 +1586,16 @@
         "spec": "competition/mfg-2026/official/specs.json",
         "description": "competition/mfg-2026/official/descriptions/complexdiv.md",
         "tolerance": "float32/complex64: atol=rtol=1e-4；float16: atol=rtol=1e-3",
-        "source_match": "reference"
+        "source_match": "reference",
+        "contest_id": "6aed4926a5348dcef5dd8d0c",
+        "problem_id": 3181,
+        "total_testcase_count": 18,
+        "ranking_testcase_count": 8,
+        "difficulty": 3,
+        "cann_version": "9.0.0",
+        "soc_version": null,
+        "iterations": 5,
+        "judge_revision": 0
       },
       "verification": "not-run; 950 SIMT reference",
       "conditions": [

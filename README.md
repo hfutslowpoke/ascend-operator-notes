@@ -18,6 +18,8 @@
 | [index/cards.md](index/cards.md) | 35 张阅读卡：一句话机制、源码入口、本机状态、边界 |
 | [index/by-source-match.md](index/by-source-match.md) | 制造专场按 direct/adapt/reference/none/building-block 检索 |
 | [competition/mfg-2026/official/specs.md](competition/mfg-2026/official/specs.md) | 2026 制造专场 15 题官方 shape/dtype/属性/约束 |
+| [competition/mfg-2026/cannjudge-map.md](competition/mfg-2026/cannjudge-map.md) | 15 题 × CANN Judge：题目 ID、测试点数、源码分级、本机状态 |
+| [docs/CANNJUDGE_INTEGRATION.md](docs/CANNJUDGE_INTEGRATION.md) | 两层算子库 + CANNJudge 工具/题面/提交的联合视图 |
 | [docs/experiences/README.md](docs/experiences/README.md) | 跨实现经验：工作量/布局/数值/形状专用化 + 制造专场 10 个小点 |
 | [docs/AGENT_READING_GUIDE.md](docs/AGENT_READING_GUIDE.md) | 给后续 agent 的十分钟地图 + 阅读路线 |
 | [skills/README.md](skills/README.md) | 给 ACW/agent 的检索、入库、本机验证工作流 |

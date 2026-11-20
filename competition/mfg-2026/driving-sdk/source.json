@@ -49,7 +49,16 @@
         "spec": "competition/mfg-2026/official/specs.json",
         "description": "competition/mfg-2026/official/descriptions/cylinderquery.md",
         "tolerance": "int32 索引逐元素一致",
-        "source_match": "adapt"
+        "source_match": "adapt",
+        "contest_id": "6aed4926a5348dcef5dd8d0c",
+        "problem_id": 3157,
+        "total_testcase_count": 18,
+        "ranking_testcase_count": 8,
+        "difficulty": 3,
+        "cann_version": "9.0.0",
+        "soc_version": null,
+        "iterations": 5,
+        "judge_revision": 0
       },
       "local_validation": {
         "status": "not-run",
@@ -142,7 +151,16 @@
         "spec": "competition/mfg-2026/official/specs.json",
         "description": "competition/mfg-2026/official/descriptions/furthestpointsample.md",
         "tolerance": "索引逐位一致",
-        "source_match": "direct"
+        "source_match": "direct",
+        "contest_id": "6aed4926a5348dcef5dd8d0c",
+        "problem_id": 3158,
+        "total_testcase_count": 18,
+        "ranking_testcase_count": 8,
+        "difficulty": 3,
+        "cann_version": "9.0.0",
+        "soc_version": null,
+        "iterations": 5,
+        "judge_revision": 0
       },
       "local_validation": {
         "status": "not-run",
@@ -188,7 +206,16 @@
         "spec": "competition/mfg-2026/official/specs.json",
         "description": "competition/mfg-2026/official/descriptions/radius.md",
         "tolerance": "索引逐位一致",
-        "source_match": "adapt"
+        "source_match": "adapt",
+        "contest_id": "6aed4926a5348dcef5dd8d0c",
+        "problem_id": 3160,
+        "total_testcase_count": 15,
+        "ranking_testcase_count": 8,
+        "difficulty": 3,
+        "cann_version": "9.0.0",
+        "soc_version": null,
+        "iterations": 5,
+        "judge_revision": 0
       },
       "local_validation": {
         "status": "not-run",

@@ -56,7 +56,16 @@
         "spec": "competition/mfg-2026/official/specs.json",
         "description": "competition/mfg-2026/official/descriptions/fouriertransform2d.md",
         "tolerance": "atol=rtol=1e-3",
-        "source_match": "adapt"
+        "source_match": "adapt",
+        "contest_id": "6aed4926a5348dcef5dd8d0c",
+        "problem_id": 3186,
+        "total_testcase_count": 15,
+        "ranking_testcase_count": 8,
+        "difficulty": 4,
+        "cann_version": "9.0.0",
+        "soc_version": null,
+        "iterations": 5,
+        "judge_revision": 0
       },
       "local_validation": {
         "status": "pass",
@@ -214,7 +223,16 @@
         "source_match": "building-block",
         "also_relevant_to": [
           "fusedpropstep"
-        ]
+        ],
+        "contest_id": "6aed4926a5348dcef5dd8d0c",
+        "problem_id": 3186,
+        "total_testcase_count": 15,
+        "ranking_testcase_count": 8,
+        "difficulty": 4,
+        "cann_version": "9.0.0",
+        "soc_version": null,
+        "iterations": 5,
+        "judge_revision": 0
       },
       "local_validation": {
         "status": "not-run",
