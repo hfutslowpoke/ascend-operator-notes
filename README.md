@@ -18,6 +18,7 @@
 | [index/cards.md](index/cards.md) | 35 张阅读卡：一句话机制、源码入口、本机状态、边界 |
 | [index/by-source-match.md](index/by-source-match.md) | 制造专场按 direct/adapt/reference/none/building-block 检索 |
 | [competition/mfg-2026/official/specs.md](competition/mfg-2026/official/specs.md) | 2026 制造专场 15 题官方 shape/dtype/属性/约束 |
+| [docs/experiences/README.md](docs/experiences/README.md) | 跨实现经验：工作量/布局/数值/形状专用化 + 制造专场 10 个小点 |
 | [docs/AGENT_READING_GUIDE.md](docs/AGENT_READING_GUIDE.md) | 给后续 agent 的十分钟地图 + 阅读路线 |
 | [skills/README.md](skills/README.md) | 给 ACW/agent 的检索、入库、本机验证工作流 |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | 两层架构、条目契约、证据等级、验证协议 |
@@ -59,6 +60,10 @@
 | GitCode recompute_w_u | 编译成功、运行失败 | 5 个 shape 全部 `507057` |
 | GitCode Concat | 仅离线测试 | 215,242+32,681+8,247 项通过 |
 | 52Xayah Softmax/Matmul | 负例通过 | 0.288×/0.242× |
+| 制造 SegmentMinCsr 补充骨架 | BUILD+RUN PASS（示例） | 8×2048、int32 indptr、4 段含空段、golden==output |
+| 制造 CPU 参考 | PASS（CPU） | 9 项语义测试 |
+
+> 补充骨架与 CPU 参考不计入 35 份实现的 910B3 通过数；SegmentMinCsr 骨架不是官方语义，主 `ops-gnn` 实现仍为 `not-run`。
 
 完整命令、日志和失败码见 [docs/validation/LOCAL_910B_VALIDATION_20261116.md](docs/validation/LOCAL_910B_VALIDATION_20261116.md)。
 
