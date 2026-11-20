@@ -72,7 +72,7 @@
 │   ├── MIGRATION_20261117.md
 │   ├── PATTERN_COOKBOOK.md
 │   ├── TOOLS_AND_REPRODUCIBILITY.md
-│   ├── PRIVATE_REPO_HANDOVER.md
+│   ├── REPO_HANDOVER.md
 │   ├── GITHUB_QUICKSTART.md
 │   ├── experiences/
 │   ├── research/
@@ -196,8 +196,8 @@ bin/npu-lock bash -lc '<命令>'
 
 `index/catalog.json` 是唯一机器可读主索引，包含：
 
-- `repositories[]`：20 个仓库记录，带 `tier`、`entry_path`、固定 commit、许可、状态、去重关系；
-- `implementations[]`：35 份实现，带算子族、源码文件/行号/哈希、作者证据、适用条件、负例、复用判断、本机验证；
+- `repositories[]`：24 个仓库记录，带 `tier`、`entry_path`、固定 commit、许可、状态、去重关系；
+- `implementations[]`：39 份实现，带算子族、源码文件/行号/哈希、作者证据、适用条件、负例、复用判断、本机验证；
 - `excluded_candidates[]`：未计入的候选及原因。
 
 运行：

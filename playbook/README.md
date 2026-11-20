@@ -13,6 +13,21 @@
 | [本机 vs 平台](rules/local-vs-platform.md) | 本地 910B3 失败/通过，哪些能外推，哪些不能 |
 | [提交与回读](rules/submission-and-readback.md) | dry-run、SID、detail、ranking、额度、重复包 |
 
+## 1.1 通用专题（先看这里）
+
+按“我遇到的是什么问题”选，不按赛题选：
+
+| 专题 | 解决的问题 |
+|---|---|
+| [小 case / launch-bound 优化](topics/small-shape-launch-bound.md) | 0.5–2 ms、不同 shape 时间接近常数，怎么减固定开销 |
+| [团队赛取包与账号矩阵](topics/team-ranking-and-package-selection.md) | 团队排名为什么不在我的账号上；latest/best 怎么选 |
+| [隐藏 case 泛化](topics/hidden-case-generalization.md) | 可见 case 高分，最终分为什么低 |
+| [语义覆盖](topics/semantic-coverage.md) | 平台 Pass 了，题面的属性/模式是否都实现 |
+| [Cube + Vector 分工](topics/cube-vector-split.md) | 什么时候用 Cube，什么时候纯 Vector |
+| [对齐、尾块与 padding](topics/alignment-and-tail-handling.md) | 非对齐 K/N、尾块、max padding |
+
+完整列表与写法约定见 [`topics/README.md`](topics/README.md)。
+
 ## 2. 跨实现经验
 
 按主题读，不要按“某队用了这个技巧”直接照搬：

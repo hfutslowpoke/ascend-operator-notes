@@ -33,6 +33,7 @@ competition/<contest-slug>/
 
 - 用公开页面/API，不绕过隐藏测试数据；
 - 每题的 `canonical_name`/slug、`problem_id`、`total_testcase_count`、`ranking_testcase_count`、容差必须落库；
+- **组队赛先查 team 排名**：同一个 `team_id` 下可能由不同队员提交；只看自己的 `user_id` 会漏掉团队最佳包；
 - 题面原文放 `official/descriptions/`，结构化摘要放 `official/specs.json`；
 - 公开 API 里如果包含测试 shape/范围（如点云题），原样保留，不要改写成“经验”。
 

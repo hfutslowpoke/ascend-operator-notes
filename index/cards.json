@@ -1619,6 +1619,185 @@
       "evidence": [
         "competition/mfg-2026/evidence/README.md"
       ]
+    },
+    {
+      "id": "SHANGHE-2026-PRELIM-BMMS",
+      "title": "BatchMatmulMaxSum",
+      "tier": "competition",
+      "entry": "competition/shanghe-2026-prelim/batchmatmulmaxsum",
+      "family": "late-interaction",
+      "readme": "competition/shanghe-2026-prelim/batchmatmulmaxsum/README.md",
+      "source_json": "competition/shanghe-2026-prelim/batchmatmulmaxsum/source.json",
+      "one_line": "Cube BMM + AIV max/sum 融合；按 shape 走 tiny/direct/flat/trans/split-K/cached-N/pipelined 多条路径；DataCopyPad 尾块；max 用 -inf padding",
+      "local_status": "platform-only",
+      "source_match": "",
+      "official_problem": {
+        "contest_id": "6a9a9741bf41025d601345c7",
+        "problem_id": "6a9aa054bf41025d6014f3ef",
+        "canonical_name": "batchmatmulmaxsum",
+        "title": "BatchMatmulMaxSum",
+        "total_testcase_count": 15,
+        "ranking_submission_mode": "latest",
+        "description": "competition/shanghe-2026-prelim/official/descriptions/batchmatmulmaxsum.md",
+        "url": "https://cannjudge.cn/public/op_challenge_shanghe_prelim/batchmatmulmaxsum"
+      },
+      "verification": "platform Pass; local not-run",
+      "conditions": [
+        "公开 15 case",
+        "大 M/N/K 与四种 layout。"
+      ],
+      "negative_cases": [
+        "早期纯 Vector zip 278917 平台 Runtime Error",
+        "手写 TCubeTiling 跨 CANN 版本有风险。"
+      ],
+      "reuse_decision": "可复用融合/分路/split-K/尾块；不要复用精确 shape 分支到其它题。",
+      "source_files": [
+        "source/CMakeLists.txt:33",
+        "source/data_utils.h:84",
+        "source/kernel.asc:3020",
+        "source/main.asc:96",
+        "source/run.sh:46",
+        "source/scripts/BatchMatmulMaxSum.py:110"
+      ],
+      "supporting_sources": [
+        "batchmatmulmaxsum_submission_278917.zip:zip"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "STARCUP-2026-A-SPARSESOFTMAX",
+      "title": "Sparse Softmax",
+      "tier": "competition",
+      "entry": "competition/starcup-2026-a-group/sparse-softmax",
+      "family": "sparse-softmax",
+      "readme": "competition/starcup-2026-a-group/sparse-softmax/README.md",
+      "source_json": "competition/starcup-2026-a-group/sparse-softmax/source.json",
+      "one_line": "launch-bound；PATH6-9 raw UB 去 TPipe/去 tiling 读取，单 block，固定 8 lane Brcb+Compare+BlockReduce；PATH11/12 shape family；32B tiling ABI",
+      "local_status": "platform-only",
+      "source_match": "",
+      "official_problem": {
+        "contest_id": "6a7bf036a52e0f540a88df6e",
+        "problem_id": "6a7c17b6a52e0f540a89c0ce",
+        "canonical_name": "sparsesoftmax",
+        "title": "Sparse Softmax",
+        "total_testcase_count": 5,
+        "ranking_submission_mode": "latest",
+        "description": "competition/starcup-2026-a-group/official/descriptions/sparsesoftmax.md",
+        "url": "https://cannjudge.cn/public/ct_starcup_aiop_g1/sparsesoftmax"
+      },
+      "verification": "platform Pass; local not-run",
+      "conditions": [
+        "小 shape/单行/axis≤8",
+        "index 或 ptr",
+        "fp16/fp32。"
+      ],
+      "negative_cases": [
+        "PATH6-9 精确 shape",
+        "bf16 缺失",
+        "num_nodes 未在 op def",
+        "inner>1 标量路径。"
+      ],
+      "reuse_decision": "raw UB/lean ABI/8 lane all-pairs/shape family/长轴 streaming。",
+      "source_files": [
+        "source/CMakeLists.txt:17",
+        "source/op_host/CMakeLists.txt:24",
+        "source/op_host/sparse_softmax.cpp:84",
+        "source/op_kernel/CMakeLists.txt:15",
+        "source/op_kernel/sparse_softmax.cpp:1441",
+        "source/op_kernel/sparse_softmax_tiling.h:28"
+      ],
+      "supporting_sources": [
+        "SparseSoftmax_submission_494890.zip:zip"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "STARCUP-2026-A-DENSELIGHTNING",
+      "title": "Dense Lightning Indexer Grad KL Loss",
+      "tier": "competition",
+      "entry": "competition/starcup-2026-a-group/dense-lightning-indexer-grad-kl-loss",
+      "family": "attention-backward",
+      "readme": "competition/starcup-2026-a-group/dense-lightning-indexer-grad-kl-loss/README.md",
+      "source_json": "competition/starcup-2026-a-group/dense-lightning-indexer-grad-kl-loss/source.json",
+      "one_line": "纯 Vector；复用 softmaxMax/Sum 重建 softmax；KL+全部梯度融合；UB arena；head split 4/8 核；精确 public shape 跳过 tiling 读取",
+      "local_status": "platform-only",
+      "source_match": "",
+      "official_problem": {
+        "contest_id": "6a7bf036a52e0f540a88df6e",
+        "problem_id": "6a7c1839a52e0f540a89c463",
+        "canonical_name": "denselightningindexergradklloss",
+        "title": "Dense Lightning Indexer Grad KL Loss",
+        "total_testcase_count": 7,
+        "ranking_submission_mode": "latest",
+        "description": "competition/starcup-2026-a-group/official/descriptions/denselightningindexergradklloss.md",
+        "url": "https://cannjudge.cn/public/ct_starcup_aiop_g1/denselightningindexergradklloss"
+      },
+      "verification": "platform Pass; local not-run",
+      "conditions": [
+        "公开 7 case",
+        "无 RoPE、sparseMode=0、非变长。"
+      ],
+      "negative_cases": [
+        "host 硬编码 hasRope=0/sparseMode=0/useSeqLens=0",
+        "op def 未声明 queryRope/keyRope/actual_seq_lengths/sparseMode/layout",
+        "纯 Vector 做 D=128 GEMM，小 case 7-12x。"
+      ],
+      "reuse_decision": "前向统计复用、KL+梯度融合、UB arena、head split；D=128 新 shape 应优先 Cube。",
+      "source_files": [
+        "source/CMakeLists.txt:17",
+        "source/op_host/CMakeLists.txt:24",
+        "source/op_host/dense_lightning_indexer_grad_kl_loss.cpp:212",
+        "source/op_kernel/CMakeLists.txt:15",
+        "source/op_kernel/dense_lightning_indexer_grad_kl_loss.cpp:6408",
+        "source/op_kernel/dense_lightning_indexer_grad_kl_loss_tiling.h:13"
+      ],
+      "supporting_sources": [
+        "DenseLightningIndexerGradKlLoss_submission_495694.zip:zip"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "STARCUP-2026-FINAL-SFAG",
+      "title": "SparseFlashAttentionGrad",
+      "tier": "competition",
+      "entry": "competition/starcup-2026-final/sparse-flash-attention-grad",
+      "family": "attention-backward",
+      "readme": "competition/starcup-2026-final/sparse-flash-attention-grad/README.md",
+      "source_json": "competition/starcup-2026-final/sparse-flash-attention-grad/source.json",
+      "one_line": "AIC/AIV MIX；L1 双缓冲；三阶段融合；稀疏 gather/scatter；KV merge；13 个布尔 tiling key",
+      "local_status": "platform-only",
+      "source_match": "",
+      "official_problem": {
+        "contest_id": "6abcb2fa694b590c3c300a2e",
+        "problem_id": "6ac8bc7c694b590c3c96728a",
+        "canonical_name": "sparseflashattentiongrad",
+        "title": "Sparse Flash Attention Grad",
+        "total_testcase_count": 15,
+        "ranking_submission_mode": "best",
+        "description": "competition/starcup-2026-final/official/descriptions/sparseflashattentiongrad.md",
+        "url": "https://cannjudge.cn/public/ct_starcup_aiop_final/sparseflashattentiongrad"
+      },
+      "verification": "platform Pass; local not-run",
+      "conditions": [
+        "可见 10 case",
+        "隐藏 5 case 反推 58.71。"
+      ],
+      "negative_cases": [
+        "源码 token 压缩不可读",
+        "隐藏 case tiling key 选择不够好",
+        "组合爆炸。"
+      ],
+      "reuse_decision": "三阶段融合、稀疏 gather/scatter、KV merge、L1 双缓冲、tiling key 组合；不要复制压缩源码风格。",
+      "source_files": [
+        "source/CMakeLists.txt:20",
+        "source/op_host/CMakeLists.txt:24",
+        "source/op_host/sparse_flash_attention_grad.cpp:9",
+        "source/op_kernel/CMakeLists.txt:15",
+        "source/op_kernel/sparse_flash_attention_grad.cpp:885",
+        "source/op_kernel/sparse_flash_attention_grad_tiling.h:9"
+      ],
+      "supporting_sources": [],
+      "evidence": []
     }
   ]
 }

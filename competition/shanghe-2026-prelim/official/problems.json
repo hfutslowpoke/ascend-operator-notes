@@ -1,0 +1,27 @@
+{
+  "contest": {
+    "id": "6a9a9741bf41025d601345c7",
+    "slug": "op_challenge_shanghe_prelim",
+    "title": "2026年CANN挑战赛_上合赛区（初赛）",
+    "start": "2026-09-04T16:00:00.000Z",
+    "end": "2026-10-17T10:00:00.000Z",
+    "url": "https://cannjudge.cn/public/op_challenge_shanghe_prelim"
+  },
+  "problems": [
+    {
+      "problem_id": "6a9aa054bf41025d6014f3ef",
+      "slug": "batchmatmulmaxsum",
+      "title": "BatchMatmulMaxSum",
+      "canonical_name": "batchmatmulmaxsum",
+      "total_testcase_count": 15,
+      "ranking_submission_mode": "latest",
+      "score_mode": 1,
+      "difficulty": 1,
+      "cann_version": "9.0.0",
+      "description": "descriptions/batchmatmulmaxsum.md",
+      "problem_json": "problem-6a9aa054bf41025d6014f3ef.json",
+      "url": "https://cannjudge.cn/public/op_challenge_shanghe_prelim/batchmatmulmaxsum",
+      "official_problem_id": 1746
+    }
+  ]
+}

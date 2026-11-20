@@ -1,0 +1,9 @@
+#pragma once
+#include <cstdint>
+static constexpr uint32_t SFAG_R1_OWNER_CORES=32;static constexpr uint32_t SFAG_R1_TILE=16;static constexpr uint32_t SFAG_R1_D=512;static constexpr uint32_t SFAG_R1_MATH_BYTES=114720;static constexpr uint32_t SFAG_R1_STATE_FLOATS=1568;struct SfagLegacyTiling100{uint32_t batch;uint32_t s1;uint32_t s2;uint32_t n1;uint32_t d;uint32_t dr;uint32_t sparseCount;uint32_t blockSize;uint32_t sparseMode;uint32_t hasValue;uint32_t hasDValue;uint32_t hasQueryLengths;uint32_t hasKvLengths;uint32_t hasRope;float scale;uint32_t batchTile;uint32_t splitCount;uint32_t denseHistogram;uint32_t sharedGroups;uint32_t sortedGroups;uint32_t headGroup;uint32_t d2chunk;uint32_t d2slots;uint32_t spatialPipeMode;uint32_t c5RectMode;};struct SfagLegacyTiling96{uint32_t batch;uint32_t s1;uint32_t s2;uint32_t n1;uint32_t d;uint32_t dr;uint32_t sparseCount;uint32_t blockSize;uint32_t sparseMode;uint32_t hasValue;uint32_t hasDValue;uint32_t hasQueryLengths;uint32_t hasKvLengths;uint32_t hasRope;float scale;uint32_t batchTile;uint32_t splitCount;uint32_t denseHistogram;uint32_t sharedGroups;uint32_t sortedGroups;uint32_t headGroup;uint32_t d2chunk;uint32_t d2slots;uint32_t spatialPipeMode;};struct SfagCompactTiling8{float scale;uint32_t c5RectMode;};
+#if defined(TILING_KEY_VAR) && TILING_KEY_VAR==48897UL
+using SparseFlashAttentionGradTilingData=SfagLegacyTiling96;
+#else
+using SparseFlashAttentionGradTilingData=SfagLegacyTiling100;
+#endif
+using SfagC8CompactTilingData=SfagCompactTiling8;static_assert(sizeof(SfagLegacyTiling96)==96);static_assert(sizeof(SfagLegacyTiling100)==100);static_assert(sizeof(SfagCompactTiling8)==8);struct SfagGeneralTiling64{uint32_t batch,s1,s2,n1,sparseCount,blockSize,sparseMode,hasValue;uint32_t hasQueryLengths,hasKvLengths,hasRope;float scale;uint32_t kvTile,cores,reserved0,reserved1;};static_assert(sizeof(SfagGeneralTiling64)==64);

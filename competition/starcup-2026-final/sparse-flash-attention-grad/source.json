@@ -1,0 +1,82 @@
+{
+  "schema_version": 2,
+  "entry": "competition/starcup-2026-final/sparse-flash-attention-grad",
+  "tier": "competition",
+  "repository": {
+    "id": "cannjudge-starcup-2026-final-sfag",
+    "url": "https://cannjudge.cn/public/ct_starcup_aiop_final/sparseflashattentiongrad",
+    "commit": "SID 6ae610371dac5d235b1e9b2e",
+    "default_branch": "n/a",
+    "license": "our-submission",
+    "status": "platform-only",
+    "local_cache": "competition/starcup-2026-final/sparse-flash-attention-grad/source"
+  },
+  "implementations": [
+    {
+      "id": "STARCUP-2026-FINAL-SFAG",
+      "operator": "SparseFlashAttentionGrad",
+      "operator_family": "attention-backward",
+      "source_files": [
+        {
+          "path": "CMakeLists.txt",
+          "lines": "20",
+          "sha256": "650f11fab6711603bcfeb1af60463db47f060dbcb67de2cddd8398e5c0ebb3df",
+          "local_path": "source/CMakeLists.txt"
+        },
+        {
+          "path": "op_host/CMakeLists.txt",
+          "lines": "24",
+          "sha256": "02333c3a83a459059bb0a96df1d3627e2f78f457d2a22d08e56e29439b22ddcf",
+          "local_path": "source/op_host/CMakeLists.txt"
+        },
+        {
+          "path": "op_host/sparse_flash_attention_grad.cpp",
+          "lines": "9",
+          "sha256": "e570a96c3400e09ca3aba4c546f1d02cb6227a24aeaf0d642b6a642c3da4f14a",
+          "local_path": "source/op_host/sparse_flash_attention_grad.cpp"
+        },
+        {
+          "path": "op_kernel/CMakeLists.txt",
+          "lines": "15",
+          "sha256": "d05a8a3f067af24667c096c672c869b35f1cc854a201449455f86817929a2b07",
+          "local_path": "source/op_kernel/CMakeLists.txt"
+        },
+        {
+          "path": "op_kernel/sparse_flash_attention_grad.cpp",
+          "lines": "885",
+          "sha256": "a990020743cd9f99081542d43112f9d5737dabc67c198463968bcb6580309ed7",
+          "local_path": "source/op_kernel/sparse_flash_attention_grad.cpp"
+        },
+        {
+          "path": "op_kernel/sparse_flash_attention_grad_tiling.h",
+          "lines": "9",
+          "sha256": "07a2f0de6aa9ba803e22d7e14b29e238748e859de3dacc01f06fd82b71ba21c2",
+          "local_path": "source/op_kernel/sparse_flash_attention_grad_tiling.h"
+        },
+        {
+          "path": "op_kernel/tiling_key_sparse_flash_attention_grad.h",
+          "lines": "3391",
+          "sha256": "6e7136c924ed67f753ef11dfdeeef1d95c1cd2c5cd08ed49b72ae9dd9bb7e20e",
+          "local_path": "source/op_kernel/tiling_key_sparse_flash_attention_grad.h"
+        }
+      ],
+      "local_status": "platform-only",
+      "official_problem": {
+        "contest_id": "6abcb2fa694b590c3c300a2e",
+        "problem_id": "6ac8bc7c694b590c3c96728a",
+        "canonical_name": "sparseflashattentiongrad",
+        "title": "Sparse Flash Attention Grad",
+        "total_testcase_count": 15,
+        "ranking_submission_mode": "best",
+        "description": "competition/starcup-2026-final/official/descriptions/sparseflashattentiongrad.md",
+        "url": "https://cannjudge.cn/public/ct_starcup_aiop_final/sparseflashattentiongrad"
+      },
+      "local_validation": {}
+    }
+  ],
+  "local_validation": {
+    "status": "platform-only",
+    "notes": "平台证据；本机 not-run；未看隐藏输入。"
+  },
+  "generated_from": "index/catalog.json"
+}

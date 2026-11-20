@@ -1,0 +1,97 @@
+{
+  "schema_version": 2,
+  "entry": "competition/shanghe-2026-prelim/batchmatmulmaxsum",
+  "tier": "competition",
+  "repository": {
+    "id": "cannjudge-shanghe-2026-prelim-batchmatmulmaxsum",
+    "url": "https://cannjudge.cn/public/op_challenge_shanghe_prelim/batchmatmulmaxsum",
+    "commit": "SID 6ad314c2193e507d8e5e08a4",
+    "default_branch": "n/a",
+    "license": "our-submission",
+    "status": "platform-only",
+    "local_cache": "competition/shanghe-2026-prelim/batchmatmulmaxsum/source"
+  },
+  "implementations": [
+    {
+      "id": "SHANGHE-2026-PRELIM-BMMS",
+      "operator": "BatchMatmulMaxSum",
+      "operator_family": "late-interaction",
+      "source_files": [
+        {
+          "path": "CMakeLists.txt",
+          "lines": "33",
+          "sha256": "53106d865904ad12fe91c5f4c1a603590cf171ed9d162b6b4cd7f463ab8eac75",
+          "local_path": "source/CMakeLists.txt"
+        },
+        {
+          "path": "data_utils.h",
+          "lines": "84",
+          "sha256": "1bdaae93c09b65e2615691a39bfd611122c09668d90e21809c52516f443bfd84",
+          "local_path": "source/data_utils.h"
+        },
+        {
+          "path": "kernel.asc",
+          "lines": "3020",
+          "sha256": "8492e1a9259e3eb64b8b9f4b464c9fcda810f07eb4938d390663c9b1e75ef010",
+          "local_path": "source/kernel.asc"
+        },
+        {
+          "path": "main.asc",
+          "lines": "96",
+          "sha256": "5992b05f95232e411ba4b877f0d56ba449e801eda47d4417c898d1c6d176c174",
+          "local_path": "source/main.asc"
+        },
+        {
+          "path": "run.sh",
+          "lines": "46",
+          "sha256": "7b09d940a9c8ef3d2591d14b7dc945c79df414e569afb502a0b5758737af6e94",
+          "local_path": "source/run.sh"
+        },
+        {
+          "path": "scripts/BatchMatmulMaxSum.py",
+          "lines": "110",
+          "sha256": "114b2cf69864c61026739473e7108a12f18acb44ee3d108245fd24b268259a54",
+          "local_path": "source/scripts/BatchMatmulMaxSum.py"
+        },
+        {
+          "path": "scripts/gen_data.py",
+          "lines": "33",
+          "sha256": "24189ade913d6c86a392c69b49ba0ae9b7a1b64e98e368f444ac3da20dee6de8",
+          "local_path": "source/scripts/gen_data.py"
+        },
+        {
+          "path": "scripts/verify_result.py",
+          "lines": "106",
+          "sha256": "023ea57bfefe6701c8ec8a0aa50696cd9ba228890b8e1cbfd9f6f8ae38b5d371",
+          "local_path": "source/scripts/verify_result.py"
+        }
+      ],
+      "supporting_sources": [
+        {
+          "kind": "zip",
+          "file": "batchmatmulmaxsum_submission_278917.zip",
+          "sha256": "8ac727d7ee93b36c47c8dec2048767b6fd7f054bf66bcecdf0ce0eeda16ffb76",
+          "path": "batchmatmulmaxsum_submission_278917.zip",
+          "lines": "zip"
+        }
+      ],
+      "local_status": "platform-only",
+      "official_problem": {
+        "contest_id": "6a9a9741bf41025d601345c7",
+        "problem_id": "6a9aa054bf41025d6014f3ef",
+        "canonical_name": "batchmatmulmaxsum",
+        "title": "BatchMatmulMaxSum",
+        "total_testcase_count": 15,
+        "ranking_submission_mode": "latest",
+        "description": "competition/shanghe-2026-prelim/official/descriptions/batchmatmulmaxsum.md",
+        "url": "https://cannjudge.cn/public/op_challenge_shanghe_prelim/batchmatmulmaxsum"
+      },
+      "local_validation": {}
+    }
+  ],
+  "local_validation": {
+    "status": "platform-only",
+    "notes": "平台证据；本机 not-run；未看隐藏输入。"
+  },
+  "generated_from": "index/catalog.json"
+}

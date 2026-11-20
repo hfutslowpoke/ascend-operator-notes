@@ -1,0 +1,219 @@
+{
+  "contest_id": "6abcb2fa694b590c3c300a2e",
+  "contest": "ct_starcup_aiop_final",
+  "problem_id": "6ac8bc7c694b590c3c96728a",
+  "problem": "sparseflashattentiongrad",
+  "title": "【决赛算子题】SparseFlashAttentionGrad 算子",
+  "sid": "6ae610371dac5d235b1e9b2e",
+  "detail_ID": 1042875,
+  "user": {
+    "_id": "6aad2318b0477ec41e57bd53",
+    "ID": 6189,
+    "nickname": "feixiangtian16",
+    "group_nickname": null
+  },
+  "status": "Pass",
+  "valid": true,
+  "visible_cases": 10,
+  "total_cases": 15,
+  "own": {
+    "rank": 6,
+    "user": "feixiangtian16",
+    "team": "hfutslowpoke 的队伍",
+    "score": 73.77,
+    "sid": "6ae610371dac5d235b1e9b2e",
+    "create_time": "2026-10-31T15:58:47.475Z"
+  },
+  "team": {
+    "rank": 6,
+    "user": "feixiangtian16",
+    "team": "hfutslowpoke 的队伍",
+    "score": 73.77,
+    "sid": "6ae610371dac5d235b1e9b2e",
+    "create_time": "2026-10-31T15:58:47.475Z"
+  },
+  "top10": [
+    {
+      "rank": 1,
+      "user": "serendipity_lin",
+      "team": "a120240127",
+      "score": 94.63
+    },
+    {
+      "rank": 2,
+      "user": "DaiVernon",
+      "team": "润喉糖",
+      "score": 85.67
+    },
+    {
+      "rank": 3,
+      "user": "gcw_prX8saep",
+      "team": "南工工南",
+      "score": 79.97
+    },
+    {
+      "rank": 4,
+      "user": "JerryJiao0628",
+      "team": "南工Tibo",
+      "score": 79.34
+    },
+    {
+      "rank": 5,
+      "user": "豆包",
+      "team": "蒜子批发",
+      "score": 78.77
+    },
+    {
+      "rank": 6,
+      "user": "feixiangtian16",
+      "team": "hfutslowpoke 的队伍",
+      "score": 73.77
+    },
+    {
+      "rank": 7,
+      "user": "墨月",
+      "team": "长广溪第一生擒",
+      "score": 70.15
+    },
+    {
+      "rank": 8,
+      "user": "misisuku",
+      "team": "mikusuku 的队伍",
+      "score": 70
+    },
+    {
+      "rank": 9,
+      "user": "马化腾",
+      "team": "让南理再次伟大",
+      "score": 66.21
+    },
+    {
+      "rank": 10,
+      "user": "gcw_kXGvC7PH",
+      "team": "giados",
+      "score": 63.71
+    }
+  ],
+  "per_case": [
+    {
+      "testcase_id": "6ac8bc7c694b590c3c967296",
+      "time": 283.1,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 258.2
+    },
+    {
+      "testcase_id": "6ac8bc7c694b590c3c96729b",
+      "time": 77.88,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 71.22
+    },
+    {
+      "testcase_id": "6ac8bc7c694b590c3c9672a0",
+      "time": 33,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 32.38
+    },
+    {
+      "testcase_id": "6ac8bc7c694b590c3c9672a5",
+      "time": 701.82,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 553.51
+    },
+    {
+      "testcase_id": "6ac8bc7c694b590c3c9672ac",
+      "time": 252.08,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 236
+    },
+    {
+      "testcase_id": "6ac8bc7c694b590c3c9672b0",
+      "time": 61.03,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 56.87
+    },
+    {
+      "testcase_id": "6ac8bc7c694b590c3c9672b4",
+      "time": 119.72,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 116.52
+    },
+    {
+      "testcase_id": "6ac8bc7c694b590c3c9672b8",
+      "time": 36.43,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 30.44
+    },
+    {
+      "testcase_id": "6ac8bc7c694b590c3c9672bc",
+      "time": 206.66,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 179.89
+    },
+    {
+      "testcase_id": "6ac8bc7c694b590c3c9672c0",
+      "time": 75.52,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 69.19
+    },
+    {
+      "testcase_id": "6ac8bc7c694b590c3c9672c4",
+      "testcase_status": "Hidden",
+      "time": null,
+      "precision_ratio": null
+    },
+    {
+      "testcase_id": "6ac8bc7c694b590c3c9672c8",
+      "testcase_status": "Hidden",
+      "time": null,
+      "precision_ratio": null
+    },
+    {
+      "testcase_id": "6ac8bc7c694b590c3c9672cc",
+      "testcase_status": "Hidden",
+      "time": null,
+      "precision_ratio": null
+    },
+    {
+      "testcase_id": "6ac8bc7c694b590c3c9672d0",
+      "testcase_status": "Hidden",
+      "time": null,
+      "precision_ratio": null
+    },
+    {
+      "testcase_id": "6ac8bc7c694b590c3c9672d4",
+      "testcase_status": "Hidden",
+      "time": null,
+      "precision_ratio": null
+    }
+  ]
+}

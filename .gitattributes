@@ -5,3 +5,8 @@ competition/grouped-matmul-gelu/prs/** -whitespace
 competition/grouped-matmul-gelu/official/** -whitespace
 competition/grouped-matmul-gelu/our-submission/** -whitespace
 competition/grouped-matmul-gelu/components/** -whitespace
+competition/shanghe-2026-prelim/*/source/** -whitespace
+competition/shanghe-2026-prelim/*/candidates/** -whitespace
+competition/starcup-2026-a-group/*/source/** -whitespace
+competition/starcup-2026-a-group/*/candidates/** -whitespace
+competition/starcup-2026-final/*/source/** -whitespace

@@ -1,0 +1,91 @@
+{
+  "schema_version": 2,
+  "entry": "competition/starcup-2026-a-group/sparse-softmax",
+  "tier": "competition",
+  "repository": {
+    "id": "cannjudge-starcup-2026-a-sparsesoftmax",
+    "url": "https://cannjudge.cn/public/ct_starcup_aiop_g1/sparsesoftmax",
+    "commit": "SID 6aba0748694b590c3cb0353b",
+    "default_branch": "n/a",
+    "license": "our-submission",
+    "status": "platform-only",
+    "local_cache": "competition/starcup-2026-a-group/sparse-softmax/source"
+  },
+  "implementations": [
+    {
+      "id": "STARCUP-2026-A-SPARSESOFTMAX",
+      "operator": "Sparse Softmax",
+      "operator_family": "sparse-softmax",
+      "source_files": [
+        {
+          "path": "CMakeLists.txt",
+          "lines": "17",
+          "sha256": "0700ff12bb754ab0c6f8fcc1fcdf2d1650586535fb59ec57ed98de506ca35269",
+          "local_path": "source/CMakeLists.txt"
+        },
+        {
+          "path": "op_host/CMakeLists.txt",
+          "lines": "24",
+          "sha256": "02333c3a83a459059bb0a96df1d3627e2f78f457d2a22d08e56e29439b22ddcf",
+          "local_path": "source/op_host/CMakeLists.txt"
+        },
+        {
+          "path": "op_host/sparse_softmax.cpp",
+          "lines": "84",
+          "sha256": "e2e7683e6c5637e782acd98656fe31f4252be1d54a25344750657343c44466ba",
+          "local_path": "source/op_host/sparse_softmax.cpp"
+        },
+        {
+          "path": "op_kernel/CMakeLists.txt",
+          "lines": "15",
+          "sha256": "d05a8a3f067af24667c096c672c869b35f1cc854a201449455f86817929a2b07",
+          "local_path": "source/op_kernel/CMakeLists.txt"
+        },
+        {
+          "path": "op_kernel/sparse_softmax.cpp",
+          "lines": "1441",
+          "sha256": "e5424a08f5f7f240eec8364045333e46747c57bf0ed6d8def1d4dbc153f02ed6",
+          "local_path": "source/op_kernel/sparse_softmax.cpp"
+        },
+        {
+          "path": "op_kernel/sparse_softmax_tiling.h",
+          "lines": "28",
+          "sha256": "7bd38dbc669780eec4ce7721b06f5e611f419f4565fb99654a991e7ce4414cf1",
+          "local_path": "source/op_kernel/sparse_softmax_tiling.h"
+        },
+        {
+          "path": "op_kernel/tiling_key_sparse_softmax.h",
+          "lines": "83",
+          "sha256": "21884d5f05221cebf6d1e015366ae2c42e1eb0be0174a56dfbd2273dfca650f6",
+          "local_path": "source/op_kernel/tiling_key_sparse_softmax.h"
+        }
+      ],
+      "supporting_sources": [
+        {
+          "kind": "zip",
+          "file": "SparseSoftmax_submission_494890.zip",
+          "sha256": "8c15d044a31640f9098196609c99bdee5628e489f89181c01ebe97c7f1a3ced0",
+          "path": "SparseSoftmax_submission_494890.zip",
+          "lines": "zip"
+        }
+      ],
+      "local_status": "platform-only",
+      "official_problem": {
+        "contest_id": "6a7bf036a52e0f540a88df6e",
+        "problem_id": "6a7c17b6a52e0f540a89c0ce",
+        "canonical_name": "sparsesoftmax",
+        "title": "Sparse Softmax",
+        "total_testcase_count": 5,
+        "ranking_submission_mode": "latest",
+        "description": "competition/starcup-2026-a-group/official/descriptions/sparsesoftmax.md",
+        "url": "https://cannjudge.cn/public/ct_starcup_aiop_g1/sparsesoftmax"
+      },
+      "local_validation": {}
+    }
+  ],
+  "local_validation": {
+    "status": "platform-only",
+    "notes": "平台证据；本机 not-run；未看隐藏输入。"
+  },
+  "generated_from": "index/catalog.json"
+}

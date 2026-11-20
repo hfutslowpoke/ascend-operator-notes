@@ -1,0 +1,57 @@
+{
+  "contest": {
+    "id": "6a7bf036a52e0f540a88df6e",
+    "slug": "ct_starcup_aiop_g1",
+    "title": "中国电信星辰杯高校AI算子开发挑战赛（A组）",
+    "start": "2026-08-11T16:00:00.000Z",
+    "end": "2026-09-29T06:15:00.000Z",
+    "url": "https://cannjudge.cn/public/ct_starcup_aiop_g1"
+  },
+  "problems": [
+    {
+      "problem_id": "6a7c17b6a52e0f540a89c0ce",
+      "slug": "sparsesoftmax",
+      "title": "【A组简单题】Sparse Softmax 算子",
+      "canonical_name": "sparsesoftmax",
+      "total_testcase_count": 5,
+      "ranking_submission_mode": "latest",
+      "score_mode": 0,
+      "difficulty": 1,
+      "cann_version": "8.5.0",
+      "description": "descriptions/sparsesoftmax.md",
+      "problem_json": "problem-6a7c17b6a52e0f540a89c0ce.json",
+      "url": "https://cannjudge.cn/public/ct_starcup_aiop_g1/sparsesoftmax",
+      "official_problem_id": 298
+    },
+    {
+      "problem_id": "6a7c1839a52e0f540a89c463",
+      "slug": "denselightningindexergradklloss",
+      "title": "【A组中等题】Dense Lightning Indexer Grad KL Loss 算子",
+      "canonical_name": "denselightningindexergradklloss",
+      "total_testcase_count": 7,
+      "ranking_submission_mode": "latest",
+      "score_mode": 0,
+      "difficulty": 1,
+      "cann_version": "8.5.0",
+      "description": "descriptions/denselightningindexergradklloss.md",
+      "problem_json": "problem-6a7c1839a52e0f540a89c463.json",
+      "url": "https://cannjudge.cn/public/ct_starcup_aiop_g1/denselightningindexergradklloss",
+      "official_problem_id": 299
+    },
+    {
+      "problem_id": "6a7c191ca52e0f540a89ca9e",
+      "slug": "mhcpre",
+      "title": "【A组困难题】mHcPre 算子",
+      "canonical_name": "mhcpre",
+      "total_testcase_count": 2,
+      "ranking_submission_mode": "latest",
+      "score_mode": 0,
+      "difficulty": 1,
+      "cann_version": "8.5.0",
+      "description": "descriptions/mhcpre.md",
+      "problem_json": "problem-6a7c191ca52e0f540a89ca9e.json",
+      "url": "https://cannjudge.cn/public/ct_starcup_aiop_g1/mhcpre",
+      "official_problem_id": 300
+    }
+  ]
+}

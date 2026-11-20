@@ -12,6 +12,7 @@
 
 | 你要找 | 入口 |
 |---|---|
+| 上合初赛/决赛、星辰杯 A 组/决赛 | [`../competition/shanghe-2026-prelim/README.md`](../competition/shanghe-2026-prelim/README.md)、[`../competition/starcup-2026-a-group/README.md`](../competition/starcup-2026-a-group/README.md) |
 | 制造专场 15 题 + 源码分级 + 本机状态 | [`../index/by-cannjudge.md`](../index/by-cannjudge.md) |
 | 制造专场官方规格 | [`../competition/mfg-2026/official/specs.md`](../competition/mfg-2026/official/specs.md) |
 | 制造专场逐题差异/缺口 | [`../competition/mfg-2026/problems.md`](../competition/mfg-2026/problems.md) |
@@ -25,7 +26,7 @@
 
 | 子库 | 内容 | 入口 |
 |---|---|---|
-| 竞赛知识 | GroupedMatmulGelu、CANN 竞赛仓、电力行业、Hansen、KernelSwift、制造专场 | [`../competition/README.md`](../competition/README.md) |
+| 竞赛知识 | GroupedMatmulGelu、CANN 竞赛仓、电力行业、Hansen、KernelSwift、制造专场、上合 2026、星辰杯 2026 | [`../competition/README.md`](../competition/README.md) |
 | 通用知识 | SVD/eigh、Mamba-2、vLLM-HUST、O(3)/mesh、Triton 基准、CANNBot | [`../general/README.md`](../general/README.md) |
 | 官方题面 | 制造专场 15 题公开题面与 specs | [`../competition/mfg-2026/official/README.md`](../competition/mfg-2026/official/README.md) |
 | 索引 | catalog/cards/by-family/by-evidence/by-source-match/by-cannjudge | [`../index/README.md`](../index/README.md) |
@@ -35,6 +36,10 @@
 | 实现 | 位置 | 状态 |
 |---|---|---|
 | GroupedMatmulGelu 参赛 kernel | [`../competition/grouped-matmul-gelu/our-submission/`](../competition/grouped-matmul-gelu/our-submission/) | 历史竞赛提交；SID/榜单快照见 `analysis/PLATFORM_EVIDENCE.md` |
+| BatchMatmulMaxSum 参赛 kernel | [`../competition/shanghe-2026-prelim/batchmatmulmaxsum/source/`](../competition/shanghe-2026-prelim/batchmatmulmaxsum/source/) | 平台 24/661，64.44；本机 `not-run` |
+| Sparse Softmax 参赛 kernel | [`../competition/starcup-2026-a-group/sparse-softmax/source/`](../competition/starcup-2026-a-group/sparse-softmax/source/) | 平台 2/161，84.36；本机 `not-run` |
+| DenseLightningIndexerGradKLLoss 参赛 kernel | [`../competition/starcup-2026-a-group/dense-lightning-indexer-grad-kl-loss/source/`](../competition/starcup-2026-a-group/dense-lightning-indexer-grad-kl-loss/source/) | 平台 15/94，28.83；本机 `not-run` |
+| SparseFlashAttentionGrad 参赛 kernel | [`../competition/starcup-2026-final/sparse-flash-attention-grad/source/`](../competition/starcup-2026-final/sparse-flash-attention-grad/source/) | 平台 6/28，73.77；本机 `not-run` |
 | 制造专场 SegmentMinCsr 补充骨架 | [`../competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/`](../competition/mfg-2026/ops-gnn/supporting/torch_scatter_npu/) | 第三方 A2/A3 骨架；BUILD+RUN PASS 仅示例，非官方语义 |
 | 制造专场主实现 | 暂无 | `competition/mfg-2026/*/source/` 是公开源码，不是我们的提交 |
 

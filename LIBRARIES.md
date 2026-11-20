@@ -38,6 +38,8 @@ index/
 ## 2. 经验库
 
 ```text
+playbook/topics/              按问题选的一页专题：小 case、团队取包、隐藏 case、语义覆盖、Cube/Vector、对齐尾块
+playbook/rules/               平台精度、输入构造、本机 vs 平台、提交回读
 docs/experiences/
   work_reduction_vs_fixed_overhead.md
   layout_and_buffer_lifecycle.md
@@ -103,8 +105,8 @@ CANNJudge 公开题面/测试点数
 ## 6. 当前规模
 
 ```text
-知识库：20 个仓库记录、35 份实现、35 张阅读卡、15 份制造官方题面
-经验库：7 篇跨实现经验 + 制造 10 个小点 + 本机验证总账
+知识库：24 个仓库记录、39 份实现、39 张阅读卡、21 份官方题面（制造 15 + 上合/星辰 6）
+经验库：6 个通用专题 + 7 篇跨实现经验 + 制造 10 个小点 + 本机验证总账
 工具库：索引/校验/官方题面/CANNJudge 客户端/打包/提交/agent skills
 ```
 

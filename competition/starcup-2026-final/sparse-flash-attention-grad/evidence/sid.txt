@@ -1,0 +1,5 @@
+SID: 6ae610371dac5d235b1e9b2e
+detail_ID: 1042875
+user: feixiangtian16
+status: Pass
+visible_cases: 10/15

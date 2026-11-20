@@ -40,6 +40,15 @@
 |---|---|---|---|
 | `GITCODE-CONCAT` | `competition` | [README](../competition/cann-ops-competitions/README.md) | offline layout/address tests passed locally; no NPU build/run |
 
+## `platform-only`
+
+| 实现 | 层 | 条目 | 说明 |
+|---|---|---|---|
+| `SHANGHE-2026-PRELIM-BMMS` | `competition` | [README](../competition/shanghe-2026-prelim/batchmatmulmaxsum/README.md) | platform Pass; local not-run |
+| `STARCUP-2026-A-DENSELIGHTNING` | `competition` | [README](../competition/starcup-2026-a-group/dense-lightning-indexer-grad-kl-loss/README.md) | platform Pass; local not-run |
+| `STARCUP-2026-A-SPARSESOFTMAX` | `competition` | [README](../competition/starcup-2026-a-group/sparse-softmax/README.md) | platform Pass; local not-run |
+| `STARCUP-2026-FINAL-SFAG` | `competition` | [README](../competition/starcup-2026-final/sparse-flash-attention-grad/README.md) | platform Pass; local not-run |
+
 ## `not-run`
 
 | 实现 | 层 | 条目 | 说明 |

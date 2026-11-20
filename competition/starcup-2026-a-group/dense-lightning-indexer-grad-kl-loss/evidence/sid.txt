@@ -1,0 +1,5 @@
+SID: 6aba149b694b590c3cb925d4
+detail_ID: 495694
+user: feixiangtian16
+status: Pass
+visible_cases: 7/7

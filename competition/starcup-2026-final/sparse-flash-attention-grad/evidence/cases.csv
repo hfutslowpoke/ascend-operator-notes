@@ -1,0 +1,16 @@
+testcase_id,status,time,best_time,precision_ratio,score,type
+6ac8bc7c694b590c3c967296,Pass,283.1,258.2,1,0,default
+6ac8bc7c694b590c3c96729b,Pass,77.88,71.22,1,0,default
+6ac8bc7c694b590c3c9672a0,Pass,33,32.38,1,0,default
+6ac8bc7c694b590c3c9672a5,Pass,701.82,553.51,1,0,default
+6ac8bc7c694b590c3c9672ac,Pass,252.08,236,1,0,default
+6ac8bc7c694b590c3c9672b0,Pass,61.03,56.87,1,0,default
+6ac8bc7c694b590c3c9672b4,Pass,119.72,116.52,1,0,default
+6ac8bc7c694b590c3c9672b8,Pass,36.43,30.44,1,0,default
+6ac8bc7c694b590c3c9672bc,Pass,206.66,179.89,1,0,default
+6ac8bc7c694b590c3c9672c0,Pass,75.52,69.19,1,0,default
+6ac8bc7c694b590c3c9672c4,Hidden,,,,,
+6ac8bc7c694b590c3c9672c8,Hidden,,,,,
+6ac8bc7c694b590c3c9672cc,Hidden,,,,,
+6ac8bc7c694b590c3c9672d0,Hidden,,,,,
+6ac8bc7c694b590c3c9672d4,Hidden,,,,,

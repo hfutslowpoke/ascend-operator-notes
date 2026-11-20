@@ -30,4 +30,4 @@
 | [CosmosMind-ai/PyPTO-Ops](https://github.com/CosmosMind-ai/PyPTO-Ops) | PyPTO DSL 的 FlagGems 风格算子库；与当前 Ascend C/Triton-Ascend 目标差异大，留作后续专题 |
 | [Luoshu-Intelligent-Computing/ascend-310p-kernels](https://github.com/Luoshu-Intelligent-Computing/ascend-310p-kernels) | 面向 310P，不是 910B/910C 目标 |
 
-这些不建条目，也不计入 20 个仓库记录；如果后续出现固定源码、文档和可复现证据，再重新评估。
+这些不建条目，也不计入 24 个仓库记录；如果后续出现固定源码、文档和可复现证据，再重新评估。

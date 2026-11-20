@@ -1,6 +1,6 @@
-# 昇腾算子知识库：交接与继续维护
+# 昇腾算子知识库：公开仓库交接与继续维护
 
-编写日期：2026-11-17。本文可单独转交给新环境的开发者或 agent，说明仓库身份、两层结构、验证/入库流程和回退方式。
+编写日期：2026-11-17；公开化更新：2026-11-20。本文可单独转交给新环境的开发者或 agent，说明仓库身份、两层结构、验证/入库流程和回退方式。
 
 ## 1. 仓库身份
 
@@ -9,12 +9,14 @@
 | GitHub 仓库 | https://github.com/hfutslowpoke/ascend-operator-notes |
 | Git 地址 | `https://github.com/hfutslowpoke/ascend-operator-notes.git` |
 | 所有者 | `hfutslowpoke` |
-| 可见性 | **Private**（未认证 API 返回 404，但 fetch/push 正常） |
+| 可见性 | **Public**（匿名可读/可 clone；写入仍需 collaborator 权限或 token） |
 | 默认分支 | `main` |
 | 当前重构分支 | `architecture/two-tier-knowledge-base-20261117` |
 | 用途 | ACW 的外部算子知识层：竞赛机制、通用算子、证据、索引和 skills |
 
-`main` 保存旧版 GroupedMatmulGelu 归档；两层结构在 `architecture/two-tier-knowledge-base-20261117` 分支，验证通过后再决定是否合并。不要把“分支已推送”当成“main 已更新”。
+`main` 与 `architecture/two-tier-knowledge-base-20261117` 现在指向同一版三层结构；`research/open-source-operators-20261116` 保留重构前的历史。旧版 GroupedMatmulGelu 归档仍在 `competition/grouped-matmul-gelu/`。
+
+公开化时已把 mHcPre 的源码和候选包从 `main` 历史中移除（团队最佳源码不可见、个人版优化不足），只保留官方题面、团队排名/SID/分数和 [competition/excluded.md](../competition/excluded.md) 的说明。GitHub 仍可能在一段时间内保留不可达对象；不要把旧 commit 当成公开内容。
 
 ## 2. 两层结构
 
@@ -54,10 +56,10 @@ tools/         build_index.py、verify_archive.py
 
 ### 3.2 外部调研
 
-- 20 个仓库记录、18 个独立算法来源、15 个深读仓库、35 份实现；
-- 竞赛层：CANN 竞赛仓、电力行业仓、Hansen、KernelSwift；
+- 24 个仓库记录、18 个独立公开算法来源、15 个深读仓库、39 份实现；
+- 竞赛层：CANN 竞赛仓、电力行业仓、Hansen、KernelSwift、上合 2026、星辰杯 2026；
 - 通用层：Be4ver SVD、eigh 候选、Mamba-2、vLLM-HUST、Parity O(3)/mesh、52Xayah 负例、两个 Triton 基准、CANNBot 接入位；
-- 本机 910B3 证据：KernelSwift 2 PASS/1 编译失败、Be4ver 4 组 PASS、Lstsq 3 组部分 PASS、recompute_w_u 编译成功/运行失败、Concat 仅离线。
+- 本机 910B3 证据：KernelSwift 2 PASS/1 编译失败、Be4ver 4 组 PASS、Lstsq 3 组部分 PASS、recompute_w_u 编译成功/运行失败、Concat 仅离线；上合/星辰 4 个条目为 `platform-only`。
 
 完整数字见 [README](../README.md)、[index/catalog.json](../index/catalog.json)、[docs/validation/LOCAL_910B_VALIDATION_20261116.md](validation/LOCAL_910B_VALIDATION_20261116.md)。
 
@@ -81,23 +83,30 @@ tools/         build_index.py、verify_archive.py
 
 ## 5. 新环境首次配置
 
-需要 Git、GitHub CLI（可选）和 Python 3。只浏览/维护资料不需要 NPU；运行算子需另备 CANN/驱动/硬件。
+需要 Git 和 Python 3。只浏览/维护资料不需要 NPU；运行算子需另备 CANN/驱动/硬件。
+
+**只读（推荐给其它会话/agent）**：公开仓库无需登录、无需 token。
 
 ```bash
-gh auth login --hostname github.com --git-protocol https --web
-gh auth setup-git
-
 git clone https://github.com/hfutslowpoke/ascend-operator-notes.git
 cd ascend-operator-notes
-
-# 当前两层结构在重构分支
 git checkout architecture/two-tier-knowledge-base-20261117
 
 python3 tools/build_index.py --check
 python3 tools/verify_archive.py
 ```
 
-浏览器授权时登录有权限的 GitHub 账号；上传需要 `can_push=true`。仓库应保持 `private=true`。不要把密码、token 或 `hosts.yml` 放进仓库或交接文本。
+也可以直接读 GitHub 网页或 `raw.githubusercontent.com`；匿名 API 有速率限制（约 60 次/小时）。
+
+**写入（仅授权成员）**：需要 GitHub 账号的 collaborator 权限和 token。
+
+```bash
+gh auth login --hostname github.com --git-protocol https --web
+gh auth setup-git
+git push
+```
+
+上传需要 `can_push=true`。仓库是 Public，但 `push`/`PATCH`/删除分支仍然要求授权；不要把密码、token 或 `hosts.yml` 放进仓库或交接文本。若要限制 `main` 的直接推送，可另行启用 GitHub ruleset/branch protection。
 
 如新环境尚无 Git 身份：
 
@@ -140,9 +149,10 @@ git diff --check
 
 - 优先引用固定 commit + 路径/行号 + SHA256，不复制第三方源码；
 - `competition/grouped-matmul-gelu/prs/` 是已归档的公开 PR 快照，保留原始 LICENSE/PROVENANCE；
-- 未声明许可证的仓库（Hansen、KernelSwift、52Xayah、Be4ver）只做引用/行号分析，源码缓存留在工作区外；
+- `competition/mfg-2026/*/source/` 是 CANN 官方仓/DrivingSDK 的固定 commit 片段，分别按 CANN Open Software License 2.0 / Apache-2.0 保留头部与许可证全文，见 [competition/mfg-2026/THIRD_PARTY_LICENSES.md](../competition/mfg-2026/THIRD_PARTY_LICENSES.md)；
+- 未声明许可证的仓库（Hansen、KernelSwift、52Xayah、Be4ver）只做引用/行号分析，源码缓存在工作区外，不复制进本库；
 - 本地兼容 patch 只放工作区外副本，不写入第三方仓库和本库；
-- 公开可读不等于允许再分发。
+- 公开可读不等于允许再许可；本库没有为整个集合设置统一许可证。
 
 ## 8. 历史与回退
 

@@ -1,24 +1,30 @@
 # GitHub 使用说明
 
-仓库：https://github.com/hfutslowpoke/ascend-operator-notes 。上传前检查仓库是 Private；GitHub 页面仓库名称附近应显示 Private。
+仓库：https://github.com/hfutslowpoke/ascend-operator-notes 。仓库已设为 **Public**：匿名可读、可 clone；修改/推送仍需 GitHub 授权（collaborator 权限或 token）。
 
 ## 直接在网页使用
 
-登录后打开仓库，先读 README。点击文件夹和文件可以浏览源码；Markdown 文档会自动排版。想下载整个库，点绿色 Code → Download ZIP。想看以前版本，打开 Commits。
+不需要登录即可打开仓库、浏览源码和 Markdown。想下载整个库，点绿色 Code → Download ZIP。想看以前版本，打开 Commits。匿名访问 GitHub API 有速率限制（约 60 次/小时），大量读取建议 clone 到本地。
 
 以后可以点 Add file → Upload files 追加少量文件，写一句此次修改说明后 Commit changes。已有文件页面右上角的铅笔按钮可以编辑文字。大批量源码和连续开发更适合 Git。
 
 ## 换电脑后通过命令行使用
 
-安装 Git 和 GitHub CLI，运行：
+只读访问（不需要登录）：
 
 ```bash
-gh auth login
 git clone https://github.com/hfutslowpoke/ascend-operator-notes.git
 cd ascend-operator-notes
 ```
 
-在浏览器登录自己的 GitHub 账号完成授权。账号密码不发给协作者或聊天工具。授权凭据留在本机的 GitHub CLI 配置/凭据存储中，不放进仓库。
+需要推送时，再登录有 collaborator 权限的 GitHub 账号：
+
+```bash
+gh auth login
+gh auth setup-git
+```
+
+账号密码不发给协作者或聊天工具。授权凭据留在本机的 GitHub CLI 配置/凭据存储中，不放进仓库。
 
 以后每次更新：
 

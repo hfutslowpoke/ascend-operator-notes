@@ -1,0 +1,81 @@
+{
+  "problem_id": "6a9aa054bf41025d6014f3ef",
+  "own": {
+    "rank": 24,
+    "user": "slowpoke",
+    "team": "slowpoke 的队伍",
+    "score": 64.44,
+    "sid": "6ad314c2193e507d8e5e08a4",
+    "create_time": "2026-10-17T06:25:06.403Z"
+  },
+  "team": {
+    "rank": 24,
+    "user": "slowpoke",
+    "team": "slowpoke 的队伍",
+    "score": 64.44,
+    "sid": "6ad314c2193e507d8e5e08a4",
+    "create_time": "2026-10-17T06:25:06.403Z"
+  },
+  "top10": [
+    {
+      "rank": 1,
+      "user": "aleX_5y42",
+      "team": "�����rio 的队伍",
+      "score": 93.31
+    },
+    {
+      "rank": 2,
+      "user": "seeleawa",
+      "team": "seeleawa 的队伍",
+      "score": 74.31
+    },
+    {
+      "rank": 3,
+      "user": "martin",
+      "team": "TeamLiquid",
+      "score": 73.08
+    },
+    {
+      "rank": 4,
+      "user": "翘舌音",
+      "team": "487才是世一勘",
+      "score": 72.41
+    },
+    {
+      "rank": 5,
+      "user": "Cyrus",
+      "team": "Lizzop",
+      "score": 72.26
+    },
+    {
+      "rank": 6,
+      "user": "wannafly",
+      "team": "AAA广告位招租",
+      "score": 72.19
+    },
+    {
+      "rank": 7,
+      "user": "qq_14970375",
+      "team": "万兽之王的队伍",
+      "score": 71.72
+    },
+    {
+      "rank": 8,
+      "user": "诗酒",
+      "team": "摘星星的队伍",
+      "score": 70.92
+    },
+    {
+      "rank": 9,
+      "user": "bubu",
+      "team": "bububu 的队伍",
+      "score": 70.72
+    },
+    {
+      "rank": 10,
+      "user": "sage4444",
+      "team": "老板来份忘情牛肉题",
+      "score": 70.5
+    }
+  ]
+}

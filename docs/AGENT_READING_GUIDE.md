@@ -12,8 +12,9 @@
 1. [README](../README.md)：两层结构、当前规模、本机验证摘要。
 2. [docs/ARCHITECTURE.md](ARCHITECTURE.md)：条目契约、证据等级、910B3 验证协议。
 3. [index/README.md](../index/README.md)：机器索引怎么读、`local_status` 含义。
-4. [index/cards.md](../index/cards.md)：35 份实现的“一句话机制 + 先读文件 + 本机状态 + 边界”。
-5. 选下面一条阅读路线。
+4. [index/cards.md](../index/cards.md)：39 份实现的“一句话机制 + 先读文件 + 本机状态 + 边界”。
+5. [playbook/topics/README.md](../playbook/topics/README.md)：按问题选通用专题（小 case、团队取包、隐藏 case、语义覆盖、Cube/Vector、对齐尾块）。
+6. 选下面一条阅读路线。
 
 如果只做一次检索，直接读 [index/cards.json](../index/cards.json) 或 [index/by-family.md](../index/by-family.md)；cards 是给 agent 的入口，不替代条目 README。
 

@@ -1,0 +1,6 @@
+testcase_id,status,time,best_time,precision_ratio,score,type
+6a8babe582cffa8f16d5c82f,Pass,1.4,1.36,1,0,default
+6a8babe582cffa8f16d5c833,Pass,1.48,1.34,1,0,default
+6a8babe582cffa8f16d5c837,Pass,1.46,1.34,1,0,default
+6a8babe582cffa8f16d5c83b,Pass,1.48,1.38,1,0,default
+6a8babe582cffa8f16d5c83f,Pass,1.48,1.34,1,0,default

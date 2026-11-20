@@ -5,6 +5,25 @@
 
 ## competition
 
+### `STARCUP-2026-A-DENSELIGHTNING`
+
+- **Dense Lightning Indexer Grad KL Loss** · `attention-backward` · 本机 `platform-only`
+- 一句话：纯 Vector；复用 softmaxMax/Sum 重建 softmax；KL+全部梯度融合；UB arena；head split 4/8 核；精确 public shape 跳过 tiling 读取
+- 先读：[README](../competition/starcup-2026-a-group/dense-lightning-indexer-grad-kl-loss/README.md) · [source.json](../competition/starcup-2026-a-group/dense-lightning-indexer-grad-kl-loss/source.json)
+- 源码入口：`source/CMakeLists.txt:17`；`source/op_host/CMakeLists.txt:24`；`source/op_host/dense_lightning_indexer_grad_kl_loss.cpp:212`
+- 补充源码：`DenseLightningIndexerGradKlLoss_submission_495694.zip:zip`
+- 适用条件：公开 7 case；无 RoPE、sparseMode=0、非变长。
+- 负例/风险：host 硬编码 hasRope=0/sparseMode=0/useSeqLens=0；op def 未声明 queryRope/keyRope/actual_seq_lengths/sparseMode/layout；纯 Vector 做 D=128 GEMM，小 case 7-12x。
+
+### `STARCUP-2026-FINAL-SFAG`
+
+- **SparseFlashAttentionGrad** · `attention-backward` · 本机 `platform-only`
+- 一句话：AIC/AIV MIX；L1 双缓冲；三阶段融合；稀疏 gather/scatter；KV merge；13 个布尔 tiling key
+- 先读：[README](../competition/starcup-2026-final/sparse-flash-attention-grad/README.md) · [source.json](../competition/starcup-2026-final/sparse-flash-attention-grad/source.json)
+- 源码入口：`source/CMakeLists.txt:20`；`source/op_host/CMakeLists.txt:24`；`source/op_host/sparse_flash_attention_grad.cpp:9`
+- 适用条件：可见 10 case；隐藏 5 case 反推 58.71。
+- 负例/风险：源码 token 压缩不可读；隐藏 case tiling key 选择不够好；组合爆炸。
+
 ### `GITCODE-RECOMPUTE-WU`
 
 - **recompute_w_u (GDN chunked attention)** · `attention-recompute-gemm` · 本机 `fail`
@@ -141,6 +160,16 @@
 - 适用条件：权重索引只由离散 cell 决定；basis 对边线性；目标节点入度较高（d>=2，d>=4 更稳）；4C 聚合与权重能驻留 UB
 - 负例/风险：d=1 时聚合开销大于收益；basis 依赖非离散属性或索引随边变化时代数不成立；浮点求和顺序改变
 
+### `SHANGHE-2026-PRELIM-BMMS`
+
+- **BatchMatmulMaxSum** · `late-interaction` · 本机 `platform-only`
+- 一句话：Cube BMM + AIV max/sum 融合；按 shape 走 tiny/direct/flat/trans/split-K/cached-N/pipelined 多条路径；DataCopyPad 尾块；max 用 -inf padding
+- 先读：[README](../competition/shanghe-2026-prelim/batchmatmulmaxsum/README.md) · [source.json](../competition/shanghe-2026-prelim/batchmatmulmaxsum/source.json)
+- 源码入口：`source/CMakeLists.txt:33`；`source/data_utils.h:84`；`source/kernel.asc:3020`
+- 补充源码：`batchmatmulmaxsum_submission_278917.zip:zip`
+- 适用条件：公开 15 case；大 M/N/K 与四种 layout。
+- 负例/风险：早期纯 Vector zip 278917 平台 Runtime Error；手写 TCubeTiling 跨 CANN 版本有风险。
+
 ### `KS2026-ASC910B-FUSEDMOE`
 
 - **FusedMoE** · `moe-expert-compute` · 本机 `fail`
@@ -231,6 +260,16 @@
 - 源码入口：`competition/mfg-2026/ops-sparse/source/sparse/spmm/README.md:1-120`；`competition/mfg-2026/ops-sparse/source/sparse/spmm/arch22/spmm_host.cpp:201-330`；`competition/mfg-2026/ops-sparse/source/sparse/spmm/arch22/kernels/spmm_kernel_group_axpy.h:1-120`
 - 适用条件：A2/A3；CSR A；A2 dtype combos；ALG1/2/3
 - 负例/风险：dtype combos narrower than 950；ALG3 non-transpose only；layout/alg performance varies
+
+### `STARCUP-2026-A-SPARSESOFTMAX`
+
+- **Sparse Softmax** · `sparse-softmax` · 本机 `platform-only`
+- 一句话：launch-bound；PATH6-9 raw UB 去 TPipe/去 tiling 读取，单 block，固定 8 lane Brcb+Compare+BlockReduce；PATH11/12 shape family；32B tiling ABI
+- 先读：[README](../competition/starcup-2026-a-group/sparse-softmax/README.md) · [source.json](../competition/starcup-2026-a-group/sparse-softmax/source.json)
+- 源码入口：`source/CMakeLists.txt:17`；`source/op_host/CMakeLists.txt:24`；`source/op_host/sparse_softmax.cpp:84`
+- 补充源码：`SparseSoftmax_submission_494890.zip:zip`
+- 适用条件：小 shape/单行/axis≤8；index 或 ptr；fp16/fp32。
+- 负例/风险：PATH6-9 精确 shape；bf16 缺失；num_nodes 未在 op def
 
 ### `MFG2026-SPARSE-SPGEMM`
 

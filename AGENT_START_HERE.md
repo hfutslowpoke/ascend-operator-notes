@@ -2,12 +2,14 @@
 
 这是一份给后续 agent 的**一屏导航**。先判断你要找什么，再进对应入口；不要从 `competition/` 或 `docs/` 里随机翻。
 
+> **公开只读**：仓库已设为 Public，匿名可读/可 clone；写入、改设置、改可见性仍需授权。边界见 [SECURITY.md](SECURITY.md)。
+
 ## 30 秒判断
 
 | 你要做的事 | 先读 | 再进 |
 |---|---|---|
 | 开发/编译/打包/提交/查榜单 | [toolkit/README.md](toolkit/README.md) | `tools/`、`tools/competition/`、ACW `bin/cann-*` |
-| 找跨题经验、平台规则、负例、输入构造 | [playbook/README.md](playbook/README.md) | `playbook/rules/`、`docs/experiences/` |
+| 找跨题经验、平台规则、负例、输入构造 | [playbook/README.md](playbook/README.md) | `playbook/topics/`、`playbook/rules/`、`docs/experiences/` |
 | 找某道题、某个算子、某个开源仓、我们自己的实现 | [knowledge/README.md](knowledge/README.md) | `competition/`、`general/`、`index/` |
 | 看本机 910B3 到底跑过什么 | [index/by-evidence.md](index/by-evidence.md) | 各条目 `evidence/`、`docs/validation/` |
 | 把一场已结束的比赛入库 | [knowledge/INTAKE.md](knowledge/INTAKE.md) | `skills/competition-repo-intake/` |
@@ -46,6 +48,24 @@ knowledge/README.md
   → source/ 看本地快照
 ```
 
+### “小 case 只有 1 ms，怎么优化？”
+
+```text
+playbook/topics/small-shape-launch-bound.md
+  → 判据：是否 launch-bound
+  → 做法：去 TPipe/去 tiling、raw UB、固定 lane、减少 block
+  → 证据：Sparse Softmax 2/161；mHcPre（未入库，仅经验案例）
+```
+
+### “团队排名为什么不在我的账号上？”
+
+```text
+playbook/topics/team-ranking-and-package-selection.md
+  → 查 team_id，不只看 user_id
+  → latest/best 两种聚合
+  → 证据：mHcPre 团队第 18 来自队友 gao（未入库）
+```
+
 ### “本地精度没过，但性能很好，要不要放弃？”
 
 ```text
@@ -61,10 +81,13 @@ playbook/rules/platform-evaluation.md
 ```text
 competition/<contest-slug>/
   README.md
-  official/problems.json + specs.json + descriptions/
-  source/<repo>/... 或 source.json
-  own/（我们的 kernel/host/驱动/日志/SID）
-  evidence/
+  official/                 # contest.json + problems.json + 题面
+  <problem-entry>/
+    README.md
+    source/                 # 我们的 kernel/host/驱动
+    source.json             # 生成：SID/detail/文件哈希
+    evidence/               # detail-summary/cases.csv/ranking-summary/sid
+    candidates/             # 可选：未采用/未计时的版本
 ```
 
 不要先写“经验总结”，先把题面、源码、自己的实现和平台证据固定下来；经验从这些事实里再提炼。
@@ -72,8 +95,8 @@ competition/<contest-slug>/
 ## 当前状态（2026-11-20）
 
 ```text
-知识库：20 个仓库记录、35 份实现、35 张阅读卡、15 份制造官方题面
-经验库：7 篇跨实现经验 + 制造 10 个小点 + 平台规则
+知识库：24 个仓库记录、39 份实现、39 张阅读卡、21 份官方题面（制造 15 + 上合/星辰 6）
+经验库：6 个通用专题 + 7 篇跨实现经验 + 制造 10 个小点 + 平台规则
 工具库：索引/校验/官方题面/CANNJudge 客户端/打包/提交/skills
 制造分级：2 direct / 6 adapt / 5 reference / 2 none
 本机：制造主实现 1/15 FFT 32×32 子集 PASS；Segment 骨架示例 PASS；CPU 参考 9 项 PASS

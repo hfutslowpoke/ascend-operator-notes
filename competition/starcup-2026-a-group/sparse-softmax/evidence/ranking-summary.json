@@ -1,0 +1,81 @@
+{
+  "problem_id": "6a7c17b6a52e0f540a89c0ce",
+  "own": {
+    "rank": 2,
+    "user": "slowpoke",
+    "team": "hfutslowpoke 的队伍",
+    "score": 84.36,
+    "sid": "6aba0748694b590c3cb0353b",
+    "create_time": "2026-09-28T06:20:56.936Z"
+  },
+  "team": {
+    "rank": 2,
+    "user": "slowpoke",
+    "team": "hfutslowpoke 的队伍",
+    "score": 84.36,
+    "sid": "6aba0748694b590c3cb0353b",
+    "create_time": "2026-09-28T06:20:56.936Z"
+  },
+  "top10": [
+    {
+      "rank": 1,
+      "user": "bubu",
+      "team": "bububu 的队伍",
+      "score": 85.03
+    },
+    {
+      "rank": 2,
+      "user": "slowpoke",
+      "team": "hfutslowpoke 的队伍",
+      "score": 84.36
+    },
+    {
+      "rank": 3,
+      "user": "Susnaa-sa",
+      "team": "Susnaa-sa",
+      "score": 76.98
+    },
+    {
+      "rank": 4,
+      "user": "墨月",
+      "team": "长广溪第一生擒",
+      "score": 75.35
+    },
+    {
+      "rank": 5,
+      "user": "zpnb666",
+      "team": "All in AI",
+      "score": 71.2
+    },
+    {
+      "rank": 6,
+      "user": "www",
+      "team": "litray 的队伍",
+      "score": 68.77
+    },
+    {
+      "rank": 7,
+      "user": "北枝",
+      "team": "北枝",
+      "score": 68.51
+    },
+    {
+      "rank": 8,
+      "user": "new_jean",
+      "team": "starUltra",
+      "score": 66.23
+    },
+    {
+      "rank": 9,
+      "user": "酱味大鸡",
+      "team": "YUIOP_xdjce 的队伍",
+      "score": 66.16
+    },
+    {
+      "rank": 10,
+      "user": "ASK710",
+      "team": "iilab",
+      "score": 61.58
+    }
+  ]
+}

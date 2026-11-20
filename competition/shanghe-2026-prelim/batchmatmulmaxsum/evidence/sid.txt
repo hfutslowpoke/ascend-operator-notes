@@ -1,0 +1,5 @@
+SID: 6ad314c2193e507d8e5e08a4
+detail_ID: 884931
+user: slowpoke
+status: Pass
+visible_cases: 15/15

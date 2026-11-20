@@ -1,0 +1,27 @@
+{
+  "contest": {
+    "id": "6abcb2fa694b590c3c300a2e",
+    "slug": "ct_starcup_aiop_final",
+    "title": "中国电信星辰杯高校AI算子开发挑战赛-决赛",
+    "start": "2026-10-09T00:00:00.000Z",
+    "end": "2026-10-31T15:59:00.000Z",
+    "url": "https://cannjudge.cn/public/ct_starcup_aiop_final"
+  },
+  "problems": [
+    {
+      "problem_id": "6ac8bc7c694b590c3c96728a",
+      "slug": "sparseflashattentiongrad",
+      "title": "【决赛算子题】Sparse Flash Attention Grad 算子",
+      "canonical_name": "sparseflashattentiongrad",
+      "total_testcase_count": 15,
+      "ranking_submission_mode": "best",
+      "score_mode": 0,
+      "difficulty": 1,
+      "cann_version": "9.0.0",
+      "description": "descriptions/sparseflashattentiongrad.md",
+      "problem_json": "problem-6ac8bc7c694b590c3c96728a.json",
+      "url": "https://cannjudge.cn/public/ct_starcup_aiop_final/sparseflashattentiongrad",
+      "official_problem_id": 2219
+    }
+  ]
+}

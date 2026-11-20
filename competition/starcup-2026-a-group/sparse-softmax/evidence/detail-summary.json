@@ -1,0 +1,144 @@
+{
+  "contest_id": "6a7bf036a52e0f540a88df6e",
+  "contest": "ct_starcup_aiop_g1",
+  "problem_id": "6a7c17b6a52e0f540a89c0ce",
+  "problem": "sparsesoftmax",
+  "title": "【A组简单题】Sparse Softmax 算子",
+  "sid": "6aba0748694b590c3cb0353b",
+  "detail_ID": 494890,
+  "user": {
+    "_id": "6aa109b6c76b321ca64ba8b4",
+    "ID": 4291,
+    "nickname": "slowpoke",
+    "group_nickname": null
+  },
+  "status": "Pass",
+  "valid": true,
+  "visible_cases": 5,
+  "total_cases": 5,
+  "own": {
+    "rank": 2,
+    "user": "slowpoke",
+    "team": "hfutslowpoke 的队伍",
+    "score": 84.36,
+    "sid": "6aba0748694b590c3cb0353b",
+    "create_time": "2026-09-28T06:20:56.936Z"
+  },
+  "team": {
+    "rank": 2,
+    "user": "slowpoke",
+    "team": "hfutslowpoke 的队伍",
+    "score": 84.36,
+    "sid": "6aba0748694b590c3cb0353b",
+    "create_time": "2026-09-28T06:20:56.936Z"
+  },
+  "top10": [
+    {
+      "rank": 1,
+      "user": "bubu",
+      "team": "bububu 的队伍",
+      "score": 85.03
+    },
+    {
+      "rank": 2,
+      "user": "slowpoke",
+      "team": "hfutslowpoke 的队伍",
+      "score": 84.36
+    },
+    {
+      "rank": 3,
+      "user": "Susnaa-sa",
+      "team": "Susnaa-sa",
+      "score": 76.98
+    },
+    {
+      "rank": 4,
+      "user": "墨月",
+      "team": "长广溪第一生擒",
+      "score": 75.35
+    },
+    {
+      "rank": 5,
+      "user": "zpnb666",
+      "team": "All in AI",
+      "score": 71.2
+    },
+    {
+      "rank": 6,
+      "user": "www",
+      "team": "litray 的队伍",
+      "score": 68.77
+    },
+    {
+      "rank": 7,
+      "user": "北枝",
+      "team": "北枝",
+      "score": 68.51
+    },
+    {
+      "rank": 8,
+      "user": "new_jean",
+      "team": "starUltra",
+      "score": 66.23
+    },
+    {
+      "rank": 9,
+      "user": "酱味大鸡",
+      "team": "YUIOP_xdjce 的队伍",
+      "score": 66.16
+    },
+    {
+      "rank": 10,
+      "user": "ASK710",
+      "team": "iilab",
+      "score": 61.58
+    }
+  ],
+  "per_case": [
+    {
+      "testcase_id": "6a8babe582cffa8f16d5c82f",
+      "time": 1.4,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 1.36
+    },
+    {
+      "testcase_id": "6a8babe582cffa8f16d5c833",
+      "time": 1.48,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 1.34
+    },
+    {
+      "testcase_id": "6a8babe582cffa8f16d5c837",
+      "time": 1.46,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 1.34
+    },
+    {
+      "testcase_id": "6a8babe582cffa8f16d5c83b",
+      "time": 1.48,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 1.38
+    },
+    {
+      "testcase_id": "6a8babe582cffa8f16d5c83f",
+      "time": 1.48,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 1.34
+    }
+  ]
+}

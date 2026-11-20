@@ -3,6 +3,8 @@
 > **Agent 入口**：[AGENT_START_HERE.md](AGENT_START_HERE.md) —— 一屏判断“我要找什么、去哪”。
 >
 > 三层库：[knowledge/](knowledge/README.md)（知识） · [playbook/](playbook/README.md)（经验/规则） · [toolkit/](toolkit/README.md)（工具）。
+>
+> **访问**：仓库已公开，匿名可读/可 clone；`push`、改设置、改可见性仍需 collaborator 权限或 token。边界见 [SECURITY.md](SECURITY.md)。
 
 本库由三层组成：**知识库**（`competition/`、`general/`、`index/`）、**经验库**（`docs/experiences/`、`docs/validation/`、`docs/research/`）、**工具库**（`tools/`、`skills/`、CANNJudge 工具）。三层边界见 [LIBRARIES.md](LIBRARIES.md)。
 
@@ -21,11 +23,12 @@
 | [knowledge/README.md](knowledge/README.md) | 知识库入口：公开赛题、开源仓、我们自己的实现 |
 | [playbook/README.md](playbook/README.md) | 经验/规则入口：平台精度、输入构造、本机 vs 平台 |
 | [toolkit/README.md](toolkit/README.md) | 工具入口：索引/校验/CANNJudge/提交/验证 |
-| [competition/README.md](competition/README.md) | 竞赛库：GroupedMatmulGelu、CANN 竞赛仓、电力行业、Hansen、KernelSwift、制造专场 |
+| [competition/README.md](competition/README.md) | 竞赛库：GroupedMatmulGelu、CANN 竞赛仓、电力行业、Hansen、KernelSwift、制造专场、上合 2026、星辰杯 2026 |
+| [playbook/topics/README.md](playbook/topics/README.md) | 通用经验专题：小 case、团队取包、隐藏 case、语义覆盖、Cube/Vector、对齐尾块 |
 | [general/README.md](general/README.md) | 通用库：SVD/eigh、Mamba-2、vLLM-HUST、O(3)/mesh、Triton 基准、CANNBot |
 | [index/README.md](index/README.md) | 统一索引、按算子族/按证据/按官方匹配级别检索 |
-| [index/catalog.json](index/catalog.json) | ACW 直接读取的机器索引（20 仓库记录、35 份实现） |
-| [index/cards.md](index/cards.md) | 35 张阅读卡：一句话机制、源码入口、本机状态、边界 |
+| [index/catalog.json](index/catalog.json) | ACW 直接读取的机器索引（24 仓库记录、39 份实现） |
+| [index/cards.md](index/cards.md) | 39 张阅读卡：一句话机制、源码入口、本机状态、边界 |
 | [index/by-source-match.md](index/by-source-match.md) | 制造专场按 direct/adapt/reference/none/building-block 检索 |
 | [competition/mfg-2026/official/specs.md](competition/mfg-2026/official/specs.md) | 2026 制造专场 15 题官方 shape/dtype/属性/约束 |
 | [index/by-cannjudge.md](index/by-cannjudge.md) | 15 题 × CANN Judge 交叉索引：题目 ID、测试点数、源码分级、本机状态 |
@@ -41,14 +44,24 @@
 
 | 项 | 数量 |
 |---|---:|
-| 仓库记录 | 20（18 个独立算法来源） |
+| 仓库记录 | 24（18 个独立公开算法来源 + 4 个我们的已结束比赛提交 + 2 个同仓不同赛事） |
 | 深读仓库 | 15（含 1 个负例） |
-| 实现条目 | 35 |
-| 竞赛条目 | 6 个赛事/基线（含制造专场）+ 1 个淘汰记录 |
+| 实现条目 | 39 |
+| 竞赛条目 | 10 个赛事/基线（含制造专场、上合 2026、星辰杯 2026）+ 1 个淘汰记录 |
 | 通用条目 | 8 个算子/基准 + CANNBot 接入位 + 1 个淘汰记录 |
-| 本机 910B3 有证据的实现 | 11 / 35：5 通过、2 负例通过、1 部分通过、2 失败、1 仅离线；制造专场 1/15 已跑（FourierTransform2D 32×32） |
+| 本机 910B3 有证据的实现 | 11 / 39：5 通过、2 负例通过、1 部分通过、2 失败、1 仅离线；制造专场 1/15 已跑（FourierTransform2D 32×32）；上合/星辰 4 个条目为 `platform-only` |
 
 > 去重口径：GitCode `cann/cann-ops-competitions` 与既有 26 份 GroupedMatmulGelu 官方基线同仓不同赛事；`cann/elec-ops-inspection` 是 Hansen 归档的上游官方仓。两者都登记并深读，但不重复增加“独立算法来源”数。
+
+## 2026-11-20 上合 / 星辰杯入库
+
+- [上合 2026 初赛](competition/shanghe-2026-prelim/README.md)：BatchMatmulMaxSum，平台 24/661、64.44；Cube BMM + AIV max/sum，按 shape 分 tiny/direct/flat/trans/split-K 多条路径。
+- [上合 2026 决赛](competition/shanghe-2026-final/README.md)：GroupedMatmulGelu，复用既有 [grouped-matmul-gelu](competition/grouped-matmul-gelu/README.md)，新增 [效率分析](competition/grouped-matmul-gelu/analysis/EFFICIENCY_20261120.md)。
+- [星辰杯 2026 A 组](competition/starcup-2026-a-group/README.md)：Sparse Softmax（2/161、84.36）、DenseLightning（15/94、28.83）；mHcPre 团队 18/106、65.01，但按“宁缺毋滥”未入库，只保留 [excluded](competition/excluded.md) 记录。
+- [星辰杯 2026 决赛](competition/starcup-2026-final/README.md)：SparseFlashAttentionGrad（6/28、73.77）。
+- 通用经验新增 [playbook/topics/](playbook/topics/README.md)：小 case / launch-bound、团队取包、隐藏 case 泛化、语义覆盖、Cube/Vector、对齐尾块。
+
+> 这 5 个条目是 `platform-only`：有 SID/排名/逐 case 时间和源码，但**没有本机 910B3 重跑**；不能写成“本机通过”。
 
 ## 2026-11-17 制造专场补充
 
@@ -76,7 +89,7 @@
 | 制造 SegmentMinCsr 补充骨架 | BUILD+RUN PASS（示例） | 8×2048、int32 indptr、4 段含空段、golden==output |
 | 制造 CPU 参考 | PASS（CPU） | 9 项语义测试 |
 
-> 补充骨架与 CPU 参考不计入 35 份实现的 910B3 通过数；SegmentMinCsr 骨架不是官方语义，主 `ops-gnn` 实现仍为 `not-run`。
+> 补充骨架与 CPU 参考不计入 39 份实现的 910B3 通过数；SegmentMinCsr 骨架不是官方语义，主 `ops-gnn` 实现仍为 `not-run`。
 
 完整命令、日志和失败码见 [docs/validation/LOCAL_910B_VALIDATION_20261116.md](docs/validation/LOCAL_910B_VALIDATION_20261116.md)。
 

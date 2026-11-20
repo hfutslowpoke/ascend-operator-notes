@@ -1,0 +1,27 @@
+{
+  "contest": {
+    "id": "6ae2a86a1dac5d235bf45ae8",
+    "slug": "op_challenge_shanghe_final",
+    "title": "2026年CANN挑战赛_上合赛区（决赛）",
+    "start": "2026-10-30T09:00:00.000Z",
+    "end": "2026-11-14T03:45:00.000Z",
+    "url": "https://cannjudge.cn/public/op_challenge_shanghe_final"
+  },
+  "problems": [
+    {
+      "problem_id": "6ae3fad11dac5d235b148620",
+      "slug": "groupmatmulgelu",
+      "title": "GroupedMatmulGelu",
+      "canonical_name": "groupmatmulgelu",
+      "total_testcase_count": 20,
+      "ranking_submission_mode": "latest",
+      "score_mode": 1,
+      "difficulty": 4,
+      "cann_version": "9.0.0",
+      "description": "descriptions/groupmatmulgelu.md",
+      "problem_json": "problem-6ae3fad11dac5d235b148620.json",
+      "url": "https://cannjudge.cn/public/op_challenge_shanghe_final/groupmatmulgelu",
+      "official_problem_id": 2954
+    }
+  ]
+}

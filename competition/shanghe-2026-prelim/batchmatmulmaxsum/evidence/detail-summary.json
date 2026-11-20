@@ -1,0 +1,234 @@
+{
+  "contest_id": "6a9a9741bf41025d601345c7",
+  "contest": "op_challenge_shanghe_prelim",
+  "problem_id": "6a9aa054bf41025d6014f3ef",
+  "problem": "batchmatmulmaxsum",
+  "title": "BatchMatmulMaxSum",
+  "sid": "6ad314c2193e507d8e5e08a4",
+  "detail_ID": 884931,
+  "user": {
+    "_id": "6aa109b6c76b321ca64ba8b4",
+    "ID": 4291,
+    "nickname": "slowpoke",
+    "group_nickname": null
+  },
+  "status": "Pass",
+  "valid": true,
+  "visible_cases": 15,
+  "total_cases": 15,
+  "own": {
+    "rank": 24,
+    "user": "slowpoke",
+    "team": "slowpoke 的队伍",
+    "score": 64.44,
+    "sid": "6ad314c2193e507d8e5e08a4",
+    "create_time": "2026-10-17T06:25:06.403Z"
+  },
+  "team": {
+    "rank": 24,
+    "user": "slowpoke",
+    "team": "slowpoke 的队伍",
+    "score": 64.44,
+    "sid": "6ad314c2193e507d8e5e08a4",
+    "create_time": "2026-10-17T06:25:06.403Z"
+  },
+  "top10": [
+    {
+      "rank": 1,
+      "user": "aleX_5y42",
+      "team": "�����rio 的队伍",
+      "score": 93.31
+    },
+    {
+      "rank": 2,
+      "user": "seeleawa",
+      "team": "seeleawa 的队伍",
+      "score": 74.31
+    },
+    {
+      "rank": 3,
+      "user": "martin",
+      "team": "TeamLiquid",
+      "score": 73.08
+    },
+    {
+      "rank": 4,
+      "user": "翘舌音",
+      "team": "487才是世一勘",
+      "score": 72.41
+    },
+    {
+      "rank": 5,
+      "user": "Cyrus",
+      "team": "Lizzop",
+      "score": 72.26
+    },
+    {
+      "rank": 6,
+      "user": "wannafly",
+      "team": "AAA广告位招租",
+      "score": 72.19
+    },
+    {
+      "rank": 7,
+      "user": "qq_14970375",
+      "team": "万兽之王的队伍",
+      "score": 71.72
+    },
+    {
+      "rank": 8,
+      "user": "诗酒",
+      "team": "摘星星的队伍",
+      "score": 70.92
+    },
+    {
+      "rank": 9,
+      "user": "bubu",
+      "team": "bububu 的队伍",
+      "score": 70.72
+    },
+    {
+      "rank": 10,
+      "user": "sage4444",
+      "team": "老板来份忘情牛肉题",
+      "score": 70.5
+    }
+  ],
+  "per_case": [
+    {
+      "testcase_id": "6a9aa054bf41025d6014f3f4",
+      "time": 1.33,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 1.18
+    },
+    {
+      "testcase_id": "6a9aa054bf41025d6014f3f8",
+      "time": 1.92,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 1.47
+    },
+    {
+      "testcase_id": "6a9aa054bf41025d6014f3fc",
+      "time": 2.42,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 1.72
+    },
+    {
+      "testcase_id": "6a9aa054bf41025d6014f400",
+      "time": 3.18,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 2.11
+    },
+    {
+      "testcase_id": "6a9aa054bf41025d6014f404",
+      "time": 4.99,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 3.42
+    },
+    {
+      "testcase_id": "6a9aa054bf41025d6014f408",
+      "time": 9.71,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 6.26
+    },
+    {
+      "testcase_id": "6a9aa054bf41025d6014f40c",
+      "time": 6.6,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 6.26
+    },
+    {
+      "testcase_id": "6a9aa054bf41025d6014f410",
+      "time": 34.18,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 24.97
+    },
+    {
+      "testcase_id": "6a9aa054bf41025d6014f414",
+      "time": 56.5,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 46.46
+    },
+    {
+      "testcase_id": "6a9aa054bf41025d6014f418",
+      "time": 74.72,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 63.08
+    },
+    {
+      "testcase_id": "6a9aa054bf41025d6014f41c",
+      "time": 77.37,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 65.53
+    },
+    {
+      "testcase_id": "6a9aa054bf41025d6014f420",
+      "time": 94.15,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 80.07
+    },
+    {
+      "testcase_id": "6a9aa054bf41025d6014f424",
+      "time": 9.92,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 8.15
+    },
+    {
+      "testcase_id": "6a9aa054bf41025d6014f428",
+      "time": 9.78,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 8.22
+    },
+    {
+      "testcase_id": "6a9aa054bf41025d6014f42c",
+      "time": 9.98,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 7.84
+    }
+  ]
+}

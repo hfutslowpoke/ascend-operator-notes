@@ -7,11 +7,18 @@
 | 条目 | 赛事/上下文 | 实现 | 证据 | 本机 910B3 |
 |---|---|---|---|---|
 | [grouped-matmul-gelu](grouped-matmul-gelu/README.md) | 2026 CANN 挑战赛上合赛区决赛 | 26 份公开 PR + 我们的 `kernel.asc` | `O+A` + 历史 `V` | 58.54 分、第 11、整包 Pass（历史快照） |
+| [shanghe-2026-prelim](shanghe-2026-prelim/README.md) | 2026 CANN 挑战赛上合赛区初赛 | 我们的 BatchMatmulMaxSum | `O`（平台） | not-run；平台 24/661、64.44 |
+| [shanghe-2026-final](shanghe-2026-final/README.md) | 2026 CANN 挑战赛上合赛区决赛 | 官方题面 + 指向 `grouped-matmul-gelu/` | `O` | 见 `grouped-matmul-gelu/` |
+| [starcup-2026-a-group](starcup-2026-a-group/README.md) | 中国电信星辰杯 A 组 | 我们的 Sparse Softmax / DenseLightning；mHcPre 未入库 | `O`（平台） | not-run；团队 2/161、15/94；mHcPre 18/106 仅 excluded |
+| [starcup-2026-final](starcup-2026-final/README.md) | 中国电信星辰杯决赛 | 我们的 SparseFlashAttentionGrad | `O`（平台） | not-run；平台 6/28、73.77 |
 | [cann-ops-competitions](cann-ops-competitions/README.md) | 2026 CANN 天梯赛 / S9 算子挑战赛 | Delicate02 `recompute_w_u`、BatchLions `Concat` | `O+A` | recompute 编译成功但运行 `507057`；Concat 仅离线测试 |
 | [elec-ops-inspection](elec-ops-inspection/README.md) | 2026 电力行业算子专场（官方仓） | XDU_XDU-BTD `LinalgLstsq` | `S+L+A` | 16/50/64 单 batch PASS；多 batch/矩形/200/256 失败 |
 | [hansen-2026-power](hansen-2026-power/README.md) | 2026 电力行业算子专场（公开归档） | Fire rank2、SplineConv rank1、TreeLineMinDistance rank1 | `O+A` | 未构建/未运行 |
 | [kernelswift-2026](kernelswift-2026/README.md) | 2026 KernelSwift 算子创新大赛 | GroupedTopk、FusedMoE、Sinkhorn | `O+A` | GroupedTopk/Sinkhorn PASS；FusedMoE 编译失败 |
 | [mfg-2026](mfg-2026/README.md) | 2026 制造行业算子专场（15 题） | 6 个官方/生产仓、15 份实现映射、2 个 910B 基础件、79 份源码快照、15 份官方题面、6 题适配蓝图 | `O+S+L+A` + 本机 `V`（FFT 子集） | 官方语义分级 2 direct / 6 adapt / 5 reference / 2 none；FourierTransform2D 仅 32×32 子集 PASS |
+
+> `our-submission` 条目不是公开仓：用 CANNJudge SID/detail ID + 源码 SHA256 固定，
+> 不要求公开 commit；`source.json` 的 `commit` 会写成 `SID ...`，不能当 Git commit 使用。
 
 淘汰记录见 [excluded.md](excluded.md)。机器索引见 [catalog.json](catalog.json)（由 `tools/build_index.py` 生成），全库索引见 [../index/README.md](../index/README.md)。
 

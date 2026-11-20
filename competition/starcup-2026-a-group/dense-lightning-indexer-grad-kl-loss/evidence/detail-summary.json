@@ -1,0 +1,162 @@
+{
+  "contest_id": "6a7bf036a52e0f540a88df6e",
+  "contest": "ct_starcup_aiop_g1",
+  "problem_id": "6a7c1839a52e0f540a89c463",
+  "problem": "denselightningindexergradklloss",
+  "title": "【A组中等题】Dense Lightning Indexer Grad KL Loss 算子",
+  "sid": "6aba149b694b590c3cb925d4",
+  "detail_ID": 495694,
+  "user": {
+    "_id": "6aad2318b0477ec41e57bd53",
+    "ID": 6189,
+    "nickname": "feixiangtian16",
+    "group_nickname": null
+  },
+  "status": "Pass",
+  "valid": true,
+  "visible_cases": 7,
+  "total_cases": 7,
+  "own": {
+    "rank": 15,
+    "user": "feixiangtian16",
+    "team": "hfutslowpoke 的队伍",
+    "score": 28.83,
+    "sid": "6aba149b694b590c3cb925d4",
+    "create_time": "2026-09-28T07:17:47.539Z"
+  },
+  "team": {
+    "rank": 15,
+    "user": "feixiangtian16",
+    "team": "hfutslowpoke 的队伍",
+    "score": 28.83,
+    "sid": "6aba149b694b590c3cb925d4",
+    "create_time": "2026-09-28T07:17:47.539Z"
+  },
+  "top10": [
+    {
+      "rank": 1,
+      "user": "bubu",
+      "team": "bububu 的队伍",
+      "score": 49.88
+    },
+    {
+      "rank": 2,
+      "user": "drizzz",
+      "team": "zzr 的队伍",
+      "score": 45.9
+    },
+    {
+      "rank": 3,
+      "user": "new_jean",
+      "team": "starUltra",
+      "score": 45.19
+    },
+    {
+      "rank": 4,
+      "user": "handsome",
+      "team": "handsomemanba 的队伍",
+      "score": 44.47
+    },
+    {
+      "rank": 5,
+      "user": "xt",
+      "team": "sleep",
+      "score": 43.44
+    },
+    {
+      "rank": 6,
+      "user": "北枝",
+      "team": "北枝",
+      "score": 42.68
+    },
+    {
+      "rank": 7,
+      "user": "黃仁勛",
+      "team": "NJU-SEG的队伍",
+      "score": 40.73
+    },
+    {
+      "rank": 8,
+      "user": "nju-seg2",
+      "team": "NJU-SEG大号",
+      "score": 40.24
+    },
+    {
+      "rank": 9,
+      "user": "那么多痛苦的昨天",
+      "team": "长广溪第一生擒",
+      "score": 38.58
+    },
+    {
+      "rank": 10,
+      "user": "来杯好茶爻一爻",
+      "team": "YUIOP_xdjce 的队伍",
+      "score": 37.05
+    }
+  ],
+  "per_case": [
+    {
+      "testcase_id": "6a8bad3182cffa8f16d603f7",
+      "time": 4.42,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 0.64
+    },
+    {
+      "testcase_id": "6a8bad3182cffa8f16d603fb",
+      "time": 5.94,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 0.62
+    },
+    {
+      "testcase_id": "6a8bad3182cffa8f16d603ff",
+      "time": 7.18,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 0.62
+    },
+    {
+      "testcase_id": "6a8bad3182cffa8f16d60403",
+      "time": 11.48,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 5.5
+    },
+    {
+      "testcase_id": "6a8bad3182cffa8f16d60407",
+      "time": 17.14,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 6.12
+    },
+    {
+      "testcase_id": "6a8bad3182cffa8f16d6040b",
+      "time": 14.94,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 6.26
+    },
+    {
+      "testcase_id": "6a8bad3182cffa8f16d6040f",
+      "time": 10.52,
+      "precision_ratio": 1,
+      "testcase_status": "Pass",
+      "score": 0,
+      "type": "default",
+      "best_time": 7.98
+    }
+  ]
+}

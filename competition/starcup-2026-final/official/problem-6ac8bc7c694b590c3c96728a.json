@@ -1,0 +1,162 @@
+{
+  "ranking_testcase_count": null,
+  "enable_cannlab": false,
+  "judge_revision": 0,
+  "judge_baseline_verified": false,
+  "_id": "6ac8bc7c694b590c3c96728a",
+  "ID": 2219,
+  "contest_id": "6abcb2fa694b590c3c300a2e",
+  "user_id": "6a014200e9569b02f49f750d",
+  "name": "sparseflashattentiongrad",
+  "canonical_name": "sparseflashattentiongrad",
+  "version_no": 1,
+  "version_label": "v1",
+  "title": "【决赛算子题】SparseFlashAttentionGrad 算子",
+  "desc": "# 【决赛算子题】SparseFlashAttentionGrad 算子\r\n\r\n---\r\n\r\n## 1. 算子说明\r\n\r\nSparseFlashAttentionGrad 是 SparseFlashAttention 的**反向梯度算子**（训练场景）：根据稀疏索引对 key/value 重排（gather）后，按 Flash Attention 反向公式，由输出梯度 dOut 计算 query/key/value 的梯度 dQ/dK/dV，供反向传播使用。\r\n\r\n### 背景术语（题目内自解释）\r\n\r\n- **反向传播与梯度**：神经网络训练时，依据损失对输出的梯度 `dOut` 反推对各输入的梯度 `dQ/dK/dV`。\r\n- **Flash Attention 反向**：前向为 `O = softmax(Q@K^T/√d)@V`；反向分 3 阶段由 `dOut` 计算 `dP/dV → dS → dQ/dK`，避免显式存储大注意力矩阵。\r\n- **FlashSoftmaxGrad**：softmax 反向的核心项，等于 `sum(dO⊙O, 沿行, keepdim)`，用于在 dS 阶段恢复 softmax 的非线性梯度。\r\n- **稀疏 gather / scatter**：根据 `sparseIndices` 从 KV 缓存中 gather 出选中的 key/value 参与计算；反向时将 dK/dV scatter 回原位置，未选中位置梯度为 0。\r\n- **KV merge**：当 `value` 传入空指针时，算子按 `value = key` 处理，不单独输出 dValue，而是将 `dK + dV` 合并到 dKey 输出，减少重复搬运。\r\n- **MQA**：Multi-Query Attention，key/value 头数 `N2=1`，所有 query 头共享一组 KV。\r\n- **RoPE**：旋转位置编码，反向时对应输出 `dQueryRope/dKeyRope`（可选）。\r\n- **维度符号**：`B`=Batch Size，`S1`=query 序列长度，`S2`=key/value 序列长度，`N1`=query 头数，`N2`=key/value 头数（恒为 1），`D`=每个头维度（=512），`Dr`=RoPE 维度（=64），`K`=sparse_size 每个 query token 选取的 key 位置数，`G=N1/N2`。\r\n- **数据排布**：本算子仅支持 `BSND` 排布，即 `(B, S, N, D)`。\r\n- **变长序列**：`actual_seq_lengths` 给出每个 batch 有效 token 数（超出为 padding，不参与计算），可传 None 表示与对应序列长度相同。\r\n\r\n### 计算公式\r\n\r\n先根据 `sparseIndices` 稀疏 gather：\r\n\r\n```\r\nselectedKey   = Gather(key,   sparseIndices[i])\r\nselectedValue = Gather(value, sparseIndices[i])\r\n```\r\n\r\nKV merge 场景（value 为空）：`value` 按 `key` 处理，`selectedValue = selectedKey`，且 `dKeyOut = dK + dV`（不单独输出 dValue）。\r\n\r\n阶段1（计算 dP、dV）：\r\n\r\n```\r\ndP[t,:] = dO[t,:] @ V^T\r\ndV[u]   = P^T[t,:] @ dO[t,:]\r\n```\r\n\r\n阶段2（计算 dS）：\r\n\r\n```\r\ndS[t,:] = P[t,:] ⊙ ( dP[t,:] - FlashSoftmaxGrad(dO, O) )\r\nFlashSoftmaxGrad(dO, O) = sum(dO ⊙ O, 沿最后一维, keepdim)\r\n```\r\n\r\n其中 `P` 为 softmax 权重，由前向的 `softmaxMax/softmaxSum` 重建：`P = exp(S - softmaxMax) / softmaxSum`。\r\n\r\n阶段3（计算 dQ、dK）：\r\n\r\n```\r\ndQ[t,:] = dS[t,:] @ K / √d_k\r\ndK[u]   = dS[t,:]^T @ Q / √d_k\r\n```\r\n\r\n其中 `O=out`（前向输出），`dO=dOut`，`d_k=D`，缩放系数 `scaleValue=1/√d_k`。\r\n\r\n---\r\n\r\n## 2. 输入输出说明\r\n\r\n### 输入规格\r\n\r\n| 输入                     | 必选/可选 | 类型 | 形状            | 数据类型         | 含义                                                         |\r\n| ------------------------ | --------- | ---- | --------------- | ---------------- | ------------------------------------------------------------ |\r\n| query                    | 必选      | 张量 | (B, S1, N1, D)  | bfloat16/float16 | 输入 Q。D=512                                                |\r\n| key                      | 必选      | 张量 | (B, S2, N2, D)  | bfloat16/float16 | 输入 K。N2=1                                                 |\r\n| value                    | 可选      | 张量 | (B, S2, N2, D)  | bfloat16/float16 | 输入 V。普通场景须与 key 内容完全一致；传空启用 KV merge（value=key，不输出 dValue） |\r\n| sparseIndices            | 必选      | 张量 | (B, S1, N2, K)  | int32            | 稀疏选取 KV 的索引。K∈{1024,2048,3072,4096,5120,6144,7168,8192} |\r\n| dOut                     | 必选      | 张量 | (B, S1, N1, D)  | bfloat16/float16 | 前向输出 O 的梯度 dO                                         |\r\n| out                      | 必选      | 张量 | (B, S1, N1, D)  | bfloat16/float16 | 前向注意力输出 O                                             |\r\n| softmaxMax               | 必选      | 张量 | (B, N2, S1, G)  | float32          | 前向 softmax 行最大值。G=N1/N2                               |\r\n| softmaxSum               | 必选      | 张量 | (B, N2, S1, G)  | float32          | 前向 softmax 行求和。G=N1/N2                                 |\r\n| actual_seq_lengths_query | 可选      | 张量 | (B,)            | int32            | 每个 batch query 的有效 token 数。传 None 表示与 S1 相同     |\r\n| actual_seq_lengths_kv    | 可选      | 张量 | (B,)            | int32            | 每个 batch key/value 的有效 token 数。传 None 表示与 S2 相同 |\r\n| queryRope                | 可选      | 张量 | (B, S1, N1, Dr) | bfloat16/float16 | query 的 RoPE 信息，Dr=64                                    |\r\n| keyRope                  | 可选      | 张量 | (B, S2, N2, Dr) | bfloat16/float16 | key 的 RoPE 信息，Dr=64                                      |\r\n| scaleValue               | 必选      | 属性 | 标量            | float32          | 注意力缩放系数，对应公式中的 1/√d_k                          |\r\n| sparseBlockSize          | 必选      | 属性 | 标量            | int64            | 稀疏选择的块大小。Atlas A2/A3 系列支持 1/8/16/32/64；Ascend 950PR/950DT 支持 1 |\r\n| sparseMode               | 必选      | 属性 | 标量            | int64            | 掩码模式：0=不屏蔽；3=rightDownCausal（query 右端对齐 key 右端的下三角掩码）。常用取值 0 |\r\n| layout                   | 必选      | 属性 | 标量            | string           | 数据排布格式，默认 \"BSND\"，本算子仅支持 BSND                 |\r\n| deterministic            | 必选      | 属性 | 标量            | bool             | 确定性计算，与整网确定性参数一致；默认 False（非确定性）     |\r\n\r\n> 说明：属性 `pre_tokens`、`next_tokens` 用于稀疏计算的滑窗位置（仅 `sparseMode=4` 时生效，本算子 `sparseMode` 仅支持 0/3 故不生效），本算子仅支持默认最大值 2147483647，参赛者无需修改。\r\n\r\n### 输出规格\r\n\r\n| 输出类型   | 必选/可选 | 形状            | 数据类型         | 含义                                            |\r\n| ---------- | --------- | --------------- | ---------------- | ----------------------------------------------- |\r\n| dQuery     | 必选      | (B, S1, N1, D)  | bfloat16/float16 | query 的梯度 dQ                                 |\r\n| dKey       | 必选      | (B, S2, N2, D)  | bfloat16/float16 | key 的梯度 dK；KV merge 场景返回 dK+dV 合并梯度 |\r\n| dValue     | 可选      | (B, S2, N2, D)  | bfloat16/float16 | value 的梯度 dV；KV merge 场景传空（合入 dKey） |\r\n| dQueryRope | 可选      | (B, S1, N1, Dr) | bfloat16/float16 | queryRope 的梯度；当 queryRope 存在时输出       |\r\n| dKeyRope   | 可选      | (B, S2, N2, Dr) | bfloat16/float16 | keyRope 的梯度；当 keyRope 存在时输出           |\r\n\r\n### 形状约束\r\n\r\n- 仅支持训练场景，支持图模式。\r\n- HeadDim `D=512`，RoPE 维度 `Dr=64`。\r\n- query、key、value 数据类型必须一致；当前只支持 value 与 key 完全一致的场景。\r\n- `sparseMode` 仅支持 0（不屏蔽）或 3（rightDownCausal 下三角掩码）。\r\n- query 头数 `N1`：1/2/4/8/16/32/64/128（离散枚举）；Ascend 950PR/950DT 额外支持 48/24/12/6/3。key/value 头数 `N2=1`（MQA）。\r\n- `B` 取值 1~256；`S1、S2` 取值 1~128K，支持不等长。\r\n- `K`（sparse_size）取值 1024/2048/3072/4096/5120/6144/7168/8192（离散）；不建议 `K × sparseBlockSize` 超过 100k（否则可能 OOM）。\r\n- `sparseBlockSize`：Atlas A2/A3 系列支持 1/8/16/32/64；Ascend 950PR/950DT 支持 1。\r\n- 仅支持 ND 数据格式（任意多维非结构化连续格式）。\r\n- 默认非确定性实现，可通过 `aclrtCtxSetSysParamOpt` 开启确定性（`deterministic` 与整网一致）。\r\n\r\n### 输出形状计算公式\r\n\r\n- `dQuery`：与 query 形状一致 `(B, S1, N1, D)`。\r\n- `dKey` / `dValue`：与 key/value 形状一致 `(B, S2, N2, D)`。\r\n- `dQueryRope` / `dKeyRope`：分别与 queryRope/keyRope 形状一致 `(B, S1, N1, Dr)` / `(B, S2, N2, Dr)`。\r\n\r\n---\r\n\r\n## 3. 算子逻辑说明\r\n\r\n### 3.1 稀疏 gather\r\n\r\n对每个 query token，根据 `sparseIndices` 从 KV 缓存中 gather 出选中的 `selectedKey` 与 `selectedValue`。`sparseBlockSize` 决定选择粒度（token-wise 或 block-wise）。未选中位置后续梯度为 0。\r\n\r\n### 3.2 阶段1：计算 dP 与 dV\r\n\r\n- `dP = dO @ V^T`（输出梯度对注意力得分矩阵的梯度）\r\n- `dV = P^T @ dO`（value 的梯度）\r\n\r\n### 3.3 阶段2：计算 dS（softmax 反向）\r\n\r\n- 由 `softmaxMax/softmaxSum` 重建 softmax 权重：`P = exp(S - softmaxMax) / softmaxSum`\r\n- `FlashSoftmaxGrad(dO, O) = sum(dO ⊙ O, 沿行, keepdim)`\r\n- `dS = P ⊙ (dP - FlashSoftmaxGrad)`\r\n\r\n### 3.4 阶段3：计算 dQ 与 dK\r\n\r\n- `dQ = dS @ K / √d_k`（缩放 `scaleValue=1/√d_k`）\r\n- `dK = dS^T @ Q / √d_k`\r\n\r\n### 3.5 scatter 与 KV merge\r\n\r\n- 将 `dK/dV` 按稀疏索引 scatter 回原位置（累加，因同一 key 位置可能被多个 query token 选中）。\r\n- KV merge 场景（value 传空）：`value=key`，不输出 dValue，`dKeyOut = dK + dV`。\r\n- RoPE 部分（queryRope/keyRope 存在时）按对应反向公式计算 `dQueryRope/dKeyRope`。\r\n\r\n---\r\n\r\n## 4. 决赛任务要求\r\n\r\n- **精度保障**：针对不同 `N1`、变长序列、不同 `sparseMode` 与 `sparseBlockSize`，设计算子逻辑，保证 Flash Attention 反向梯度精度正确（可用数值梯度校验）。\r\n- **性能优化**：优化稀疏 gather/scatter 的离散访存与三阶段矩阵乘的并行度，减少 KV 重复搬运，算子性能更优。\r\n- **切分最优**：探索 query 序列维度、query 头维度与稀疏索引维度在多 batch / 变长 / KV merge 场景下的切分方式，找到不同输入 shape 场景下的最优解。\r\n\r\n---\r\n\r\n## 功能示例\r\n\r\n```python\r\nimport numpy as np\r\n\r\n# 简易前向：计算 out / softmaxMax / softmaxSum（供反向使用）\r\ndef forward(q, k, v, idx, scale):\r\n    Ksel = k[idx]; Vsel = v[idx]\r\n    S = (q @ Ksel.T) * scale\r\n    mx = S.max(-1, keepdims=True); e = np.exp(S - mx)\r\n    P = e / e.sum(-1, keepdims=True)\r\n    O = P @ Vsel\r\n    return O, mx[:, 0], e.sum(-1)\r\n\r\ndef sparse_flash_attention_grad(query, key, value, sparse_indices, d_out, out,\r\n                                softmax_max, softmax_sum, scale_value):\r\n    # query:(B,S1,N1,D) key/value:(B,S2,N2,D) N2=1 sparse_indices:(B,S1,N2,K)\r\n    # d_out/out:(B,S1,N1,D) softmax_max/sum:(B,N2,S1,G) G=N1/N2\r\n    # 输出 dQuery:(B,S1,N1,D) dKey/dValue:(B,S2,N2,D)\r\n    # 聚焦核心反向公式(3阶段)，省略 RoPE 与 MLA-absorb 融合(见 3.5 节)\r\n    q = query.astype(np.float32); k = key.astype(np.float32); v = value.astype(np.float32)\r\n    do = d_out.astype(np.float32); o = out.astype(np.float32)\r\n    B, S1, N1, D = q.shape; _, S2, N2, _ = k.shape\r\n    dQ = np.zeros_like(q); dK = np.zeros_like(k); dV = np.zeros_like(v)\r\n    for b in range(B):\r\n        Kb = k[b, :, 0, :]; Vb = v[b, :, 0, :]\r\n        for s in range(S1):\r\n            idx = sparse_indices[b, s, 0]\r\n            valid = idx[(idx >= 0) & (idx < S2)]       # 阶段0: 稀疏 gather\r\n            Ksel = Kb[valid]; Vsel = Vb[valid]\r\n            Q = q[b, s]; dO = do[b, s]; O = o[b, s]\r\n            mx = softmax_max[b, 0, s]; sm = softmax_sum[b, 0, s]\r\n            S = (Q @ Ksel.T) * scale_value\r\n            P = np.exp(S - mx[:, None]) / sm[:, None]   # 重建 softmax 权重\r\n            dP = dO @ Vsel.T                            # 阶段1: dP\r\n            dV_sel = P.T @ dO                           # 阶段1: dV\r\n            fsg = (dO * O).sum(-1, keepdims=True)      # FlashSoftmaxGrad(dO,O)\r\n            dS = P * (dP - fsg)                         # 阶段2: dS\r\n            dQ[b, s] = dS @ Ksel * scale_value          # 阶段3: dQ\r\n            dK_sel = dS.T @ Q * scale_value            # 阶段3: dK\r\n            for ii, pos in enumerate(valid):           # scatter 回原位置\r\n                dK[b, pos, 0] += dK_sel[ii]\r\n                dV[b, pos, 0] += dV_sel[ii]\r\n    return dQ.astype(np.float16), dK.astype(np.float16), dV.astype(np.float16)\r\n\r\nnp.set_printoptions(precision=4, suppress=True)\r\n\r\n# 示例1：稀疏 gather 的作用（BSND，B=1, S1=1, N1=1, D=512, S2=4, K=2）\r\n# 为可读性使用较小 K，实际算子要求 K∈{1024,2048,3072,4096,5120,6144,7168,8192}；示例仅为演示逻辑，实际参赛实现需满足 K 的取值约束\r\nD = 512; scale = 1.0 / np.sqrt(D)\r\nquery   = np.ones((1, 1, 1, D), dtype=np.float16)          # (B,S1,N1,D)\r\nkey     = np.zeros((1, 4, 1, D), dtype=np.float16)\r\nfor j in range(4): key[0, j, 0, j] = 1.0                   # key[j]=e_j 单位向量\r\nvalue   = np.tile(np.arange(1, 5, dtype=np.float16).reshape(1, 4, 1, 1), (1, 1, 1, D))  # value[j]全(j+1)\r\nsparse_indices = np.array([[[[0, 1]]]], dtype=np.int32)    # (1,1,1,2) 只选位置0/1\r\nd_out   = np.ones((1, 1, 1, D), dtype=np.float16)\r\nO, smax, ssum = forward(query[0,0], key[0,:,0,:], value[0,:,0,:], sparse_indices[0,0,0], scale)\r\nout          = O[None]                       # (1,1,1,D)\r\nsoftmax_max  = smax.reshape(1, 1, 1, -1)     # (1,N2=1,S1=1,G)\r\nsoftmax_sum  = ssum.reshape(1, 1, 1, -1)\r\ndQ, dK, dV = sparse_flash_attention_grad(query, key, value, sparse_indices, d_out, out,\r\n                                         softmax_max, softmax_sum, scale)\r\n# 输出形状：dQ=(1,1,1,512)  dK/dV=(1,4,1,512)\r\n# 前向 O 每维均值 1.5（softmax 均匀，0.5*(1+2)）\r\n# dQ 前4维 [-5.656, 5.656, 0, 0]（缩放后）\r\n# dK：位置0/1 非零（∓5.656/维），位置2/3 为 0（未选中，体现稀疏 gather）\r\n# dV：位置0/1 各 0.5/维，位置2/3 为 0\r\nprint('dQ 前4维:', dQ[0,0,0,:4])\r\nprint('dK 位置0/1/2 前1维:', dK[0,0,0,0], dK[0,1,0,0], dK[0,2,0,0])\r\nprint('dV 位置0/1/2 均值:', dV[0,0,0].mean(), dV[0,1,0].mean(), dV[0,2,0].mean())\r\n\r\n# 示例2：KV merge 场景（value 传空，value=key，dKey=dK+dV，不输出 dValue）\r\n# 复用示例1前向结果，value 按 key 处理，dKeyOut = dK + dV\r\ndK_merge = dK + dV\r\n# dKey 位置0 前1维 = -5.656 + 0.5 = -5.156；位置1 = 5.656 + 0.5 = 6.156；位置2/3 = 0\r\nprint('KVmerge dKey 位置0/1 前1维:', dK_merge[0,0,0,0], dK_merge[0,1,0,0])\r\n```",
+  "code_template": "custom_template",
+  "cann_version": "9.0.0",
+  "create_time": "2026-10-09T10:05:48.490Z",
+  "score_mode": 0,
+  "use_baseline": false,
+  "iterations": 5,
+  "difficulty": 1,
+  "soc_version": null,
+  "ddk_version": null,
+  "tags": [],
+  "testcases": [
+    {
+      "testcase_id": {
+        "_id": "6ac8bc7c694b590c3c967296",
+        "type": "default",
+        "baseline": null,
+        "ID": 17626
+      }
+    },
+    {
+      "testcase_id": {
+        "_id": "6ac8bc7c694b590c3c96729b",
+        "type": "default",
+        "baseline": null,
+        "ID": 17627
+      }
+    },
+    {
+      "testcase_id": {
+        "_id": "6ac8bc7c694b590c3c9672a0",
+        "type": "default",
+        "baseline": null,
+        "ID": 17628
+      }
+    },
+    {
+      "testcase_id": {
+        "_id": "6ac8bc7c694b590c3c9672a5",
+        "type": "default",
+        "baseline": null,
+        "ID": 17629
+      }
+    },
+    {
+      "testcase_id": {
+        "_id": "6ac8bc7c694b590c3c9672ac",
+        "type": "default",
+        "baseline": null,
+        "ID": 17630
+      }
+    },
+    {
+      "testcase_id": {
+        "_id": "6ac8bc7c694b590c3c9672b0",
+        "type": "default",
+        "baseline": null,
+        "ID": 17631
+      }
+    },
+    {
+      "testcase_id": {
+        "_id": "6ac8bc7c694b590c3c9672b4",
+        "type": "default",
+        "baseline": null,
+        "ID": 17632
+      }
+    },
+    {
+      "testcase_id": {
+        "_id": "6ac8bc7c694b590c3c9672b8",
+        "type": "default",
+        "baseline": null,
+        "ID": 17633
+      }
+    },
+    {
+      "testcase_id": {
+        "_id": "6ac8bc7c694b590c3c9672bc",
+        "type": "default",
+        "baseline": null,
+        "ID": 17634
+      }
+    },
+    {
+      "testcase_id": {
+        "_id": "6ac8bc7c694b590c3c9672c0",
+        "type": "default",
+        "baseline": null,
+        "ID": 17635
+      }
+    },
+    {
+      "testcase_id": {
+        "_id": "6ac8bc7c694b590c3c9672c4",
+        "type": "default",
+        "baseline": null,
+        "ID": 17636
+      }
+    },
+    {
+      "testcase_id": {
+        "_id": "6ac8bc7c694b590c3c9672c8",
+        "type": "default",
+        "baseline": null,
+        "ID": 17637
+      }
+    },
+    {
+      "testcase_id": {
+        "_id": "6ac8bc7c694b590c3c9672cc",
+        "type": "default",
+        "baseline": null,
+        "ID": 17638
+      }
+    },
+    {
+      "testcase_id": {
+        "_id": "6ac8bc7c694b590c3c9672d0",
+        "type": "default",
+        "baseline": null,
+        "ID": 17639
+      }
+    },
+    {
+      "testcase_id": {
+        "_id": "6ac8bc7c694b590c3c9672d4",
+        "type": "default",
+        "baseline": null,
+        "ID": 17640
+      }
+    }
+  ],
+  "ranking_submission_mode": "best",
+  "theory_show_answer": false,
+  "theory_max_attempts": null,
+  "theory_quota_days": 1,
+  "theory_quota_limit": 50,
+  "theory_pass_score": 60,
+  "theory_shuffle_questions": false,
+  "theory_shuffle_options": false,
+  "theory_selection_mode": "fixed",
+  "theory_questions": [],
+  "theory_quota_reset_at": "2026-10-09T10:05:48.490Z",
+  "theory_selection_rules": [],
+  "__v": 1,
+  "version_root_id": "6ac8bc7c694b590c3c96728a"
+}
