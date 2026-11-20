@@ -137,7 +137,7 @@
 适合：要参加/复现制造专场，或需要图计算、点云、复数/FFT 的行业算子。
 
 1. [competition/mfg-2026/README.md](../competition/mfg-2026/README.md)（15 题总表、2/6/5/2 覆盖口径）
-2. [cannjudge-map.md](../competition/mfg-2026/cannjudge-map.md)（题目 ID/测试点数/源码分级/本机状态）
+2. [by-cannjudge.md](../index/by-cannjudge.md)（题目 ID/测试点数/源码分级/本机状态）
 3. [CANNJUDGE_INTEGRATION.md](CANNJUDGE_INTEGRATION.md)（两层库 + CANNJudge 工具/提交的联合视图）
 4. [official/specs.md](../competition/mfg-2026/official/specs.md)（官方 shape/dtype/属性/约束）
 5. [problems.md](../competition/mfg-2026/problems.md)（逐题官方规格/源码/差异）

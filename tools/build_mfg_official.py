@@ -18,7 +18,7 @@ PROBLEMS = ROOT / "competition/mfg-2026/official/problems.json"
 CATALOG = ROOT / "index/catalog.json"
 SPECS_MD = ROOT / "competition/mfg-2026/official/specs.md"
 PROBLEMS_MD = ROOT / "competition/mfg-2026/problems.md"
-CANJUDGE_MD = ROOT / "competition/mfg-2026/cannjudge-map.md"
+CANJUDGE_MD = ROOT / "index/by-cannjudge.md"
 
 ENTRY = {
     "MFG2026-MATH-COMPLEX-ABS": "ops-math/README.md",
@@ -120,9 +120,11 @@ def build_cannjudge_map(data: dict, problems: dict, catalog: dict) -> str:
     by_name = {p["canonical_name"]: p for p in problems["problems"]}
     impls = catalog["implementations"]
     lines = [
-        "# 制造专场 × CANN Judge 联合地图",
+        "# 制造专场 × CANN Judge 联合索引",
         "",
         "由 `tools/build_mfg_official.py` 从 `official/specs.json`、`official/problems.json` 和 `index/catalog.json` 生成；不要手改。",
+        "",
+        "本页是**知识库的交叉索引**，不是独立库；全库三层见 [`LIBRARIES.md`](../LIBRARIES.md)。",
         "",
         "## 赛事",
         "",
@@ -154,7 +156,7 @@ def build_cannjudge_map(data: dict, problems: dict, catalog: dict) -> str:
         ranking = meta.get("ranking_testcase_count", "?")
         lines.append(
             f"| {i:02d} | [{p['title']}](https://cannjudge.cn/public/gcc_2026_mfg/{name})<br>`{name}` | "
-            f"[desc](official/descriptions/{name}.md) | `{p['source']['coverage']}` | "
+            f"[desc]({rel_link(ROOT / 'competition/mfg-2026/official/descriptions' / (name + '.md'))}) | `{p['source']['coverage']}` | "
             f"{cand_text} | {total} / {ranking} |"
         )
     lines += [

@@ -31,7 +31,7 @@ cann-package → cann-submit dry-run → （用户授权）--submit → detail/r
 | 问题 | 先看 | 说明 |
 |---|---|---|
 | 这题官方到底要什么？ | `competition/mfg-2026/official/specs.md`、`descriptions/` | shape/dtype/属性/约束/容差，来自 CANN Judge 公开 API |
-| 题目 ID、slug、测试点数？ | `competition/mfg-2026/cannjudge-map.md`、`official/problems.json` | 15 题的 `problemId`、canonical name、total/ranking 测试点 |
+| 题目 ID、slug、测试点数？ | `index/by-cannjudge.md`、`official/problems.json` | 15 题的 `problemId`、canonical name、total/ranking 测试点 |
 | 有没有可复用源码？ | `index/by-source-match.md`、各条目 README | `direct/adapt/reference/none/building-block` |
 | 现有源码差在哪？ | `competition/mfg-2026/problems.md`、`adapters.md` | 逐题差异和改造步骤 |
 | 怎么验证边界？ | `reference/`、`evidence/`、`skills/ascend-910b-local-validation/` | CPU 语义参考 + 910B3 日志 |
@@ -40,7 +40,7 @@ cann-package → cann-submit dry-run → （用户授权）--submit → detail/r
 
 ## 2. 制造专场联合地图
 
-[`competition/mfg-2026/cannjudge-map.md`](../competition/mfg-2026/cannjudge-map.md) 是机器生成的联合表，列包括：
+[`index/by-cannjudge.md`](../index/by-cannjudge.md) 是机器生成的联合表，列包括：
 
 - CANN Judge 题目/URL、slug、题面；
 - 官方分级（direct/adapt/reference/none）；
@@ -145,7 +145,7 @@ CANNJudge 的规则摘要见 `tools/competition/docs/06-compliance-and-redlines.
 
 ```text
 1. CANNJudge 拉题面/测试点数
-2. 在 cannjudge-map 找 slug → 官方分级 → 候选实现
+2. 在 `index/by-cannjudge.md` 找 slug → 官方分级 → 候选实现
 3. 读 adapters/reference，写适配层
 4. 910B3 本机验证（npu-lock）
 5. cann-package 生成包
@@ -165,7 +165,7 @@ CANNJudge 的规则摘要见 `tools/competition/docs/06-compliance-and-redlines.
 
 ## 7. 入口汇总
 
-- 联合地图：`competition/mfg-2026/cannjudge-map.md`
+- 联合索引：`index/by-cannjudge.md`
 - 官方规格：`competition/mfg-2026/official/specs.md`
 - 逐题差异：`competition/mfg-2026/problems.md`
 - 适配蓝图：`competition/mfg-2026/adapters.md`

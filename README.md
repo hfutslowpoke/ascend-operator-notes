@@ -1,6 +1,8 @@
 # 昇腾算子知识库（ACW 外部知识层）
 
-本库把公开竞赛实现、生产算子库和 CANNBot 知识整理成两层结构，供 ACW 做算子设计、复用判断和本机验证：
+本库由三层组成：**知识库**（`competition/`、`general/`、`index/`）、**经验库**（`docs/experiences/`、`docs/validation/`、`docs/research/`）、**工具库**（`tools/`、`skills/`、CANNJudge 工具）。三层边界见 [LIBRARIES.md](LIBRARIES.md)。
+
+知识库内部再分两层，供 ACW 做算子设计、复用判断和本机验证：
 
 - **[competition/](competition/README.md)**：竞赛高性能 PR/实现，按赛事组织；
 - **[general/](general/README.md)**：CANNBot 及其它非竞赛来源，按算子族组织。
@@ -18,8 +20,9 @@
 | [index/cards.md](index/cards.md) | 35 张阅读卡：一句话机制、源码入口、本机状态、边界 |
 | [index/by-source-match.md](index/by-source-match.md) | 制造专场按 direct/adapt/reference/none/building-block 检索 |
 | [competition/mfg-2026/official/specs.md](competition/mfg-2026/official/specs.md) | 2026 制造专场 15 题官方 shape/dtype/属性/约束 |
-| [competition/mfg-2026/cannjudge-map.md](competition/mfg-2026/cannjudge-map.md) | 15 题 × CANN Judge：题目 ID、测试点数、源码分级、本机状态 |
+| [index/by-cannjudge.md](index/by-cannjudge.md) | 15 题 × CANN Judge 交叉索引：题目 ID、测试点数、源码分级、本机状态 |
 | [docs/CANNJUDGE_INTEGRATION.md](docs/CANNJUDGE_INTEGRATION.md) | 两层算子库 + CANNJudge 工具/题面/提交的联合视图 |
+| [LIBRARIES.md](LIBRARIES.md) | 知识库/经验库/工具库三层边界与目录 |
 | [docs/experiences/README.md](docs/experiences/README.md) | 跨实现经验：工作量/布局/数值/形状专用化 + 制造专场 10 个小点 |
 | [docs/AGENT_READING_GUIDE.md](docs/AGENT_READING_GUIDE.md) | 给后续 agent 的十分钟地图 + 阅读路线 |
 | [skills/README.md](skills/README.md) | 给 ACW/agent 的检索、入库、本机验证工作流 |

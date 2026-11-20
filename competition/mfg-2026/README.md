@@ -15,7 +15,7 @@
 | 评测 | CANN Judge 精度校验 + 运行性能/耗时排名 |
 | 开源要求 | 获奖者须在指定 AtomGit 仓开源并合入 PR，同时发布技术总结 |
 
-本条目不是“参赛提交”，而是把公开官方/生产源码映射到 15 道题，并用官方题面校正“源码能做什么、不能做什么”。题目 ID/测试点数/源码分级的联合表见 [cannjudge-map.md](cannjudge-map.md)；两层库与 CANNJudge 工具/提交的关系见 [CANNJUDGE_INTEGRATION](../../docs/CANNJUDGE_INTEGRATION.md)。制造专场最容易错的比较符/tie/空段/固定槽位小点见 [10 个小点](../../docs/experiences/manufacturing_operator_edges.md)。6 个 adapt 题的具体改造步骤见 [adapters.md](adapters.md)；上游 tie/空段/first-K 语义见 [算法参考核对](../../docs/research/MFG2026_ALGORITHM_REFERENCES_20261117.md)。完整公开题面已保存到 [official/descriptions/](official/descriptions/)，机器可读摘要在 [official/specs.json](official/specs.json)。
+本条目不是“参赛提交”，而是把公开官方/生产源码映射到 15 道题，并用官方题面校正“源码能做什么、不能做什么”。题目 ID/测试点数/源码分级的联合表见 [index/by-cannjudge.md](../../index/by-cannjudge.md)；两层库与 CANNJudge 工具/提交的关系见 [CANNJUDGE_INTEGRATION](../../docs/CANNJUDGE_INTEGRATION.md)。制造专场最容易错的比较符/tie/空段/固定槽位小点见 [10 个小点](../../docs/experiences/manufacturing_operator_edges.md)。6 个 adapt 题的具体改造步骤见 [adapters.md](adapters.md)；上游 tie/空段/first-K 语义见 [算法参考核对](../../docs/research/MFG2026_ALGORITHM_REFERENCES_20261117.md)。完整公开题面已保存到 [official/descriptions/](official/descriptions/)，机器可读摘要在 [official/specs.json](official/specs.json)。
 
 ## 2. 15 题与源码覆盖
 
