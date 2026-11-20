@@ -1,0 +1,13 @@
+正在生成张量: A(1024x16384), B(16384x1024)...
+--- 精度测试 ---
+[WARNING] Please DO NOT tune args ['num_warps', 'num_ctas', 'num_stages', 'num_buffers_warp_spec', 'num_consumer_groups', 'reg_dec_producer', 'reg_inc_consumer', 'force_simt_template', 'enable_linearize']!
+[WARNING] Please DO NOT tune args ['num_warps', 'num_ctas', 'num_stages', 'num_buffers_warp_spec', 'num_consumer_groups', 'reg_dec_producer', 'reg_inc_consumer', 'force_simt_template', 'enable_linearize']!
+[WARNING] Please DO NOT tune args ['num_warps', 'num_ctas', 'num_stages', 'num_buffers_warp_spec', 'num_consumer_groups', 'reg_dec_producer', 'reg_inc_consumer', 'force_simt_template', 'enable_linearize']!
+[WARNING] Please DO NOT tune args ['num_warps', 'num_ctas', 'num_stages', 'num_buffers_warp_spec', 'num_consumer_groups', 'reg_dec_producer', 'reg_inc_consumer', 'force_simt_template', 'enable_linearize']!
+✅ Matmul 测试通过！与 PyTorch 结果一致。
+
+--- 性能测试 (因为 K 很大，跑 20 次即可) ---
+预热并寻找最优分块配置中，请稍候...
+Triton 耗时: 0.675 ms
+PyTorch 耗时: 0.164 ms
+性能对比: 0.24x

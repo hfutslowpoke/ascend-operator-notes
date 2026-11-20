@@ -22,3 +22,4 @@ hosts.yml
 # Small reviewed evidence logs only
 !our_work/evidence/local-910b-20261116/*.log
 !competition/mfg-2026/evidence/*.log
+!**/evidence/*.log
