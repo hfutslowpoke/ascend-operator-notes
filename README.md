@@ -1,5 +1,9 @@
 # 昇腾算子知识库（ACW 外部知识层）
 
+> **Agent 入口**：[AGENT_START_HERE.md](AGENT_START_HERE.md) —— 一屏判断“我要找什么、去哪”。
+>
+> 三层库：[knowledge/](knowledge/README.md)（知识） · [playbook/](playbook/README.md)（经验/规则） · [toolkit/](toolkit/README.md)（工具）。
+
 本库由三层组成：**知识库**（`competition/`、`general/`、`index/`）、**经验库**（`docs/experiences/`、`docs/validation/`、`docs/research/`）、**工具库**（`tools/`、`skills/`、CANNJudge 工具）。三层边界见 [LIBRARIES.md](LIBRARIES.md)。
 
 知识库内部再分两层，供 ACW 做算子设计、复用判断和本机验证：
@@ -13,6 +17,10 @@
 
 | 入口 | 用途 |
 |---|---|
+| [AGENT_START_HERE.md](AGENT_START_HERE.md) | 给 agent 的一屏导航：按需求路由到三层库 |
+| [knowledge/README.md](knowledge/README.md) | 知识库入口：公开赛题、开源仓、我们自己的实现 |
+| [playbook/README.md](playbook/README.md) | 经验/规则入口：平台精度、输入构造、本机 vs 平台 |
+| [toolkit/README.md](toolkit/README.md) | 工具入口：索引/校验/CANNJudge/提交/验证 |
 | [competition/README.md](competition/README.md) | 竞赛库：GroupedMatmulGelu、CANN 竞赛仓、电力行业、Hansen、KernelSwift、制造专场 |
 | [general/README.md](general/README.md) | 通用库：SVD/eigh、Mamba-2、vLLM-HUST、O(3)/mesh、Triton 基准、CANNBot |
 | [index/README.md](index/README.md) | 统一索引、按算子族/按证据/按官方匹配级别检索 |

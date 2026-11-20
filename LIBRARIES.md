@@ -4,9 +4,9 @@
 
 | 层 | 目录 | 存什么 | 不存什么 |
 |---|---|---|---|
-| **知识库** | `competition/`、`general/`、`index/`、`competition/mfg-2026/official/` | 源码快照、固定 commit/哈希、算子语义、官方题面/规格、条目 README、机器索引/阅读卡 | 不存放未验证的“经验结论”；不把 `pass` 当平台通过 |
-| **经验库** | `docs/experiences/`、`competition/*/analysis/`、`docs/validation/`、`docs/research/` | 跨实现机制、负例、阈值/crossover、复盘、验证记录、调研结论 | 不替代源码事实；作者 `O+A` 不写成本机 `V` |
-| **工具库** | `tools/`、`tools/competition/`、`skills/` | 索引生成、归档校验、CANNJudge 客户端/打包/提交、agent 工作流 | 不保存 Cookie、账号、隐藏测试数据；不自动 POST |
+| **知识库** | [`knowledge/README.md`](knowledge/README.md)；底层 `competition/`、`general/`、`index/`、`competition/mfg-2026/official/` | 源码快照、固定 commit/哈希、算子语义、官方题面/规格、条目 README、机器索引/阅读卡 | 不存放未验证的“经验结论”；不把 `pass` 当平台通过 |
+| **经验库** | [`playbook/README.md`](playbook/README.md)；底层 `docs/experiences/`、`competition/*/analysis/`、`docs/validation/`、`docs/research/` | 跨实现机制、负例、阈值/crossover、复盘、验证记录、调研结论 | 不替代源码事实；作者 `O+A` 不写成本机 `V` |
+| **工具库** | [`toolkit/README.md`](toolkit/README.md)；底层 `tools/`、`tools/competition/`、`skills/` | 索引生成、归档校验、CANNJudge 客户端/打包/提交、agent 工作流 | 不保存 Cookie、账号、隐藏测试数据；不自动 POST |
 
 一句话：
 

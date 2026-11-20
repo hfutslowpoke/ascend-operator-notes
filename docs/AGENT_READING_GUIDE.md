@@ -1,5 +1,8 @@
 # Agent 阅读指南
 
+> 新 agent 先读 [`AGENT_START_HERE.md`](../AGENT_START_HERE.md)；本页是深入阅读路线。三层入口：[knowledge](../knowledge/README.md)、[playbook](../playbook/README.md)、[toolkit](../toolkit/README.md)。
+
+
 本指南给后续 agent/开发者一条**最短学习路径**：先建立两层知识库的地图，再按目标选一条路线，最后回到条目源码和本机证据。不要从 423 个文件里随机翻。
 
 ## 1. 十分钟建立地图
