@@ -20,7 +20,7 @@ description: 在 Ascend 910B3/CANN 9.1.0 上构建、运行、计时和记录昇
 | ACL logical device | 0（`aclrtSetDevice(0)`） |
 | CANN | 9.1.0（`/usr/local/Ascend/cann-9.1.0`） |
 | gcc / cmake | 11.4.0 / 3.22.1 |
-| NPU 串行锁 | `/workspace/acw/bin/npu-lock`（**所有设备运行必须使用**） |
+| NPU 串行锁 | `/workspace/acw/bin/npu-lock`（**只包设备运行**；编译/CPU 校验不持锁） |
 
 不要从仓库名/作者环境推断本机兼容性；910B3 结果不能写成 910C。
 

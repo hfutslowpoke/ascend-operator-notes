@@ -167,7 +167,7 @@
 
 ## 6. 本机验证协议（910B3）
 
-本环境只有 Ascend 910B3，没有 910C。所有设备运行必须经 `bin/npu-lock`：
+本环境只有 Ascend 910B3，没有 910C。所有**设备运行**（run/bench/profile）必须经 `bin/npu-lock`；编译、CPU 参考和静态检查不持锁，可并行：
 
 ```bash
 cd /workspace/acw

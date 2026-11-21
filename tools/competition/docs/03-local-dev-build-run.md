@@ -94,7 +94,7 @@ host 侧必须检查每个 ACL 返回值：
 
 ## 5. NPU 串行锁
 
-多个 agent/进程同时跑 NPU 会污染计时、增加争用，甚至导致初始化错误。所有 NPU 运行建议统一用：
+多个 agent/进程同时跑 NPU 会污染计时、增加争用，甚至导致初始化错误。所有**设备运行**建议统一用：
 
 ```bash
 bash tools/npu_lock.sh <your-command> <args...>
@@ -233,8 +233,7 @@ workspace/
 ├── build/                # 构建产物
 ├── logs/                 # 编译/运行/profiler 日志
 ├── results/              # 结构化结果 JSON/CSV
-├── .cann-submit/         # 提交 ledger（不要提交到平台）
 └── NOTES.md              # 每轮假设、改动、证据、结论
 ```
 
-每轮只改一个主要因素；失败也保留记录，避免重复踩坑。
+提交 ledger 不在工作区：默认 `~/.local/state/cannjudge/submit-ledger`，所有会话共享；不要在每个工作区各建一份 `.cann-submit`。每轮只改一个主要因素；失败也保留记录，避免重复踩坑。

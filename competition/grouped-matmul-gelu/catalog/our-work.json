@@ -202,16 +202,28 @@
     {
       "path": "tools/competition/README.md",
       "original_path": "/mnt/workspace/groupmatmulgelu/starter_kit/README.md",
-      "role": "historical competition tools; do not run submission tools after contest",
-      "bytes": 5995,
-      "sha256": "7058788f60b6ee5c7d83defeb3c36406dab5de8cf461e480e0cee82ce764a57b"
+      "role": "current portable toolkit; evolved from the historical starter kit",
+      "bytes": 6620,
+      "sha256": "0f35e91335c506f4ccfc93fcf14d628137388467f7d712d7b65617290255c368",
+      "history": [
+        {
+          "bytes": 5995,
+          "sha256": "7058788f60b6ee5c7d83defeb3c36406dab5de8cf461e480e0cee82ce764a57b"
+        }
+      ]
     },
     {
       "path": "tools/competition/docs/00-NEW-SESSION-PROMPT.md",
       "original_path": "/mnt/workspace/groupmatmulgelu/starter_kit/docs/00-NEW-SESSION-PROMPT.md",
-      "role": "historical competition tools; do not run submission tools after contest",
-      "bytes": 2666,
-      "sha256": "2907404b49594607f6b44498992a7d9d37fd72edd860f2460da0000aa547a2a3"
+      "role": "current portable toolkit; evolved from the historical starter kit",
+      "bytes": 2719,
+      "sha256": "24f7e46ba066b4adcd07e72c6d0df67fc2b5761cea02acdf540ba070b32dedd4",
+      "history": [
+        {
+          "bytes": 2666,
+          "sha256": "2907404b49594607f6b44498992a7d9d37fd72edd860f2460da0000aa547a2a3"
+        }
+      ]
     },
     {
       "path": "tools/competition/docs/01-platform-login-and-problem-discovery.md",
@@ -223,16 +235,32 @@
     {
       "path": "tools/competition/docs/02-submission-workflow.md",
       "original_path": "/mnt/workspace/groupmatmulgelu/starter_kit/docs/02-submission-workflow.md",
-      "role": "historical competition tools; do not run submission tools after contest",
-      "bytes": 6989,
-      "sha256": "ddf9296c8fe90f7d58e6bde227503225f2765252f819810a41abc1144f418ea4"
+      "role": "current portable toolkit; evolved from the historical starter kit",
+      "bytes": 8403,
+      "sha256": "df0d542001f0aa10a67828a085e96ecbb307f675ba4242a17165eb058cb183f6",
+      "history": [
+        {
+          "bytes": 6989,
+          "sha256": "ddf9296c8fe90f7d58e6bde227503225f2765252f819810a41abc1144f418ea4"
+        },
+        {
+          "bytes": 8252,
+          "sha256": "1e3418bddc1d18593b7a4b890039e1749c87fa404b0d75f045a73381bf4f3029"
+        }
+      ]
     },
     {
       "path": "tools/competition/docs/03-local-dev-build-run.md",
       "original_path": "/mnt/workspace/groupmatmulgelu/starter_kit/docs/03-local-dev-build-run.md",
-      "role": "historical competition tools; do not run submission tools after contest",
-      "bytes": 6351,
-      "sha256": "2e93e2dbe2b88a940626ead781b81251470031dd29d5a44ad86cb52cf82e9e54"
+      "role": "current portable toolkit; evolved from the historical starter kit",
+      "bytes": 6438,
+      "sha256": "840eaf4271ab2add4d0113c5ba6eb5daedabf58b802678cb9ff47bdfc6ab41ac",
+      "history": [
+        {
+          "bytes": 6351,
+          "sha256": "2e93e2dbe2b88a940626ead781b81251470031dd29d5a44ad86cb52cf82e9e54"
+        }
+      ]
     },
     {
       "path": "tools/competition/docs/04-common-pitfalls.md",
@@ -258,9 +286,15 @@
     {
       "path": "tools/competition/docs/07-submit-checklist.md",
       "original_path": "/mnt/workspace/groupmatmulgelu/starter_kit/docs/07-submit-checklist.md",
-      "role": "historical competition tools; do not run submission tools after contest",
-      "bytes": 3270,
-      "sha256": "ed087a2f23536653335bcf10dccacf322d080c9d1dff9f86de99d907b6b3a755"
+      "role": "current portable toolkit; evolved from the historical starter kit",
+      "bytes": 3334,
+      "sha256": "ab9feef7b8a04fc3b945069b2c92ea38077e5b3de0d8aa660678957cbcd2e30b",
+      "history": [
+        {
+          "bytes": 3270,
+          "sha256": "ed087a2f23536653335bcf10dccacf322d080c9d1dff9f86de99d907b6b3a755"
+        }
+      ]
     },
     {
       "path": "tools/competition/docs/08-troubleshooting.md",
@@ -300,9 +334,19 @@
     {
       "path": "tools/competition/tools/cann_submit.py",
       "original_path": "/mnt/workspace/groupmatmulgelu/starter_kit/tools/cann_submit.py",
-      "role": "historical competition tools; do not run submission tools after contest",
-      "bytes": 15297,
-      "sha256": "11ab7d110f22a57a956fee08662dc2e3d0162105e19319fa91eb78e28ad8bf17"
+      "role": "current portable toolkit; evolved from the historical starter kit",
+      "bytes": 20000,
+      "sha256": "00b34bbbc437f5b4b1a1d540b5cdefa00cf1376f7d5134723f88c5d753692991",
+      "history": [
+        {
+          "bytes": 15297,
+          "sha256": "11ab7d110f22a57a956fee08662dc2e3d0162105e19319fa91eb78e28ad8bf17"
+        },
+        {
+          "bytes": 19927,
+          "sha256": "309fffbb6e6d19be56223c0ff853bd98dbbc5d96ea88c9c7252caf89fb2ce279"
+        }
+      ]
     },
     {
       "path": "tools/competition/tools/check_env.sh",
@@ -335,9 +379,15 @@
     {
       "path": "tools/competition/tools/npu_lock.sh",
       "original_path": "/mnt/workspace/groupmatmulgelu/starter_kit/tools/npu_lock.sh",
-      "role": "historical competition tools; do not run submission tools after contest",
-      "bytes": 421,
-      "sha256": "757d216277818db148cd5f676336c68136bc51440e7de0dcc0913338c19fce14"
+      "role": "current portable toolkit; evolved from the historical starter kit",
+      "bytes": 677,
+      "sha256": "db158fb7f0de9da24395aee64df4d0f5e573ecc692058d3b1b22cd10f9807b5c",
+      "history": [
+        {
+          "bytes": 421,
+          "sha256": "757d216277818db148cd5f676336c68136bc51440e7de0dcc0913338c19fce14"
+        }
+      ]
     },
     {
       "path": "tools/competition/tools/point_updates.py",
@@ -370,9 +420,15 @@
     {
       "path": "tools/competition/tools/submit_background.py",
       "original_path": "/mnt/workspace/groupmatmulgelu/starter_kit/tools/submit_background.py",
-      "role": "historical competition tools; do not run submission tools after contest",
-      "bytes": 38954,
-      "sha256": "1509221f9338035c723d81c7bc0574e188db8c94a8265832e7c5b9de1c52db77"
+      "role": "current portable toolkit; evolved from the historical starter kit",
+      "bytes": 39383,
+      "sha256": "c64d537c5500f7b970677472c9b810cd5de09800abdc86882e1ff5c661167fd5",
+      "history": [
+        {
+          "bytes": 38954,
+          "sha256": "1509221f9338035c723d81c7bc0574e188db8c94a8265832e7c5b9de1c52db77"
+        }
+      ]
     },
     {
       "path": "tools/analysis/bench_all.py",

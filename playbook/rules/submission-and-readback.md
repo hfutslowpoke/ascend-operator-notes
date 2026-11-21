@@ -15,8 +15,8 @@ dry-run 至少核对：
 - 文件是完整源码，不是 diff/zip/空文件；
 - 源码 SHA 与本地验证版本一致；
 - payload 大小/字段；
-- 是否重复源码；
-- 当天额度。
+- 全局 ledger 是否已有同一源码；
+- 该账号当前 12:00→12:00 窗口、全部题目的额度。
 
 ## 2. 打包（可选）
 
@@ -39,7 +39,7 @@ ACW_ALLOW_SUBMIT=1 bin/cann-submit \
   --source-dir ./my_submission --tag mfg-r1 --submit
 ```
 
-`bin/cann-submit` 在 `ACW_ALLOW_SUBMIT!=1` 时拒绝 `--submit`；不要绕过。
+`bin/cann-submit` 在 `ACW_ALLOW_SUBMIT!=1`（或 `CANNJUDGE_ALLOW_SUBMIT!=1`）时拒绝 `--submit`；这是本地授权保护，不是平台规则，不要绕过。
 
 ## 4. SID 与状态机
 
@@ -54,18 +54,27 @@ dry-run
 
 如果 POST 后没拿到 SID：
 
-- 先查 `history`/本地 ledger；
+- 先查 `history`/全局 ledger；
 - 不要直接重发；
 - `ambiguous_do_not_retry` 表示可能已受理；
 - 只有确认平台没受理，才考虑重提。
 
-## 5. 重复与额度
+## 5. 平台规则与本地保护
 
-- 同一 `path+content` 的 SHA 默认拒绝；
-- 同一源码重复提交通常没有性能收益；
-- 默认 `--max-per-day 50`，以赛事规则为准；
-- 429 保存 `retry_after_seconds`，不换账号/不改时间戳绕过；
-- 额度/重复限制是硬规则，不是“优化点”。
+**平台硬规则（以官方说明为准）：**
+
+- 每个账号 50 次 / 北京时间 12:00→12:00 窗口，跨题目统一计数；
+- 429 保存 `retry_after_seconds`，等恢复，不换账号/不改时间戳绕过；
+- 排名采用 latest 还是 best、团队如何聚合，按题目/赛事规则。
+
+**本库工具的本地保护（不是 CANNJudge 规则）：**
+
+- 全局 ledger 默认拒绝同一 `path+content` digest；确实要复投用 `--allow-duplicate`；
+- `--max-per-day 50` 是平台额度的本地镜像，`--max-per-day 0` 可关闭；
+- `flock` 只防止两个会话同时对同一 ledger POST，不做 pacing/cooldown；
+- `ACW_ALLOW_SUBMIT=1`/`CANNJUDGE_ALLOW_SUBMIT=1` 是用户显式授权边界，默认 dry-run。
+
+ledger 默认在 `~/.local/state/cannjudge/submit-ledger`，所有会话共享；可用 `CANNJUDGE_SUBMIT_LEDGER` 或 `ACW_SUBMIT_LEDGER` 改路径。ACW 的 `bin/cann-submit` 默认用 `/workspace/acw/var/artifacts/cann-submit`；混用两套入口时用 `ACW_SUBMIT_LEDGER` 指向同一个 ledger，否则“全局记录”会分裂。不要把 ledger 放进工作区，否则不同会话会互相看不见。
 
 ## 6. 回读
 

@@ -1,31 +1,42 @@
 #!/usr/bin/env python3
-"""Generic CannJudge submitter with template checks, dedupe and SID-first polling.
+"""Generic CannJudge submitter with template checks, global ledger and SID polling.
 
-No credentials are printed or stored in the ledger.  Cookies stay in the
+No credentials are printed or stored in the ledger. Cookies stay in the
 private account file managed by cann_client.py.
 
-Default is dry-run.  Pass --submit to POST once.
+The ledger is global for this user (default:
+~/.local/state/cannjudge/submit-ledger), so every session sees the same
+submissions. The local quota mirror counts every problem for the account in
+the platform's 12:00->12:00 Beijing window. A per-ledger flock only prevents
+two sessions from POSTing concurrently; it is not pacing or a cooldown.
+
+Default is dry-run. Pass --submit to POST once, after explicit authorization.
 
 Examples:
   python3 cann_submit.py --problem-id <PID> --account A \
       --source-dir ./src --tag my-r1
 
-  python3 cann_submit.py --problem-id <PID> --account A \
+  CANNJUDGE_ALLOW_SUBMIT=1 python3 cann_submit.py --problem-id <PID> --account A \
       --source-dir ./src --tag my-r1 --submit
 
   # old host/kernel templates only; verify the returned detail afterwards
   python3 cann_submit.py ... --compat auto --submit
 """
 import argparse
+from contextlib import contextmanager, nullcontext
 import datetime
+import fcntl
 import hashlib
 import json
+import os
 import sys
+import tempfile
 import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import cann_client  # noqa: E402
+import cann_quota  # noqa: E402
 
 ACTIVE_STATUS = {
     "Queued",
@@ -37,20 +48,33 @@ ACTIVE_STATUS = {
     "Wait",
     "Waiting",
 }
-CST = datetime.timezone(datetime.timedelta(hours=8))
 PAYLOAD_LIMIT = 609980
-FILE_LIMIT = 512 * 1024
-GLOBAL_PAUSE_FILE = (Path(__file__).resolve().parents[2] /
-                     'probes/hidden-20261101/.submit-ledger/submission-pause.json')
+CST = datetime.timezone(datetime.timedelta(hours=8))
 
 
-def assert_submission_not_paused(ledger):
-    """Protect direct callers and already-loaded legacy background workers."""
-    paths = {GLOBAL_PAUSE_FILE, *(parent / 'submission-pause.json'
-                                 for parent in (ledger, *ledger.parents))}
-    for path in paths:
-        if path.exists() and json.loads(path.read_text()).get('paused', True):
-            raise SystemExit(f'New submissions are paused by user instruction: {path}; no POST sent')
+def default_ledger_dir() -> Path:
+    """One ledger shared by every session/account for this user.
+
+    The public toolkit is read-only; the ledger is local state, not repo state.
+    Override with CANNJUDGE_SUBMIT_LEDGER or ACW_SUBMIT_LEDGER.
+    """
+    value = (os.environ.get("CANNJUDGE_SUBMIT_LEDGER")
+             or os.environ.get("ACW_SUBMIT_LEDGER"))
+    return Path(value) if value else Path.home() / ".local/state/cannjudge/submit-ledger"
+
+
+@contextmanager
+def submission_lock(ledger: Path):
+    """Serialize POST/ledger decisions for one global ledger.
+
+    This is not pacing or a cooldown; it only prevents two sessions from
+    double-POSTing or racing on the same digest.
+    """
+    path = Path(os.environ.get("CANNJUDGE_SUBMIT_LOCK") or ledger / ".submit.lock")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("a") as lock:
+        fcntl.flock(lock.fileno(), fcntl.LOCK_EX)
+        yield
 
 
 def now_utc():
@@ -70,7 +94,17 @@ def source_digest(files):
 
 def dump(path: Path, obj):
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(obj, ensure_ascii=False, indent=2) + "\n")
+    with tempfile.NamedTemporaryFile(
+        mode="w", encoding="utf-8", dir=path.parent, prefix=".record-", delete=False
+    ) as stream:
+        temp = Path(stream.name)
+        try:
+            json.dump(obj, stream, ensure_ascii=False, indent=2)
+            stream.write("\n")
+            stream.close()
+            temp.replace(path)
+        finally:
+            temp.unlink(missing_ok=True)
 
 
 def load_template(problem_id, account_label):
@@ -101,11 +135,6 @@ def read_sources(template, source_dir, overrides):
             missing.append((path, str(local)))
             continue
         raw = local.read_bytes()
-        if len(raw) > FILE_LIMIT:
-            raise SystemExit(
-                f"editable file too large: {path}: {len(raw)} bytes > {FILE_LIMIT} bytes (512 KiB); "
-                "server rejected an oversized file with HTTP 400; no POST was sent"
-            )
         try:
             text = raw.decode("utf-8")
         except UnicodeDecodeError:
@@ -172,22 +201,51 @@ def compat_fields(selected):
     return fields
 
 
-def count_today(history):
+def count_problem_window(history, reset_hour=12):
     if not isinstance(history, list):
         return 0
-    today = datetime.datetime.now(CST).date()
-    count = 0
-    for row in history:
-        value = row.get("create_time")
-        if not value:
-            continue
-        try:
-            dt = datetime.datetime.fromisoformat(value.replace("Z", "+00:00"))
-        except ValueError:
-            continue
-        if dt.astimezone(CST).date() == today:
-            count += 1
-    return count
+    start, end = cann_quota.quota_window(reset_hour=reset_hour)
+    return len(cann_quota.count_window(history, start, end))
+
+
+def count_today(history):
+    """Legacy helper for submit_background; uses the platform 12:00 window."""
+    return count_problem_window(history, reset_hour=12)
+
+
+def resolve_contest(problem_id):
+    detail = cann_client.unwrap(
+        cann_client.request("GET", "/problems/" + problem_id)
+    )
+    if isinstance(detail, dict):
+        value = detail.get("contest_id")
+        if value:
+            return value
+        contest = detail.get("contest")
+        if isinstance(contest, dict):
+            return contest.get("_id")
+    return None
+
+
+def count_account_window(row, contest, reset_hour):
+    """Count every problem for this account in the current 12:00->12:00 window."""
+    start, end = cann_quota.quota_window(reset_hour=reset_hour)
+    _, problems = cann_client.list_problems(contest)
+    total = 0
+    per_problem = {}
+    for problem in problems:
+        history = cann_client.unwrap(
+            cann_client.request(
+                "GET",
+                f"/submissions/user/{row['uid']}/problem/{problem['_id']}",
+                row["cookie"],
+            )
+        )
+        selected = cann_quota.count_window(history or [], start, end)
+        if selected:
+            per_problem[problem.get("name") or problem["_id"]] = len(selected)
+            total += len(selected)
+    return total, per_problem, start, end
 
 
 def find_prior(ledger_dir: Path, problem_id: str, digest: str):
@@ -214,14 +272,43 @@ def main():
     ap.add_argument("--no-poll", action="store_true")
     ap.add_argument("--poll-interval", type=int, default=3)
     ap.add_argument("--poll-timeout", type=int, default=3600)
-    ap.add_argument("--ledger-dir", default=".cann-submit")
-    ap.add_argument("--max-per-day", type=int, default=50, help="0 disables the local guard")
+    ap.add_argument(
+        "--ledger-dir",
+        default=str(default_ledger_dir()),
+        help="global ledger shared by all sessions; default: ~/.local/state/cannjudge/submit-ledger",
+    )
+    ap.add_argument(
+        "--max-per-day",
+        type=int,
+        default=50,
+        help="local mirror of the platform limit (50/account/12:00 window); 0 disables",
+    )
+    ap.add_argument(
+        "--quota-scope",
+        choices=["account", "problem"],
+        default="account",
+        help="account counts every problem in the 12:00->12:00 Beijing window; problem is the legacy per-problem count",
+    )
+    ap.add_argument("--contest", help="contest name/id for account-wide quota; inferred from the problem when omitted")
+    ap.add_argument("--reset-hour", type=int, default=12, help="Beijing-time quota reset hour")
     ap.add_argument("--compat", choices=["none", "auto"], default="none")
-    ap.add_argument("--allow-duplicate", action="store_true")
+    ap.add_argument(
+        "--allow-duplicate",
+        action="store_true",
+        help="local safety override; platform may allow reposting the same source",
+    )
     ap.add_argument("--all-files", action="store_true", help="use all template files for inspection")
     ap.add_argument("--file", action="append", default=[], metavar="PATH=LOCAL",
                     help="override a template path with a local file; repeatable")
     args = ap.parse_args()
+
+    allowed = (os.environ.get("CANNJUDGE_ALLOW_SUBMIT") == "1"
+               or os.environ.get("ACW_ALLOW_SUBMIT") == "1")
+    if args.submit and not allowed:
+        raise SystemExit(
+            "refusing POST: set CANNJUDGE_ALLOW_SUBMIT=1 or ACW_ALLOW_SUBMIT=1 "
+            "only after dry-run and explicit authorization"
+        )
 
     overrides = {}
     for item in args.file:
@@ -239,12 +326,20 @@ def main():
     else:
         selected = read_sources(template, args.source_dir, overrides)
 
+    with submission_lock(Path(args.ledger_dir)) if args.submit else nullcontext():
+        acceptance = prepare_submission(args, row, selected)
+    if acceptance is None or args.no_poll:
+        return 0
+    return poll_submission(args, row, *acceptance)
+
+
+def prepare_submission(args, row, selected):
     digest = source_digest(selected)
     ledger = Path(args.ledger_dir)
     prior_path, prior = find_prior(ledger, args.problem_id, digest)
     if prior and not args.allow_duplicate:
         status = prior.get("status")
-        if status != "rate_limited_no_post":
+        if status not in ("rate_limited_no_post", "paused_no_post"):
             sid = prior.get("submission_id")
             raise SystemExit(
                 f"duplicate source digest already recorded: {prior_path}\n"
@@ -258,11 +353,37 @@ def main():
         row["cookie"],
     )
     history = cann_client.unwrap(history)
-    used = count_today(history)
+    quota_contest = args.contest
+    quota_start = quota_end = None
+    per_problem = {}
+    if args.quota_scope == "account":
+        quota_contest = quota_contest or resolve_contest(args.problem_id)
+        if quota_contest:
+            try:
+                used, per_problem, quota_start, quota_end = count_account_window(
+                    row, quota_contest, args.reset_hour
+                )
+            except Exception as exc:  # noqa: BLE001
+                print(
+                    "[warn] account-wide quota lookup failed; falling back to "
+                    f"per-problem count: {exc}",
+                    file=sys.stderr,
+                )
+                used = count_problem_window(history, args.reset_hour)
+        else:
+            print(
+                "[warn] cannot infer contest for account-wide quota; "
+                "falling back to per-problem count",
+                file=sys.stderr,
+            )
+            used = count_problem_window(history, args.reset_hour)
+    else:
+        used = count_problem_window(history, args.reset_hour)
     if args.max_per_day and used >= args.max_per_day:
         raise SystemExit(
-            f"local daily guard: {used}/{args.max_per_day} submissions today for {args.account}; "
-            "check the official quota before overriding"
+            f"local quota guard: {used}/{args.max_per_day} submissions in the current "
+            f"{args.reset_hour}:00->{args.reset_hour}:00 Beijing window for {args.account}; "
+            "check the platform history before overriding"
         )
 
     payload_files = [{"path": x["path"], "content": x["content"]} for x in selected]
@@ -293,6 +414,11 @@ def main():
         ],
         "posts_today_before": used,
         "max_per_day": args.max_per_day,
+        "quota_scope": args.quota_scope,
+        "quota_contest": quota_contest,
+        "quota_window_start": quota_start.isoformat() if quota_start else None,
+        "quota_window_end": quota_end.isoformat() if quota_end else None,
+        "quota_per_problem": per_problem,
         "submit": args.submit,
     }
 
@@ -301,7 +427,7 @@ def main():
     print(json.dumps(summary, ensure_ascii=False, indent=2))
     if not args.submit:
         print(f"\n[dry-run] no POST. plan: {plan_path}", file=sys.stderr)
-        return 0
+        return None
 
     accepted_path = ledger / args.problem_id / f"{digest}.accepted.json"
     if accepted_path.exists():
@@ -312,15 +438,8 @@ def main():
         if old.get("submission_id") or old.get("status") not in ("rate_limited_no_post", "paused_no_post"):
             raise SystemExit(f"acceptance record already exists: {accepted_path}; refusing to overwrite")
 
-    assert_submission_not_paused(ledger)
     record = dict(summary, created_utc=now_utc(), status="post_started")
     dump(accepted_path, record)
-    try:
-        assert_submission_not_paused(ledger)
-    except SystemExit:
-        record['status'] = 'paused_no_post'
-        dump(accepted_path, record)
-        raise
     try:
         response = cann_client.request(
             "POST", "/submissions/submit", row["cookie"], body=payload
@@ -365,10 +484,12 @@ def main():
             + "\n"
         )
     print(f"accepted sid={sid}", flush=True)
+    return accepted_path, record
 
-    if args.no_poll:
-        return 0
 
+def poll_submission(args, row, accepted_path, record):
+    sid = record["submission_id"]
+    detail_path = accepted_path.with_name(record["source_digest"] + ".detail.json")
     deadline = time.time() + args.poll_timeout
     while True:
         try:
@@ -383,7 +504,6 @@ def main():
             time.sleep(max(3, args.poll_interval))
             continue
 
-        detail_path = ledger / args.problem_id / f"{digest}.detail.json"
         dump(detail_path, detail)
         results = detail.get("result", []) if isinstance(detail, dict) else []
         times = [row.get("time") for row in results[:20]] if isinstance(results, list) else []

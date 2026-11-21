@@ -64,9 +64,13 @@ bin/cann-submit --problem-id <PID> --account A \
 ACW_ALLOW_SUBMIT=1 bin/cann-submit ... --submit
 ```
 
+ACW 包装默认用全局 ledger `/workspace/acw/var/artifacts/cann-submit`，所有会话共享；额度按账号 12:00→12:00 北京时间、跨题目统计。`flock` 只防止并发重投，不做额外 pacing；`ACW_ALLOW_SUBMIT=1` 是本地授权边界，不是平台规则。
+
+仓库便携工具默认用 `~/.local/state/cannjudge/submit-ledger`。如果同一环境混用两套入口，设置 `ACW_SUBMIT_LEDGER`（两套都识别）指向同一个目录，否则重复检查和“全局记录”会分裂。
+
 ## 4. 本机验证
 
-- 所有设备运行经 `bin/npu-lock`；
+- 所有**设备运行**（run/bench/profile）经 `bin/npu-lock`；编译、CPU 参考和静态检查不持锁，可并行；
 - 记录设备、CANN、gcc/cmake、源码/产物 SHA、shape/dtype/seed、误差、时延；
 - 编译成功 ≠ 可运行；小 shape PASS ≠ 全 shape PASS；
 - 910B3 结果不外推 910C/平台；
@@ -84,7 +88,8 @@ ACW_ALLOW_SUBMIT=1 bin/cann-submit ... --submit
 ## 6. 安全边界
 
 - 工具不在仓库保存 Cookie/Token/账号私有配置；
-- `cann_submit` 默认 dry-run；POST 必须显式授权；
-- 不绕过隐藏测试数据、额度或重复限制；
+- `cann_submit` 默认 dry-run；POST 必须显式授权（`ACW_ALLOW_SUBMIT=1` 或 `CANNJUDGE_ALLOW_SUBMIT=1`）；
+- 不绕过隐藏测试数据或平台额度；重复 digest 默认由本地全局 ledger 拦截，可用 `--allow-duplicate`，但只会浪费额度；
+- 全局 ledger 默认 `~/.local/state/cannjudge/submit-ledger`；`flock` 只防并发重投，不做 pacing/cooldown；
 - 不自动 POST；不伪造 SID/榜单；
 - `cann-package` 只生成包，不联网提交。

@@ -21,10 +21,11 @@
 
 ```text
 tools/cann_client.py       通用平台客户端：账号、赛事、题目、模板、历史、详情、榜单
-tools/cann_submit.py       通用提交器：模板校验、源码去重、SID 落盘、只 GET 轮询
+tools/cann_submit.py       通用提交器：模板校验、全局 ledger、账号额度、SID 落盘、只 GET 轮询
+tools/cann_quota.py        账号额度预测：50 次 / 12:00→12:00 北京时间，跨题目统计
 tools/cann_package.py      按模板生成可复现提交 zip / payload，不联网提交
 tools/check_env.sh         检查 CANN、NPU、编译器、profiler 是否就绪
-tools/npu_lock.sh          用 flock 串行化所有 NPU 运行
+tools/npu_lock.sh          用 flock 串行化实际设备运行（编译/CPU 校验不持锁）
 ```
 
 ## 5 分钟快速开始
@@ -76,7 +77,7 @@ python3 tools/cann_client.py download-template <PROBLEM_ID> template.zip --accou
 - 标准输入、边界输入、随机/模糊输入都过精度门；
 - 输入只读、输出确实写回 GM；
 - 正确处理重复索引、非法索引、空块、尾部、RoPE、KV merge 等题目语义；
-- 用 `npu_lock.sh` 串行跑 NPU，记录源码 SHA、构建产物 SHA、设备频率和完整 Task 时间。
+- 用 `npu_lock.sh` 串行跑**实际设备运行**（编译/CPU 校验可并行），记录源码 SHA、构建产物 SHA、设备频率和完整 Task 时间。
 
 ### 5. 先 dry-run，再提交
 
@@ -86,8 +87,8 @@ python3 tools/cann_submit.py \
   --problem-id <PROBLEM_ID> --account A \
   --source-dir ./my_submission --tag my-first-check
 
-# 确认 dry-run 输出后，真正提交
-python3 tools/cann_submit.py \
+# 确认 dry-run 输出后，真正提交（显式授权）
+CANNJUDGE_ALLOW_SUBMIT=1 python3 tools/cann_submit.py \
   --problem-id <PROBLEM_ID> --account A \
   --source-dir ./my_submission --tag my-first-submit --submit
 ```
@@ -96,11 +97,13 @@ python3 tools/cann_submit.py \
 
 1. 拉模板，核对可编辑文件；
 2. 对 `path + 内容` 做稳定 SHA；
-3. 查本地 ledger，拒绝重复源码；
-4. 查该账号当天提交数；
+3. 查全局 ledger，拒绝重复源码（本地安全策略）；
+4. 查该账号当前 12:00→12:00 窗口、全部题目的提交数；
 5. POST 前先落盘 `post_started`；
 6. 拿到 `submissionId` 后立即落盘，再只 GET 轮询；
 7. 保存最终 detail 和公开用例时间。
+
+ledger 默认在 `~/.local/state/cannjudge/submit-ledger`，所有会话共享；可用 `CANNJUDGE_SUBMIT_LEDGER` 改路径。提交时同一 ledger 上持 `flock`，只防止并发重投，不做额外 pacing/cooldown。`submit_background.py` 是 2026 比赛专用的账号轮换脚本，不是通用提交路径。
 
 ### 6. 看结果
 

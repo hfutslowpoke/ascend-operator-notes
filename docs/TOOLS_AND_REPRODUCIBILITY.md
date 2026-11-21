@@ -11,7 +11,7 @@ Ascend C/CANN SDK 提供 `ascendc_library`、ACL runtime、tiling API 和 platfo
 | 阶段 | 归档工具 | 作用与注意点 |
 |---|---|---|
 | 环境检查 | `tools/competition/tools/check_env.sh` | CANN、Python、设备依赖；版本需现场保存 |
-| NPU 互斥 | `tools/competition/tools/npu_lock.sh` | `flock /tmp/cann-npu.lock`，独立工作区仍共享设备锁 |
+| NPU 互斥 | `tools/competition/tools/npu_lock.sh` | `flock` 只包实际设备运行（run/bench/profile）；编译/CPU 校验并行，不占锁；独立工作区仍共享设备锁 |
 | 构建/调用 | `competition/grouped-matmul-gelu/our-submission/CMakeLists.txt`、`main.asc`、`bench.asc` | 完整 Task 驱动，需先适配相对路径和 CANN 安装 |
 | 数值/边界 | `acc_suite.py`、`regress.py`、`verify_case.py`、`verify_batch.asc`、`reference.py` | 实际 GL、输出毒化/guard、输入只读、不同数值分布 |
 | 普通计时 | `bench_all.py`、`bench_gen.py` | 完整 kernel、多组输入和配对，脚本可能引用原工作区 |
@@ -19,7 +19,7 @@ Ascend C/CANN SDK 提供 `ascendc_library`、ACL runtime、tiling API 和 platfo
 | 分层模型 | `model_owned_roofline.py` | owner 级别有效工作/数据量，模型值不是实测带宽 |
 | 二进制闭包 | `audit_device_elf.py` | 检查实际 ELF 入口、资源和被编译组件 |
 | 组件提取 | `component_tool.py` | token/brace-aware 提取、逆向恢复与差异范围证明；不替代编译 |
-| 登录/模板/提交 | `cann_client.py`、`cann_package.py`、`cann_submit.py` | 历史接口工具，凭据外置；比赛结束后不执行 POST |
+| 登录/模板/提交 | `cann_client.py`、`cann_package.py`、`cann_submit.py` | 历史接口工具，凭据外置；全局 ledger、账号 12:00 窗口额度；比赛结束后不执行 POST |
 | 后台结果 | `submit_background.py` | accepted SID 持久化、配额/冷却、结果轮询、成绩归属 |
 | 排名快照 | `scoring_snapshot.py`、`ranking_archive.py`、`watch_platform_ranking.py` | 同期榜单、服务器时间/SID 对应、留存变化 |
 | 评分对照 | `compare_score_snapshots.py` | 防止跨评分时期简单比总分 |

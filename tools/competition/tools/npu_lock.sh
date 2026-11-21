@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
-# Serialize NPU work across processes/agents.
+# Serialize actual NPU use across processes/agents.
+#
+# Scope: wrap only commands that initialize or use the device (run/bench/profile,
+# ACL init, aclrtMemcpy, kernel launch, msprof). Do NOT wrap cmake/make/ascendc
+# compilation, CPU reference checks, or static analysis; those can run in parallel.
+#
 # Usage:
 #   tools/npu_lock.sh <command> [args...]
 #   NPU_LOCK=/path/to/npu.lock tools/npu_lock.sh ./run_bench.sh

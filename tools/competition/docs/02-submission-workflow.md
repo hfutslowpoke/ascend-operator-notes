@@ -40,7 +40,7 @@ CannJudge 前端提交的是 **可编辑文件的 JSON 列表**：
 7. 没有 hash/白名单/针对具体测试用例的快路径；
 8. 特化分支对声明域内任意合法输入正确，且有正确 fallback；
 9. 没有把调试用的 `return`、空 kernel、纯拷贝、结果重放留在最终版；
-10. 该源码没有在本题目提交过（同一源码不要重复 POST）。
+10. 该源码没有在本题目提交过（全局 ledger 去重，本地策略；平台是否允许重复以官方规则为准）。
 
 ## 3. 使用 `cann_submit.py`
 
@@ -60,14 +60,14 @@ python3 tools/cann_submit.py \
 - 核对 `editable`；
 - 读本地文件；
 - 计算稳定 SHA；
-- 检查本地 ledger 是否重复；
-- 检查该账号当天提交数；
+- 检查**全局 ledger** 是否重复（所有会话共享，不是工作区里的 `.cann-submit`）；
+- 检查该账号在**当前 12:00→12:00 北京时间窗口内、全部题目**的提交数；
 - 打印文件列表、字节数、digest、payload 大小。
 
 ### 3.2 真正提交
 
 ```bash
-python3 tools/cann_submit.py \
+CANNJUDGE_ALLOW_SUBMIT=1 python3 tools/cann_submit.py \
   --problem-id <PROBLEM_ID> \
   --account A \
   --source-dir ./my_submission \
@@ -75,7 +75,7 @@ python3 tools/cann_submit.py \
   --submit
 ```
 
-成功后会先看到：
+`CANNJUDGE_ALLOW_SUBMIT=1`（或 `ACW_ALLOW_SUBMIT=1`）是本地授权保护，不是平台规则；默认 dry-run，不会 POST。成功后会先看到：
 
 ```text
 accepted sid=<SUBMISSION_ID>
@@ -117,15 +117,17 @@ python3 tools/cann_submit.py ... --compat auto
 
 ### 3.5 重复源码
 
-工具按 `path + \0 + content + \0` 计算 SHA-256，并写入：
+工具按 `path + \0 + content + \0` 计算 SHA-256，并写入**全局 ledger**（所有会话/账号共享）：
 
 ```text
-.cann-submit/<PROBLEM_ID>/<digest>.json
-.cann-submit/<PROBLEM_ID>/<digest>.accepted.json
-.cann-submit/<PROBLEM_ID>/ledger.jsonl
+~/.local/state/cannjudge/submit-ledger/<PROBLEM_ID>/<digest>.json
+~/.local/state/cannjudge/submit-ledger/<PROBLEM_ID>/<digest>.accepted.json
+~/.local/state/cannjudge/submit-ledger/<PROBLEM_ID>/ledger.jsonl
 ```
 
-如果同一 digest 已存在，默认拒绝。确实需要复投时：
+可用 `CANNJUDGE_SUBMIT_LEDGER` 或 `ACW_SUBMIT_LEDGER` 改路径；不要用工作区里的 `.cann-submit`，否则不同会话互相看不见。旧工作区已有 `.cann-submit` 时，先把它移到全局路径（或临时用 `--ledger-dir` 指向旧目录）再提交，避免把已提交的 digest 当成新包。提交时同一 ledger 上还会持有 `flock`，防止两个会话同时 POST 同一 digest。
+
+如果同一 digest 已存在，默认拒绝。这是**本地安全策略**，不是 CANNJudge 的硬规则；确实需要复投时：
 
 ```bash
 --allow-duplicate
@@ -135,11 +137,19 @@ python3 tools/cann_submit.py ... --compat auto
 
 ### 3.6 额度与 429
 
-- 默认按该账号当天历史计数，`--max-per-day 50`；
-- 不同赛事额度不同，按官方说明调整；
+- **平台规则**：每个账号 50 次 / 北京时间 12:00→12:00 窗口，跨题目统一计数；
+- 工具默认按账号全部题目统计（`--quota-scope account`），不是只数当前题；
+- `--max-per-day 50` 是本地镜像保护；`--max-per-day 0` 可关闭；
+- 不同赛事额度/重置时间不同，按官方说明调整 `--reset-hour` 和上限；
 - 429 时工具会保存 `retry_after_seconds`，不重试；
+- 可单独查额度：
+
+```bash
+python3 tools/cann_quota.py --contest <CONTEST> --account A --details
+```
+
 - 等额度恢复后再提交；
-- 不要用换账号、改 ZIP 名、改时间戳等方式绕过额度或重复限制。
+- 不要用换账号、改 ZIP 名、改时间戳等方式绕过额度或重复限制。账号轮换只应在赛事允许的队伍账号范围内使用。
 
 ### 3.7 网络中断 / 没有拿到 SID
 
@@ -221,8 +231,8 @@ python3 tools/cann_client.py download '/submissions/<SID>/package' submitted.zip
 python3 tools/cann_submit.py --problem-id <PID> --account A \
   --source-dir ./src --tag r1-check
 
-# 2) 提交
-python3 tools/cann_submit.py --problem-id <PID> --account A \
+# 2) 提交（显式授权）
+CANNJUDGE_ALLOW_SUBMIT=1 python3 tools/cann_submit.py --problem-id <PID> --account A \
   --source-dir ./src --tag r1 --submit
 
 # 3) 手动看结果

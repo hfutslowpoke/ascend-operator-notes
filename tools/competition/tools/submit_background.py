@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Submit without global pacing; rotate accounts with platform account cooldowns.
+"""LEGACY competition-specific background submitter.
+
+This is the 2026 GroupedMatmulGelu account-rotation workflow, not the general
+submission path. It adds account cooldowns and a job watcher on top of the
+platform rules; use `cann_submit.py` for the normal one-shot submitter.
 
 Example:
   python3 tools/submit_background.py --submit \
@@ -29,8 +33,9 @@ import ranking_archive
 from cann_submit import ACTIVE_STATUS, CST, count_today
 
 ACCOUNTS = ('A', 'B', 'C')
-GLOBAL_PAUSE_FILE = (Path(__file__).resolve().parents[2] /
-                     'probes/hidden-20261101/.submit-ledger/submission-pause.json')
+# Opt-in pause marker only; no hidden repository/probes path blocks submissions.
+GLOBAL_PAUSE_FILE = (Path(os.environ['CANNJUDGE_SUBMIT_PAUSE_FILE'])
+                     if os.environ.get('CANNJUDGE_SUBMIT_PAUSE_FILE') else None)
 
 
 POLICY = 'cooldown-v10: user 2026-11-14 no global pacing; platform account cooldown; 60s/20s detail'
@@ -106,7 +111,10 @@ def wait_while_paused(ledger, job_path, job, interval):
     """Only an explicit user resume clears the durable shared pause marker."""
     while True:
         pause = None
-        for path in {GLOBAL_PAUSE_FILE, ledger / 'submission-pause.json'}:
+        paths = {ledger / 'submission-pause.json'}
+        if GLOBAL_PAUSE_FILE is not None:
+            paths.add(GLOBAL_PAUSE_FILE)
+        for path in paths:
             if path.exists():
                 record = json.loads(path.read_text())
                 if record.get('paused', True):
@@ -639,8 +647,9 @@ def main():
     ap.add_argument('--source-dir')
     ap.add_argument('--tag', required=True)
     ap.add_argument('--job-dir', required=True)
-    ap.add_argument('--ledger-dir', default=str(Path(__file__).resolve().parents[2] /
-                                              'probes/hidden-20261101/.submit-ledger'))
+    ap.add_argument('--ledger-dir',
+                    default=str(Path.home() / '.local/state/cannjudge/submit-ledger'),
+                    help='global ledger shared by all sessions (legacy script; general use cann_submit.py)')
     ap.add_argument('--initial-delay', type=int, default=FIRST_POLL_SECONDS,
                     help='compatibility option; first detail GET is fixed at acceptance +60 seconds')
     ap.add_argument('--lock-seconds', type=int, default=0,

@@ -139,7 +139,7 @@ git diff --check
 
 ### 6.3 证据要求
 
-- 本机运行必须经 `/workspace/acw/bin/npu-lock`；
+- 本机**设备运行**必须经 `/workspace/acw/bin/npu-lock`；编译/CPU 校验可并行，不占锁；
 - 记录 910B3 / CANN 9.1.0 / gcc / cmake / shape / dtype / 计时口径 / 重复次数；
 - 编译成功≠可运行；小 shape PASS≠全 shape PASS；
 - 失败码、fault kernel、尝试过的兼容 patch 必须保留；

@@ -23,7 +23,7 @@
 2. 不假设隐藏输入分布；不针对具体 case 写 hash/白名单/快路径。
 3. Host 只做 tiling/workspace/memcpy/launch/校验，不做数值计算。
 4. 每轮只改一个主要因素；记录源码 SHA、产物 SHA、实际 tiling key、频率。
-5. 所有 NPU 运行串行，使用 tools/npu_lock.sh。
+5. 所有设备运行（run/bench/profile）串行，使用 tools/npu_lock.sh；编译/CPU 校验可并行。
 6. 正确性优先：官方样例、边界、随机/fuzz、输入只读、输出完整。
 7. 性能用完整 Task + ABBA/多窗口；局部 busy 不等于总时间。
 8. 提交前 dry-run；同一源码不重复 POST；拿到 SID 先落盘，之后只 GET。
