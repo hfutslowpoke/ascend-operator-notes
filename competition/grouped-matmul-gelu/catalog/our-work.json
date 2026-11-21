@@ -340,9 +340,9 @@
       "sha256": "3d8536edfab1b0a3a8819b8056619ad933c0be0a654e7a169c012f67698fb4a7"
     },
     {
-      "path": "tools/competition/tools/cann_submit.py",
+      "path": "tools/competition/tools/historical/cann_submit.py.snapshot",
       "original_path": "/mnt/workspace/groupmatmulgelu/starter_kit/tools/cann_submit.py",
-      "role": "current portable toolkit; evolved from the historical starter kit",
+      "role": "portable toolkit snapshot before unifying the standalone entry points",
       "bytes": 20000,
       "sha256": "00b34bbbc437f5b4b1a1d540b5cdefa00cf1376f7d5134723f88c5d753692991",
       "history": [
@@ -385,9 +385,9 @@
       "sha256": "582bfccfc8e7bf358c38fbc272b113d22272c56ebff2bce5581e3fed980bee9c"
     },
     {
-      "path": "tools/competition/tools/npu_lock.sh",
+      "path": "tools/competition/tools/historical/npu_lock.sh.snapshot",
       "original_path": "/mnt/workspace/groupmatmulgelu/starter_kit/tools/npu_lock.sh",
-      "role": "current portable toolkit; evolved from the historical starter kit",
+      "role": "portable toolkit snapshot before unifying the standalone entry points",
       "bytes": 677,
       "sha256": "db158fb7f0de9da24395aee64df4d0f5e573ecc692058d3b1b22cd10f9807b5c",
       "history": [
@@ -426,9 +426,9 @@
       "sha256": "85e628b78b04807f494fece969c9e75ad70483d13571b5b871517395145f08db"
     },
     {
-      "path": "tools/competition/tools/submit_background.py",
+      "path": "tools/competition/tools/historical/submit_background.py.snapshot",
       "original_path": "/mnt/workspace/groupmatmulgelu/starter_kit/tools/submit_background.py",
-      "role": "current portable toolkit; evolved from the historical starter kit",
+      "role": "portable toolkit snapshot before unifying the standalone entry points",
       "bytes": 39383,
       "sha256": "c64d537c5500f7b970677472c9b810cd5de09800abdc86882e1ff5c661167fd5",
       "history": [

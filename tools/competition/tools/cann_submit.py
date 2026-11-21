@@ -538,4 +538,5 @@ def poll_submission(args, row, accepted_path, record):
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    canonical = Path(__file__).resolve().parents[3] / "cannjudge/tools/cann_submit.py"
+    os.execv(sys.executable, [sys.executable, str(canonical), *sys.argv[1:]])

@@ -668,6 +668,8 @@ def main():
     ap.add_argument('--sid')
     ap.add_argument('--worker', action='store_true', help=argparse.SUPPRESS)
     args = ap.parse_args()
+    if args.submit:
+        ap.error("archived scheduler: use cannjudge/tools/cann_submit.py for a new submission")
     if args.submit == bool(args.sid) or (args.submit and not args.source_dir):
         ap.error('Choose --submit with --source-dir, or --sid to watch an existing submission')
     if args.initial_delay < 0 or args.interval < 1 or args.ranking_retries < 0 or args.lock_seconds < 0:

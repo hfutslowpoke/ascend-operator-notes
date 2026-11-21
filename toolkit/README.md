@@ -23,21 +23,12 @@ git diff --check
 
 ## 2. CANNJudge 便携工具
 
-仓库内 `tools/competition/` 是可带走的起步包：
-
-```text
-tools/competition/tools/cann_client.py    查询赛事/题目/模板/历史/详情/榜单
-tools/competition/tools/cann_package.py   按模板生成 zip/payload，不 POST
-tools/competition/tools/cann_submit.py    dry-run 默认，--submit 才 POST
-tools/competition/tools/check_env.sh      CANN/NPU/编译器/profiler 检查
-tools/competition/tools/npu_lock.sh       NPU 串行锁
-```
-
-常用：
+独立工具入口见 [CannJudge 工具手册](../cannjudge/TOOLS.md)。支持离线评分、模板打包、显式授权提交、本地绑定评测和 ACL 探针。发布后的旧提交命令与旧设备锁命令沿用相同实现。
 
 ```bash
-python3 tools/competition/tools/cann_client.py resolve gcc_2026_mfg
-python3 tools/competition/tools/cann_client.py problems gcc_2026_mfg
+python3 cannjudge/tools/cann_client.py resolve gcc_2026_mfg
+python3 cannjudge/tools/cann_quota.py --contest gcc_2026_mfg
+python3 cannjudge/tools/cann_eval.py --help
 ```
 
 ## 3. ACW 环境包装入口
