@@ -98,7 +98,7 @@ CANNJUDGE_ALLOW_SUBMIT=1 python3 tools/cann_submit.py \
 1. 拉模板，核对可编辑文件；
 2. 对 `path + 内容` 做稳定 SHA；
 3. 查全局 ledger，拒绝重复源码（本地安全策略）；
-4. 查该账号当前 12:00→12:00 窗口、全部题目的提交数；
+4. 查该账号当前 12:00→12:00 窗口、目标赛事内全部题目的提交数；
 5. POST 前先落盘 `post_started`；
 6. 拿到 `submissionId` 后立即落盘，再只 GET 轮询；
 7. 保存最终 detail 和公开用例时间。

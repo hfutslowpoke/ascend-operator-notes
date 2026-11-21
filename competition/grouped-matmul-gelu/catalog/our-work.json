@@ -203,12 +203,16 @@
       "path": "tools/competition/README.md",
       "original_path": "/mnt/workspace/groupmatmulgelu/starter_kit/README.md",
       "role": "current portable toolkit; evolved from the historical starter kit",
-      "bytes": 6620,
-      "sha256": "0f35e91335c506f4ccfc93fcf14d628137388467f7d712d7b65617290255c368",
+      "bytes": 6635,
+      "sha256": "6923106cc9ffb9cdd4acb5dae0ed56fb2215db088a7a213964118fb90aa5f50c",
       "history": [
         {
           "bytes": 5995,
           "sha256": "7058788f60b6ee5c7d83defeb3c36406dab5de8cf461e480e0cee82ce764a57b"
+        },
+        {
+          "bytes": 6620,
+          "sha256": "0f35e91335c506f4ccfc93fcf14d628137388467f7d712d7b65617290255c368"
         }
       ]
     },
@@ -236,8 +240,8 @@
       "path": "tools/competition/docs/02-submission-workflow.md",
       "original_path": "/mnt/workspace/groupmatmulgelu/starter_kit/docs/02-submission-workflow.md",
       "role": "current portable toolkit; evolved from the historical starter kit",
-      "bytes": 8403,
-      "sha256": "df0d542001f0aa10a67828a085e96ecbb307f675ba4242a17165eb058cb183f6",
+      "bytes": 8460,
+      "sha256": "a4d6fb20547a89262aeb9379554e255f729cdee48e5e64558a61294aba48cf56",
       "history": [
         {
           "bytes": 6989,
@@ -246,6 +250,10 @@
         {
           "bytes": 8252,
           "sha256": "1e3418bddc1d18593b7a4b890039e1749c87fa404b0d75f045a73381bf4f3029"
+        },
+        {
+          "bytes": 8403,
+          "sha256": "df0d542001f0aa10a67828a085e96ecbb307f675ba4242a17165eb058cb183f6"
         }
       ]
     },

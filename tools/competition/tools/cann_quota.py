@@ -5,7 +5,7 @@ Rules implemented here:
 
 * one quota day runs from 12:00 to 12:00 Beijing time (UTC+8);
 * each account has its own 50-submission limit and its own cooldown;
-* counts must include every problem the account submitted, not just the
+* counts must include every problem in the target contest, not just the
   problem currently being optimized.
 
 The platform is authoritative.  This helper only predicts the local limit and

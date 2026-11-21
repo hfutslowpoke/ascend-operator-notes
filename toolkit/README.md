@@ -64,7 +64,7 @@ bin/cann-submit --problem-id <PID> --account A \
 ACW_ALLOW_SUBMIT=1 bin/cann-submit ... --submit
 ```
 
-ACW 包装默认用全局 ledger `/workspace/acw/var/artifacts/cann-submit`，所有会话共享；额度按账号 12:00→12:00 北京时间、跨题目统计。`flock` 只防止并发重投，不做额外 pacing；`ACW_ALLOW_SUBMIT=1` 是本地授权边界，不是平台规则。
+ACW 包装默认用全局 ledger `/workspace/acw/var/artifacts/cann-submit`，所有会话共享；额度按账号 12:00→12:00 北京时间、目标赛事内跨题目统计。`flock` 只防止并发重投，不做额外 pacing；`ACW_ALLOW_SUBMIT=1` 是本地授权边界，不是平台规则。
 
 仓库便携工具默认用 `~/.local/state/cannjudge/submit-ledger`。如果同一环境混用两套入口，设置 `ACW_SUBMIT_LEDGER`（两套都识别）指向同一个目录，否则重复检查和“全局记录”会分裂。
 
